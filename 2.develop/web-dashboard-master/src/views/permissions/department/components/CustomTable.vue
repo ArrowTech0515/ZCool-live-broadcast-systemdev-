@@ -36,7 +36,11 @@ const pagination = reactive({
   limit: 10,
   total: 0,
 })
-const dataSource = ref([])
+const dataSource = ref([
+  { dept_id: 1, dept_name: 'Initial Department 1', dept_head_list: [], dept_mem_count: 5, create_time: '2024-08-01', oper_info: { name: 'Admin1' } },
+  { dept_id: 2, dept_name: 'Initial Department 2', dept_head_list: [], dept_mem_count: 3, create_time: '2024-08-02', oper_info: { name: 'Admin2' } }
+])
+
 const { loading, refresh } = useRequest(() => getDepartmentListReq({
   ...props.searchParams,
   page: pagination.page,
