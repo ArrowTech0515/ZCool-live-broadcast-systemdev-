@@ -66,7 +66,6 @@
   import LBreadCrumb from '@/layouts/components/LBreadCrumb.vue';
 
   import permissionManagement from '@/views/permissions/index.vue';
-  import smsManagement from '@/views/sms/channel/index.vue';
   import messageManagement from '@/views/message/list/index.vue';
   import anchorManagement from '@/views/anchor/list/index.vue';
   import platformManagement from '@/views/platform/index.vue';
@@ -79,45 +78,41 @@
       LBreadCrumb,
 
       permissionManagement,
-      smsManagement,
       messageManagement,
       anchorManagement,
       platformManagement,
     },
     setup() {
-      const collapse_flag = ref(false); // Reactive collapse state
+      const collapse_flag = ref(false) // Reactive collapse state
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
           case '21':
-            currentComponent.value = 'permissionManagement';
-            break;
+            currentComponent.value = 'permissionManagement'
+            break
           case '20':
-            currentComponent.value = 'platformManagement';
-            break;
+            currentComponent.value = 'platformManagement'
+            break
           case '18':
-            currentComponent.value = 'smsManagement';
-            break;
-          case '17':
-            currentComponent.value = 'messageManagement';
-            break;
+            currentComponent.value = 'messageManagement'
+            break
           case '5':
-            currentComponent.value = 'anchorManagement';
-            break;
+            currentComponent.value = 'anchorManagement'
+            break
           default:
-            currentComponent.value = 'permissionManagement';
+            currentComponent.value = 'permissionManagement'
         }
-      };
+      }
   
-      const currentComponent = ref('permissionManagement'); // Initial component
+      const currentComponent = ref('permissionManagement') // Initial component
   
       return {
         collapse_flag,
         handleMenuClick,
         currentComponent,
-      };
+      }
     },
-  };
+  }
   </script>
   
   <style scoped>
