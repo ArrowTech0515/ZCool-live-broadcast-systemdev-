@@ -18,7 +18,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/message/list/index.vue'),
+    component: () => import('@/layouts/TestNavigation.vue'),
     meta: {},
   },
   {
