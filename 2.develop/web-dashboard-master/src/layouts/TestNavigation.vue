@@ -69,6 +69,7 @@
   import smsManagement from '@/views/sms/channel/index.vue';
   import messageManagement from '@/views/message/list/index.vue';
   import anchorManagement from '@/views/anchor/list/index.vue';
+  import platformManagement from '@/views/platform/index.vue';
   
   export default {
     name: 'NavigationMenu',
@@ -81,6 +82,7 @@
       smsManagement,
       messageManagement,
       anchorManagement,
+      platformManagement,
     },
     setup() {
       const collapse_flag = ref(false); // Reactive collapse state
@@ -89,6 +91,9 @@
         switch (key) {
           case '21':
             currentComponent.value = 'permissionManagement';
+            break;
+          case '20':
+            currentComponent.value = 'platformManagement';
             break;
           case '18':
             currentComponent.value = 'smsManagement';
