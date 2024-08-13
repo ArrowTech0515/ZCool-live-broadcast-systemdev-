@@ -37,8 +37,30 @@ const pagination = reactive({
   total: 0,
 })
 const dataSource = ref([
-  { dept_id: 1, dept_name: 'Initial Department 1', dept_head_list: [], dept_mem_count: 5, create_time: '2024-08-01', oper_info: { name: 'Admin1' } },
-  { dept_id: 2, dept_name: 'Initial Department 2', dept_head_list: [], dept_mem_count: 3, create_time: '2024-08-02', oper_info: { name: 'Admin2' } }
+  {
+    dept_id: 1,
+    dept_name: 'Initial Department 1',
+    dept_head_list: [
+      { acct_id: 1, name: '111' },
+      { acct_id: 2, name: '222' },
+      { acct_id: 3, name: '333' }
+    ],
+    dept_mem_count: 5,
+    create_time: '2024-08-01',
+    oper_info: { name: 'Admin1' }
+  },
+  {
+    dept_id: 2,
+    dept_name: 'Initial Department 2',
+    dept_head_list: [
+      { acct_id: 4, name: '444' },
+      { acct_id: 5, name: '555' },
+      { acct_id: 6, name: '666' }
+    ],
+    dept_mem_count: 3,
+    create_time: '2024-08-02',
+    oper_info: { name: 'Admin2' }
+  }
 ])
 // junn
 // const { loading, refresh } = useRequest(() => getDepartmentListReq({
@@ -152,22 +174,28 @@ async function editItem(item = {}) {
         props: {
           mode: 'multiple',
           showSearch: true,
+          options: [
+            { value: 1, label: '111' },
+            { value: 2, label: '222' },
+            { value: 3, label: '333' },
+          ],
           filterOption: (input, option) => option.label.includes(input)
         },
-        effect: {
-          required: true,
-          fetch: {
-            action: '/api/v1/permission/account',
-            to: 'options',
-            data: {
-              page: 1,
-              role_type: 0,
-              limit: 99999,
-            },
-            method: 'get',
-            parse: res => res.items.map(item => ({ value: item.acct_id, label: item.acct_name })),
-          },
-        },
+         effect: {
+           required: true,
+        // junn
+        //   fetch: {
+        //     action: '/api/v1/permission/account',
+        //     to: 'options',
+        //     data: {
+        //       page: 1,
+        //       role_type: 0,
+        //       limit: 99999,
+        //     },
+        //     method: 'get',
+        //       parse: res => res.items.map(item => ({ value: item.acct_id, label: item.acct_name })),         
+        //   },
+         },
       },
     ],
   }
