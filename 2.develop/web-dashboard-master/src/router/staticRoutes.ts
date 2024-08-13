@@ -18,7 +18,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/permissions/index.vue'),
+    component: () => import('@/views/message/list/index.vue'),
     meta: {},
   },
   {

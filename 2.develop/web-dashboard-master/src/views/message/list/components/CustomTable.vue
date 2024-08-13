@@ -39,18 +39,22 @@ const pagination = reactive({
   limit: 10,
   total: 0,
 })
-const dataSource = ref([])
-const { loading, refresh } = useRequest(() => getMessageListReq({
-  ...props.searchParams,
-  page: pagination.page,
-  limit: pagination.limit,
-}), {
-  refreshDeps: true,
-  onSuccess(data) {
-    dataSource.value = data.items
-    pagination.total = data.total_data
-  },
-})
+const dataSource = ref([
+  { push_type:1, msg_cover: 1, title: 'Message 1', acct_head_list: [], acct_mem_count: 5, create_time: '2024-08-01', oper_info: { name: 'Admin1' } },
+  { push_type: 2, msg_cover: 2, title: 'Message 2', acct_head_list: [], acct_mem_count: 3, create_time: '2024-08-02', oper_info: { name: 'Admin2' } }
+])
+// junn
+// const { loading, refresh } = useRequest(() => getMessageListReq({
+//   ...props.searchParams,
+//   page: pagination.page,
+//   limit: pagination.limit,
+// }), {
+//   refreshDeps: true,
+//   onSuccess(data) {
+//     dataSource.value = data.items
+//     pagination.total = data.total_data
+//   },
+// })
 const { createDialog } = useDialog()
 
 const columns = [

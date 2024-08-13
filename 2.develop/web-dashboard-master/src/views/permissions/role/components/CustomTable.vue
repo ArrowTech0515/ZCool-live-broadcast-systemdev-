@@ -43,18 +43,18 @@ const dataSource = ref([
   { role_id: 1, role_name: 'Initial Role 1', acct_head_list: [], acct_mem_count: 5, create_time: '2024-08-01', oper_info: { name: 'Admin1' } },
   { role_id: 2, role_name: 'Initial Role 2', acct_head_list: [], acct_mem_count: 3, create_time: '2024-08-02', oper_info: { name: 'Admin2' } }
 ])
-
-const { loading, refresh } = useRequest(() => getRoleListReq({
-  ...props.searchParams,
-  page: pagination.page,
-  limit: pagination.limit,
-}), {
-  refreshDeps: true,
-  onSuccess(data) {
-    dataSource.value = data.items
-    pagination.total = data.total_data
-  },
-})
+// junn
+// const { loading, refresh } = useRequest(() => getRoleListReq({
+//   ...props.searchParams,
+//   page: pagination.page,
+//   limit: pagination.limit,
+// }), {
+//   refreshDeps: true,
+//   onSuccess(data) {
+//     dataSource.value = data.items
+//     pagination.total = data.total_data
+//   },
+// })
 const { createDialog } = useDialog()
 
 const columns = [
