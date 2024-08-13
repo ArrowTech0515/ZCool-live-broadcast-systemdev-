@@ -169,6 +169,7 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
       outDir: VITE_OUT_DIR, // 输出目录
       reportCompressedSize: false, //禁用 gzip 压缩大小报告,可以减少构建时间
       rollupOptions: {
+        external: ['getPathFromUrlArray'],
         output: {
           chunkFileNames: 'assets/js/[name]-[hash].js',
           entryFileNames: 'assets/js/[name]-[hash].js',
