@@ -59,13 +59,16 @@
   </template>
   
   <script lang="ts">
+
   import { ref } from 'vue';
   import LHeader from '@/layouts/components/LHeader.vue';
   import LLogo from '@/layouts/components/LLogo.vue';
   import LBreadCrumb from '@/layouts/components/LBreadCrumb.vue';
+
   import permissionManagement from '@/views/permissions/index.vue';
   import smsManagement from '@/views/sms/channel/index.vue';
   import messageManagement from '@/views/message/list/index.vue';
+  import anchorManagement from '@/views/anchor/list/index.vue';
   
   export default {
     name: 'NavigationMenu',
@@ -73,9 +76,11 @@
       LHeader,
       LLogo,
       LBreadCrumb,
+
       permissionManagement,
       smsManagement,
       messageManagement,
+      anchorManagement,
     },
     setup() {
       const collapse_flag = ref(false); // Reactive collapse state
@@ -90,6 +95,9 @@
             break;
           case '17':
             currentComponent.value = 'messageManagement';
+            break;
+          case '5':
+            currentComponent.value = 'anchorManagement';
             break;
           default:
             currentComponent.value = 'permissionManagement';

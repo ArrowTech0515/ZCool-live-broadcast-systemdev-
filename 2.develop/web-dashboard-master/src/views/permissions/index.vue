@@ -4,7 +4,7 @@
     <a-tab-pane key="1" tab="角色管理">
         <div>
             <RoleComponent />
-            <RoleComponent2 />
+            <RoleComponent2  :style="{ margin : '10px' }"/>
         </div>
     </a-tab-pane>
 
