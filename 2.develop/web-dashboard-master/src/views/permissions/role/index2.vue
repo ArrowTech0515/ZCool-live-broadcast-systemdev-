@@ -20,39 +20,87 @@
 
     <!-- Checkbox Group 1 (6x4 = 24 checkboxes) -->
     <a-form-item label="角色权限">
-      <a-checkbox-group v-model="checkboxGroup1">
-        <!-- Group 1 -->
-        <a-checkbox value="group1-option1">用户管理</a-checkbox>
-        <a-checkbox value="group1-option2">主播管理</a-checkbox>
-        <a-checkbox value="group1-option3">用户管理</a-checkbox>
-        <a-checkbox value="group1-option4">主播管理</a-checkbox>
-        <a-checkbox value="group1-option5">用户管理</a-checkbox>
-        <a-checkbox value="group1-option6">主播管理</a-checkbox>
-
-        <!-- Group 2 -->
-        <a-checkbox value="group2-option1">用户管理</a-checkbox>
-        <a-checkbox value="group2-option2">主播管理</a-checkbox>
-        <a-checkbox value="group2-option3">用户管理</a-checkbox>
-        <a-checkbox value="group2-option4">主播管理</a-checkbox>
-        <a-checkbox value="group2-option5">用户管理</a-checkbox>
-        <a-checkbox value="group2-option6">主播管理</a-checkbox>
-
-        <!-- Group 3 -->
-        <a-checkbox value="group3-option1">用户管理</a-checkbox>
-        <a-checkbox value="group3-option2">主播管理</a-checkbox>
-        <a-checkbox value="group3-option3">用户管理</a-checkbox>
-        <a-checkbox value="group3-option4">主播管理</a-checkbox>
-        <a-checkbox value="group3-option5">用户管理</a-checkbox>
-        <a-checkbox value="group3-option6">主播管理</a-checkbox>
-
-        <!-- Group 4 -->
-        <a-checkbox value="group4-option1">用户管理</a-checkbox>
-        <a-checkbox value="group4-option2">主播管理</a-checkbox>
-        <a-checkbox value="group4-option3">用户管理</a-checkbox>
-        <a-checkbox value="group4-option4">主播管理</a-checkbox>
-        <a-checkbox value="group4-option5">用户管理</a-checkbox>
-        <a-checkbox value="group4-option6">主播管理</a-checkbox>
-      </a-checkbox-group>
+      <a-row gutter={[16,16]}>
+        <!-- Row 1 -->
+        <a-col :span="4">
+          <a-checkbox>用户管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>主播管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>用户管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>主播管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>用户管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>主播管理</a-checkbox>
+        </a-col>
+        
+        <!-- Row 2 -->
+        <a-col :span="4">
+          <a-checkbox>用户管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>主播管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>用户管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>主播管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>用户管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>主播管理</a-checkbox>
+        </a-col>
+        
+        <!-- Row 3 -->
+        <a-col :span="4">
+          <a-checkbox>用户管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>主播管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>用户管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>主播管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>用户管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>主播管理</a-checkbox>
+        </a-col>
+        
+        <!-- Row 4 -->
+        <a-col :span="4">
+          <a-checkbox>用户管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>主播管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>用户管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>主播管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>用户管理</a-checkbox>
+        </a-col>
+        <a-col :span="4">
+          <a-checkbox>主播管理</a-checkbox>
+        </a-col>
+      </a-row>
     </a-form-item>
 
     <!-- Checkbox Group 2 (4 checkboxes) -->
