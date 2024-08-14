@@ -112,5 +112,10 @@ export default {
   export_time: {
     1: '全部时间',
     2: '自定义时间',
+  },
+  exporting_objects: {
+    1: '全部',
+    2: '按主播',
+    3: '技工会',
   }
 }

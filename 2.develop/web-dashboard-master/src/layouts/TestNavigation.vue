@@ -69,6 +69,7 @@
   import messageManagement from '@/views/message/list/index.vue';
   import anchorManagement from '@/views/anchor/list/index.vue';
   import orderManagement from '@/views/order/index.vue';
+  import orderManagement2 from '@/views/order/index2.vue';
   import platformManagement from '@/views/platform/index.vue';
   
   export default {
@@ -82,7 +83,8 @@
       messageManagement,
       anchorManagement,
       platformManagement,
-      orderManagement
+      orderManagement,
+      orderManagement2
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
@@ -102,7 +104,7 @@
             currentComponent.value = 'anchorManagement'
             break
           case '1':
-            currentComponent.value = 'orderManagement'
+            currentComponent.value = 'orderManagement2'
             break
           case '11':
             currentComponent.value = 'orderManagement'

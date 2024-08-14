@@ -22,7 +22,7 @@ import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/a
 import ENUMS from '@/enums/common'
 import blockUserRule from '@/rules/blockUserRule'
 import MerchCell from '@/components/Business/MerchCell.jsx'
-import useAnchorRule from '../hooks/useOrderRule'
+import useAnchorRule from '../hooks/useOrderRule2'
 import { getPathFromUrlArray } from '@/utils/index'
 
 const props = defineProps({
@@ -81,20 +81,36 @@ const columns = [
     dataIndex: 'phone',
   },
   {
-    title: '兑换比例',
+    title: '赠送主播',
     dataIndex: 'email',
   },
   {
-    title: '兑换余额',
+    title: '房间号',
+    dataIndex: 'email',
+  },
+  {
+    title: '主播ID',
     dataIndex: 'sr_weight',
   },
   {
-    title: '兑换钻石',
+    title: '所属工会',
+    dataIndex: 'fr_weight',
+  },
+  {
+    title: '消费类型',
+    dataIndex: 'sr_weight',
+  },
+  {
+    title: '消费钻石',
     dataIndex: 'fr_weight',
   },
   {
     title: '时间',
     dataIndex: 'rr_weight',
+    props: {
+          format: 'YYYY-MM-DD',
+          valueFormat: 'X',
+        },
   }
 ]
 
