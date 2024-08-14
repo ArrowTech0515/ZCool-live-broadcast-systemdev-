@@ -104,6 +104,9 @@
           case '1':
             currentComponent.value = 'orderManagement'
             break
+          case '11':
+            currentComponent.value = 'orderManagement'
+            break
           default:
             currentComponent.value = 'orderManagement'
         }

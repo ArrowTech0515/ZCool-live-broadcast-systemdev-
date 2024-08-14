@@ -21,7 +21,7 @@
               <AButton
                 type="primary"
                 @click="emit('addItem')"
-              >添加主播</AButton>
+              >导出CSV</AButton>
             </div>
           </section>
         </template>
@@ -59,28 +59,28 @@ const option = {
 }
 
 const rule = ref([
-  {
-    type: 'select',
-    field: 'source_id',
-    title: '来源',
-    value: '',
-    options: [],
-    effect: {
-      fetch: {
-        action: '/api/v1/source/summary',
-        to: 'options',
-        method: 'get',
-        parse: res => [
-          { value: 0, label: '所有来源' },
-          ...res.items.map(item => ({ value: item.source_id, label: item.source_name })),
-        ],
-      },
-    },
-  },
+  // {
+  //   type: 'select',
+  //   field: 'source_id',
+  //   title: '来源',
+  //   value: '',
+  //   options: [],
+  //   effect: {
+  //     fetch: {
+  //       action: '/api/v1/source/summary',
+  //       to: 'options',
+  //       method: 'get',
+  //       parse: res => [
+  //         { value: 0, label: '所有来源' },
+  //         ...res.items.map(item => ({ value: item.source_id, label: item.source_name })),
+  //       ],
+  //     },
+  //   },
+  // },
   {
     type: 'input',
     field: 'acct',
-    title: '房间号/手机号/邮箱',
+    title: '商户/用户名称',
     value: '',
     wrap: {
       labelCol: { span: 10 },
@@ -89,7 +89,13 @@ const rule = ref([
   {
     type: 'input',
     field: 'nickname',
-    title: '主播昵称',
+    title: '订单号',
+    value: '',
+  },
+  {
+    type: 'input',
+    field: 'nickname',
+    title: 'ID搜索',
     value: '',
   },
   {
@@ -105,14 +111,14 @@ const rule = ref([
   {
     type: 'select',
     field: 'live_status',
-    title: '直播状态',
+    title: '所有商户',
     value: '',
     options: Object.keys(ENUM.guild_status).map(key => ({ value: parseInt(key), label: ENUM.guild_status[key] })),
   },
   {
     type: 'select',
     field: 'acct_status',
-    title: '账号状态',
+    title: '所有应用',
     value: '',
     options: Object.keys(ENUM.anchor_acct_status).map(key => ({ value: parseInt(key), label: ENUM.anchor_acct_status[key] })),
   },

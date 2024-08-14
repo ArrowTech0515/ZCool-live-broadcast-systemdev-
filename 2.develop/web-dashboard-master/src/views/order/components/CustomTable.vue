@@ -61,94 +61,40 @@ const { customRender } = MerchCell(loading)
 const columns = [
   customRender,
   {
-    title: '主播来源',
+    title: '所属商户',
     dataIndex: 'source_name',
   },
   {
-    title: '主播头像',
-    dataIndex: 'avatar_url',
-    customRender: ({ record }) =>
-      <a-avatar src={record.avatar_url} size={40} />
-  },
-  {
-    title: '主播昵称',
+    title: '所属应用',
     dataIndex: 'nickname',
   },
   {
-    title: '房间号',
+    title: '订单号',
+    dataIndex: 'nickname',
+  },
+  {
+    title: '用户昵称',
     dataIndex: 'room_id',
   },
   {
-    title: '手机号',
+    title: '用户ID',
     dataIndex: 'phone',
   },
   {
-    title: '邮箱',
+    title: '兑换比例',
     dataIndex: 'email',
   },
   {
-    title: '所属公会',
-    dataIndex: 'guild_rel',
-    customRender: ({ record }) => <span v-if={record.guild_rel}>{record.guild_rel?.guild_name || '--'}</span>
-  },
-  {
-    title: '分成比例',
-    dataIndex: 'ps_ratio',
-    customRender: ({ record }) => <div>{record.ps_ratio}%</div>
-  },
-  {
-    title: '直播状态',
-    dataIndex: 'live_status',
-    customRender: ({ record }) =>
-    <div>
-        <a-tag color="green" v-if={record.live_status === 1}>直播中</a-tag>
-        <a-tag v-if={record.live_status === 2}>未开播</a-tag>
-        <a-tag v-else>--</a-tag>
-    </div>
-  },
-  {
-    title: '搜索推荐权重',
+    title: '兑换余额',
     dataIndex: 'sr_weight',
   },
   {
-    title: '关注推荐权重',
+    title: '兑换钻石',
     dataIndex: 'fr_weight',
   },
   {
-    title: '房间推荐权重',
+    title: '时间',
     dataIndex: 'rr_weight',
-  },
-  {
-    title: '热度值',
-    dataIndex: 'heat_value',
-  },
-  {
-    title: '收益余额',
-    dataIndex: 'eps_balance',
-  },
-  {
-    title: '入驻时间',
-    dataIndex: 'join_time',
-  },
-  {
-    title: '账号状态',
-    dataIndex: 'acct_status',
-    customRender: ({ record }) =>
-      <a-tag color={record.acct_status === 1 ? undefined : 'red'}>
-        {ENUMS.anchor_acct_status[record.acct_status]}
-      </a-tag>
-  },
-  {
-    title: '操作',
-    fixed: 'right',
-    width: 120,
-    dataIndex: 'action',
-    customRender: ({ record }) =>
-      <div>
-        <a-button disabled={record.acct_status !== 1} type="link" size="small" onClick={() => router.push('/anchor/detail?anchor_id=' + record.anchor_id)}>编辑</a-button>
-        <a-button type="link" size="small" onClick={() => editItem(record)}>数据</a-button>
-        <a-button type="link" size="small" onClick={() => blockUser(record)} v-if={record.acct_status === 1}>拉黑</a-button>
-      </div>
   }
 ]
 
