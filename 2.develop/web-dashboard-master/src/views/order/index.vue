@@ -22,3 +22,8 @@ const customTableRef = ref(null)
 const formSearchRef = ref(null)
 const searchParams = ref({})
 </script>
+
+<style lang="sass scoped">
+
+</style>
+

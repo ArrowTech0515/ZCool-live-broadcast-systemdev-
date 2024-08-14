@@ -148,5 +148,3 @@ defineExpose({
 })
 </script>
 
-<style lang="sass scoped">
-</style>
