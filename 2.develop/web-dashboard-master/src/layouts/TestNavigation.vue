@@ -68,6 +68,7 @@
   import permissionManagement from '@/views/permissions/index.vue';
   import messageManagement from '@/views/message/list/index.vue';
   import anchorManagement from '@/views/anchor/list/index.vue';
+  import orderManagement from '@/views/order/index.vue';
   import platformManagement from '@/views/platform/index.vue';
   
   export default {
@@ -81,6 +82,7 @@
       messageManagement,
       anchorManagement,
       platformManagement,
+      orderManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
@@ -99,8 +101,11 @@
           case '5':
             currentComponent.value = 'anchorManagement'
             break
+          case '1':
+            currentComponent.value = 'orderManagement'
+            break
           default:
-            currentComponent.value = 'permissionManagement'
+            currentComponent.value = 'orderManagement'
         }
       }
   
