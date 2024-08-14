@@ -20,7 +20,7 @@ import { type Api } from '@form-create/ant-design-vue'
       value: '',
       options: [],
       props: {
-        allowClear: true,
+        placeholder: '所有商户',
       },
       effect: {
         loadData: {
@@ -54,10 +54,10 @@ import { type Api } from '@form-create/ant-design-vue'
       type: 'select',
       field: 'guild_id',
       title: '导出应用',
-      value: '',
+      value: '请选择导出类型',
       options: [],
       props: {
-        allowClear: true,
+        placeholder: '所有应用',
       },
       effect: {
         loadData: {
@@ -91,7 +91,7 @@ import { type Api } from '@form-create/ant-design-vue'
       type: 'radio',
       field: 'export_time',
       title: '导出时间',
-      value: '',
+      value: 1,
       options: Object.keys(ENUM.export_time).map(key => ({ label: ENUM.export_time[key], value: parseInt(key) })),
       effect: {
         required: true

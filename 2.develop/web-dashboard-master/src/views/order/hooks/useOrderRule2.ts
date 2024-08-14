@@ -17,8 +17,8 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
       value: '',
       options: [],
       props: {
-        placeholder: '所有商户',
-        allowClear: true,
+        // placeholder: '所有商户',
+         allowClear:false
       },
     },
     {
@@ -26,10 +26,12 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
       field: 'application_id',
       title: '导出应用',
       value: '',
-      options: [],
+      options: [
+
+      ],
       props: {
         placeholder: '所有应用',
-        allowClear: true,
+        allowClear:true
       },
     },
     {
@@ -47,9 +49,6 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
           // First hide all dependent fields
           fApi.value.hidden(true, 'host_id');
           fApi.value.hidden(true, 'guild_name');
-
-          console.log("value1 : " + val);
-          console.log("Type of selected value:", typeof val);
 
           const selectedValue = val.value || val;
 
@@ -82,11 +81,10 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
       type: 'select',
       field: 'guild_name',
       title: '工会名称',
-      value: '',
+      value: '请选择工会',
       options: [],  // Populated dynamically
       props: {
         placeholder: '请选择工会',
-        allowClear: true,
       },
       hidden: true, // Hidden by default
     },
@@ -94,11 +92,10 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
       type: 'select',
       field: 'export_type',
       title: '导出类型',
-      value: '',
+      value: '请选择导出类型',
       options: [],
       props: {
         placeholder: '请选择导出类型',
-        allowClear: true,
       },
     },
     {
