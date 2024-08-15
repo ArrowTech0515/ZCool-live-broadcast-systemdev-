@@ -3,9 +3,12 @@
     rowKey="anchor_id"
     :pagination="false"
     :scroll="{ x: 1200, y: 800 }"
-    :dataSource
+    :dataSource="dataSource"
     :columns="columns"
-    :loading="loading"
+    :expandable="{
+      expandedRowRender: subRowComponent,
+      rowExpandable: record => record.anchor_id !== undefined
+    }"
   />
   <a-pagination
     class="mt15"
@@ -23,6 +26,7 @@ import ENUMS from '@/enums/common'
 import blockUserRule from '@/rules/blockUserRule'
 import MerchCell from '@/components/Business/MerchCell.jsx'
 import useAnchorRule from '../hooks/useOrderRule'
+import useAnchorRule2 from '../hooks/useOrderRule2'
 import { getPathFromUrlArray } from '@/utils/index'
 
 const props = defineProps({
@@ -42,7 +46,12 @@ const pagination = reactive({
   limit: 10,
   total: 0,
 })
-const dataSource = ref([])
+
+const dataSource = ref([
+  { anchor_id: 1, source_name: 'Merchant A', nickname: 'App A', room_id: '123' },
+  { anchor_id: 2, source_name: 'Merchant B', nickname: 'App B', room_id: '456' },
+])
+
 const { loading, refresh } = useRequest(() => getAnchorListReq({
   ...props.searchParams,
   page: pagination.page,
@@ -108,11 +117,22 @@ const columns = [
     title: '时间',
     dataIndex: 'rr_weight',
     props: {
-          format: 'YYYY-MM-DD',
-          valueFormat: 'X',
-        },
+      format: 'YYYY-MM-DD',
+      valueFormat: 'X',
+    },
   }
 ]
+
+// Sub-row component that will be rendered in the expanded row
+const subRowComponent = (record) => {
+  return (
+    <div>
+      {/* Insert your sub-components or content here */}
+      <p>Anchor ID: {record.anchor_id}</p>
+      <p>More details about this anchor...</p>
+    </div>
+  );
+}
 
 // 拉黑
 function blockUser(userItem) {
@@ -147,6 +167,24 @@ function blockUser(userItem) {
 
   createDialog({
     title: '拉黑',
+    width: 500,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        {...formModalProps}
+      />,
+    onConfirm(status) {
+      if (status) {
+        const current = dataSource.value.find(item => item.anchor_id === userItem.anchor_id)
+        if (current) {
+          current.acct_status = 2
+        }
+      }
+    },
+  })
+
+  createDialog({
+    title: '导出CSV',
     width: 500,
     component:
       <ModalForm
@@ -212,7 +250,57 @@ async function editItem() {
   })
 }
 
+
+// 添加主播，不可编辑
+async function editItem2() {
+  const formValue = ref({
+    avatar_url: '',
+    nickname: '',
+    phone: '',
+    email: '',
+    guild_id: '',
+    ps_ratio: '',
+    hourly_rate: '',
+    hourly_rate_ulimit: '',
+    password: '',
+    merch_id: [],
+  })
+
+  const fApi = ref(null)
+  const anchorRule = useAnchorRule2(false, true, fApi)
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
+    },
+    rule: anchorRule,
+  })
+
+  createDialog({
+    title: '提现设置',
+    width: 500,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
+}
+
 defineExpose({
   editItem,
+  editItem2,
 })
 </script>

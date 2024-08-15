@@ -9,19 +9,23 @@
       >
         <template #type-btns>
           <section class="flex mb15" style="width: 100%;">
-            <AButton
-              @click="submitForm"
-              type="primary"
-            >查询</AButton>
-            <AButton
-              class="ml10"
-              @click="resetForm"
-            >重置</AButton>
             <div class="flex1 flex_end">
+
               <AButton
-                type="primary"
-                @click="emit('addItem')"
-              >导出CSV</AButton>
+              type="primary"
+                @click="emit('func1')"
+            >导出大数据</AButton>
+
+            <AButton
+              class="ml11"
+              type="primary"
+                @click="emit('func2')"
+            >导出代付方式</AButton>
+
+              <AButton
+              type="default"
+                @click="emit('func3')"
+              >免验证器设置</AButton>
             </div>
           </section>
         </template>
@@ -41,7 +45,7 @@ const data = reactive({
   join_time: [],
 })
 
-const emit = defineEmits(['addItem', 'search'])
+const emit = defineEmits(['func1', 'func2'])
 const fApi = ref({})
 const option = {
   resetBtn: false,
@@ -78,65 +82,47 @@ const rule = ref([
   //   },
   // },
   {
-    type: 'input',
+    type: 'text',
     field: 'acct',
-    title: '商户/用户名称',
+    title: '成功金额: 0',
     value: '',
     wrap: {
       labelCol: { span: 10 },
     },
   },
   {
-    type: 'input',
+    type: 'text',
     field: 'nickname',
-    title: '订单号',
-    value: '',
-  },
-  {
-    type: 'input',
-    field: 'nickname',
-    title: '用户昵称/主播昵称',
+    title: '失败金额: 0',
     value: '',
     wrap: {
       labelCol: { span: 10 },
     },
   },
   {
-    type: 'input',
+    type: 'text',
     field: 'nickname',
-    title: 'ID搜索',
+    title: '拒绝金额: 0',
     value: '',
+    wrap: {
+      labelCol: { span: 10 },
+    },
   },
   {
-    type: 'rangePicker',
-    field: 'join_time',
-    title: '时间区间',
+    type: 'text',
+    field: 'nickname',
+    title: '待审核金额: 0',
     value: '',
-    props: {
-      format: 'YYYY-MM-DD',
-      valueFormat: 'X',
+    wrap: {
+      labelCol: { span: 15 },
     },
   },
   {
     type: 'select',
-    field: 'live_status',
-    title: '所有商户',
-    value: 1,
-    options: Object.keys(ENUM.guild_status).map(key => ({ value: parseInt(key), label: ENUM.guild_status[key] })),
-  },
-  {
-    type: 'select',
     field: 'acct_status',
-    title: '所有应用',
-    value: 1,
-    options: Object.keys(ENUM.anchor_acct_status).map(key => ({ value: parseInt(key), label: ENUM.anchor_acct_status[key] })),
-  },
-  {
-    type: 'select',
-    field: 'acct_status',
-    title: '消费类型',
-    value: 1,
-    options: Object.keys(ENUM.anchor_acct_status).map(key => ({ value: parseInt(key), label: ENUM.anchor_acct_status[key] })),
+    title: '数据更新',
+    value: '30秒',
+  //  options: Object.keys(ENUM.anchor_acct_status).map(key => ({ value: parseInt(key), label: ENUM.anchor_acct_status[key] })),
   },
   { type: 'btns' },
 ])

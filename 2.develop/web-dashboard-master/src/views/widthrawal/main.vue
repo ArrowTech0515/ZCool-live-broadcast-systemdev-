@@ -8,6 +8,10 @@
       <a-tab-pane key="2" tab="2">
           <noticeManagement />
       </a-tab-pane>
+
+      <a-tab-pane key="3" tab="3">
+          <testTableManagement />
+      </a-tab-pane>
   
     </a-tabs>
   </template>
@@ -17,13 +21,15 @@
 
   import widthrawalManagement from '@/views/widthrawal/index.vue';
   import noticeManagement from '@/views/notice/list/index.vue'; // junn
+  import testTableManagement from './testTable.vue'; // junn
   
   export default {
     components: {
       'a-tabs': Tabs,
       'a-tab-pane': Tabs.TabPane,
       widthrawalManagement,
-      noticeManagement
+      noticeManagement,
+      testTableManagement
     }
   }
   </script>
