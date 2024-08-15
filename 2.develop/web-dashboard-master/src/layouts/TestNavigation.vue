@@ -68,9 +68,10 @@
   import permissionManagement from '@/views/permissions/index.vue';
   import messageManagement from '@/views/message/list/index.vue';
   import anchorManagement from '@/views/anchor/list/index.vue';
-  import orderManagement from '@/views/order/index.vue';
-  import orderManagement2 from '@/views/order/index2.vue';
+  import payManagement from '@/views/payment/channel/index.vue';
+  import orderManagement from '@/views/order/main.vue';
   import platformManagement from '@/views/platform/index.vue';
+  import widthrawalManagement from '@/views/widthrawal/main.vue';
   
   export default {
     name: 'NavigationMenu',
@@ -84,7 +85,8 @@
       anchorManagement,
       platformManagement,
       orderManagement,
-      orderManagement2
+      payManagement,
+      widthrawalManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
@@ -104,10 +106,13 @@
             currentComponent.value = 'anchorManagement'
             break
           case '1':
-            currentComponent.value = 'orderManagement'
+            currentComponent.value = 'payManagement'
             break
           case '11':
-            currentComponent.value = 'orderManagement2'
+            currentComponent.value = 'orderManagement'
+            break
+          case '12':
+            currentComponent.value = 'widthrawalManagement'
             break
           default:
             currentComponent.value = 'orderManagement'
