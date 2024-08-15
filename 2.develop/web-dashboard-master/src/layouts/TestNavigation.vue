@@ -104,10 +104,10 @@
             currentComponent.value = 'anchorManagement'
             break
           case '1':
-            currentComponent.value = 'orderManagement2'
+            currentComponent.value = 'orderManagement'
             break
           case '11':
-            currentComponent.value = 'orderManagement'
+            currentComponent.value = 'orderManagement2'
             break
           default:
             currentComponent.value = 'orderManagement'
