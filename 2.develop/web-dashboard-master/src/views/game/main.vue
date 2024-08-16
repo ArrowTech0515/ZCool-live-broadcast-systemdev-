@@ -5,9 +5,9 @@
           <listManagement />
       </a-tab-pane>
       
-      <!-- <a-tab-pane key="2" tab="2">
-          <noticeManagement />
-      </a-tab-pane> -->
+      <a-tab-pane key="2" tab="游戏汇总">
+          <summaryManagement />
+      </a-tab-pane>
 
       <!-- <a-tab-pane key="3" tab="3">
           <testTableManagement />
@@ -19,13 +19,15 @@
   <script>
   import { Tabs } from 'ant-design-vue'
 
-  import listManagement from './list/list.vue';
+  import listManagement from './list/index.vue';
+  import summaryManagement from './summary/index.vue';
   
   export default {
     components: {
       'a-tabs': Tabs,
       'a-tab-pane': Tabs.TabPane,
-      listManagement
+      listManagement,
+      summaryManagement
     }
   }
   </script>
