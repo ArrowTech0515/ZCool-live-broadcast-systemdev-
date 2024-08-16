@@ -36,10 +36,12 @@ const props = defineProps({
 
 const pagination = reactive({
   page: 1,
-  limit: 10,
+  limit: 3,
   total: 0,
 })
 const dataSource = ref([
+  { role_id: 1, role_name: 'Initial Role 1', acct_head_list: [], acct_mem_count: 5, create_time: '2024-08-01', oper_info: { name: 'Admin1' } },
+  { role_id: 1, role_name: 'Initial Role 1', acct_head_list: [], acct_mem_count: 5, create_time: '2024-08-01', oper_info: { name: 'Admin1' } },
   { role_id: 1, role_name: 'Initial Role 1', acct_head_list: [], acct_mem_count: 5, create_time: '2024-08-01', oper_info: { name: 'Admin1' } },
   { role_id: 2, role_name: 'Initial Role 2', acct_head_list: [], acct_mem_count: 3, create_time: '2024-08-02', oper_info: { name: 'Admin2' } }
 ])

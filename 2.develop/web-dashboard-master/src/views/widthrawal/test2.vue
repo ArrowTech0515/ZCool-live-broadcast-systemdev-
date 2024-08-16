@@ -37,11 +37,25 @@
     <a-table :columns="columns" :dataSource="data" :expandable="{ expandedRowRender }">
       <!-- Scoped Slot for Custom Column Rendering -->
       <template #bodyCell="{ column, text }">
-        <!-- Render Multiline Text for '游戏ID' Column -->
+        <!-- Render Multiline Text for '游戏ID' Column with Color Styling -->
         <span v-if="column.dataIndex === 'gameId'">
           <div v-for="(line, index) in text.split('\n')" :key="index">
-            {{ line }}
+            <!-- Check for colon and split the text into label and value -->
+            <span>{{ line.split(':')[0] }}:</span>
+            <span :style="{ color: 'blue' }">{{ line.split(':')[1] }}</span>
           </div>
+        </span>
+
+        <!-- Render '状态' Column with Color Styling -->
+        <span v-else-if="column.dataIndex === 'status'">
+          <span :style="text === '已通过' ? 'color: blue;' : text === '失败' ? 'color: red;' : ''">
+            {{ text }}
+          </span>
+        </span>
+        <span v-else-if="column.dataIndex === 'transfer'">
+          <span :style="text === '已通过' ? 'color: blue;' : text === '失败' ? 'color: red;' : ''">
+            {{ text }}
+          </span>
         </span>
         <!-- Default Rendering for Other Columns -->
         <span v-else>{{ text }}</span>
