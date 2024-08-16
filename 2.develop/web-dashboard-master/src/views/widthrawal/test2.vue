@@ -1,6 +1,6 @@
 <template>
   <a-card style="background-color: white;">
-    <!-- Inline Layout with Texts, Select, and Buttons -->
+  <!-- Inline Layout with Texts, Select, and Buttons -->
     <a-row align="middle" style="margin-bottom: 16px;">
       <!-- Centered Text elements and Select -->
       <a-col style="flex: 1; display: flex; justify-content: space-around; align-items: center;">
@@ -33,10 +33,21 @@
         <a-button>免验证设置</a-button>
       </a-col>
     </a-row>
-
-    <!-- The a-table component -->
+    <!-- Your existing layout and table setup -->
     <a-table :columns="columns" :dataSource="data" :expandable="{ expandedRowRender }">
-      <!-- This part will render when the row is expanded -->
+      <!-- Scoped Slot for Custom Column Rendering -->
+      <template #bodyCell="{ column, text }">
+        <!-- Render Multiline Text for '游戏ID' Column -->
+        <span v-if="column.dataIndex === 'gameId'">
+          <div v-for="(line, index) in text.split('\n')" :key="index">
+            {{ line }}
+          </div>
+        </span>
+        <!-- Default Rendering for Other Columns -->
+        <span v-else>{{ text }}</span>
+      </template>
+
+      <!-- Expanded Row Render Template -->
       <template #expandedRowRender="{ record }">
         <div class="expanded-row-content">
           <div class="row">
@@ -83,7 +94,7 @@ export default {
           orderNumber: 'CA88982520842',
           startTime: '07-10 17:08:40',
           arrivalTime: '07-10 17:52:40',
-          gameId: '3515409',
+          gameId: 'APP: 3515409\n游戏: 第二行文本',
           userName: '比特币_09',
           withdrawAmount: 505,
           actualArrival: 501,
@@ -108,7 +119,7 @@ export default {
           orderNumber: 'CA88982520851',
           startTime: '07-10 17:06:40',
           arrivalTime: '07-10 17:32:40',
-          gameId: '3515409',
+          gameId: 'APP: 3515409\n游戏: 第二行文本',
           userName: '比特币_09',
           withdrawAmount: 600,
           actualArrival: 600,
@@ -131,11 +142,6 @@ export default {
       ],
     };
   },
-  methods: {
-    expandedRowRender(record) {
-      return this.$scopedSlots.expandedRowRender({ record });
-    },
-  },
 };
 </script>
 
@@ -152,5 +158,6 @@ export default {
 
 .cell {
   padding: 8px;
+  white-space: pre-line; /* Ensure text wraps in each cell */
 }
 </style>
