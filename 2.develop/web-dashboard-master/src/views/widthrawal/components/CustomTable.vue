@@ -3,13 +3,11 @@
     rowKey="anchor_id"
     :pagination="false"
     :scroll="{ x: 1200, y: 800 }"
-    :dataSource="dataSource"
+    :dataSource="data"
     :columns="columns"
-    :expandable="{
-      expandedRowRender: subRowComponent,
-      rowExpandable: record => record.anchor_id !== undefined
-    }"
+    :expandable="expandable"
   />
+
   <a-pagination
     class="mt15"
     hideOnSinglePage
@@ -21,14 +19,16 @@
 </template>
 
 <script setup lang="jsx">
-import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/anchor'
-import ENUMS from '@/enums/common'
-import blockUserRule from '@/rules/blockUserRule'
-import MerchCell from '@/components/Business/MerchCell.jsx'
-import useAnchorRule from '../hooks/useOrderRule'
-import useAnchorRule2 from '../hooks/useOrderRule2'
-import { getPathFromUrlArray } from '@/utils/index'
+import { ref, reactive } from 'vue';
+// import { useRequest } from 'vue-request';
+import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/anchor';
+import blockUserRule from '@/rules/blockUserRule';
+import MerchCell from '@/components/Business/MerchCell.jsx';
+import useAnchorRule from '../hooks/useOrderRule';
+import useAnchorRule2 from '../hooks/useOrderRule2';
+import { getPathFromUrlArray } from '@/utils/index';
 
+// Define props
 const props = defineProps({
   searchParams: {
     type: Object,
@@ -36,57 +36,72 @@ const props = defineProps({
   },
   resetSearch: {
     type: Function,
-    default: () => { },
+    default: () => {},
   },
-})
+});
 
-const router = useRouter()
+// Initialize pagination and data state
 const pagination = reactive({
   page: 1,
   limit: 10,
   total: 0,
-})
+});
 
-const dataSource = ref([
-  { anchor_id: 1, source_name: 'Merchant A', nickname: 'App A', room_id: '123' },
-  { anchor_id: 2, source_name: 'Merchant B', nickname: 'App B', room_id: '456' },
-])
-
-const { loading, refresh } = useRequest(() => getAnchorListReq({
-  ...props.searchParams,
-  page: pagination.page,
-  limit: pagination.limit,
-}), {
-  refreshDeps: true,
-  onSuccess(data) {
-    dataSource.value = data.items
-    pagination.total = data.total_data
+const data = ref([
+  {
+    anchor_id: 1,
+    user_id : 1,
+    date1: 123456,
+    date2: 123456,
+    nickname: 'App A',
+    room_id: '123',
+    subData: [
+      { key: 1, orderId: '1001', product: 'Laptop', price: '$1200' },
+      { key: 2, orderId: '1002', product: 'Phone', price: '$800' },
+    ],
   },
-})
-const { createDialog } = useDialog()
+  {
+    anchor_id: 2,
+    user_id : 2,
+    date1: '123456',
+    date2: '123456',
+    nickname: 'App B',
+    room_id: '456',
+    subData: [
+      { key: 3, orderId: '1003', product: 'Tablet', price: '$600' },
+      { key: 4, orderId: '1004', product: 'Headphones', price: '$200' },
+    ],
+  },
+]);
 
-const { customRender } = MerchCell(loading)
-
+// Define columns
 const columns = [
-  customRender,
-  {
-    title: '所属商户',
-    dataIndex: 'source_name',
-  },
-  {
-    title: '所属应用',
-    dataIndex: 'nickname',
-  },
   {
     title: '订单号',
-    dataIndex: 'nickname',
+    dataIndex: 'user_id',
   },
   {
-    title: '用户昵称',
+    title: '发起时间',
+    dataIndex: 'date1',
+    props: {
+      format: 'YYYY-MM-DD',
+      valueFormat: 'X',
+    },
+  },
+  {
+    title: '到账时间',
+    dataIndex: 'date2',
+    props: {
+      format: 'YYYY-MM-DD',
+      valueFormat: 'X',
+    },
+  },
+  {
+    title: '游戏ID',
     dataIndex: 'room_id',
   },
   {
-    title: '用户ID',
+    title: '用户昵称',
     dataIndex: 'phone',
   },
   {
@@ -94,115 +109,84 @@ const columns = [
     dataIndex: 'email',
   },
   {
-    title: '房间号',
+    title: '提现金额',
     dataIndex: 'email',
   },
   {
-    title: '主播ID',
+    title: '实际到账',
     dataIndex: 'sr_weight',
   },
   {
-    title: '所属工会',
+    title: '通道',
     dataIndex: 'fr_weight',
   },
   {
-    title: '消费类型',
+    title: '状态',
     dataIndex: 'sr_weight',
   },
   {
-    title: '消费钻石',
+    title: '一周',
     dataIndex: 'fr_weight',
   },
   {
-    title: '时间',
-    dataIndex: 'rr_weight',
-    props: {
-      format: 'YYYY-MM-DD',
-      valueFormat: 'X',
-    },
-  }
-]
+    title: '操作类型',
+    dataIndex: 'fr_weight',
+  },
+];
 
-// Sub-row component that will be rendered in the expanded row
-const subRowComponent = (record) => {
-  return (
-    <div>
-      {/* Insert your sub-components or content here */}
-      <p>Anchor ID: {record.anchor_id}</p>
-      <p>More details about this anchor...</p>
-    </div>
-  );
-}
+// Define sub-columns for the expandable table
+const subColumns = [
+  {
+    title: 'Order ID',
+    dataIndex: 'orderId',
+    key: 'orderId',
+  },
+  {
+    title: 'Product',
+    dataIndex: 'product',
+    key: 'product',
+  },
+  {
+    title: 'Price',
+    dataIndex: 'price',
+    key: 'price',
+  },
+];
 
-// 拉黑
-function blockUser(userItem) {
-  const formValue = ref({
-    anchor_id: userItem.anchor_id,
-    block_type: '',
-    ageing_type: '',
-    end_time: '',
-    reason: '',
-  })
+// Use request hook to fetch data
+// const { loading, refresh } = useRequest(() =>
+//   getAnchorListReq({
+//     ...props.searchParams,
+//     page: pagination.page,
+//     limit: pagination.limit,
+//   }),
+//   {
+//     refreshDeps: true,
+//     onSuccess(data) {
+//       data.value = data.items;
+//       pagination.total = data.total_data;
+//     },
+//   }
+// );
 
-  const formModalProps = {
-    request: setAnchorBlackReq,
-    getData(data) {
-      const { anchor_id, ...params } = data
-      return {
-        ...params,
-        anchor_ids: [anchor_id],
-      }
-    },
+// Expandable row rendering
+const expandable = {
+  expandedRowRender: (record) => {
+    return record.subData ? (
+      <a-table
+        columns={subColumns}
+        dataSource={record.subData}
+        pagination={false}
+      />
+    ) : null;
+  },
+};
 
-    rule: [
-      {
-        type: 'input',
-        field: 'anchor_id',
-        value: userItem.anchor_id,
-        hidden: true,
-      },
-      ...blockUserRule,
-    ],
-  }
+// Dialog for blocking users
+const { createDialog } = useDialog();
 
-  createDialog({
-    title: '拉黑',
-    width: 500,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        {...formModalProps}
-      />,
-    onConfirm(status) {
-      if (status) {
-        const current = dataSource.value.find(item => item.anchor_id === userItem.anchor_id)
-        if (current) {
-          current.acct_status = 2
-        }
-      }
-    },
-  })
 
-  createDialog({
-    title: '导出CSV',
-    width: 500,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        {...formModalProps}
-      />,
-    onConfirm(status) {
-      if (status) {
-        const current = dataSource.value.find(item => item.anchor_id === userItem.anchor_id)
-        if (current) {
-          current.acct_status = 2
-        }
-      }
-    },
-  })
-}
-
-// 添加主播，不可编辑
+// Dialog for editing items
 async function editItem() {
   const formValue = ref({
     avatar_url: '',
@@ -215,43 +199,37 @@ async function editItem() {
     hourly_rate_ulimit: '',
     password: '',
     merch_id: [],
-  })
+  });
 
-  const fApi = ref(null)
-  const anchorRule = useAnchorRule(false, true, fApi)
+  const fApi = ref(null);
+  const anchorRule = useAnchorRule(false, true, fApi);
   const formModalProps = reactive({
-    request: data => anchorAddOrEditReq(null, data),
+    request: (data) => anchorAddOrEditReq(null, data),
     getData(data) {
-      const { avatar_url, ...rest } = data
+      const { avatar_url, ...rest } = data;
       return {
         ...rest,
         avatar_url: getPathFromUrlArray(avatar_url),
-      }
+      };
     },
     rule: anchorRule,
-  })
+  });
 
   createDialog({
     title: '导出CSV',
     width: 500,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        v-model:fApi={fApi.value}
-        {...formModalProps}
-      >
-      </ModalForm>
-    ,
+    component: (
+      <ModalForm v-model={formValue.value} v-model:fApi={fApi.value} {...formModalProps} />
+    ),
     onConfirm() {
-      pagination.page = 1
-      pagination.total = 0
-      props.resetSearch()
+      pagination.page = 1;
+      pagination.total = 0;
+      props.resetSearch();
     },
-  })
+  });
 }
 
-
-// 添加主播，不可编辑
+// Dialog for editing items using a different rule set
 async function editItem2() {
   const formValue = ref({
     avatar_url: '',
@@ -264,43 +242,38 @@ async function editItem2() {
     hourly_rate_ulimit: '',
     password: '',
     merch_id: [],
-  })
+  });
 
-  const fApi = ref(null)
-  const anchorRule = useAnchorRule2(false, true, fApi)
+  const fApi = ref(null);
+  const anchorRule = useAnchorRule2(false, true, fApi);
   const formModalProps = reactive({
-    request: data => anchorAddOrEditReq(null, data),
+    request: (data) => anchorAddOrEditReq(null, data),
     getData(data) {
-      const { avatar_url, ...rest } = data
+      const { avatar_url, ...rest } = data;
       return {
         ...rest,
         avatar_url: getPathFromUrlArray(avatar_url),
-      }
+      };
     },
     rule: anchorRule,
-  })
+  });
 
   createDialog({
     title: '提现设置',
     width: 500,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        v-model:fApi={fApi.value}
-        {...formModalProps}
-      >
-      </ModalForm>
-    ,
+    component: (
+      <ModalForm v-model={formValue.value} v-model:fApi={fApi.value} {...formModalProps} />
+    ),
     onConfirm() {
-      pagination.page = 1
-      pagination.total = 0
-      props.resetSearch()
+      pagination.page = 1;
+      pagination.total = 0;
+      props.resetSearch();
     },
-  })
+  });
 }
 
 defineExpose({
   editItem,
   editItem2,
-})
+});
 </script>

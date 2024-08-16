@@ -14,36 +14,77 @@
 export default {
   data() {
     return {
-      columns: [
-        {
-          title: 'Name',
-          dataIndex: 'name',
-          key: 'name',
+      columns : [
+      {
+        title: '订单号',
+        dataIndex: 'user_id',
+      },
+      {
+        title: '发起时间',
+        dataIndex: 'date1',
+        props: {
+          format: 'YYYY-MM-DD',
+          valueFormat: 'X',
         },
-        {
-          title: 'Age',
-          dataIndex: 'age',
-          key: 'age',
+      },
+      {
+        title: '到账时间',
+        dataIndex: 'date2',
+        props: {
+          format: 'YYYY-MM-DD',
+          valueFormat: 'X',
         },
-        {
-          title: 'Address',
-          dataIndex: 'address',
-          key: 'address',
-        },
-      ],
+      },
+      {
+        title: '游戏ID',
+        dataIndex: 'room_id',
+      },
+      {
+        title: '用户昵称',
+        dataIndex: 'phone',
+      },
+      {
+        title: '赠送主播',
+        dataIndex: 'email',
+      },
+      {
+        title: '提现金额',
+        dataIndex: 'email',
+      },
+      {
+        title: '实际到账',
+        dataIndex: 'sr_weight',
+      },
+      {
+        title: '通道',
+        dataIndex: 'fr_weight',
+      },
+      {
+        title: '状态',
+        dataIndex: 'sr_weight',
+      },
+      {
+        title: '一周',
+        dataIndex: 'fr_weight',
+      },
+      {
+        title: '操作类型',
+        dataIndex: 'fr_weight',
+      },
+    ],
       subColumns: [
         {
-          title: 'Order ID',
+          title: '支付渠道: 银行—中国银行',
           dataIndex: 'orderId',
           key: 'orderId',
         },
         {
-          title: 'Product',
+          title: '实名: 张三',
           dataIndex: 'product',
           key: 'product',
         },
         {
-          title: 'Price',
+          title: '账号/卡号: 0',
           dataIndex: 'price',
           key: 'price',
         },
@@ -74,6 +115,7 @@ export default {
         expandedRowRender: (record) => {
           return record.subData ? this.renderSubRow(record) : null;
         },
+        expandIconColumnIndex: 0, 
       },
     };
   },

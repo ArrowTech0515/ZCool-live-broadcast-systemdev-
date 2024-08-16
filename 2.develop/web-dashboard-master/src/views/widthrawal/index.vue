@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="jsx">
-import CustomTable from './components/CustomTable.vue'
+import CustomTable from './testTable.vue' //components/CustomTable.vue' //
 import FormSearch from './components/FormSearch.vue'
 
 const customTableRef = ref(null)

@@ -1,17 +1,17 @@
 <template>
     <a-tabs default-active-key="1">
         
-      <a-tab-pane key="1" tab="1">
+      <a-tab-pane key="代付管理" tab="代付管理">
           <widthrawalManagement />
       </a-tab-pane>
       
-      <a-tab-pane key="2" tab="2">
+      <!-- <a-tab-pane key="2" tab="2">
           <noticeManagement />
       </a-tab-pane>
 
       <a-tab-pane key="3" tab="3">
           <testTableManagement />
-      </a-tab-pane>
+      </a-tab-pane> -->
   
     </a-tabs>
   </template>
