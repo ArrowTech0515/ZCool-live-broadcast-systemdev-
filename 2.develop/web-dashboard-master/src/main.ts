@@ -8,8 +8,14 @@ import plugins from '@/plugins'
 import '@/assets/styles/common.less'
 import '@/assets/styles/index.sass'
 import App from './App.vue'
+import { SearchOutlined, ReloadOutlined } from '@ant-design/icons-vue';
 
 const app = createApp(App)
+
+
+app.component('SearchOutlined', SearchOutlined)
+app.component('ReloadOutlined', ReloadOutlined)
+
 app.config.globalProperties.$enums = ENUMS
 
 app.use(createPinia())

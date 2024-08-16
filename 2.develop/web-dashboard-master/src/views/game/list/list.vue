@@ -50,12 +50,14 @@
       <a-col :span="4">
         <a-col>
           <a-form-item>
-            <a-button type="primary" block @click="onSearch">查询</a-button>
+            <a-button type="primary" block @click="onSearch">
+              <SearchOutlined /> 查询</a-button>
           </a-form-item>
         </a-col>
         <a-col>
           <a-form-item>
-            <a-button block @click="onReset">重置</a-button>
+            <a-button block @click="onReset">
+              <ReloadOutlined /> 重置</a-button>
           </a-form-item>
         </a-col>
       </a-col>
@@ -111,6 +113,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -123,6 +126,7 @@ export default {
       platform: '',
       gameName: '',
       status: '',
+
       dataSource: [
         {
           key: '1',
