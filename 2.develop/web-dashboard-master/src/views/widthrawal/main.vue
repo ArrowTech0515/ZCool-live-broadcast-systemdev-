@@ -5,11 +5,11 @@
           <widthrawalManagement />
       </a-tab-pane>
       
-      <!-- <a-tab-pane key="2" tab="2">
+      <a-tab-pane key="2" tab="2">
           <noticeManagement />
       </a-tab-pane>
 
-      <a-tab-pane key="3" tab="3">
+      <!-- <a-tab-pane key="3" tab="3">
           <testTableManagement />
       </a-tab-pane> -->
   
@@ -20,7 +20,7 @@
   import { Tabs } from 'ant-design-vue'
 
   import widthrawalManagement from '@/views/widthrawal/index.vue';
-  import noticeManagement from '@/views/notice/list/index.vue'; // junn
+  import noticeManagement from '@/views/widthrawal/test2.vue'; // junn
   import testTableManagement from './testTable.vue'; // junn
   
   export default {
