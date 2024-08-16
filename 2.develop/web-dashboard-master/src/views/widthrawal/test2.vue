@@ -34,7 +34,11 @@
       </a-col>
     </a-row>
     <!-- Your existing layout and table setup -->
-    <a-table :columns="columns" :dataSource="data" :expandable="{ expandedRowRender }">
+    <a-table 
+    :columns="columns" 
+    :data-source="paginatedData"
+    :expandable="{ expandedRowRender }"
+    :pagination="false">
       <!-- Scoped Slot for Custom Column Rendering -->
       <template #bodyCell="{ column, text }">
         <!-- Render Multiline Text for '游戏ID' Column with Color Styling -->
@@ -82,6 +86,22 @@
         </div>
       </template>
     </a-table>
+
+    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+      <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
+      <a-pagination
+        v-model:current="currentPage"
+        :total="totalItems"
+        :page-size="pageSize"
+        show-size-changer
+        :page-size-options="['5', '10', '20', '50', '100']"
+        :simple="false"
+        size="small"
+        @change="handlePageChange"
+        @show-size-change="handleSizeChange"
+      />
+    </div>
+
   </a-card>
 </template>
 
@@ -89,6 +109,9 @@
 export default {
   data() {
     return {
+      currentPage: 1,
+      pageSize: 5,
+      totalItems: 100, // total number of data items
       columns: [
         { title: '订单号', dataIndex: 'orderNumber' },
         { title: '发起时间', dataIndex: 'startTime' },
@@ -108,7 +131,7 @@ export default {
           orderNumber: 'CA88982520842',
           startTime: '07-10 17:08:40',
           arrivalTime: '07-10 17:52:40',
-          gameId: 'APP: 3515409\n游戏: 第二行文本',
+          gameId: 'APP: 3515409\n游戏: 7878797',
           userName: '比特币_09',
           withdrawAmount: 505,
           actualArrival: 501,
@@ -130,10 +153,110 @@ export default {
         },
         {
           key: 2,
+          orderNumber: 'CA88982520842',
+          startTime: '07-10 17:08:40',
+          arrivalTime: '07-10 17:52:40',
+          gameId: 'APP: 3515409\n游戏: 7878797',
+          userName: '比特币_09',
+          withdrawAmount: 505,
+          actualArrival: 501,
+          channel: '银行卡-中国银行',
+          status: '已通过',
+          transfer: '失败',
+          operationType: 'API/大额转账支付',
+          expandedData: {
+            channel: '银行卡-中国银行',
+            realName: '张三',
+            accountNumber: '6172898736510092',
+            fee: 5,
+            actualArrival: 501,
+            transferOrder: '-',
+            refuseReason: '-',
+            bankInfo: '支付信息核实失败',
+            userDisplayResult: '-',
+          },
+        },
+        {
+          key: 3,
+          orderNumber: 'CA88982520842',
+          startTime: '07-10 17:08:40',
+          arrivalTime: '07-10 17:52:40',
+          gameId: 'APP: 3515409\n游戏: 7878797',
+          userName: '比特币_09',
+          withdrawAmount: 505,
+          actualArrival: 501,
+          channel: '银行卡-中国银行',
+          status: '已通过',
+          transfer: '失败',
+          operationType: 'API/大额转账支付',
+          expandedData: {
+            channel: '银行卡-中国银行',
+            realName: '张三',
+            accountNumber: '6172898736510092',
+            fee: 5,
+            actualArrival: 501,
+            transferOrder: '-',
+            refuseReason: '-',
+            bankInfo: '支付信息核实失败',
+            userDisplayResult: '-',
+          },
+        },
+        {
+          key: 4,
+          orderNumber: 'CA88982520842',
+          startTime: '07-10 17:08:40',
+          arrivalTime: '07-10 17:52:40',
+          gameId: 'APP: 3515409\n游戏: 7878797',
+          userName: '比特币_09',
+          withdrawAmount: 505,
+          actualArrival: 501,
+          channel: '银行卡-中国银行',
+          status: '已通过',
+          transfer: '失败',
+          operationType: 'API/大额转账支付',
+          expandedData: {
+            channel: '银行卡-中国银行',
+            realName: '张三',
+            accountNumber: '6172898736510092',
+            fee: 5,
+            actualArrival: 501,
+            transferOrder: '-',
+            refuseReason: '-',
+            bankInfo: '支付信息核实失败',
+            userDisplayResult: '-',
+          },
+        },
+        {
+          key: 5,
+          orderNumber: 'CA88982520842',
+          startTime: '07-10 17:08:40',
+          arrivalTime: '07-10 17:52:40',
+          gameId: 'APP: 3515409\n游戏: 7878797',
+          userName: '比特币_09',
+          withdrawAmount: 505,
+          actualArrival: 501,
+          channel: '银行卡-中国银行',
+          status: '已通过',
+          transfer: '失败',
+          operationType: 'API/大额转账支付',
+          expandedData: {
+            channel: '银行卡-中国银行',
+            realName: '张三',
+            accountNumber: '6172898736510092',
+            fee: 5,
+            actualArrival: 501,
+            transferOrder: '-',
+            refuseReason: '-',
+            bankInfo: '支付信息核实失败',
+            userDisplayResult: '-',
+          },
+        },
+        {
+          key: 6,
           orderNumber: 'CA88982520851',
           startTime: '07-10 17:06:40',
           arrivalTime: '07-10 17:32:40',
-          gameId: 'APP: 3515409\n游戏: 第二行文本',
+          gameId: 'APP: 3515409\n游戏: 7878797',
           userName: '比特币_09',
           withdrawAmount: 600,
           actualArrival: 600,
@@ -156,6 +279,22 @@ export default {
       ],
     };
   },
+  computed: {
+    paginatedData() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      const end = start + this.pageSize;
+      return this.data.slice(start, end);
+    },
+  },
+  methods: {
+    handlePageChange(page) {
+      this.currentPage = page;
+    },
+    handleSizeChange(current, size) {
+      this.pageSize = size;
+      this.currentPage = 1; // Reset to the first page when page size changes
+    },
+  },
 };
 </script>
 
@@ -164,6 +303,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
+  margin-left: 40px;  /* Add margin to the whole sub-row */
 }
 
 .row {
