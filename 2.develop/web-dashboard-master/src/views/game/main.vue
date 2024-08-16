@@ -1,7 +1,7 @@
 <template>
     <a-tabs default-active-key="1">
         
-      <a-tab-pane key="游戏列表" tab="游戏列表">
+      <a-tab-pane key="1" tab="游戏列表">
           <listManagement />
       </a-tab-pane>
       
@@ -9,9 +9,9 @@
           <summaryManagement />
       </a-tab-pane>
 
-      <!-- <a-tab-pane key="3" tab="3">
-          <testTableManagement />
-      </a-tab-pane> -->
+      <a-tab-pane key="3" tab="游戏盈利详情">
+          <profit_detail_Management />
+      </a-tab-pane>
   
     </a-tabs>
   </template>
@@ -21,13 +21,15 @@
 
   import listManagement from './list/index.vue';
   import summaryManagement from './summary/index.vue';
+  import profit_detail_Management from './profit_detail/index.vue';
   
   export default {
     components: {
       'a-tabs': Tabs,
       'a-tab-pane': Tabs.TabPane,
       listManagement,
-      summaryManagement
+      summaryManagement,
+      profit_detail_Management
     }
   }
   </script>
