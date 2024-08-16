@@ -16,7 +16,7 @@
         <a-col style="text-align: center;">
           <span>待审核金额: 0</span>
         </a-col>
-        <a-col style="text-align: center;">
+        <a-col >
           <span>数据刷新: </span>
           <a-select defaultValue="30s" style="width: 120px;">
             <a-select-option value="30s">30s</a-select-option>
@@ -40,7 +40,8 @@
     :expandable="{ expandedRowRender }"
     :pagination="false">
       <!-- Scoped Slot for Custom Column Rendering -->
-      <template #bodyCell="{ column, text }">
+    
+      <template #bodyCell="{ column, text }" >
         <!-- Render Multiline Text for '游戏ID' Column with Color Styling -->
         <span v-if="column.dataIndex === 'gameId'">
           <div v-for="(line, index) in text.split('\n')" :key="index">
@@ -113,17 +114,17 @@ export default {
       pageSize: 5,
       totalItems: 100, // total number of data items
       columns: [
-        { title: '订单号', dataIndex: 'orderNumber' },
-        { title: '发起时间', dataIndex: 'startTime' },
-        { title: '到账时间', dataIndex: 'arrivalTime' },
-        { title: '游戏ID', dataIndex: 'gameId' },
-        { title: '用户昵称', dataIndex: 'userName' },
-        { title: '提现金额', dataIndex: 'withdrawAmount' },
-        { title: '实际到账', dataIndex: 'actualArrival' },
-        { title: '通道', dataIndex: 'channel' },
-        { title: '状态', dataIndex: 'status' },
-        { title: '转账', dataIndex: 'transfer' },
-        { title: '操作类型', dataIndex: 'operationType' },
+        { title: '订单号', dataIndex: 'orderNumber', align: 'center' },
+        { title: '发起时间', dataIndex: 'startTime', align: 'center' },
+        { title: '到账时间', dataIndex: 'arrivalTime', align: 'center' },
+        { title: '游戏ID', dataIndex: 'gameId', align: 'center' },
+        { title: '用户昵称', dataIndex: 'userName', align: 'center' },
+        { title: '提现金额', dataIndex: 'withdrawAmount', align: 'center' },
+        { title: '实际到账', dataIndex: 'actualArrival', align: 'center' },
+        { title: '通道', dataIndex: 'channel', align: 'center' },
+        { title: '状态', dataIndex: 'status', align: 'center' },
+        { title: '转账', dataIndex: 'transfer', align: 'center' },
+        { title: '操作类型', dataIndex: 'operationType', align: 'center' },
       ],
       data: [
         {
