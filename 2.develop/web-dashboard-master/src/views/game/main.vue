@@ -13,6 +13,14 @@
           <profit_detail_Management />
       </a-tab-pane>
   
+      <a-tab-pane key="4" tab="游戏订单">
+          <orderManagement />
+      </a-tab-pane>
+
+      <a-tab-pane key="5" tab="数据分析">
+          <data_analysisManagement />
+      </a-tab-pane>
+
     </a-tabs>
   </template>
   
@@ -22,6 +30,8 @@
   import listManagement from './list/index.vue';
   import summaryManagement from './summary/index.vue';
   import profit_detail_Management from './profit_detail/index.vue';
+  import orderManagement from './order/index.vue';
+  import data_analysisManagement from './data_analysis/index.vue';
   
   export default {
     components: {
@@ -29,7 +39,9 @@
       'a-tab-pane': Tabs.TabPane,
       listManagement,
       summaryManagement,
-      profit_detail_Management
+      profit_detail_Management,
+      orderManagement,
+      data_analysisManagement
     }
   }
   </script>
