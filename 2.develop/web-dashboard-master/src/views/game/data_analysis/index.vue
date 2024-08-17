@@ -35,7 +35,7 @@
       
       <!-- Separator -->
       <a-col>
-        <a-divider type="vertical" :style="{ height: '96px', margin: 'auto 0' }" />
+        <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
       </a-col>
 
       <!-- Second Column -->

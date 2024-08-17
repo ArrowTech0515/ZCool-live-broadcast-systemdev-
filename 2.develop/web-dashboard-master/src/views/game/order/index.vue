@@ -11,12 +11,20 @@
             </a-select>
           </a-form-item>
     
-          <a-form-item label="账号类型">
+          <a-form-item label="状态">
             <a-select v-model="merchantId" placeholder="全部">
               <!-- options here -->
             </a-select>
           </a-form-item>
-    
+
+          <a-form-item label="用户昵称">
+            <a-input v-model="gameId" placeholder="请输入用户昵称" />
+          </a-form-item>
+
+          <a-form-item label="订单号">
+            <a-input v-model="gameId" placeholder="请输入订单号" />
+          </a-form-item>
+
       </a-col>
 
       <a-col :flex="1">
@@ -27,83 +35,90 @@
             </a-select>
           </a-form-item>
 
-          <a-form-item label="游戏平台">
+          <a-form-item label="是否内部账户">
             <a-select v-model="status" placeholder="全部">
               <!-- options here -->
             </a-select>
           </a-form-item>
 
+          <a-form-item label="游戏ID">
+            <a-input v-model="gameId" placeholder="请输入游戏ID" />
+          </a-form-item>
+
       </a-col>
 
-      <a-col :flex="auto">
+      <a-col :flex="1">
 
-          <a-form-item label="系统">
+          <a-form-item label="游戏平台">
             <a-select v-model="merchantId" placeholder="全部">
               <!-- options here -->
             </a-select>
           </a-form-item>
 
-          <a-form-item label="时间">
-            <a-range-picker :placeholder="['开始日期', '结束日期']">
-              <!-- options here -->
-            </a-range-picker>
+          <a-form-item label="用户ID">
+            <a-input v-model="gameId" placeholder="请输入用户ID" />
+          </a-form-item>
+
+          <a-form-item label="游戏名">
+            <a-input v-model="gameId" placeholder="请输入游戏名" />
           </a-form-item>
 
       </a-col>
       
       <!-- Separator -->
-      <a-col>
-        <a-divider type="vertical" :style="{ height: '96px', margin: 'auto 0' }" />
+      <a-col :style="{ display: 'flex', alignItems: 'center', marginTop: '-1.5%' }">
+        <a-divider type="vertical" :style="{ height: '35%' }" />
       </a-col>
 
       <!-- Second Column -->
-      <a-col :span="4">
+      <a-col :span="3" :style="{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}">
+        <a-form-item>
+          <a-button type="primary" block @click="onSearch">
+            <SearchOutlined /> 查询
+          </a-button>
+        </a-form-item>
 
-          <a-form-item>
-            <a-button type="primary" block @click="onSearch">
-              <SearchOutlined /> 查询</a-button>
-          </a-form-item>
-   
-          <a-form-item>
-            <a-button block @click="onReset">
-              <ReloadOutlined /> 重置</a-button>
-          </a-form-item>
-    
+        <a-form-item>
+          <a-button block @click="onReset">
+            <ReloadOutlined /> 重置
+          </a-button>
+        </a-form-item>
       </a-col>
-
     </a-row>
 
     <!-- Your existing layout and table setup -->
     <a-table :data-source="paginatedData" :pagination="false">
       <a-table-column title="ID" dataIndex="gameId" key="gameId" align="center" />
-      <a-table-column title="游戏平台" dataIndex="gameType" key="gameType" align="center" />
+      <a-table-column title="游戏ID" dataIndex="gameType" key="gameType" align="center" />
       <a-table-column title="游戏名称" dataIndex="nBetting" key="nBetting" align="center" />
-      <a-table-column title="投注额" dataIndex="platform" key="platform" align="center" />
-      <a-table-column title="注单-赢" dataIndex="isLandscape" key="isLandscape" align="center" />
-      <a-table-column title="胜率" dataIndex="isBarLandscape" key="isBarLandscape" align="center">
+      <a-table-column title="订单号" dataIndex="platform" key="platform" align="center" />
+      <a-table-column title="用户ID" dataIndex="isLandscape" key="isLandscape" align="center" />
+      <a-table-column title="用户昵称" dataIndex="isBarLandscape" key="isBarLandscape" align="center">
         <!-- <template #default="{ text }">
           <a-switch :checked="text" />
         </template> -->
       </a-table-column>
-      <a-table-column title="注单—平局" dataIndex="isVisible" key="isVisible" align="center">
+      <a-table-column title="房间号" dataIndex="isVisible" key="isVisible" align="center">
         <!-- <template #default="{ text }">
           <a-switch :checked="text" />
         </template> -->
       </a-table-column>
-      <a-table-column title="注单-亏" dataIndex="isSecondaryPage" key="isSecondaryPage" align="center">
+      <a-table-column title="下注金额" dataIndex="isSecondaryPage" key="isSecondaryPage" align="center">
         <!-- <template #default="{ text }">
           <a-switch :checked="text" />
         </template> -->
       </a-table-column>
-      <a-table-column title="投注人数" dataIndex="maintenanceStatus" key="maintenanceStatus" align="center">
+      <a-table-column title="派彩金额" dataIndex="maintenanceStatus" key="maintenanceStatus" align="center">
         <!-- <template #default="{ text }">
           <a-switch :checked="text" />
         </template> -->
       </a-table-column>
-      <a-table-column title="新增投注人数" dataIndex="gameType" key="gameType" align="center" />
-      <a-table-column title="投注额" dataIndex="nBetting" key="nBetting" align="center" />
-      <a-table-column title="有效投注" dataIndex="platform" key="platform" align="center" />
-      <a-table-column title="费率" dataIndex="isLandscape" key="isLandscape" align="center" />
+      <a-table-column title="创建时间" dataIndex="date1" key="date1" align="center" />
+      <a-table-column title="结束时间" dataIndex="date2" key="date2" align="center" />
+      <a-table-column title="状态" dataIndex="platform" key="platform" align="center" />
+      <a-table-column title="金额" dataIndex="isLandscape" key="isLandscape" align="center" />
+      <a-table-column title="余额" dataIndex="platform" key="platform" align="center" />
+      <a-table-column title="盈亏" dataIndex="isLandscape" key="isLandscape" align="center" />
 
     </a-table>
 
@@ -152,93 +167,91 @@ export default {
           isVisible: true,
           isSecondaryPage: false,
           maintenanceStatus: true,
-          order: 1,
+          date1: '2024-08-10 17:06:40',
+          date2: '2024-08-10 20:06:40',
           maintenanceTime: '-',
         },
         {
-          key: '2',
+          key: '1',
           gameId: '12es2',
           gameType: '棋牌',
-          nBetting: '2',
-          platform: '22',
-          isLandscape: '33',
-          isBarLandscape: true,
-          isVisible: true,
-          isSecondaryPage: true,
-          maintenanceStatus: true,
-          order: 1,
-          maintenanceTime: '-',
-        },
-        {
-          key: '3',
-          gameId: '12es2',
-          gameType: '棋牌',
-          nBetting: '2',
+          nBetting: '21',
           platform: '123',
-          isLandscape: '11',
-          isBarLandscape: false,
+          isLandscape: '22',
+          isBarLandscape: true,
           isVisible: true,
-          isSecondaryPage: true,
+          isSecondaryPage: false,
           maintenanceStatus: true,
-          order: 1,
+          date1: '2024-08-10 17:06:40',
+          date2: '2024-08-10 20:06:40',
           maintenanceTime: '-',
         },
+       
         {
-          key: '4',
+          key: '1',
           gameId: '12es2',
           gameType: '棋牌',
-          nBetting: '233',
-          platform: '111',
-          isLandscape: '11',
+          nBetting: '21',
+          platform: '123',
+          isLandscape: '22',
           isBarLandscape: true,
-          isVisible: false,
-          isSecondaryPage: true,
+          isVisible: true,
+          isSecondaryPage: false,
           maintenanceStatus: true,
-          order: 1,
+          date1: '2024-08-10 17:06:40',
+          date2: '2024-08-10 20:06:40',
           maintenanceTime: '-',
         },
+       
         {
-          key: '5',
+          key: '1',
           gameId: '12es2',
           gameType: '棋牌',
-          nBetting: '21111',
-          platform: '111',
-          isLandscape: '11',
+          nBetting: '21',
+          platform: '123',
+          isLandscape: '22',
           isBarLandscape: true,
           isVisible: true,
-          isSecondaryPage: true,
+          isSecondaryPage: false,
           maintenanceStatus: true,
-          order: 1,
+          date1: '2024-08-10 17:06:40',
+          date2: '2024-08-10 20:06:40',
           maintenanceTime: '-',
         },
+       
         {
-          key: '6',
+          key: '1',
           gameId: '12es2',
           gameType: '棋牌',
-          nBetting: '200',
-          platform: '111',
-          isLandscape: '11',
+          nBetting: '21',
+          platform: '123',
+          isLandscape: '22',
           isBarLandscape: true,
           isVisible: true,
-          isSecondaryPage: true,
-          maintenanceStatus: false,
-          order: 1,
+          isSecondaryPage: false,
+          maintenanceStatus: true,
+          date1: '2024-08-10 17:06:40',
+          date2: '2024-08-10 20:06:40',
           maintenanceTime: '-',
         },
+       
         {
-          key: '7',
+          key: '1',
           gameId: '12es2',
           gameType: '棋牌',
-          nBetting: '200',
-          platform: '111',
-          isLandscape: '11',
+          nBetting: '21',
+          platform: '123',
+          isLandscape: '22',
           isBarLandscape: true,
           isVisible: true,
-          isSecondaryPage: true,
-          maintenanceStatus: false,
-          order: 1,
+          isSecondaryPage: false,
+          maintenanceStatus: true,
+          date1: '2024-08-10 17:06:40',
+          date2: '2024-08-10 20:06:40',
           maintenanceTime: '-',
         },
+       
+       
         // Add more data objects here
       ],
     };
