@@ -9,35 +9,34 @@
                 <!-- options here -->
               </a-select>
             </a-form-item>
-
-            <a-form-item label="渠道">
-              <a-input v-model="gameId" placeholder="全部" />
-            </a-form-item>
-      </a-col>
-
-      <a-col :flex="1">
             <a-form-item label="游戏名">
-              <a-input v-model="nBetting" placeholder="请输入游戏名" />
-            </a-form-item>
-
-            <a-form-item label="状态">
-              <a-select v-model="status" placeholder="全部">
-                <!-- options here -->
-              </a-select>
+              <a-input v-model="gameId" placeholder="游戏名" />
             </a-form-item>
       </a-col>
 
       <a-col :flex="auto">
-        <a-form-item label="时间">
-          <a-range-picker :placeholder="['开始日期', '结束日期']">
-            <!-- options here -->
-          </a-range-picker>
+          <a-form-item label="渠道">
+            <a-select v-model="status" placeholder="全部">
+              <!-- options here -->
+            </a-select>
+          </a-form-item>
+          <a-form-item label="时间">
+            <a-range-picker :placeholder="['开始日期', '结束日期']">
+          <!-- options here -->
+        </a-range-picker>
+      </a-form-item>
+
+      </a-col>
+
+      <a-col :flex="1">
+        <a-form-item label="主播ID">
+          <a-input v-model="nBetting" placeholder="请输入主播ID" />
         </a-form-item>
       </a-col>
       
       <!-- Separator -->
       <a-col>
-        <a-divider type="vertical" :style="{ height: '96px', margin: 'auto 0' }" />
+        <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
       </a-col>
 
       <!-- Second Column -->
@@ -56,31 +55,57 @@
 
     <!-- Your existing layout and table setup -->
     <a-table :data-source="paginatedData" :pagination="false">
-      <a-table-column title="游戏平台" dataIndex="gameId" key="gameId" align="center" />
-      <a-table-column title="游戏名称" dataIndex="gameType" key="gameType" align="center" />
-      <a-table-column title="注单量" dataIndex="nBetting" key="nBetting" align="center" />
-      <a-table-column title="投注额" dataIndex="platform" key="platform" align="center" />
-      <a-table-column title="有效投注额" dataIndex="isLandscape" key="isLandscape" align="center" />
-      <a-table-column title="游戏损益" dataIndex="isBarLandscape" key="isBarLandscape" align="center">
-        <!-- <template #default="{ text }">
-          <a-switch :checked="text" />
-        </template> -->
+      <a-table-column title="主播ID" dataIndex="anchorID" key="anchorID" align="center" />
+      <a-table-column title="主播昵称" dataIndex="nickName" key="nickName" align="center" />
+      <a-table-column title="总投注/总票数" dataIndex="totalBets_Tickets" key="totalBets_Tickets" align="center" />
+      <a-table-column title="总投注人数" dataIndex="totalBettors" key="totalBettors" align="center" />
+      <a-table-column title="一分快三" dataIndex="omThree" key="omThree" align="center" />
+      <a-table-column title="一分快车" dataIndex="omExpress" key="omExpress" align="center">
       </a-table-column>
-      <a-table-column title="杀率" dataIndex="isVisible" key="isVisible" align="center">
-        <!-- <template #default="{ text }">
-          <a-switch :checked="text" />
-        </template> -->
+      <a-table-column title="一分时时彩" dataIndex="omLottery" key="omLottery" align="center">
       </a-table-column>
-      <a-table-column title="主播分红" dataIndex="isSecondaryPage" key="isSecondaryPage" align="center">
-        <!-- <template #default="{ text }">
-          <a-switch :checked="text" />
-        </template> -->
+      <a-table-column title="百人牛牛" dataIndex="men100" key="men100" align="center">
       </a-table-column>
-      <a-table-column title="费率" dataIndex="maintenanceStatus" key="maintenanceStatus" align="center">
-        <!-- <template #default="{ text }">
-          <a-switch :checked="text" />
-        </template> -->
+      <a-table-column title="鱼虾蟹" dataIndex="crab" key="crab" align="center">
       </a-table-column>
+      <a-table-column title="操作" dataIndex="operate" key="operate" align="center">
+      </a-table-column>
+
+      <template #bodyCell="{ column, text }" >
+
+        <!-- Render Multiline Text for '游戏ID' Column with Color Styling -->
+
+        <span v-if="column.dataIndex === 'totalBets_Tickets'">
+          <div v-for="(line, index) in text.split('\n')" :key="index">
+            <span>{{ line }}</span>
+          </div>
+        </span>
+
+        <span v-else-if="column.dataIndex === 'omThree'
+                || column.dataIndex === 'men100'
+                || column.dataIndex === 'omExpress'
+                || column.dataIndex === 'omLottery'
+                || column.dataIndex === 'crab' ">
+          <div v-for="(line, index) in text.split('\n')" :key="index">
+            <!-- Check for colon and split the text into label and value -->
+            <span v-if="index == 2">
+                <span :style="{ color: 'red' }">{{ line }}</span>
+            </span>
+            <span v-else >
+              <span>{{ line}} </span>
+            </span>
+          </div>
+        </span>
+
+        <span v-else-if="column.dataIndex === 'operate'">
+          <span style="color: blue;">
+            {{ text }}
+          </span>
+        </span>
+        <!-- Default Rendering for Other Columns -->
+        <span v-else>{{ text }}</span>
+      </template>
+
     </a-table>
 
     <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
@@ -110,98 +135,85 @@ export default {
       pageSize: 5,
       totalItems: 100,
 
-      merchantId: '',
-      gameId: '',
-      platform: '',
-      nBetting: '',
-      status: '',
-
       dataSource: [
         {
           key: '1',
-          gameId: '12es2',
-          gameType: '棋牌',
-          nBetting: '21',
-          platform: '123',
-          isLandscape: '22',
-          isBarLandscape: true,
-          isVisible: true,
-          isSecondaryPage: false,
-          maintenanceStatus: true,
-          order: 1,
-          maintenanceTime: '-',
+          anchorID: '125p198',
+          nickName: '瞎想企鹅_nh',
+          totalBets_Tickets: '540\n9.75(票)',
+          totalBettors: '4',
+          omThree: '515.00\n(2人)\n105.40\n9.45(票)',
+          omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
+          omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
+          men100: '515.00\n(2人)\n105.40\n9.45(票)',
+          crab: '515.00\n(2人)\n105.40\n9.45(票)',
+          operate: '收益详情',
         },
         {
           key: '2',
-          gameId: '12es2',
-          gameType: '棋牌',
-          nBetting: '2',
-          platform: '22',
-          isLandscape: '33',
-          isBarLandscape: true,
-          isVisible: true,
-          isSecondaryPage: true,
-          maintenanceStatus: true,
-          order: 1,
-          maintenanceTime: '-',
+          anchorID: '125p198',
+          nickName: '瞎想企鹅_nh',
+          totalBets_Tickets: '540\n9.75(票)',
+          totalBettors: '4',
+          omThree: '515.00\n(2人)\n105.40\n9.45(票)',
+          omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
+          omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
+          men100: '515.00\n(2人)\n105.40\n9.45(票)',
+          crab: '515.00\n(2人)\n105.40\n9.45(票)',
+          operate: '收益详情',
         },
         {
           key: '3',
-          gameId: '12es2',
-          gameType: '棋牌',
-          nBetting: '2',
-          platform: '123',
-          isLandscape: '11',
-          isBarLandscape: false,
-          isVisible: true,
-          isSecondaryPage: true,
-          maintenanceStatus: true,
-          order: 1,
-          maintenanceTime: '-',
+          anchorID: '125p198',
+          nickName: '瞎想企鹅_nh',
+          totalBets_Tickets: '540\n9.75(票)',
+          totalBettors: '4',
+          omThree: '515.00\n(2人)\n105.40\n9.45(票)',
+          omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
+          omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
+          men100: '515.00\n(2人)\n105.40\n9.45(票)',
+          crab: '515.00\n(2人)\n105.40\n9.45(票)',
+          operate: '收益详情',
         },
         {
           key: '4',
-          gameId: '12es2',
-          gameType: '棋牌',
-          nBetting: '233',
-          platform: '111',
-          isLandscape: '11',
-          isBarLandscape: true,
-          isVisible: false,
-          isSecondaryPage: true,
-          maintenanceStatus: true,
-          order: 1,
-          maintenanceTime: '-',
+          anchorID: '125p198',
+          nickName: '瞎想企鹅_nh',
+          totalBets_Tickets: '540\n9.75(票)',
+          totalBettors: '4',
+          omThree: '515.00\n(2人)\n105.40\n9.45(票)',
+          omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
+          omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
+          men100: '515.00\n(2人)\n105.40\n9.45(票)',
+          crab: '515.00\n(2人)\n105.40\n9.45(票)',
+          operate: '收益详情',
         },
         {
           key: '5',
-          gameId: '12es2',
-          gameType: '棋牌',
-          nBetting: '21111',
-          platform: '111',
-          isLandscape: '11',
-          isBarLandscape: true,
-          isVisible: true,
-          isSecondaryPage: true,
-          maintenanceStatus: true,
-          order: 1,
-          maintenanceTime: '-',
+          anchorID: '125p198',
+          nickName: '瞎想企鹅_nh',
+          totalBets_Tickets: '540\n9.75(票)',
+          totalBettors: '4',
+          omThree: '515.00\n(2人)\n105.40\n9.45(票)',
+          omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
+          omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
+          men100: '515.00\n(2人)\n105.40\n9.45(票)',
+          crab: '515.00\n(2人)\n105.40\n9.45(票)',
+          operate: '收益详情',
         },
         {
           key: '6',
-          gameId: '12es2',
-          gameType: '棋牌',
-          nBetting: '200',
-          platform: '111',
-          isLandscape: '11',
-          isBarLandscape: true,
-          isVisible: true,
-          isSecondaryPage: true,
-          maintenanceStatus: false,
-          order: 1,
-          maintenanceTime: '-',
-        },
-        // Add more data objects here
+          anchorID: '125p198',
+          nickName: '瞎想企鹅_nh',
+          totalBets_Tickets: '540\n9.75(票)',
+          totalBettors: '4',
+          omThree: '515.00\n(2人)\n105.40\n9.45(票)',
+          omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
+          omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
+          men100: '515.00\n(2人)\n105.40\n9.45(票)',
+          crab: '515.00\n(2人)\n105.40\n9.45(票)',
+          operate: '收益详情',
+        },    // Add more data objects here
       ],
     };
   },
