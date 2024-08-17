@@ -17,7 +17,11 @@
           <orderManagement />
       </a-tab-pane>
 
-      <a-tab-pane key="5" tab="数据分析">
+      <a-tab-pane key="5" tab="主播业绩">
+          <anchorManagement />
+      </a-tab-pane>
+
+      <a-tab-pane key="6" tab="数据分析">
           <data_analysisManagement />
       </a-tab-pane>
 
@@ -32,6 +36,7 @@
   import profit_detail_Management from './profit_detail/index.vue';
   import orderManagement from './order/index.vue';
   import data_analysisManagement from './data_analysis/index.vue';
+  import anchorManagement from './anchor/index.vue';
   
   export default {
     components: {
@@ -41,7 +46,8 @@
       summaryManagement,
       profit_detail_Management,
       orderManagement,
-      data_analysisManagement
+      data_analysisManagement,
+      anchorManagement
     }
   }
   </script>

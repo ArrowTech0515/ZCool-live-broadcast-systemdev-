@@ -39,7 +39,7 @@
       </a-col>
 
       <!-- Second Column -->
-      <a-col :flex="1">
+      <a-col  :flex="1">
 
           <a-form-item>
             <a-button type="primary" block @click="onSearch">

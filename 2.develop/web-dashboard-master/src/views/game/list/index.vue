@@ -1,39 +1,33 @@
 <template>
   <a-card style="background-color: white;">
-    <a-row :gutter="16">
+    <a-row :gutter="16"  type="flex" >
+
       <!-- First Column -->
-      <a-col :span="12">
-        <a-row :gutter="16">
-          <a-col :span="12">
+      <a-col :flex="1">
             <a-form-item label="商户ID">
               <a-select v-model="merchantId" placeholder="全部">
                 <!-- options here -->
               </a-select>
             </a-form-item>
-          </a-col>
-          <a-col :span="12">
+
             <a-form-item label="游戏ID">
               <a-input v-model="gameId" placeholder="请输入游戏ID" />
             </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
+      </a-col>
+
+      <a-col :flex="1">
             <a-form-item label="游戏名">
               <a-input v-model="gameName" placeholder="游戏名" />
             </a-form-item>
-          </a-col>
-          <a-col :span="12">
+
             <a-form-item label="状态">
               <a-select v-model="status" placeholder="全部">
                 <!-- options here -->
               </a-select>
             </a-form-item>
-          </a-col>
-        </a-row>
       </a-col>
 
-      <a-col :span="7">
+      <a-col :flex="1">
         <a-form-item label="游戏平台">
           <a-select v-model="platform" placeholder="全部">
             <!-- options here -->
@@ -42,25 +36,23 @@
       </a-col>
       
       <!-- Separator -->
-      <a-col>
+      <a-col :flex="auto">
         <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
       </a-col>
 
       <!-- Second Column -->
-      <a-col :span="4">
-        <a-col>
+      <a-col :span="3">
           <a-form-item>
             <a-button type="primary" block @click="onSearch">
               <SearchOutlined /> 查询</a-button>
           </a-form-item>
-        </a-col>
-        <a-col>
+
           <a-form-item>
             <a-button block @click="onReset">
               <ReloadOutlined /> 重置</a-button>
           </a-form-item>
-        </a-col>
       </a-col>
+
     </a-row>
 
     <!-- Your existing layout and table setup -->

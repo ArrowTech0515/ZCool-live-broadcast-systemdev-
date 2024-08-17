@@ -4,107 +4,83 @@
       <!-- First Column -->
 
       <a-col :flex="1">
+            <a-form-item label="商户">
+              <a-select v-model="merchantId" placeholder="全部">
+                <!-- options here -->
+              </a-select>
+            </a-form-item>
 
-          <a-form-item label="商户">
-            <a-select title="商户" v-model="merchantId" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-    
-          <a-form-item label="账号类型">
-            <a-select v-model="merchantId" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-    
+            <a-form-item label="渠道">
+              <a-input v-model="gameId" placeholder="全部" />
+            </a-form-item>
       </a-col>
 
       <a-col :flex="1">
+            <a-form-item label="游戏名">
+              <a-input v-model="nBetting" placeholder="请输入游戏名" />
+            </a-form-item>
 
-          <a-form-item label="渠道">
-            <a-select v-model="merchantId" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-
-          <a-form-item label="游戏平台">
-            <a-select v-model="status" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-
+            <a-form-item label="状态">
+              <a-select v-model="status" placeholder="全部">
+                <!-- options here -->
+              </a-select>
+            </a-form-item>
       </a-col>
 
       <a-col :flex="auto">
-
-          <a-form-item label="系统">
-            <a-select v-model="merchantId" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-
-          <a-form-item label="时间">
-            <a-range-picker :placeholder="['开始日期', '结束日期']">
-              <!-- options here -->
-            </a-range-picker>
-          </a-form-item>
-
+        <a-form-item label="时间">
+          <a-range-picker :placeholder="['开始日期', '结束日期']">
+            <!-- options here -->
+          </a-range-picker>
+        </a-form-item>
       </a-col>
       
       <!-- Separator -->
       <a-col>
-        <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
+        <a-divider type="vertical" :style="{ height: '96px', margin: 'auto 0' }" />
       </a-col>
 
       <!-- Second Column -->
       <a-col :span="3">
-
           <a-form-item>
             <a-button type="primary" block @click="onSearch">
               <SearchOutlined /> 查询</a-button>
           </a-form-item>
-   
+
           <a-form-item>
             <a-button block @click="onReset">
               <ReloadOutlined /> 重置</a-button>
           </a-form-item>
-    
       </a-col>
-
     </a-row>
 
     <!-- Your existing layout and table setup -->
     <a-table :data-source="paginatedData" :pagination="false">
-      <a-table-column title="ID" dataIndex="gameId" key="gameId" align="center" />
-      <a-table-column title="游戏平台" dataIndex="gameType" key="gameType" align="center" />
-      <a-table-column title="游戏名称" dataIndex="nBetting" key="nBetting" align="center" />
+      <a-table-column title="游戏平台" dataIndex="gameId" key="gameId" align="center" />
+      <a-table-column title="游戏名称" dataIndex="gameType" key="gameType" align="center" />
+      <a-table-column title="注单量" dataIndex="nBetting" key="nBetting" align="center" />
       <a-table-column title="投注额" dataIndex="platform" key="platform" align="center" />
-      <a-table-column title="注单-赢" dataIndex="isLandscape" key="isLandscape" align="center" />
-      <a-table-column title="胜率" dataIndex="isBarLandscape" key="isBarLandscape" align="center">
+      <a-table-column title="有效投注额" dataIndex="isLandscape" key="isLandscape" align="center" />
+      <a-table-column title="游戏损益" dataIndex="isBarLandscape" key="isBarLandscape" align="center">
         <!-- <template #default="{ text }">
           <a-switch :checked="text" />
         </template> -->
       </a-table-column>
-      <a-table-column title="注单—平局" dataIndex="isVisible" key="isVisible" align="center">
+      <a-table-column title="杀率" dataIndex="isVisible" key="isVisible" align="center">
         <!-- <template #default="{ text }">
           <a-switch :checked="text" />
         </template> -->
       </a-table-column>
-      <a-table-column title="注单-亏" dataIndex="isSecondaryPage" key="isSecondaryPage" align="center">
+      <a-table-column title="主播分红" dataIndex="isSecondaryPage" key="isSecondaryPage" align="center">
         <!-- <template #default="{ text }">
           <a-switch :checked="text" />
         </template> -->
       </a-table-column>
-      <a-table-column title="投注人数" dataIndex="maintenanceStatus" key="maintenanceStatus" align="center">
+      <a-table-column title="费率" dataIndex="maintenanceStatus" key="maintenanceStatus" align="center">
         <!-- <template #default="{ text }">
           <a-switch :checked="text" />
         </template> -->
       </a-table-column>
-      <a-table-column title="新增投注人数" dataIndex="gameType" key="gameType" align="center" />
-      <a-table-column title="投注额" dataIndex="nBetting" key="nBetting" align="center" />
-      <a-table-column title="有效投注" dataIndex="platform" key="platform" align="center" />
-      <a-table-column title="费率" dataIndex="isLandscape" key="isLandscape" align="center" />
-
     </a-table>
 
     <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
@@ -213,20 +189,6 @@ export default {
         },
         {
           key: '6',
-          gameId: '12es2',
-          gameType: '棋牌',
-          nBetting: '200',
-          platform: '111',
-          isLandscape: '11',
-          isBarLandscape: true,
-          isVisible: true,
-          isSecondaryPage: true,
-          maintenanceStatus: false,
-          order: 1,
-          maintenanceTime: '-',
-        },
-        {
-          key: '7',
           gameId: '12es2',
           gameType: '棋牌',
           nBetting: '200',
