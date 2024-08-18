@@ -1,73 +1,101 @@
 <template>
   <a-card style="background-color: white;">
-    <a-row :gutter="16"  type="flex" >
-      <!-- First Column -->
+    <a-col :gutter="16"  type="flex" >
+      <a-row :gutter="16"  type="flex" >
+        <!-- First Column -->
 
-      <a-col :flex="1">
+        <a-col :flex="1">
 
-          <a-form-item label="商户">
-            <a-select title="商户" v-model="merchantId" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-    
-          <a-form-item label="游戏名">
-            <a-input v-model="gameId" placeholder="请输入游戏名" />
-          </a-form-item>
-    
-      </a-col>
-
-      <a-col :flex="1">
-
-          <a-form-item label="渠道">
-            <a-select v-model="merchantId" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-
-          <a-form-item label="单号">
-            <a-input v-model="gameId" placeholder="请输入单号" />
-          </a-form-item>
-
-      </a-col>
-
-      <a-col :flex="auto">
-
-          <a-form-item label="游戏平台">
-            <a-select v-model="merchantId" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-
-          <a-form-item label="时间">
-            <a-range-picker :placeholder="['开始日期', '结束日期']">
-              <!-- options here -->
-            </a-range-picker>
-          </a-form-item>
-
-      </a-col>
+            <a-form-item label="商户">
+              <a-select title="商户" v-model="merchantId" placeholder="全部">
+                <!-- options here -->
+              </a-select>
+            </a-form-item>
       
-      <!-- Separator -->
-      <a-col>
-        <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
-      </a-col>
+            <a-form-item label="游戏名">
+              <a-input v-model="gameId" placeholder="请输入游戏名" />
+            </a-form-item>
+      
+        </a-col>
 
-      <!-- Second Column -->
-      <a-col :span="3">
+        <a-col :flex="1">
 
-          <a-form-item>
-            <a-button type="primary" block @click="onSearch">
-              <SearchOutlined /> 查询</a-button>
-          </a-form-item>
-   
-          <a-form-item>
-            <a-button block @click="onReset">
-              <ReloadOutlined /> 重置</a-button>
-          </a-form-item>
+            <a-form-item label="渠道">
+              <a-select v-model="merchantId" placeholder="全部">
+                <!-- options here -->
+              </a-select>
+            </a-form-item>
+
+            <a-form-item label="单号">
+              <a-input v-model="gameId" placeholder="请输入单号" />
+            </a-form-item>
+
+        </a-col>
+
+        <a-col :flex="auto">
+
+            <a-form-item label="游戏平台">
+              <a-select v-model="merchantId" placeholder="全部">
+                <!-- options here -->
+              </a-select>
+            </a-form-item>
+
+            <a-form-item label="时间">
+              <a-range-picker :placeholder="['开始日期', '结束日期']">
+                <!-- options here -->
+              </a-range-picker>
+            </a-form-item>
+
+        </a-col>
+        
+        <!-- Separator -->
+        <a-col>
+          <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
+        </a-col>
+
+        <!-- Second Column -->
+        <a-col :span="3">
+
+            <a-form-item>
+              <a-button type="primary" block @click="onSearch">
+                <SearchOutlined /> 查询</a-button>
+            </a-form-item>
     
-      </a-col>
+            <a-form-item>
+              <a-button block @click="onReset">
+                <ReloadOutlined /> 重置</a-button>
+            </a-form-item>
+      
+        </a-col>
+      </a-row>
 
-    </a-row>
+      <a-flex gap="large" align="start" horizontal>
+        <a-form-item>
+          <template #label>
+            <span style="font-weight: bold; font-size: 13px; ">下注金额</span>
+          </template>
+          <span style="font-weight: bold; font-size: 14px; ">0</span>
+        </a-form-item>
+        <a-form-item>
+          <template #label>
+            <span style="font-weight: bold; font-size: 13px; ">中奖金额</span>
+          </template>
+          <span style="font-weight: bold; font-size: 14spx; ">0</span>
+        </a-form-item>
+        <a-form-item>
+          <template #label>
+            <span style="font-weight: bold; font-size: 13px; ">有效下注金额</span>
+          </template>
+          <span style="font-weight: bold; font-size: 14px; ">0</span>
+        </a-form-item>
+        <a-form-item>
+          <template #label>
+            <span style="font-weight: bold; font-size: 13px; ">盈亏</span>
+          </template>
+          <span style="font-weight: bold; font-size: 14px; ">0</span>
+        </a-form-item>
+      </a-flex>
+    </a-col>
 
     <!-- Your existing layout and table setup -->
     <a-table :data-source="paginatedData" :pagination="false">

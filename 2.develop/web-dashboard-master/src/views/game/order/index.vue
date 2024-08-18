@@ -1,90 +1,101 @@
 <template>
   <a-card style="background-color: white;">
-    <a-row :gutter="16"  type="flex" >
-      <!-- First Column -->
+    <a-col :gutter="16"  type="flex" >
+      <a-row :gutter="16"  type="flex" >
+        <!-- First Column -->
 
-      <a-col :flex="1">
+        <a-col :flex="1">
 
-          <a-form-item label="商户">
-            <a-select title="商户" v-model="merchantId" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-    
-          <a-form-item label="状态">
-            <a-select v-model="merchantId" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-
-          <a-form-item label="用户昵称">
-            <a-input v-model="gameId" placeholder="请输入用户昵称" />
-          </a-form-item>
-
-          <a-form-item label="订单号">
-            <a-input v-model="gameId" placeholder="请输入订单号" />
-          </a-form-item>
-
-      </a-col>
-
-      <a-col :flex="1">
-
-          <a-form-item label="渠道">
-            <a-select v-model="merchantId" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-
-          <a-form-item label="是否内部账户">
-            <a-select v-model="status" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-
-          <a-form-item label="游戏ID">
-            <a-input v-model="gameId" placeholder="请输入游戏ID" />
-          </a-form-item>
-
-      </a-col>
-
-      <a-col :flex="1">
-
-          <a-form-item label="游戏平台">
-            <a-select v-model="merchantId" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-
-          <a-form-item label="用户ID">
-            <a-input v-model="gameId" placeholder="请输入用户ID" />
-          </a-form-item>
-
-          <a-form-item label="游戏名">
-            <a-input v-model="gameId" placeholder="请输入游戏名" />
-          </a-form-item>
-
-      </a-col>
+            <a-form-item label="商户">
+              <a-select title="商户" v-model="merchantId" placeholder="全部">
+                <!-- options here -->
+              </a-select>
+            </a-form-item>
       
-      <!-- Separator -->
-      <a-col :style="{ display: 'flex', alignItems: 'center', marginTop: '-1.5%' }">
-        <a-divider type="vertical" :style="{ height: '35%' }" />
-      </a-col>
+            <a-form-item label="状态">
+              <a-select v-model="merchantId" placeholder="全部">
+                <!-- options here -->
+              </a-select>
+            </a-form-item>
 
-      <!-- Second Column -->
-      <a-col :span="3" :style="{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}">
-        <a-form-item>
-          <a-button type="primary" block @click="onSearch">
-            <SearchOutlined /> 查询
-          </a-button>
-        </a-form-item>
+            <a-form-item label="用户昵称">
+              <a-input v-model="gameId" placeholder="请输入用户昵称" />
+            </a-form-item>
 
+            <a-form-item label="订单号">
+              <a-input v-model="gameId" placeholder="请输入订单号" />
+            </a-form-item>
+
+        </a-col>
+
+        <a-col :flex="1">
+
+            <a-form-item label="渠道">
+              <a-select v-model="merchantId" placeholder="全部">
+                <!-- options here -->
+              </a-select>
+            </a-form-item>
+
+            <a-form-item label="是否内部账户">
+              <a-select v-model="status" placeholder="全部">
+                <!-- options here -->
+              </a-select>
+            </a-form-item>
+
+            <a-form-item label="游戏ID">
+              <a-input v-model="gameId" placeholder="请输入游戏ID" />
+            </a-form-item>
+
+        </a-col>
+
+        <a-col :flex="1">
+
+            <a-form-item label="游戏平台">
+              <a-select v-model="merchantId" placeholder="全部">
+                <!-- options here -->
+              </a-select>
+            </a-form-item>
+
+            <a-form-item label="用户ID">
+              <a-input v-model="gameId" placeholder="请输入用户ID" />
+            </a-form-item>
+
+            <a-form-item label="游戏名">
+              <a-input v-model="gameId" placeholder="请输入游戏名" />
+            </a-form-item>
+
+        </a-col>
+        
+        <!-- Separator -->
+        <a-col :style="{ display: 'flex', alignItems: 'center', marginTop: '-1.5%' }">
+          <a-divider type="vertical" :style="{ height: '35%' }" />
+        </a-col>
+
+        <!-- Second Column -->
+        <a-col :span="3" :style="{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}">
+          <a-form-item>
+            <a-button type="primary" block @click="onSearch">
+              <SearchOutlined /> 查询
+            </a-button>
+          </a-form-item>
+
+          <a-form-item>
+            <a-button block @click="onReset">
+              <ReloadOutlined /> 重置
+            </a-button>
+          </a-form-item>
+        </a-col>
+      </a-row>
+
+      <a-flex gap="large" align="start" horizontal>
         <a-form-item>
-          <a-button block @click="onReset">
-            <ReloadOutlined /> 重置
-          </a-button>
+          <template #label>
+            <span style="font-weight: bold; font-size: 13px; ">总盈亏</span>
+          </template>
+          <span style="font-weight: bold; font-size: 14px; ">-0.4</span>
         </a-form-item>
-      </a-col>
-    </a-row>
+      </a-flex>
+    </a-col>
 
     <!-- Your existing layout and table setup -->
     <a-table :data-source="paginatedData" :pagination="false">

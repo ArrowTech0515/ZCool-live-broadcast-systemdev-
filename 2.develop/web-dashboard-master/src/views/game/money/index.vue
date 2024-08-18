@@ -57,7 +57,7 @@
       </a-col>
 
       <!-- Second Column -->
-      <a-col :span="3" :style="{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}">
+      <a-col  :flex="1" :style="{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}">
         <a-form-item>
           <a-button type="primary" block @click="onSearch">
             <SearchOutlined /> 查询
