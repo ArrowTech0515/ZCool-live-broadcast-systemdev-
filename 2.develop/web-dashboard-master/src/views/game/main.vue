@@ -33,6 +33,10 @@
           <logManagement />
       </a-tab-pane>
 
+      <a-tab-pane key="9" tab="金钱日志">
+          <moneyManagement />
+      </a-tab-pane>
+
     </a-tabs>
   </template>
   
@@ -47,6 +51,7 @@
   import anchorManagement from './anchor/index.vue';
   import lotteryManagement from './lottery/index.vue';
   import logManagement from './log/index.vue';
+  import moneyManagement from './money/index.vue';
   
   export default {
     components: {
@@ -59,7 +64,8 @@
       data_analysisManagement,
       anchorManagement,
       lotteryManagement,
-      logManagement
+      logManagement,
+      moneyManagement
     }
   }
   </script>
