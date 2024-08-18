@@ -3,7 +3,7 @@
     <a-row :gutter="16"  type="flex" >
       <!-- First Column -->
 
-      <a-col :flex="auto">
+      <a-col :flex="1">
             <a-form-item label="商户">
               <a-select v-model="merchantId" placeholder="全部">
                 <!-- options here -->
@@ -40,7 +40,7 @@
       </a-col>
 
       <!-- Second Column -->
-      <a-col :flex="auto">
+      <a-col :flex="1">
           <a-form-item>
             <a-button type="primary" block @click="onSearch">
               <SearchOutlined /> 查询</a-button>

@@ -27,7 +27,7 @@
             </a-form-item>
       </a-col>
 
-      <a-col :flex="1">
+      <a-col :flex="auto">
         <a-form-item label="时间">
           <a-range-picker :placeholder="['开始日期', '结束日期']">
             <!-- options here -->
