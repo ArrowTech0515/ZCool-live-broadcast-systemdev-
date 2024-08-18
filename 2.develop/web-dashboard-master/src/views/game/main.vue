@@ -29,6 +29,10 @@
           <lotteryManagement />
       </a-tab-pane>
 
+      <a-tab-pane key="8" tab="游戏日志">
+          <logManagement />
+      </a-tab-pane>
+
     </a-tabs>
   </template>
   
@@ -42,6 +46,7 @@
   import data_analysisManagement from './data_analysis/index.vue';
   import anchorManagement from './anchor/index.vue';
   import lotteryManagement from './lottery/index.vue';
+  import logManagement from './log/index.vue';
   
   export default {
     components: {
@@ -53,7 +58,8 @@
       orderManagement,
       data_analysisManagement,
       anchorManagement,
-      lotteryManagement
+      lotteryManagement,
+      logManagement
     }
   }
   </script>
