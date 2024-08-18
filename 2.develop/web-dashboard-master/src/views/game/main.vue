@@ -25,6 +25,10 @@
           <data_analysisManagement />
       </a-tab-pane>
 
+      <a-tab-pane key="7" tab="彩票开奖">
+          <lotteryManagement />
+      </a-tab-pane>
+
     </a-tabs>
   </template>
   
@@ -37,6 +41,7 @@
   import orderManagement from './order/index.vue';
   import data_analysisManagement from './data_analysis/index.vue';
   import anchorManagement from './anchor/index.vue';
+  import lotteryManagement from './lottery/index.vue';
   
   export default {
     components: {
@@ -47,7 +52,8 @@
       profit_detail_Management,
       orderManagement,
       data_analysisManagement,
-      anchorManagement
+      anchorManagement,
+      lotteryManagement
     }
   }
   </script>

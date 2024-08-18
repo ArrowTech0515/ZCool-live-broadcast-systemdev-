@@ -27,7 +27,7 @@
             </a-form-item>
       </a-col>
 
-      <a-col :flex="auto">
+      <a-col :flex="1">
         <a-form-item label="时间">
           <a-range-picker :placeholder="['开始日期', '结束日期']">
             <!-- options here -->
@@ -37,11 +37,11 @@
       
       <!-- Separator -->
       <a-col>
-        <a-divider type="vertical" :style="{ height: '96px', margin: 'auto 0' }" />
+        <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
       </a-col>
 
       <!-- Second Column -->
-      <a-col :flex="1">
+      <a-col  :span="3">
           <a-form-item>
             <a-button type="primary" block @click="onSearch">
               <SearchOutlined /> 查询</a-button>
