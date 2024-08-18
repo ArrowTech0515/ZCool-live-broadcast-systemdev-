@@ -9,9 +9,13 @@
           <test />
       </a-tab-pane>
 
-      <!-- <a-tab-pane key="3" tab="3">
+      <a-tab-pane key="3" tab="3">
           <testTableManagement />
-      </a-tab-pane> -->
+      </a-tab-pane>
+
+    <a-tab-pane key="4" tab="4">
+        <testNewComponent />
+    </a-tab-pane>
   
     </a-tabs>
   </template>
@@ -19,9 +23,11 @@
   <script>
   import { Tabs } from 'ant-design-vue'
 
-  import widthrawalManagement from '@/views/widthrawal/index.vue';
-  import noticeManagement from '@/views/widthrawal/index_temp.vue'; // junn
-  import test from './testTable.vue'; // junn
+  import widthrawalManagement from './index.vue';
+  import noticeManagement from './index_temp.vue'; // junn
+  import testTableManagement from './testTable.vue'; // junn
+  import test from './test.vue'; // junn
+  import testNewComponent from './test_newComponent.vue'; // junn
   
   export default {
     components: {
@@ -29,7 +35,9 @@
       'a-tab-pane': Tabs.TabPane,
       widthrawalManagement,
       noticeManagement,
-      test
+      test,
+      testTableManagement,
+      testNewComponent
     }
   }
   </script>
