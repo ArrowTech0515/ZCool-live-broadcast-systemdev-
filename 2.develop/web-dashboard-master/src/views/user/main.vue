@@ -1,0 +1,40 @@
+<template>
+    <a-tabs default-active-key="1">
+        
+      <a-tab-pane key="1" tab="用户管理">
+          <userlistManagement />
+      </a-tab-pane>
+      
+      <a-tab-pane key="2" tab="星级扫描">
+          <starManagement />
+      </a-tab-pane>
+
+      <a-tab-pane key="3" tab="3">
+          <hierarchyManagement />
+      </a-tab-pane>
+
+    </a-tabs>
+  </template>
+  
+  <script>
+  import { Tabs } from 'ant-design-vue'
+
+  import userlistManagement from './list/index.vue'; // junn
+  import starManagement from './star/index.vue'; // junn
+  import hierarchyManagement from './hierarchy/index.vue'; // junn
+  
+  export default {
+    components: {
+      'a-tabs': Tabs,
+      'a-tab-pane': Tabs.TabPane,
+      userlistManagement,
+      starManagement,
+      hierarchyManagement
+    }
+  }
+  </script>
+  
+  <style scoped>
+  /* Add your custom styles here */
+  </style>
+  
