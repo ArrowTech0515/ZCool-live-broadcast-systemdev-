@@ -2,10 +2,9 @@
   <div class="gauge-container">
     <a-progress
       type="dashboard"
-      :percent="value"
-      :gap-degree="30"
-      :stroke-width="12"
-      :width="200"
+      :percent="gaugeValue"
+      :gap-degree="70"
+      :stroke-width="7"
       :format="() => ''"
       stroke-color="#1890ff"
     />
@@ -15,14 +14,14 @@
       </span>
     </div>
     <div class="gauge-graduations">
-      <span v-for="n in 101" :key="n" class="gauge-tick" :style="getTickStyle(n)"></span>
+      <span v-for="n in 51" :key="n" class="gauge-tick" :style="getTickStyle((n - 1) * 2)"></span>
     </div>
-    <div class="gauge-center-circle"></div>
-    <div class="gauge-center-text">
-      <div>综合评分</div>
-      <div class="gauge-score">{{ value }}分</div>
+    <div class="gauge-center-circle" :style="centerStyle"></div>
+    <div class="gauge-center-text" :style="centerStyle">
+      <!-- <div>综合评分</div>
+      <div class="gauge-score">{{ gaugeValue }}分</div> -->
     </div>
-    <div class="gauge-pointer" :style="pointerStyle"></div>
+    <div class="gauge-pointer" :style="[pointerStyle, centerStyle]"></div>
   </div>
 </template>
 
@@ -30,38 +29,58 @@
 export default {
   data() {
     return {
-      value: 74,
+      gaugeValue: 30,
+      center: '30%', // Variable for centering components
     };
   },
   computed: {
+    // pointerStyle() {
+    //   const angle = ((this.gaugeValue / 100) * 270) - 135; // Map gaugeValue to the correct angle
+    //   return {
+    //     transform: `rotate(${angle}deg) translateX(-50%)`, // Apply rotation based on the calculated angle
+    //     transformOrigin: '50% 0%', // Rotate around the correct point (bottom center of the pointer)
+    //     height: '15%', // Adjust height if necessary for better visual alignment
+    //   };
+    // },
     pointerStyle() {
-      const angle = (this.value / 100) * 240 - 120; // Map value to the angle
+  const baseAngle = ((this.gaugeValue / 100) * 270) - 135; // Calculate the base angle based on gaugeValue
+  const angle = baseAngle + 60; // Rotate the pointer by an additional 60 degrees
+  return {
+    transform: `rotate(${angle}deg) translate(-50%, -30px)`, // Rotate and translate the pointer up by 30px
+    transformOrigin: '50% 100%', // Ensure the pointer rotates around its base (bottom center)
+    height: '15%', // Keep the height consistent
+  };
+},
+
+    centerStyle() {
       return {
-        transform: `rotate(${angle}deg)`,
+        top: this.center, // Use the center variable for top position
+        left: this.center, // Use the center variable for left position
+        transform: 'translate(-50%, -50%)', // Center the element
       };
     },
   },
   methods: {
     getLabelStyle(n) {
-      const angle = (n - 1) * 24 - 120; // Map position to the angle
+      const angle = (n - 1) * 270 / 10 + 135; // Map position to the angle within 180 degrees
       const rad = (angle * Math.PI) / 180;
-      const radius = 90; // Radius of the labels
+      const radius = 40; // Radius of the labels
       return {
-        left: `${100 + radius * Math.cos(rad)}px`,
-        top: `${100 + radius * Math.sin(rad)}px`,
+        left: `calc(${this.center} + ${radius * Math.cos(rad)}px)`,
+        top: `calc(${this.center} + ${radius * Math.sin(rad)}px)`,
       };
     },
     getTickStyle(n) {
-      const angle = (n - 1) * 2.4 - 120; // Map position to the angle
+      const angle = n * 270 / 100 + 135; // Map position to the angle within 180 degrees
       const rad = (angle * Math.PI) / 180;
-      const outerRadius = 95; // Outer radius for tick end
-      const innerRadius = outerRadius - (n % 10 === 1 ? 10 : 5); // Length varies for major/minor ticks
+      const outerRadius = 50; // Outer radius for tick end
+      const innerRadius = outerRadius - (n % 10 === 0 ? 2 : 1); // Length varies for major/minor ticks
 
       return {
-        left: `${100 + innerRadius * Math.cos(rad)}px`,
-        top: `${100 + innerRadius * Math.sin(rad)}px`,
+        left: `calc(${this.center} + ${innerRadius * Math.cos(rad)}px)`,
+        top: `calc(${this.center} + ${innerRadius * Math.sin(rad)}px)`,
         width: `${outerRadius - innerRadius}px`,
-        height: '2px', // Horizontal tick
+        height: '1px', // Horizontal tick
         transform: `rotate(${angle}deg) translateX(-50%)`,
       };
     },
@@ -87,7 +106,7 @@ export default {
 
 .gauge-number {
   position: absolute;
-  font-size: 12px;
+  font-size: 6px;
   transform: translate(-50%, -50%);
 }
 
@@ -107,41 +126,32 @@ export default {
 
 .gauge-center-circle {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
   background-color: transparent; /* Make the background transparent */
-  border: 2px solid #1890ff; /* Add a border to create a ring */
+  border: 3px solid #1890ff; /* Add a border to create a ring */
   border-radius: 50%;
-  transform: translate(-50%, -50%);
   z-index: 1;
 }
 
 .gauge-center-text {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   text-align: center;
-  font-size: 16px;
+  font-size: 10px;
   z-index: 2;
 }
 
 .gauge-score {
-  font-size: 24px;
+  font-size: 16px;
   font-weight: bold;
 }
 
 .gauge-pointer {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 4px;
-  height: 50%;
+  width: 2px;
+  height: 15%;
   background-color: #1890ff;
-  transform-origin: bottom center;
-  transform: rotate(-120deg);
+  transform-origin: 50% 100%; /* Rotate around the bottom center */
   z-index: 0;
 }
 </style>
