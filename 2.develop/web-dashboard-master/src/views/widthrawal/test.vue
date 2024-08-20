@@ -1,13 +1,15 @@
 <template>
   <div class="gauge-container">
-    <a-progress
-      type="dashboard"
-      :percent="gaugeValue"
-      :gap-degree="70"
-      :stroke-width="7"
-      :format="() => ''"
-      stroke-color="#1890ff"
-    />
+    <div class="progress-wrapper">
+      <a-progress
+        type="dashboard"
+        :percent="gaugeValue"
+        :gap-degree="70"
+        :stroke-width="7"
+        :format="() => ''"
+        stroke-color="#1890ff"
+      />
+    </div>
     <div class="gauge-labels">
       <span v-for="n in 11" :key="n" class="gauge-number" :style="getLabelStyle(n)">
         {{ (n - 1) * 10 }}
@@ -16,7 +18,6 @@
     <div class="gauge-graduations">
       <span v-for="n in 51" :key="n" class="gauge-tick" :style="getTickStyle((n - 1) * 2)"></span>
     </div>
-    <!-- <div class="gauge-center-circle" :style="centerStyle"></div> -->
     <div class="gauge-center-text" :style="centerStyle">
       <div>综合评分</div>
       <div class="gauge-score">{{ gaugeValue }}分</div>
@@ -32,7 +33,7 @@ export default {
   data() {
     return {
       gaugeValue: 10,
-      center: '30%', // Center the gauge correctly
+      center: '60%', // Center the gauge correctly
     };
   },
   computed: {
@@ -49,7 +50,7 @@ export default {
         transform: `rotate(${angle}deg)`,
         transformOrigin: 'bottom center',
         position: 'absolute',
-        width: '2px',
+        width: '3px',
         height: '45px',
         backgroundColor: '#1890ff',
         top: `calc(${this.center} - 45px)`,
@@ -88,9 +89,18 @@ export default {
 <style scoped>
 .gauge-container {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
   margin: 0 auto;
+}
+
+.progress-wrapper {
+  width: 100px; /* Reduce the size of a-progress */
+  height: 100px; /* Maintain aspect ratio */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .gauge-labels {
@@ -121,16 +131,6 @@ export default {
   transform-origin: left center;
 }
 
-.gauge-center-circle {
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  background-color: transparent;
-  border: solid 3px #1890ff;
-  border-radius: 50%;
-  z-index: 1;
-}
-
 .gauge-center-text {
   position: absolute;
   text-align: center;
@@ -150,7 +150,7 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 3;
-  pointer-events: none; /* Prevent interaction with the pointer */
+  pointer-events: none;
 }
 
 .gauge-pointer_span {
