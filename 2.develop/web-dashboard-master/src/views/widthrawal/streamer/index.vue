@@ -79,8 +79,17 @@
       </a-table-column>
 
       <template #bodyCell="{ column, text }">
+
+        <!-- add copy link text -->
+        <span v-if="column.dataIndex === 'rInfo'">
+          <div v-for="(line, index) in text.split('\n')" :key="index" style="display: flex; justify-content: space-between;">
+            <span style="text-align: left;">{{ line }}</span>
+            <a-button style="font-size: 9px" type="link" size="small" @click="copyText(line)">复制</a-button>
+          </div>
+        </span>
+
         <!-- Left align specific columns: wInfo, rInfo, time -->
-        <span v-if="['wInfo', 'rInfo', 'time'].includes(column.dataIndex)">
+        <span v-else-if="['wInfo', 'time'].includes(column.dataIndex)">
           <div v-for="(line, index) in text.split('\n')" :key="index" style="text-align: left;">
             {{ line }}
           </div>
@@ -93,9 +102,25 @@
         </span>
 
         <span v-else-if="column.dataIndex === 'operate'">
-          <span v-if="text === '锁定' || text === '已锁定'" style="color: blue;">{{ text }}</span>
-          <span v-else-if="text === '提现明细'" style="color: green;">{{ text }}</span>
-          <span v-else style="color: red;">{{ text }}</span>
+          <span v-if="text === '已锁定'" style="text-decoration: underline;color: blue;">
+            <span style="text-decoration: underline;color: blue; margin-right: 8px; cursor: pointer;" @click="handleOperation(text)">
+              {{ text }}
+            </span>
+          </span>
+          <span v-else-if="text === '提现明细'" style="text-decoration: underline;color: green;">
+            <span style="text-decoration: underline;color: green; margin-right: 8px; cursor: pointer;" @click="handleOperation(text)">
+              {{ text }}
+            </span>
+          </span>
+          <span v-else-if="text === '已拒绝'" style="text-decoration: underline;color: red;">
+            <span style="text-decoration: underline;color: red; margin-right: 8px; cursor: pointer;" @click="handleOperation(text)">
+              {{ text }}
+            </span>
+          </span>
+          <span v-else>
+            <span style="text-decoration: underline;color: green; margin-right: 8px; cursor: pointer;" @click="handleOperation('审核')">审核</span>
+            <span style="text-decoration: underline;color: blue; cursor: pointer;" @click="handleOperation('锁定')">锁定</span>
+          </span>
         </span>
 
         <!-- Default rendering for other columns -->
@@ -154,7 +179,7 @@ export default {
           union: '蒂萨传媒',
           wInfo: '收款货币：USTD\n手续费：10%\n提现金额：1000',
           rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：张三',
-          time: '申请时间：2012-12-12  12:21:21\n操作时间：',
+          time: '申请时间：2012-12-12  12:21:21\n操作时间：2012-12-12  12:21:21',
           wStatus: '提现成功',
           account: '管理员 - 张三',
           operate: '提现明细',
@@ -185,6 +210,19 @@ export default {
           account: '管理员 - 张三',
           operate: '已锁定',
         },
+        {
+          key: '5',
+          wOrderID: '230721092345500001',
+          nickName: '桃之夭夭',
+          roomID: '32423',
+          union: '蒂萨传媒',
+          wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
+          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
+          time: '申请时间：2012-12-12  12:21:21\n操作时间：',
+          wStatus: '提现成功',
+          account: '管理员 - 张三',
+          operate: '提现明细',
+        },
         
       ],
     };
@@ -198,6 +236,14 @@ export default {
     },
   },
   methods: {
+    copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        this.$message.success('复制成功');
+      }).catch(() => {
+        this.$message.error('复制失败');
+      });
+    },
+
     onSearch() {
       // Implement search logic
     },
@@ -215,6 +261,11 @@ export default {
     handleSizeChange(current, size) {
       this.pageSize = size;
       this.currentPage = 1; // Reset to the first page when page size changes
+    },
+
+    handleOperation(operation) {
+      // Add logic for handling the operation (e.g., audit, lock)
+      this.$message.success(`${operation} 操作执行成功`);
     },
   },
 };
