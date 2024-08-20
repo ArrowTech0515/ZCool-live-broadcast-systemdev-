@@ -127,11 +127,11 @@
             currentComponent.value = 'gameManagement'
             break
           default:
-            currentComponent.value = 'gameManagement'
+            currentComponent.value = 'widthrawalManagement'
         }
       }
   
-      const currentComponent = ref('userManagement') // Initial component
+      const currentComponent = ref('widthrawalManagement') // Initial component
   
       return {
         collapse_flag,
