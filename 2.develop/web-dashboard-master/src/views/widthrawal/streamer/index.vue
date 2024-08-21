@@ -80,12 +80,19 @@
 
       <template #bodyCell="{ column, text }">
 
+        <!-- Wrap wOrderID text by 9 characters -->
+        <span v-if="column.dataIndex === 'wOrderID'">
+          <div v-for="(line, index) in chunkText(text, 9)" :key="index" style="text-align: left;">
+            {{ line }}
+          </div>
+        </span>
+
         <!-- add copy link text -->
-        <span v-if="column.dataIndex === 'rInfo'">
+        <span v-else-if="column.dataIndex === 'rInfo'">
           <div v-for="(line, index) in text.split('\n')" :key="index" style="display: flex; justify-content: space-between;">
             <span style="text-align: left;">{{ line }}</span>
-            <a-button style="font-size: 9px" type="link" size="small" @click="copyText(line)">复制</a-button>
           </div>
+          <a-button style="font-size: 9px" type="link" size="small" @click="copyText(line)">复制</a-button>
         </span>
 
         <!-- Left align specific columns: wInfo, rInfo, time -->
@@ -149,6 +156,8 @@
 </template>
 
 <script>
+
+import { message } from 'ant-design-vue';
 
 export default {
   data() {
@@ -236,11 +245,21 @@ export default {
     },
   },
   methods: {
+    chunkText(text, chunkSize) {
+      const regex = new RegExp(`.{1,${chunkSize}}`, 'g');
+      return text.match(regex) || [];
+    },
     copyText(text) {
       navigator.clipboard.writeText(text).then(() => {
-        this.$message.success('复制成功');
+        message.success({
+          content: `已成功复制到剪贴板。`,
+          duration: 0.5, // Duration in seconds
+        });
       }).catch(() => {
-        this.$message.error('复制失败');
+        message.error({
+          content: '复制到剪贴板失败，请重试。',
+          duration: 0.5, // Duration in seconds
+        });
       });
     },
 

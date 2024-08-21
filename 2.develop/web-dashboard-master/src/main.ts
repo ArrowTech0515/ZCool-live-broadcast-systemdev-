@@ -12,7 +12,6 @@ import { SearchOutlined, ReloadOutlined, CheckCircleFilled } from '@ant-design/i
 
 const app = createApp(App)
 
-
 app.component('SearchOutlined', SearchOutlined)
 app.component('ReloadOutlined', ReloadOutlined)
 app.component('CheckCircleFilled', CheckCircleFilled)
@@ -24,4 +23,5 @@ app.use(router)
 app.use(plugins) // 注册插件
 app.use(directives) // 注册指令
 app.mount('#app')
+
 export default app
