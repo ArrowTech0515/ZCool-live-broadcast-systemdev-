@@ -91,8 +91,8 @@
         <span v-else-if="column.dataIndex === 'rInfo'">
           <div v-for="(line, index) in text.split('\n')" :key="index" style="display: flex; justify-content: space-between;">
             <span style="text-align: left;">{{ line }}</span>
+            <a-button style="font-size: 9px" type="link" size="small" @click="copyText(line)">复制</a-button>
           </div>
-          <a-button style="font-size: 9px" type="link" size="small" @click="copyText(line)">复制</a-button>
         </span>
 
         <!-- Left align specific columns: wInfo, rInfo, time -->

@@ -23,6 +23,10 @@
       <a-tab-pane key="7" tab="testNewComponent">
           <testNewComponent />
       </a-tab-pane>
+      
+      <a-tab-pane key="8" tab="addStrategy">
+          <addStrategy />
+      </a-tab-pane>
   
     </a-tabs>
   </template>
@@ -38,6 +42,7 @@
   import testTableManagement from './testTable.vue'; // junn
   import test from './test.vue'; // junn
   import testNewComponent from './test_newComponent.vue'; // junn
+  import addStrategy from './strategy/add.vue'; // junn
   
   export default {
     components: {
@@ -50,7 +55,8 @@
       strategyWithdrawal,
       test,
       testTableManagement,
-      testNewComponent
+      testNewComponent,
+      addStrategy
     }
   }
   </script>
