@@ -1,6 +1,6 @@
 <template>
   <a-card style="background-color: white;">
-    <a-row :gutter="16"  type="flex" >
+    <a-row :gutter="16"  type="flex"  justify="end">
       <!-- First Column -->
 
       <a-col :flex="auto">
@@ -58,7 +58,7 @@
           </a-form-item>
       </a-col>
      
-      <a-col :span="2">
+      <a-col :flex="auto" >
           <a-form-item>
             <a-button type="primary" block @click="onReset">导出CSV</a-button>
           </a-form-item>

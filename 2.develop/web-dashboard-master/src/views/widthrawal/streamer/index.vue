@@ -1,6 +1,6 @@
 <template>
   <a-card style="background-color: white;">
-    <a-row :gutter="16"  type="flex" >
+    <a-row :gutter="16"  type="flex"  justify="end">
       <!-- First Column -->
 
       <a-col :flex="auto">
@@ -46,13 +46,13 @@
           </a-form-item>
       </a-col>
 
-      <a-col :span="2">
+      <a-col :flex="auto">
           <a-form-item>
             <a-button type="primary" block @click="onReset">提现设置</a-button>
           </a-form-item>
       </a-col>
       
-      <a-col :span="2">
+      <a-col :flex="auto">
           <a-form-item>
             <a-button type="primary" block @click="onReset">导出CSV</a-button>
           </a-form-item>
@@ -103,17 +103,17 @@
 
         <span v-else-if="column.dataIndex === 'operate'">
           <span v-if="text === '已锁定'" style="text-decoration: underline;color: blue;">
-            <span style="text-decoration: underline;color: blue; margin-right: 8px; cursor: pointer;" @click="handleOperation(text)">
+            <span style="text-decoration: underline;color: blue; cursor: pointer;" @click="handleOperation(text)">
               {{ text }}
             </span>
           </span>
           <span v-else-if="text === '提现明细'" style="text-decoration: underline;color: green;">
-            <span style="text-decoration: underline;color: green; margin-right: 8px; cursor: pointer;" @click="handleOperation(text)">
+            <span style="text-decoration: underline;color: green; cursor: pointer;" @click="handleOperation(text)">
               {{ text }}
             </span>
           </span>
           <span v-else-if="text === '已拒绝'" style="text-decoration: underline;color: red;">
-            <span style="text-decoration: underline;color: red; margin-right: 8px; cursor: pointer;" @click="handleOperation(text)">
+            <span style="text-decoration: underline;color: red;  cursor: pointer;" @click="handleOperation(text)">
               {{ text }}
             </span>
           </span>
