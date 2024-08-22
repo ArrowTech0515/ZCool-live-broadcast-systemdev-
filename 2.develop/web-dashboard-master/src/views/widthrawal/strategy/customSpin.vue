@@ -1,16 +1,25 @@
 <template>
-  <div style="display: flex; align-items: center;">
-    <a-button @click="decrement" style="color: gray; font-size: 16px; font-weight: bold; padding: 0px 13px;">
+  <div style="position: relative; display: flex; align-items: center;">
+    <!-- Left Button -->
+    <a-button 
+      @click="decrement" 
+      style="position: absolute; left: 0; color: gray; font-size: 16px; font-weight: bold; padding: 0px 13px; z-index: 1;">
       -
     </a-button>
+    
+    <!-- Input Field -->
     <a-input
       v-model:value="localValue"
-      :style="{ color: 'gray', margin: '0', textAlign: 'center'}"
+      :style="{ color: 'gray', margin: '0', textAlign: 'center', paddingLeft: '40px', paddingRight: '40px' }"
       inputmode="numeric"
       @keydown="handleKeydown"
       @input="updateValue"
     />
-    <a-button @click="increment" style="color: gray; font-size: 16px; font-weight: bold; padding: 0px 12px;">
+    
+    <!-- Right Button -->
+    <a-button 
+      @click="increment" 
+      style="position: absolute; right: 0; color: gray; font-size: 16px; font-weight: bold; padding: 0px 12px; z-index: 1;">
       +
     </a-button>
   </div>
