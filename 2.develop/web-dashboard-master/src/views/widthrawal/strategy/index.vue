@@ -122,7 +122,7 @@
       </div>
 
       <div v-else>
-        <add-strategy @back="onBackToMainPage" />
+        <AddStrategy @back="onBackToMainPage" />
       </div>
     </transition>
   </a-card>
