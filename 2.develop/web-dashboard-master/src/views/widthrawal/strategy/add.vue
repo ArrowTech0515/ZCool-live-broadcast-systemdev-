@@ -1,7 +1,7 @@
 <template>
   <a-card>
     <template #title>
-      <div style="display: flex; justify-content: center; align-items: center;">
+      <div style="display: flex; align-items: center;">
         <a-button
           type="link"
           style="font-size: 18px; margin-right: 8px;"
@@ -9,7 +9,9 @@
         >
           <span style="font-size: 20px; font-weight: bold; margin-left: 8px;">&lt;</span>
         </a-button>
-        <span style="font-size: 20px; text-align: center; font-weight: bold; margin-left: 8px;">添加策略</span>
+        <div style="flex-grow: 1; text-align: center;">
+          <span style="font-size: 20px; font-weight: bold;">添加策略</span>
+        </div>
       </div>
     </template>
 
@@ -42,30 +44,45 @@
         </a-form-item>
 
         <a-form-item label="区块链提现" style="text-align: justify;">
-          <a-row :gutter="16" type="flex" justify="center">
-            <a-radio-group v-model="radioValue">
-              <a-radio value="radio1">是</a-radio>
-              <a-radio value="radio2">否</a-radio>
-            </a-radio-group>
+          <a-row :gutter="16" type="flex" justify="space-between" align="middle">
+            <!-- Radio Group on the left -->
+            <a-col>
+              <a-radio-group v-model="radioValue" style="margin-left: 20px;">
+                <a-radio value="radio1">是</a-radio>
+                <a-radio value="radio2">否</a-radio>
+              </a-radio-group>
+            </a-col>
 
-            <span style="text-align: end; text-decoration: underline; color: blue; margin-right: 8px; cursor: pointer;" @click="handleOperation(text)">
-              区块链汇率
-            </span>
+            <!-- Span on the right -->
+            <a-col>
+              <span
+                style="text-decoration: underline; color: #1890ff; margin-right: 8px; cursor: pointer;"
+                @click="handleOperation(text)"
+              >
+                区块链汇率
+              </span>
+            </a-col>
           </a-row>
         </a-form-item>
 
         <a-form-item label="策略用户" style="text-align: center;">
-          <Space direction="horizontal" size="large" style="margin-left: 20px;">
-            <Checkbox value="All" @change="handleAllusers">全部用户</Checkbox>
-            <Checkbox value="Noble" @change="handleNobleusers">贵族用户</Checkbox>
-            <Checkbox value="Recharge" @change="handleRechargeusers">充值用户</Checkbox>
-            <Checkbox value="Custom" @change="handleCustomusers">自定义用户</Checkbox>
-         </Space>
-        </a-form-item>
+    <a-row :gutter="16" type="flex" align="middle">
+      <!-- Space containing checkboxes and input -->
+      <a-col >
+        <a-space type="flex" direction="horizontal" size="middle">
+          <a-checkbox value="All" @change="handleAllusers">全部用户</a-checkbox>
+          <a-checkbox value="Noble" @change="handleNobleusers">贵族用户</a-checkbox>
+          <a-checkbox value="Recharge" @change="handleRechargeusers">充值用户</a-checkbox>
+          <a-checkbox value="Custom" @change="handleCustomusers">自定义用户</a-checkbox>
+          <a-input  placeholder="选择用户" style="width: 100px; text-align: center;" />
+        </a-space>
+      </a-col>
+    </a-row>
+  </a-form-item>
 
         <a-form-item label="自动打款机制" style="text-align: center;">
           <a-row justify="center">
-            <custom-spin v-model:nValue="parentValue"></custom-spin>
+            <custom-spin v-model:nValue="parentValue" style="margin-right: 20px;"></custom-spin>
             <custom-spin v-model:nValue="parentValue"></custom-spin>
           </a-row>
         </a-form-item>
