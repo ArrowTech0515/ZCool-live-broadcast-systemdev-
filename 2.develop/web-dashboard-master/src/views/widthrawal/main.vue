@@ -24,8 +24,12 @@
           <testNewComponent />
       </a-tab-pane>
       
-      <a-tab-pane key="8" tab="addStrategy">
-          <addStrategy />
+      <a-tab-pane key="8" tab="虚拟币提现_streamer">
+          <streamer_review />
+      </a-tab-pane>
+
+      <a-tab-pane key="9" tab="虚拟币提现_user">
+          <virtual_review />
       </a-tab-pane>
   
     </a-tabs>
@@ -42,7 +46,8 @@
   import testTableManagement from './testTable.vue'; // junn
   import test from './test.vue'; // junn
   import testNewComponent from './test_newComponent.vue'; // junn
-  import addStrategy from './strategy/add.vue'; // junn
+  import virtual_review from './user/virtual_review/index.vue'; // junn
+  import streamer_review from './streamer/virtual_review/index.vue'; // junn
   
   export default {
     components: {
@@ -56,7 +61,8 @@
       test,
       testTableManagement,
       testNewComponent,
-      addStrategy
+      virtual_review,
+      streamer_review
     }
   }
   </script>
