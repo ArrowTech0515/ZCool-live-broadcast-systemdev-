@@ -17,49 +17,49 @@
         <!-- Rows inside First Column -->
         <a-row style="margin-bottom: 5px;">
           <a-col :span="20" style="white-space: nowrap;">
-            <span style="font-weight: bold;">收款货币:</span> {{ currency }}
+            <span style="font-weight: bold;">收款货币:</span> 印尼盾
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="20" style="white-space: nowrap;">
-            <span style="font-weight: bold;">提现金额:</span> {{ withdrawalAmount }}
+            <span style="font-weight: bold;">提现金额:</span> 1000
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="20" style="white-space: nowrap;">
-            <span style="font-weight: bold;">预计到账金额:</span> {{ estimatedArrivalAmount }} ({{ currency }})
+            <span style="font-weight: bold;">预计到账金额:</span> 1000000 (印尼盾)
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            <span style="font-weight: bold;">提现银行:</span> {{ withdrawalBank }}
+            <span style="font-weight: bold;">提现银行:</span> 印尼国家发展银行
           </a-col>
           <a-col :span="6" style="text-align: right;">
             <span 
             style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer;"
-                @click="copyText(withdrawalBank)">
+                @click="copyText('印尼国家发展银行')">
                 复制</span>
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            <span style="font-weight: bold;">收款姓名:</span> {{ recipientName }}
+            <span style="font-weight: bold;">收款姓名:</span> 张三
           </a-col>
           <a-col :span="6" style="text-align: right;">
             <span 
             style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer;"
-                @click="copyText(recipientName)">
+                @click="copyText('张三')">
                 复制</span>
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="24" style="white-space: nowrap;">
-            <span style="font-weight: bold;">申请时间:</span> {{ applicationTime }}
+            <span style="font-weight: bold;">申请时间:</span> 2022-12-12 12:21:21
           </a-col>
         </a-row>
       </a-col>
@@ -69,37 +69,37 @@
         <!-- Rows inside Second Column -->
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            <span style="font-weight: bold;">手续费:</span> {{ fees }}
+            <span style="font-weight: bold;">手续费:</span> 0 (每日免费提现)
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            <span style="font-weight: bold;">今日汇率:</span> {{ exchangeRate }} (人民币: {{ currency }})
+            <span style="font-weight: bold;">今日汇率:</span> 1:1000 (人民币: 印尼盾)
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            <span style="font-weight: bold;">账户余额:</span> {{ accountBalance }} (人民币)
+            <span style="font-weight: bold;">账户余额:</span> 1000 (人民币)
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            <span style="font-weight: bold;">银行卡号:</span> {{ bankCardNumber }}
+            <span style="font-weight: bold;">银行卡号:</span> 23122324324324324324
           </a-col>
           <a-col :span="6" style="text-align: right;">
             <span 
             style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer;"
-                @click="copyText(bankCardNumber)">
+                @click="copyText('23122324324324324324')">
                 复制</span>
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            <span style="font-weight: bold;">提现订单号:</span> {{ withdrawalOrderNumber }}
+            <span style="font-weight: bold;">提现订单号:</span> 42384242348234
           </a-col>
         </a-row>
       </a-col>
@@ -120,7 +120,7 @@ export default {
       recipientName: '张三',
       applicationTime: '2022-12-12 12:21:21',
 
-      fees: '24',
+      fees: '0',
       exchangeRate: '1:1000',
       accountBalance: '1000',
       bankCardNumber: '23122324324324324324',
@@ -143,5 +143,17 @@ export default {
     },
   }
 };
-
 </script>
+
+<style scoped>
+.custom-card {
+  background: rgb(242, 242, 242);
+}
+
+.label {
+  font-size: 16px;
+  font-weight: bold;
+  writing-mode: vertical-rl;
+  text-align: center;
+}
+</style>

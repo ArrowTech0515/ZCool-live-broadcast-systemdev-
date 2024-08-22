@@ -23,13 +23,19 @@
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="20" style="white-space: nowrap;">
-            <span style="font-weight: bold;">银行姓名:</span> {{ withdrawalAmount }}
+            <span style="font-weight: bold;">银行姓名:</span> {{ bankName }}
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="20" style="white-space: nowrap;">
-            <span style="font-weight: bold;">操作时间:</span> {{ estimatedArrivalAmount }}
+            <span style="font-weight: bold;">打款金额:</span> {{ transferAmount }}
+          </a-col>
+        </a-row>
+
+        <a-row style="margin-bottom: 5px;">
+          <a-col :span="20" style="white-space: nowrap;">
+            <span style="font-weight: bold;">操作账号:</span> {{ operationAccount }}
           </a-col>
         </a-row>
       </a-col>
@@ -39,19 +45,19 @@
         <!-- Rows inside Second Column -->
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            <span style="font-weight: bold;">银行卡号:</span> {{ fees }}
+            <span style="font-weight: bold;">银行卡号:</span> {{ bankCardNumber }}
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            <span style="font-weight: bold;">打款金额:</span> {{ exchangeRate }} 
+            <span style="font-weight: bold;">支行信息:</span> {{ branchInfo }} 
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            <span style="font-weight: bold;">操作账号:</span> {{ accountBalance }}
+            <span style="font-weight: bold;">操作时间:</span> {{ operationTime }}
           </a-col>
         </a-row>
       </a-col>
@@ -60,31 +66,24 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue';
-
 export default {
   data() {
     return {
-      withdrawalBank: '',
-      withdrawalAmount: '',
-      estimatedArrivalAmount: '',
-      fees: '',
-      exchangeRate: '',
-      accountBalance: '',
+      withdrawalBank: '', // Bank where the money is withdrawn
+      bankName: '', // Name of the bank
+      transferAmount: '', // Amount of money transferred
+      operationAccount: '', // Account from which the operation is made
+      bankCardNumber: '', // Bank card number
+      branchInfo: '', // Branch information of the bank
+      operationTime: '', // Time of the operation
     };
   },
   methods: {
     copyText(text) {
       navigator.clipboard.writeText(text).then(() => {
-        message.success({
-          content: `已成功复制到剪贴板。`,
-          duration: 1, // Duration in seconds
-        });
+        this.$message.success('已成功复制到剪贴板。');
       }).catch(() => {
-        message.error({
-          content: '复制到剪贴板失败，请重试。',
-          duration: 1, // Duration in seconds
-        });
+        this.$message.error('复制到剪贴板失败，请重试。');
       });
     },
   }
