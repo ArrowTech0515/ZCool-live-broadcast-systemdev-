@@ -3,73 +3,55 @@
     <a-row :gutter="16" type="flex" justify="space-between">
       <!-- Vertical Text -->
       <a-col :style="{ width: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
-        <span class="label" :style="{ writingMode: 'vertical-rl', textAlign: 'center', fontSize: '16px', fontWeight: 'bold' }">基础数据</span>
+        <span class="label" :style="{ writingMode: 'vertical-rl', textAlign: 'center', fontSize: '16px', fontWeight: 'bold' }">
+          打款信息</span>
       </a-col>
       
       <!-- Separator -->
       <a-col :style="{ marginRight:'30px', width: '1px', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
         <a-divider type="vertical" :style="{ background: 'black', height: '100%' }" />
       </a-col>
-      
+    
       <!-- First Column -->
-      <a-col :span="10" class="button-column">
+      <a-col  :span="10"  class="button-column">
         <!-- Rows inside First Column -->
         <a-row style="margin-bottom: 5px;">
           <a-col :span="20" style="white-space: nowrap;">
-            主播昵称: {{ anchorName }}
-          </a-col>
-        </a-row>
-
-        <a-row style="margin-bottom: 5px;">
-          <a-col :span="18" style="white-space: nowrap;">
-            登录IP: {{ deviceId }}
-          </a-col>
-          <a-col :span="6" style="text-align: right;">
-            <span 
-            style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer; "
-                @click="copyText(deviceId)">
-                详情</span>
+            打款银行: {{ currency }}
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="20" style="white-space: nowrap;">
-            注册时间: {{ registrationTime }}
+            银行姓名: {{ withdrawalAmount }}
+          </a-col>
+        </a-row>
+
+        <a-row style="margin-bottom: 5px;">
+          <a-col :span="20" style="white-space: nowrap;">
+            操作时间: {{ estimatedArrivalAmount }}
           </a-col>
         </a-row>
       </a-col>
 
       <!-- Second Column -->
-      <a-col :span="10" class="button-column" :style="{marginLeft :'30px', marginRight :'60px' }">
+      <a-col  :span="10"  class="button-column" :style="{marginLeft :'30px', marginRight :'60px' }">
         <!-- Rows inside Second Column -->
-        
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            房间号: {{ roomId }}
-          </a-col>
-          <a-col :span="6" style="text-align: right;">
-            <span 
-            style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer; "
-                @click="copyText(roomId)">
-                复制</span>
+            银行卡号: {{ fees }}
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            登录IP: {{ loginIP }}
-          </a-col>
-          <a-col :span="6" style="text-align: right;">
-            <span 
-            style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer; "
-                @click="copyText(loginIP)">
-                详情</span>
+            打款金额: {{ exchangeRate }} 
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            最近登录时间: {{ lastLoginTime }}
+            操作账号: {{ accountBalance }}
           </a-col>
         </a-row>
       </a-col>
@@ -83,12 +65,13 @@ import { message } from 'ant-design-vue';
 export default {
   data() {
     return {
-      anchorName: '大小事',
-      deviceId: 'FHJ-32424',
-      registrationTime: '2022-12-12 12:21:21',
-      roomId: '500001',
-      loginIP: '123.321.213.231',
-      lastLoginTime: '2022-12-12 12:21:21',
+      withdrawalAmount: '',
+      estimatedArrivalAmount: '',
+      withdrawalBank: '',
+
+      fees: '',
+      exchangeRate: '',
+      accountBalance: '',
     };
   },
   methods: {
@@ -107,17 +90,7 @@ export default {
     },
   }
 };
+
 </script>
 
-<style scoped>
-.custom-card {
-  background: rgb(242, 242, 242);
-}
-
-.label {
-  font-size: 16px;
-  font-weight: bold;
-  writing-mode: vertical-rl;
-  text-align: center;
-}
-</style>
+  
