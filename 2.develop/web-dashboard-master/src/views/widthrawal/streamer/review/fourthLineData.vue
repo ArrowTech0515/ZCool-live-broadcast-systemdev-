@@ -1,14 +1,14 @@
 <template>
   <a-card bordered class="custom-card" :style="{background: 'rgb(242,242,242)'}">
     <a-row :gutter="16" type="flex" justify="space-between">
-      <!-- Vertical Text -->   
+      <!-- Vertical Text -->    
       <a-col :style="{ marginLeft:'5%', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
         <span class="label" :style="{ writingMode: 'vertical-rl', textAlign: 'center', fontSize: '16px', fontWeight: 'bold' }">
-          基础数据</span>
+          打 款 信 息</span>
       </a-col>
       
       <!-- Separator -->
-      <a-col >
+      <a-col>
         <a-divider type="vertical" :style="{ background: 'gray', height: '100%' }" />
       </a-col>
 
@@ -17,25 +17,19 @@
         <!-- Rows inside First Column -->
         <a-row style="margin-bottom: 5px;">
           <a-col :span="20" style="white-space: nowrap;">
-            主播昵称: {{ anchorName }}
-          </a-col>
-        </a-row>
-
-        <a-row style="margin-bottom: 5px;">
-          <a-col :span="18" style="white-space: nowrap;">
-            登录IP: {{ deviceId }}
-          </a-col>
-          <a-col :span="6" style="text-align: right;">
-            <span 
-            style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer; "
-                @click="copyText(deviceId)">
-                详情</span>
+            <span style="font-weight: bold;">打款银行:</span> {{ withdrawalBank }}
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="20" style="white-space: nowrap;">
-            注册时间: {{ registrationTime }}
+            <span style="font-weight: bold;">银行姓名:</span> {{ withdrawalAmount }}
+          </a-col>
+        </a-row>
+
+        <a-row style="margin-bottom: 5px;">
+          <a-col :span="20" style="white-space: nowrap;">
+            <span style="font-weight: bold;">操作时间:</span> {{ estimatedArrivalAmount }}
           </a-col>
         </a-row>
       </a-col>
@@ -43,34 +37,21 @@
       <!-- Second Column -->
       <a-col :span="8" class="button-column" :style="{marginLeft :'30px', marginRight :'60px' }">
         <!-- Rows inside Second Column -->
-        
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            房间号: {{ roomId }}
-          </a-col>
-          <a-col :span="6" style="text-align: right;">
-            <span 
-            style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer; "
-                @click="copyText(roomId)">
-                复制</span>
+            <span style="font-weight: bold;">银行卡号:</span> {{ fees }}
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            登录IP: {{ loginIP }}
-          </a-col>
-          <a-col :span="6" style="text-align: right;">
-            <span 
-            style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer; "
-                @click="copyText(loginIP)">
-                详情</span>
+            <span style="font-weight: bold;">打款金额:</span> {{ exchangeRate }} 
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            最近登录时间: {{ lastLoginTime }}
+            <span style="font-weight: bold;">操作账号:</span> {{ accountBalance }}
           </a-col>
         </a-row>
       </a-col>
@@ -84,12 +65,12 @@ import { message } from 'ant-design-vue';
 export default {
   data() {
     return {
-      anchorName: '大小事',
-      deviceId: 'FHJ-32424',
-      registrationTime: '2022-12-12 12:21:21',
-      roomId: '500001',
-      loginIP: '123.321.213.231',
-      lastLoginTime: '2022-12-12 12:21:21',
+      withdrawalBank: '',
+      withdrawalAmount: '',
+      estimatedArrivalAmount: '',
+      fees: '',
+      exchangeRate: '',
+      accountBalance: '',
     };
   },
   methods: {

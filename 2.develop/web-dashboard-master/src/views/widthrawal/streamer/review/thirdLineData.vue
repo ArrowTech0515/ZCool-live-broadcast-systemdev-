@@ -1,58 +1,45 @@
 <template>
   <a-card bordered class="custom-card" :style="{background: 'rgb(242,242,242)'}">
     <a-row :gutter="16" type="flex" justify="space-between">
-      <!-- Vertical Text -->    
+      <!-- Vertical Text -->
       <a-col :style="{ marginLeft:'5%', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
         <span class="label" :style="{ writingMode: 'vertical-rl', textAlign: 'center', fontSize: '16px', fontWeight: 'bold' }">
-          打款信息</span>
+          历 史 提 现</span>
       </a-col>
       
       <!-- Separator -->
-      <a-col >
+      <a-col>
         <a-divider type="vertical" :style="{ background: 'gray', height: '100%' }" />
       </a-col>
-
-
+    
       <!-- First Column -->
-      <a-col  :span="8"  class="button-column">
+      <a-col :span="8" class="button-column">
         <!-- Rows inside First Column -->
         <a-row style="margin-bottom: 5px;">
-          <a-col :span="20" style="white-space: nowrap;">
-            打款银行: {{ currency }}
+          <a-col :span="18" style="white-space: nowrap;">
+            <span style="font-weight: bold;">提现次数:</span> {{ value1 }}
+          </a-col>
+          <a-col :span="6" style="text-align: right;">
+            <span 
+            style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer;"
+                @click="copyText(value1)">
+                查看</span>
           </a-col>
         </a-row>
 
         <a-row style="margin-bottom: 5px;">
-          <a-col :span="20" style="white-space: nowrap;">
-            银行姓名: {{ withdrawalAmount }}
-          </a-col>
-        </a-row>
-
-        <a-row style="margin-bottom: 5px;">
-          <a-col :span="20" style="white-space: nowrap;">
-            操作时间: {{ estimatedArrivalAmount }}
+          <a-col :span="24" style="white-space: nowrap;">
+            <span style="font-weight: bold;">总提现虚拟币:</span> {{ value2 }}
           </a-col>
         </a-row>
       </a-col>
 
       <!-- Second Column -->
-      <a-col  :span="8"  class="button-column" :style="{marginLeft :'30px', marginRight :'60px' }">
+      <a-col :span="8" class="button-column" :style="{marginLeft :'30px', marginRight :'60px' }">
         <!-- Rows inside Second Column -->
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            银行卡号: {{ fees }}
-          </a-col>
-        </a-row>
-
-        <a-row style="margin-bottom: 5px;">
-          <a-col :span="18" style="white-space: nowrap;">
-            打款金额: {{ exchangeRate }} 
-          </a-col>
-        </a-row>
-
-        <a-row style="margin-bottom: 5px;">
-          <a-col :span="18" style="white-space: nowrap;">
-            操作账号: {{ accountBalance }}
+            <span style="font-weight: bold;">总提现金额:</span> {{ value3 }}
           </a-col>
         </a-row>
       </a-col>
@@ -66,13 +53,9 @@ import { message } from 'ant-design-vue';
 export default {
   data() {
     return {
-      withdrawalAmount: '',
-      estimatedArrivalAmount: '',
-      withdrawalBank: '',
-
-      fees: '',
-      exchangeRate: '',
-      accountBalance: '',
+      value1: '5',
+      value2: '1000 (USDT)',
+      value3: '1000 (人民币)',
     };
   },
   methods: {
@@ -91,7 +74,4 @@ export default {
     },
   }
 };
-
 </script>
-
-  

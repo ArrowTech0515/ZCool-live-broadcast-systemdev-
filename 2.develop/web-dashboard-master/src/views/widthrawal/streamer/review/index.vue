@@ -10,7 +10,7 @@
           <span style="font-size: 20px; font-weight: bold; margin-left: 8px;">&lt;</span>
         </a-button>
         <div style="flex-grow: 1; text-align: center;">
-          <span style="font-size: 20px; font-weight: bold;">添加策略</span>
+          <span style="font-size: 20px; font-weight: bold;">提现审核</span>
         </div>
       </div>
     </template>

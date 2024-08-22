@@ -4,11 +4,11 @@
       <!-- Vertical Text -->
       <a-col :style="{ marginLeft:'5%', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
         <span class="label" :style="{ writingMode: 'vertical-rl', textAlign: 'center', fontSize: '16px', fontWeight: 'bold' }">
-          历史提现</span>
+          历 史 提 现</span>
       </a-col>
       
       <!-- Separator -->
-      <a-col >
+      <a-col>
         <a-divider type="vertical" :style="{ background: 'gray', height: '100%' }" />
       </a-col>
     
@@ -17,11 +17,11 @@
         <!-- Rows inside First Column -->
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            提现次数: {{ value1 }}
+            <span style="font-weight: bold;">提现次数:</span> {{ value1 }}
           </a-col>
           <a-col :span="6" style="text-align: right;">
             <span 
-            style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer; "
+            style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer;"
                 @click="copyText(value1)">
                 查看</span>
           </a-col>
@@ -29,17 +29,17 @@
 
         <a-row style="margin-bottom: 5px;">
           <a-col :span="24" style="white-space: nowrap;">
-            总提现虚拟币: {{ value2 }}
+            <span style="font-weight: bold;">总提现虚拟币:</span> {{ value2 }}
           </a-col>
         </a-row>
       </a-col>
 
       <!-- Second Column -->
-      <a-col  :span="8"  class="button-column" :style="{marginLeft :'30px', marginRight :'60px' }">
+      <a-col :span="8" class="button-column" :style="{marginLeft :'30px', marginRight :'60px' }">
         <!-- Rows inside Second Column -->
         <a-row style="margin-bottom: 5px;">
           <a-col :span="18" style="white-space: nowrap;">
-            总提现金额: {{ value3 }}
+            <span style="font-weight: bold;">总提现金额:</span> {{ value3 }}
           </a-col>
         </a-row>
       </a-col>
@@ -74,7 +74,4 @@ export default {
     },
   }
 };
-
 </script>
-
-  

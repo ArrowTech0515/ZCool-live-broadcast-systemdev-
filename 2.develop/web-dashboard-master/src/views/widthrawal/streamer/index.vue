@@ -155,19 +155,19 @@
         </div>
       </div>
 
-    <div v-else>
-      
-      <review-page
-        :basicData="basicData"
-        :currentWithdraw="currentWithdraw"
-        :historyWithdraw="historyWithdraw"
-        :paymentInfo="paymentInfo"
-        withdrawStatus="提现中"
+      <div v-else>
         
-        @back="onBackToMainPage"
-        @confirm="handleConfirm"
-        @reject="handleReject" />
-    </div>
+        <review-page
+          :basicData="basicData"
+          :currentWithdraw="currentWithdraw"
+          :historyWithdraw="historyWithdraw"
+          :paymentInfo="paymentInfo"
+          withdrawStatus="提现中"
+          
+          @back="onBackToMainPage"
+          @confirm="handleConfirm"
+          @reject="handleReject" />
+      </div>
 
     </transition>
   </a-card>
@@ -176,7 +176,7 @@
 <script>
 
 import { message } from 'ant-design-vue';
-import reviewPage from '../review/index.vue';
+import reviewPage from './review/index.vue';
 
 export default {
   components: {
@@ -339,7 +339,7 @@ export default {
     handleOperation(operation) {
       // Add logic for handling the operation (e.g., audit, lock)
       if(operation === "提现明细")
-      this.showReviewPage = true; // Switch to the add strategy view
+        this.showReviewPage = true; // Switch to the add strategy view
     },
 
     onBackToMainPage() {
