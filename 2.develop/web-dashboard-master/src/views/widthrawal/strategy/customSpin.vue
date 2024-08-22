@@ -1,6 +1,6 @@
 <template>
   <div style="display: flex; align-items: center;">
-    <a-button @click="decrement" style="color: gray; font-size: 16px; font-weight: bold; padding: 0px 12px;">
+    <a-button @click="decrement" style="color: gray; font-size: 16px; font-weight: bold; padding: 0px 13px;">
       -
     </a-button>
     <a-input
