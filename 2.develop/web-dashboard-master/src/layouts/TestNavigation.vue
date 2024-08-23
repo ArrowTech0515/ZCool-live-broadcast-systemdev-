@@ -76,6 +76,7 @@
   import widthrawalManagement from '@/views/widthrawal/main.vue';
   import gameManagement from '@/views/game/main.vue';
   import userManagement from '@/views/user/main.vue';
+  import activityManagement from '@/views/activity/main.vue';
   
   export default {
     name: 'NavigationMenu',
@@ -92,7 +93,8 @@
       payManagement,
       widthrawalManagement,
       gameManagement,
-      userManagement
+      userManagement,
+      activityManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
@@ -111,6 +113,9 @@
           case '18':
             currentComponent.value = 'messageManagement'
             break
+          case '17':
+            currentComponent.value = 'activityManagement'
+            break
           case '5':
             currentComponent.value = 'anchorManagement'
             break
@@ -127,7 +132,7 @@
             currentComponent.value = 'gameManagement'
             break
           default:
-            currentComponent.value = 'widthrawalManagement'
+            currentComponent.value = 'activityManagement'
         }
       }
   
