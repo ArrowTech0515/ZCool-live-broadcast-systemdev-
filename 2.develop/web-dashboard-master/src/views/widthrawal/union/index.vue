@@ -12,13 +12,13 @@
         </a-col>
 
         <a-col :flex="1">
-              <a-form-item label="用户昵称">
+              <a-form-item label="工会名称">
                 <a-input v-model="gameId" placeholder="" />
               </a-form-item>
         </a-col>
 
         <a-col :flex="1">
-          <a-form-item label="用户ID">
+          <a-form-item label="工会ID">
             <a-input v-model="nBetting" placeholder="" />
           </a-form-item>
         </a-col>
@@ -29,13 +29,7 @@
           </a-form-item>
         </a-col>
 
-        <a-col :flex="1">
-          <a-form-item label="应用名称">
-            <a-input v-model="nBetting" placeholder="" />
-          </a-form-item>
-        </a-col>
-
-        <a-col :flex="1">
+        <a-col :span="4">
             <a-form-item label="状态">
               <a-select v-model="status" value="all">
                 <a-select-option value="all">全部状态</a-select-option>
@@ -46,7 +40,7 @@
             </a-form-item>
         </a-col>
 
-        <a-col :flex="1">
+        <a-col :flex="auto">
           <a-form-item label="时间">
               <a-range-picker :placeholder="['开始日期', '结束日期']">
                 <!-- options here -->
@@ -72,11 +66,10 @@
       <a-table :data-source="paginatedData" :pagination="false">
         <a-table-column title="提现订单号" dataIndex="wOrderID" key="wOrderID" align="center" />
         <a-table-column title="商户名称" dataIndex="merchName" key="merchName" align="center" />
-        <a-table-column title="应用名称" dataIndex="appName" key="appName" align="center" />
-        <a-table-column title="用户昵称" dataIndex="userNickname" key="userNickname" align="center"/>
-        <a-table-column title="用户ID" dataIndex="userID" key="userID" align="center" />
+        <a-table-column title="工会名称" dataIndex="unionName" key="unionName" align="center" />
+        <a-table-column title="工会ID" dataIndex="unionID" key="unionID" align="center"/>
         <a-table-column title="提现信息" dataIndex="wInfo" key="wInfo" align="center" />
-        <a-table-column title="收款信息" dataIndex="rInfo" key="rInfo" align="center">
+        <a-table-column title="银行信息" dataIndex="rInfo" key="rInfo" align="center">
         </a-table-column>
         <a-table-column title="时间" dataIndex="time" key="time" align="center">
         </a-table-column>
@@ -91,7 +84,7 @@
 
             <!-- Wrap wOrderID text by 9 characters -->
           <span v-if="column.dataIndex === 'wOrderID'">
-            <div v-for="(line, index) in chunkText(text, 9)" :key="index" style="text-align: left;">
+            <div v-for="(line, index) in chunkText(text, 9)" :key="index" style="text-align: center;">
               {{ line }}
             </div>
           </span>
@@ -202,13 +195,12 @@ export default {
       dataSource: [
         {
           key: '1',
-          wOrderID: '230721092345500001',
-          merchName: '桃之夭夭',
-          appName: '应用1',
-          userNickname: '桃之夭夭',
-          userId: '32423',
-          wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
-          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：张三',
+          wOrderID: '23072109234511',
+          merchName: '商户2',
+          unionName: 'XXX工会',
+          unionID: '32423',
+          wInfo: '手续费：10%\n提现金额：1000',
+          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n支行信息：云南建设银行',
           time: '申请时间：2012-12-12  12:21:21\n操作时间：',
           wStatus: '提现中',
           account: '',
@@ -216,12 +208,11 @@ export default {
         },
         {
           key: '2',
-          wOrderID: '230721092345500001',
-          merchName: '桃之夭夭',
-          appName: '应用1',
-          userNickname: '桃之夭夭',
-          userId: '32423',
-          wInfo: '收款货币：USTD\n手续费：10%\n提现金额：1000',
+          wOrderID: '23072109234511',
+          merchName: '商户1',
+          unionName: 'XXX工会',
+          unionID: '32423',
+          wInfo: '手续费：10%\n提现金额：1000',
           rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：张三',
           time: '申请时间：2012-12-12  12:21:21\n操作时间：2012-12-12  12:21:21',
           wStatus: '提现成功',
@@ -230,45 +221,42 @@ export default {
         },
         {
           key: '3',
-          wOrderID: '230721092345500001',
-          merchName: '桃之夭夭',
-          appName: '应用1',
-          userNickname: '桃之夭夭',
-          userId: '32423',
-          wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
-          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
-          time: '申请时间：2012-12-12  12:21:21\n操作时间：',
+          wOrderID: '23072109234511',
+          merchName: '商户1',
+          unionName: 'XXX工会',
+          unionID: '32423',
+          wInfo: '手续费：10%\n提现金额：1000',
+          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：张三',
+          time: '申请时间：2012-12-12  12:21:21\n操作时间：2012-12-12  12:21:21',
           wStatus: '提现失败',
           account: '管理员 - 张三',
           operate: '已拒绝',
         },
         {
           key: '4',
-          wOrderID: '230721092345500001',
-          merchName: '桃之夭夭',
-          appName: '应用1',
-          userNickname: '桃之夭夭',
-          userId: '32423',
-          wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
-          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
-          time: '申请时间：2012-12-12  12:21:21\n操作时间：',
-          wStatus: '提现中',
-          account: '管理员 - 张三',
-          operate: '已锁定',
-        },
-        {
-          key: '5',
-          wOrderID: '230721092345500001',
-          merchName: '桃之夭夭',
-          appName: '应用1',
-          userNickname: '桃之夭夭',
-          userId: '32423',
-          wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
-          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
-          time: '申请时间：2012-12-12  12:21:21\n操作时间：',
+          wOrderID: '23072109234511',
+          merchName: '商户1',
+          unionName: 'XXX工会',
+          unionID: '32423',
+          wInfo: '手续费：10%\n提现金额：1000',
+          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：张三',
+          time: '申请时间：2012-12-12  12:21:21\n操作时间：2012-12-12  12:21:21',
           wStatus: '提现成功',
           account: '管理员 - 张三',
           operate: '提现明细',
+        },
+        {
+          key: '5',
+          wOrderID: '23072109234511',
+          merchName: '商户1',
+          unionName: 'XXX工会',
+          unionID: '32423',
+          wInfo: '手续费：10%\n提现金额：1000',
+          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：张三',
+          time: '申请时间：2012-12-12  12:21:21\n操作时间：2012-12-12  12:21:21',
+          wStatus: '提现中',
+          account: '管理员 - 张三',
+          operate: '已锁定',
         },
         
       ],

@@ -14,21 +14,25 @@
           <strategyWithdrawal />
       </a-tab-pane>
       
-      <a-tab-pane key="5" tab="test">
+      <a-tab-pane key="5" tab="工会提现">
+          <unionWithdrawal />
+      </a-tab-pane>
+
+      <a-tab-pane key="6" tab="test">
           <test />
       </a-tab-pane>
-      <a-tab-pane key="6" tab="testTable">
+      <a-tab-pane key="7" tab="testTable">
           <testTableManagement />
       </a-tab-pane>
-      <a-tab-pane key="7" tab="testNewComponent">
+      <a-tab-pane key="8" tab="testNewComponent">
           <testNewComponent />
       </a-tab-pane>
       
-      <a-tab-pane key="8" tab="虚拟币提现_streamer">
+      <a-tab-pane key="9" tab="虚拟币提现_streamer">
           <streamer_review />
       </a-tab-pane>
 
-      <a-tab-pane key="9" tab="虚拟币提现_user">
+      <a-tab-pane key="10" tab="虚拟币提现_user">
           <virtual_review />
       </a-tab-pane>
   
@@ -42,6 +46,7 @@
   import paymentWithdrawal2 from './payment/index_temp.vue'; // junn
   import streamerWithdrawal from './streamer/index.vue'; // junn
   import userWithdrawal from './user/index.vue'; // junn
+  import unionWithdrawal from './union/index.vue'; // junn
   import strategyWithdrawal from './strategy/index.vue'; // junn
   import testTableManagement from './testTable.vue'; // junn
   import test from './test.vue'; // junn
@@ -56,6 +61,7 @@
       paymentWithdrawal,
       paymentWithdrawal2,
       userWithdrawal,
+      unionWithdrawal,
       streamerWithdrawal,
       strategyWithdrawal,
       test,

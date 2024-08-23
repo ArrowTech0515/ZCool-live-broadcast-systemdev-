@@ -307,12 +307,12 @@ export default {
       navigator.clipboard.writeText(text).then(() => {
         message.success({
           content: `已成功复制到剪贴板。`,
-          duration: 0.5, // Duration in seconds
+          duration: 1, // Duration in seconds
         });
       }).catch(() => {
         message.error({
           content: '复制到剪贴板失败，请重试。',
-          duration: 0.5, // Duration in seconds
+          duration: 1, // Duration in seconds
         });
       });
     },
