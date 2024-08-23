@@ -16,7 +16,7 @@
     </template>
 
     <div style="display: flex; justify-content: center;">
-      <a-col layout="vertical" style="width: 100%; max-width: 800px; white-space: nowrap;">
+      <a-col layout="vertical" style="width: 100%; max-width: 900px; white-space: nowrap;">
 
         <!-- Form Items Here -->
       
@@ -55,22 +55,23 @@
           </div>
           <a-col :span="18">
             <a-upload
-              name="avatar"
+              name="banner"
               :max-count="1"
               list-type="picture-card"
-              :show-upload-list="true"
-              action="import.meta.env.VITE_API_HOST + '/api/v1/upload/resource'"
-              :data="uploadData"
               accept="image/png,image/jpeg,image/jpg"
+              :action="uploadUrl"
+              :headers="uploadHeaders"
+              :data="uploadData"
               :before-upload="beforeUpload"
-              @change="handleChange"
-              @success="handleSuccess"
+              @change="handleChangeBanner"
+              @success="handleSuccessBanner"
+              :show-upload-list="true"
             >
-              <div class="upload-box-large">
-                <img v-if="bannerUrl" :src="bannerUrl" alt="banner" style="width: 200px; height: 100px;" />
+              <div class="upload-box">
+                <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="width: 200px; height: 100px;" />
                 <div v-else>
                   <PlusCircleOutlined />
-                  <div style="margin-top: 8px;  font-size: 10px;">上传</div>
+                  <div style="margin-top: 8px; font-size: 10px;">上传</div>
                 </div>
               </div>
             </a-upload>
@@ -92,7 +93,7 @@
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px;">
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
             活动类型
           </div>
@@ -107,7 +108,7 @@
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 15px; width: 100%;">
+        <div style="display: flex; align-items: center; margin-bottom: 20px; width: 100%;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
             展示位置
           </div>
@@ -123,7 +124,7 @@
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px;">
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
             活动时间
           </div>
@@ -135,8 +136,8 @@
           </div>
         </div>
         
-        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px; white-space: nowrap;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+        <div style="display: flex; align-items: flex-start; width: 100%; margin-bottom: 15px; white-space: nowrap;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;margin-top: 10px;">
             充值赠送
           </div>
           <div :flex="auto" style="width: 75%;">
@@ -155,11 +156,11 @@
 
                   <a-row style="flex: 1; display: flex; align-items: center;">
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
-                      <CustomSpin v-model:nValue="spinPair[0].value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
+                      <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
                       <span style="text-align: center; font-size: 10px;">充值金额</span>
                     </a-col>
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center;">
-                      <CustomSpin v-model:nValue="spinPair[0].value2" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
+                      <CustomSpin v-model:nValue="spin_value2" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
                       <span style="text-align: center; font-size: 10px;">赠送金额</span>
                     </a-col>
                     <a-button 
@@ -223,11 +224,11 @@
                 <a-radio-group v-model="radioValue" style="text-align: left;">
                   <a-radio value="radio1">全部用户</a-radio>
                   <a-radio value="radio2">贵族用户</a-radio>
-                  <a-radio value="radio2">注册用户</a-radio>
-                  <a-radio value="radio2">贵族用户</a-radio>
-                  <a-radio value="radio2">自定义用户</a-radio>
+                  <a-radio value="radio3">注册用户</a-radio>
+                  <a-radio value="radio4">贵族用户</a-radio>
+                  <a-radio value="radio5">自定义用户</a-radio>
                 </a-radio-group>
-                <a-button style="padding: 0%; width: 100px; text-align: center;">+ 选择用户</a-button>
+                <a-button type="primary" ghost style=" padding: 0%; width: 100px; text-align: center;">+ 选择用户</a-button>
               </a-col>
             </a-row>
           </div>
@@ -378,7 +379,7 @@ export default {
 }
 
 .upload-box-large {
-  width: 300px;
+  width: 400px;
   height: 80px;
   border: 1px dashed #d9d9d9;
   border-radius: 4px;
