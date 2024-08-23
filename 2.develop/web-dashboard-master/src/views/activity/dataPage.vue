@@ -1,5 +1,19 @@
 <template>
   <a-card style="background-color: white;">
+    <template #title>
+      <div style="display: flex; align-items: center; white-space: nowrap;">
+        <a-button
+          type="link"
+          style="font-size: 18px; margin-right: 8px;"
+          @click="handleBack"
+        >
+          <span style="font-size: 20px; font-weight: bold; margin-left: 8px;">&lt;</span>
+        </a-button>
+        <div style="flex-grow: 1; text-align: center;">
+          <span style="font-size: 20px; font-weight: bold;">兑换活动数据</span>
+        </div>
+      </div>
+    </template>
 
       <a-row :gutter="16" style=" align-items: center; ">
         <!-- First Column -->
@@ -129,6 +143,12 @@ export default {
       // Add logic for handling the operation (e.g., audit, lock)
       if(operation === "提现明细")
         this.showReviewPage = true; // Switch to the add strategy view
+    },
+
+    handleBack() {
+      // Handle the back action here
+      // For example, navigate to the previous page:
+      this.$emit('back'); // Emit the back event to the parent component
     },
   },
 };

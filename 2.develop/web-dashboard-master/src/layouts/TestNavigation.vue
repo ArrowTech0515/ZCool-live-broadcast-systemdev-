@@ -76,7 +76,7 @@
   import widthrawalManagement from '@/views/widthrawal/main.vue';
   import gameManagement from '@/views/game/main.vue';
   import userManagement from '@/views/user/main.vue';
-  import activityManagement from '@/views/activity/main.vue';
+  import activityManagement from '@/views/activity/index.vue';
   
   export default {
     name: 'NavigationMenu',

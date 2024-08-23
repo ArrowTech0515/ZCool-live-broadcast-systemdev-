@@ -1,91 +1,97 @@
 <template>
   <a-card style="background-color: white;">
-    <transition name="fade-slide" mode="out-in">
-      <div v-if="!showReviewPage">
-      <a-row :gutter="16" style=" align-items: center; ">
-        <!-- First Column -->
-        <a-row >
-          <a-col style="margin: 20px;">
-                <a-form-item label="活动名称">
-                  <a-input v-model="gameId" placeholder="" />
-                </a-form-item>
-          </a-col>
 
-          <a-col style="margin: 20px;">
-              <a-form-item label="状态" >
-                <a-select v-model="status" value="all">
-                  <a-select-option value="all">全部状态</a-select-option>
-                  <a-select-option value="active">活动中</a-select-option>
-                  <a-select-option value="enabled">已结束</a-select-option>
-                </a-select>
+    <transition name="fade-slide" mode="out-in">
+
+      <div v-if="!showEditPage && !showDataPage">
+
+        <a-row :gutter="16" :type="flex" style=" align-items: center; ">
+          <!-- First Column -->
+          <a-row :type="flex">
+            <a-col style="margin: 20px;">
+                  <a-form-item label="活动名称">
+                    <a-input v-model="gameId" placeholder="" />
+                  </a-form-item>
+            </a-col>
+
+            <a-col :flex="2" style="margin: 20px;">
+                <a-form-item label="状态" >
+                  <a-select v-model="status" value="all">
+                    <a-select-option value="all">全部状态</a-select-option>
+                    <a-select-option value="active">活动中</a-select-option>
+                    <a-select-option value="enabled">已结束</a-select-option>
+                  </a-select>
+                </a-form-item>
+            </a-col>
+          </a-row>
+          <a-col :span="3" style="margin: 20px;">
+              <a-form-item>
+                <a-button type="primary" block @click="onSearch">查询</a-button>
               </a-form-item>
           </a-col>
+
         </a-row>
-        <a-col :span="3">
-            <a-form-item>
-              <a-button type="primary" block @click="onSearch">查询</a-button>
-            </a-form-item>
-        </a-col>
 
-      </a-row>
+        <!-- Your existing layout and table setup -->
+        <a-table :data-source="paginatedData" :pagination="false">
+          <a-table-column title="活动名称" dataIndex="activityName" key="activityName" align="center" />
+          <a-table-column title="活动封面" dataIndex="activityCover" key="activityCover" align="center"/>
+          <a-table-column title="活动时间" dataIndex="activityTime" key="activityTime" align="center" />
+          <a-table-column title="活动状态" dataIndex="activityStatus" key="activityStatus" align="center" />
+          <a-table-column title="操作账号" dataIndex="operationAccount" key="operationAccount" align="center">
+          </a-table-column>
+          <a-table-column title="创建时间" dataIndex="creationTime" key="creationTime" align="center">
+          </a-table-column>
+          <a-table-column title="操作" dataIndex="operate" key="operate" align="center">
+          </a-table-column>
 
-      <!-- Your existing layout and table setup -->
-      <a-table :data-source="paginatedData" :pagination="false">
-        <a-table-column title="活动名称" dataIndex="activityName" key="activityName" align="center" />
-        <a-table-column title="活动封面" dataIndex="activityCover" key="activityCover" align="center"/>
-        <a-table-column title="活动时间" dataIndex="activityTime" key="activityTime" align="center" />
-        <a-table-column title="活动状态" dataIndex="activityStatus" key="activityStatus" align="center" />
-        <a-table-column title="操作账号" dataIndex="operationAccount" key="operationAccount" align="center">
-        </a-table-column>
-        <a-table-column title="创建时间" dataIndex="creationTime" key="creationTime" align="center">
-        </a-table-column>
-        <a-table-column title="操作" dataIndex="operate" key="operate" align="center">
-        </a-table-column>
+          <template #bodyCell="{ column, text }">
 
-        <template #bodyCell="{ column, text }">
+            <span v-if="column.dataIndex === 'operate'">
+              <span style="text-decoration: underline;color: green; margin-right: 8px; cursor: pointer;" @click="handleOperation('数据')">数据</span>
+              <span style="text-decoration: underline;color: green; cursor: pointer;" @click="handleOperation('编辑')">编辑</span>
+            </span>
 
-          <span v-if="column.dataIndex === 'operate'">
-            <span style="text-decoration: underline;color: green; margin-right: 8px; cursor: pointer;" @click="handleOperation('审核')">审核</span>
-            <span style="text-decoration: underline;color: green; cursor: pointer;" @click="handleOperation('锁定')">锁定</span>
-          </span>
-
-          <!-- Default rendering for other columns -->
-          <span v-else>{{ text }}</span>
-        </template>
+            <!-- Default rendering for other columns -->
+            <span v-else>{{ text }}</span>
+          </template>
 
 
-      </a-table>
+        </a-table>
 
-      <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-        <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
-        <a-pagination
-          v-model:current="currentPage"
-          :total="totalItems"
-          :page-size="pageSize"
-          show-size-changer
-          :page-size-options="['5', '10', '20', '50', '100']"
-          :simple="false"
-          size="small"
-          @change="handlePageChange"
-          @show-size-change="handleSizeChange"
-        />
+        <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+          <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
+          <a-pagination
+            v-model:current="currentPage"
+            :total="totalItems"
+            :page-size="pageSize"
+            show-size-changer
+            :page-size-options="['5', '10', '20', '50', '100']"
+            :simple="false"
+            size="small"
+            @change="handlePageChange"
+            @show-size-change="handleSizeChange"
+          />
+        </div>
       </div>
 
-    </div>
+      <div v-else-if="showDataPage">
+        <dataPage
+          withdrawStatus="提现中"
+          
+          @back="onBackToMainPage1"
+          @confirm="handleConfirm"
+          @reject="handleReject" />
+      </div>
 
-    <div v-else>
-      
-      <review-page
-        :basicData="basicData"
-        :currentWithdraw="currentWithdraw"
-        :historyWithdraw="historyWithdraw"
-        :paymentInfo="paymentInfo"
-        withdrawStatus="提现中"
-        
-        @back="onBackToMainPage"
-        @confirm="handleConfirm"
-        @reject="handleReject" />
-    </div>
+      <div v-else>
+        <editPage
+          withdrawStatus="提现中"
+          
+          @back="onBackToMainPage2"
+          @confirm="handleConfirm"
+          @reject="handleReject" />
+      </div>
 
     </transition>
 
@@ -93,17 +99,18 @@
 </template>
 
 <script>
-
-import { message } from 'ant-design-vue';
-import reviewPage from './review/index.vue';
+import editPage from './editPage.vue';
+import dataPage from './dataPage.vue';
 
 export default {
   components: {
-    reviewPage,
+    editPage,
+    dataPage,
   },
   data() {
     return {
-      showReviewPage: false, // New state to manage which view to show
+      showEditPage: false, // New state to manage which view to show
+      showDataPage: false, // New state to manage which view to show
 
       currentPage: 1,
       pageSize: 5,
@@ -133,25 +140,6 @@ export default {
     },
   },
   methods: {
-    chunkText(text, chunkSize) {
-      const regex = new RegExp(`.{1,${chunkSize}}`, 'g');
-      return text.match(regex) || [];
-    },
-
-    copyText(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        message.success({
-          content: `已成功复制到剪贴板。`,
-          duration: 1, // Duration in seconds
-        });
-      }).catch(() => {
-        message.error({
-          content: '复制到剪贴板失败，请重试。',
-          duration: 1, // Duration in seconds
-        });
-      });
-    },
-
     onSearch() {
       // Implement search logic
     },
@@ -173,25 +161,27 @@ export default {
 
     handleOperation(operation) {
       // Add logic for handling the operation (e.g., audit, lock)
-      if(operation === "提现明细")
-        this.showReviewPage = true; // Switch to the add strategy view
+      if(operation === "编辑")
+        this.showEditPage = true; // Switch to the add strategy view
+      else if(operation === "数据")
+      {
+        console.log("handleOperation : " + operation)
+        this.showDataPage = true; // Switch to the add strategy view
+      }  
     },
 
-    onBackToMainPage() {
-      this.showReviewPage = false; // Switch back to the main table view
+    onBackToMainPage1() {
+      this.showDataPage = false; // Switch back to the main table view
     },
 
+    onBackToMainPage2() {
+      this.showEditPage = false; // Switch back to the main table view
+    },
   },
 };
 </script>
 
 <style scoped>
-.expanded-row-content {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-left: 40px;  /* Add margin to the whole sub-row */
-}
 
 .row {
   display: contents;
