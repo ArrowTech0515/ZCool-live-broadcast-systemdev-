@@ -10,7 +10,7 @@
     <!-- Input Field -->
     <a-input
       v-model:value="localValue"
-      :style="{ color: 'gray', margin: '0', textAlign: 'center', paddingLeft: '40px', paddingRight: '40px' }"
+      :style="{ color: 'gray', margin: '0', textAlign: 'center', paddingLeft: '30px', paddingRight: '30px' }"
       inputmode="numeric"
       @keydown="handleKeydown"
       @input="updateValue"

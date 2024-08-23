@@ -128,7 +128,7 @@
           case '12':
             currentComponent.value = 'widthrawalManagement'
             break
-          case '14':
+          case '15':
             currentComponent.value = 'gameManagement'
             break
           default:

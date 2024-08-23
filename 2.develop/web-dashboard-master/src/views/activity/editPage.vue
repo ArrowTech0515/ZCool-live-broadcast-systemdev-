@@ -41,7 +41,7 @@
               <div class="upload-box">
                 <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="width: 80px; height: 80px;" />
                 <div v-else>
-                  <PlusOutlined />
+                  <PlusCircleOutlined />
                   <div style="margin-top: 8px; font-size: 10px;">上传</div>
                 </div>
               </div>
@@ -69,7 +69,7 @@
               <div class="upload-box-large">
                 <img v-if="bannerUrl" :src="bannerUrl" alt="banner" style="width: 200px; height: 100px;" />
                 <div v-else>
-                  <PlusOutlined />
+                  <PlusCircleOutlined />
                   <div style="margin-top: 8px;  font-size: 10px;">上传</div>
                 </div>
               </div>
@@ -123,14 +123,15 @@
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px; white-space: nowrap;">
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
             活动时间
           </div>
-          <div style="text-align: center; width: 75%;">
-            <a-range-picker :placeholder="['开始日期', '结束日期']">
-            <!-- options here -->
-            </a-range-picker>
+          <div style="width: 75%;">
+            <a-range-picker 
+              :placeholder="['开始日期', '结束日期']"
+              style="width: 75%; text-align: center;"
+            />
           </div>
         </div>
         
@@ -138,12 +139,58 @@
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
             充值赠送
           </div>
-          <div style="width: 75%;">
-            <a-button style="padding: 0%; width: 100px; text-align: center;">添加赠送内容</a-button>
+          <div :flex="auto" style="width: 75%;">
+            <a-button @click="addCustomSpin" 
+              style="color: grey; font-size: 10px; margin-bottom: 10px; width: 100px; text-align: center;">
+              添加赠送内容
+            </a-button>
 
-            <div style="width: 75%; display: flex; justify-content: space-between;">
-              <CustomSpin v-model:nValue="parentValue" style="flex: 1; margin-right: 10px;"></CustomSpin>
-              <CustomSpin v-model:nValue="parentValue" style="flex: 1;"></CustomSpin>
+            <div style="width: 100%; display: flex; flex-direction: column;">
+              <div 
+                v-for="(spinPair, rowIndex) in groupedCustomSpins" :key="rowIndex"
+                style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+
+                <a-card class="spinCard" :bordered="true" style="background-color: rgb(242, 242, 242); 
+                      border-color: lightgrey; display: flex; align-items: center; width: 49%;">
+
+                  <a-row style="flex: 1; display: flex; align-items: center;">
+                    <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
+                      <CustomSpin v-model:nValue="spinPair[0].value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
+                      <span style="text-align: center; font-size: 10px;">充值金额</span>
+                    </a-col>
+                    <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                      <CustomSpin v-model:nValue="spinPair[0].value2" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
+                      <span style="text-align: center; font-size: 10px;">赠送金额</span>
+                    </a-col>
+                    <a-button 
+                      type="link" 
+                      @click="removeCustomSpin(rowIndex * 2)"
+                      style="margin-left: 10px; color: grey;"><MinusCircleOutlined/></a-button>
+                  </a-row>
+
+                </a-card>
+
+                <a-card v-if="spinPair.length > 1" class="spinCard" :bordered="true" style="background-color: rgb(242, 242, 242); 
+                      border-color: lightgrey; display: flex; align-items: center; width: 49%;">
+
+                  <a-row style="flex: 1; display: flex; align-items: center;">
+                    <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
+                      <CustomSpin v-model:nValue="spinPair[1].value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
+                      <span style="text-align: center; font-size: 10px;">充值金额</span>
+                    </a-col>
+                    <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                      <CustomSpin v-model:nValue="spinPair[1].value2" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
+                      <span style="text-align: center; font-size: 10px;">赠送金额</span>
+                    </a-col>
+                    <a-button 
+                      type="link" 
+                      @click="removeCustomSpin(rowIndex * 2 + 1)"
+                      style="margin-left: 10px; color: grey;"><MinusCircleOutlined/></a-button>
+                  </a-row>
+
+                </a-card>
+
+              </div>
             </div>
           </div>
         </div>
@@ -217,12 +264,14 @@ export default {
   components: {
     CustomSpin,
   },
-  // uploadRule,
 
   data() {
     return {
       parentValue: '0', // Example initial value
       radioValue: 'radio1', // Initial value for the radio group
+
+      spin_value1: '0',
+      spin_value2: '0',
 
       imageUrl: '', // URL for the uploaded icon
       bannerUrl: '', // URL for the uploaded banner
@@ -230,11 +279,34 @@ export default {
       uploadHeaders: {
         Authorization: 'Bearer ' + localStorage.getItem('token'),
       },
-
+      customSpins: [
+        { value1: '', value2: '' } // Initial CustomSpin
+      ]
     };
   },
 
+  computed: {
+    groupedCustomSpins() {
+      // Group the custom spins in pairs
+      return this.customSpins.reduce((result, value, index) => {
+        if (index % 2 === 0) {
+          result.push([value]);
+        } else {
+          result[result.length - 1].push(value);
+        }
+        return result;
+      }, []);
+    }
+  },
+
   methods: {
+    addCustomSpin() {
+      this.customSpins.push({ value1: '', value2: '' });
+    },
+    removeCustomSpin(index) {
+      this.customSpins.splice(index, 1);
+    },
+
     handleBack() {
       // Handle the back action here
       // For example, navigate to the previous page:
@@ -293,7 +365,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .upload-box {
   width: 80px;
   height: 80px;

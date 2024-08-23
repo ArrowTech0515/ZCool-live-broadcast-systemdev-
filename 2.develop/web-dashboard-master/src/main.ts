@@ -8,14 +8,15 @@ import plugins from '@/plugins'
 import '@/assets/styles/common.less'
 import '@/assets/styles/index.sass'
 import App from './App.vue'
-import { SearchOutlined, ReloadOutlined, CheckCircleFilled, PlusOutlined } from '@ant-design/icons-vue';
+import { SearchOutlined, ReloadOutlined, CheckCircleFilled, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons-vue';
 
 const app = createApp(App)
 
 app.component('SearchOutlined', SearchOutlined)
 app.component('ReloadOutlined', ReloadOutlined)
 app.component('CheckCircleFilled', CheckCircleFilled)
-app.component('PlusOutlined', PlusOutlined)
+app.component('PlusCircleOutlined', PlusCircleOutlined)
+app.component('MinusCircleOutlined', MinusCircleOutlined)
 
 app.config.globalProperties.$enums = ENUMS
 
