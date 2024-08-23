@@ -16,7 +16,7 @@
     </template>
 
     <div style="display: flex; justify-content: center;">
-      <a-col layout="vertical" style="width: 100%; max-width: 600px; white-space: nowrap;">
+      <a-col layout="vertical" style="width: 100%; max-width: 800px; white-space: nowrap;">
 
         <!-- Form Items Here -->
       
