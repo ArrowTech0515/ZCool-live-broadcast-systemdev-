@@ -19,6 +19,64 @@
       <a-col layout="vertical" style="width: 100%; max-width: 600px; white-space: nowrap;">
 
         <!-- Form Items Here -->
+      
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px;">
+          <div style="flex: 1; text-align: right; padding-right: 10px; margin-right: 15px;">
+            活动图标
+          </div>
+          <a-col :span="18">
+            <a-upload
+              name="banner"
+              :max-count="1"
+              list-type="picture-card"
+              accept="image/png,image/jpeg,image/jpg"
+              :action="uploadUrl"
+              :headers="uploadHeaders"
+              :data="uploadData"
+              :before-upload="beforeUpload"
+              @change="handleChangeBanner"
+              @success="handleSuccessBanner"
+              :show-upload-list="true"
+            >
+              <div class="upload-box">
+                <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="width: 80px; height: 80px;" />
+                <div v-else>
+                  <PlusOutlined />
+                  <div style="margin-top: 8px; font-size: 10px;">上传</div>
+                </div>
+              </div>
+            </a-upload>
+          </a-col>
+        </div>
+
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px;">
+          <div style="flex: 1; text-align: right; padding-right: 10px; margin-right: 15px;">
+            活动封面
+          </div>
+          <a-col :span="18">
+            <a-upload
+              name="avatar"
+              :max-count="1"
+              list-type="picture-card"
+              :show-upload-list="true"
+              action="import.meta.env.VITE_API_HOST + '/api/v1/upload/resource'"
+              :data="uploadData"
+              accept="image/png,image/jpeg,image/jpg"
+              :before-upload="beforeUpload"
+              @change="handleChange"
+              @success="handleSuccess"
+            >
+              <div class="upload-box-large">
+                <img v-if="bannerUrl" :src="bannerUrl" alt="banner" style="width: 200px; height: 100px;" />
+                <div v-else>
+                  <PlusOutlined />
+                  <div style="margin-top: 8px;  font-size: 10px;">上传</div>
+                </div>
+              </div>
+            </a-upload>
+          </a-col>
+        </div>
+
         <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px;">
           <div style="flex: 1; text-align: right; padding-right: 10px; margin-right: 15px;">
             策略名称
@@ -186,16 +244,26 @@
 
 <script>
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
+// const uploadRule = createUploadRule('主播头像', 'avatar_url')
 
 export default {
   components: {
     CustomSpin,
   },
+  // uploadRule,
 
   data() {
     return {
       parentValue: '0', // Example initial value
       radioValue: 'radio1', // Initial value for the radio group
+
+      imageUrl: '', // URL for the uploaded icon
+      bannerUrl: '', // URL for the uploaded banner
+      uploadUrl: import.meta.env.VITE_API_HOST + '/api/v1/upload/resource',
+      uploadHeaders: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+
     };
   },
 
@@ -221,6 +289,64 @@ export default {
     handleCustomusers() {
       // Handle Custom users selection
     },
+
+    beforeUpload(file) {
+      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      if (!isJpgOrPng) {
+        this.$message.error('You can only upload JPG/PNG file!');
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.$message.error('Image must smaller than 2MB!');
+      }
+      return isJpgOrPng && isLt2M;
+    },
+    handleChange(info) {
+      if (info.file.status === 'done') {
+        this.imageUrl = URL.createObjectURL(info.file.originFileObj);
+      }
+    },
+    handleChangeBanner(info) {
+      if (info.file.status === 'done') {
+        this.bannerUrl = URL.createObjectURL(info.file.originFileObj);
+      }
+    },
+    handleSuccess(response, file) {
+      if (response?.status === 200) {
+        file.url = response.data.link;
+      } else {
+        this.$message.error('上传失败');
+      }
+    },
+    uploadData() {
+      return { type: 1 };
+    },
+
   },
 };
 </script>
+
+<style>
+.upload-box {
+  width: 80px;
+  height: 80px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.upload-box-large {
+  width: 300px;
+  height: 80px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+</style>
