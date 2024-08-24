@@ -10,7 +10,7 @@
           <span style="font-size: 20px; font-weight: bold; margin-left: 8px;">&lt;</span>
         </a-button>
         <div style="flex-grow: 1; text-align: center;">
-          <span style="font-size: 20px; font-weight: bold;">兑换活动数据</span>
+          <span style="font-size: 20px; font-weight: bold;">靓号活动数据</span>
         </div>
       </div>
     </template>
@@ -47,10 +47,23 @@
       <a-table :data-source="paginatedData" :pagination="false">
         <a-table-column title="用户ID" dataIndex="activityName" key="activityName" align="center" />
         <a-table-column title="用户昵称" dataIndex="activityCover" key="activityCover" align="center"/>
-        <a-table-column title="兑换钻石" dataIndex="activityTime" key="activityTime" align="center" />
-        <a-table-column title="赠送钻石" dataIndex="activityStatus" key="activityStatus" align="center" />
-        <a-table-column title="赠送时间" dataIndex="operationAccount" key="operationAccount" align="center">
-        </a-table-column>
+        <a-table-column title="消费钻石" dataIndex="activityTime" key="activityTime" align="center" />
+        <a-table-column title="抽奖状态" dataIndex="activityStatus" key="activityStatus" align="center" />
+        <a-table-column title="抽奖靓号" dataIndex="value5" key="value5" align="center"/>
+        <a-table-column title="详细信息" dataIndex="value6" key="value6" align="center"/>
+        <a-table-column title="抽奖时间" dataIndex="value7" key="value7" align="center"/>
+
+        <template #bodyCell="{ column, text }" >
+          <!-- Render Multiline Text for '游戏ID' Column with Color Styling -->
+          <span v-if="column.dataIndex === 'value6'">
+            <div v-for="(line, index) in text.split('\n')" :key="index">
+              <!-- Check for colon and split the text into label and value -->
+              <span>{{ line }}</span>
+            </div>
+          </span>
+          <!-- Default Rendering for Other Columns -->
+          <span v-else>{{ text }}</span>
+        </template>
 
       </a-table>
 
@@ -86,25 +99,31 @@ export default {
           key: '1',
           activityName: '232312',
           activityCover: '大大',
-          activityTime: '4324234',
-          activityStatus: '4324234',
-          operationAccount: '2012-12-12  12:21',
+          activityTime: '3000000钻石',
+          activityStatus: '未参与',
+          value5: '8888888',
+          value6: '抽奖设备：安卓XXX机型\n抽奖IP：219.212.212.21',
+          value7: '2012-12-12  12:21',
         },
         {
           key: '2',
           activityName: '232312',
           activityCover: '发生发顺丰',
-          activityTime: '4324234',
-          activityStatus: '4324234',
-          operationAccount: '2012-12-12  12:21',
+          activityTime: '3000000钻石',
+          activityStatus: '已参与',
+          value5: '1114333',
+          value6: '抽奖设备：安卓XXX机型\n抽奖IP：219.212.212.21',
+          value7: '2012-12-12  12:21',
         },
         {
           key: '3',
           activityName: '232312',
           activityCover: '大大',
-          activityTime: '43242',
-          activityStatus: '43242',
-          operationAccount: '2012-12-12  12:21',
+          activityTime: '3000000钻石',
+          activityStatus: '已参与',
+          value5: '4324567',
+          value6: '抽奖设备：安卓XXX机型\n抽奖IP：219.212.212.21',
+          value7: '2012-12-12  12:21',
         },
         
       ],

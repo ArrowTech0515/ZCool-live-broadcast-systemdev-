@@ -76,7 +76,7 @@
               </div>
             </a-upload>
             
-            <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
+            <div style="color: darkgray; font-size: 10px; text-align: left;">
               用户端活动中心展示封面
             </div>
 
