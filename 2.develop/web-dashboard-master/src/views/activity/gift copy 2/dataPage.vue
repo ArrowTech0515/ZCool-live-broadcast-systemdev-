@@ -10,7 +10,7 @@
           <span style="font-size: 20px; font-weight: bold; margin-left: 8px;">&lt;</span>
         </a-button>
         <div style="flex-grow: 1; text-align: center;">
-          <span style="font-size: 20px; font-weight: bold;">签到活动数据</span>
+          <span style="font-size: 20px; font-weight: bold;">送礼活动数据</span>
         </div>
       </div>
     </template>
@@ -47,9 +47,9 @@
       <a-table :data-source="paginatedData" :pagination="false">
         <a-table-column title="用户ID" dataIndex="activityName" key="activityName" align="center" />
         <a-table-column title="用户昵称" dataIndex="activityCover" key="activityCover" align="center"/>
-        <a-table-column title="签到天数" dataIndex="activityTime" key="activityTime" align="center" />
-        <a-table-column title="领取奖励" dataIndex="activityStatus" key="activityStatus" align="center" />
-        <a-table-column title="领取时间" dataIndex="operationAccount" key="operationAccount" align="center">
+        <a-table-column title="赠送机制" dataIndex="activityTime" key="activityTime" align="center" />
+        <a-table-column title="赠送类型" dataIndex="activityStatus" key="activityStatus" align="center" />
+        <a-table-column title="赠送时间" dataIndex="operationAccount" key="operationAccount" align="center">
         </a-table-column>
 
       </a-table>
@@ -86,27 +86,26 @@ export default {
           key: '1',
           activityName: '232312',
           activityCover: '大大',
-          activityTime: '3',
-          activityStatus: '3423钻石',
+          activityTime: '新注册用户',
+          activityStatus: '3242钻石 | XXX 礼物*3  |  XXX礼物*1',
           operationAccount: '2012-12-12  12:21',
         },
         {
           key: '2',
           activityName: '232312',
           activityCover: '发生发顺丰',
-          activityTime: '3',
-          activityStatus: 'XXX礼物',
+          activityTime: '首充用户',
+          activityStatus: '3242钻石',
           operationAccount: '2012-12-12  12:21',
         },
         {
           key: '3',
           activityName: '232312',
           activityCover: '大大',
-          activityTime: '1',
-          activityStatus: 'XXX礼物',
+          activityTime: '绑定手机号用户',
+          activityStatus: '3242钻石 | XXX 礼物*3  |  XXX礼物*1',
           operationAccount: '2012-12-12  12:21',
         },
-        
       ],
     };
   },
