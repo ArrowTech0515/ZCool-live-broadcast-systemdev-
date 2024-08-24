@@ -75,11 +75,9 @@
                 </div>
               </div>
             </a-upload>
-            
             <div style="color: darkgray; font-size: 10px; text-align: left;">
               用户端活动中心展示封面
             </div>
-
           </a-col>
         </div>
 
@@ -110,19 +108,6 @@
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 20px; width: 100%;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
-            展示位置
-          </div>
-          <div style="width: 75%; ">
-            <a-space style="flex-grow: 1;">
-              <a-checkbox value="All" @change="handleAllusers">首页右下角</a-checkbox>
-              <a-checkbox value="Noble" @change="handleNobleusers">直播间右下角</a-checkbox>
-              <a-checkbox value="Recharge" @change="handleRechargeusers">个人中心右下角</a-checkbox>
-            </a-space>
-          </div>
-        </div>
-
         <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
             活动时间
@@ -134,48 +119,92 @@
             />
           </div>
         </div>
-      
+     
         <div style="display: flex; align-items: center; margin-bottom: 20px; width: 100%;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
-            展示位置
+            图标位置
           </div>
           <div style="width: 75%; ">
             <a-space style="flex-grow: 1;">
-              <a-checkbox value="leopard" @change="handleAllusers">豹子号</a-checkbox>
-              <a-checkbox value="continuous" @change="handleNobleusers">连号</a-checkbox>
-              <a-checkbox value="serial" @change="handleRechargeusers">序列号</a-checkbox>
-              <a-checkbox value="interval" @change="handleRechargeusers">间隔号</a-checkbox>
+              <a-checkbox value="All" @change="handleAllusers">首页右下角</a-checkbox>
+              <a-checkbox value="Noble" @change="handleNobleusers">直播间右下角</a-checkbox>
+              <a-checkbox value="Recharge" @change="handleRechargeusers">个人中心右下角</a-checkbox>
             </a-space>
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; justify-content: center; width: 100%; margin-bottom: 15px; white-space: nowrap;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px; margin-top: 10px;">
-            充值赠送
+        <div style="display: flex; align-items: flex-start; width: 100%; margin-bottom: 15px; white-space: nowrap;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;margin-top: 10px;">
+            赠送内容
           </div>
+
           <div :flex="auto" style="width: 75%;">
-            <CustomSpin v-model:nValue="spin_value1" style="flex: auto; margin-bottom: 5px; width: 75%;"></CustomSpin>
+
+            <a-row style="margin-bottom: 15px; ">
+              <a-checkbox value="All" @change="handleAllusers">赠送钻石</a-checkbox>
+              <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
+            </a-row>
+            
+            <a-row style="display: flex; margin-bottom: 15px; ">
+              <a-checkbox :flex="auto" value="All" @change="handleAllusers">赠送礼物</a-checkbox>
+              <a-col>
+                <a-button style="margin-right: 20px; " @click="addCustomSpin">添加礼物</a-button>
+                <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
+                  已添加 53个礼物
+                </div>
+              </a-col>
+              <a-form-item label="礼物有效期">
+                  <a-input style="text-align: center" v-model="gameId" value="1" placeholder="" /> 天
+              </a-form-item>
+
+            </a-row>
+
+            <div style="width: 100%; display: flex; flex-direction: row;">
+              <div 
+                v-for="(spinPair, rowIndex) in spinCards" :key="rowIndex"
+                style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+
+                <a-card 
+                  class="spinCard" :bordered="true" 
+                  style="color: darkgray; border-color: darkgray; display: flex; align-items: center;">
+
+                  <template #title>
+                    <div style="color: darkgray; flex: 1; text-align: center;">
+                        <span style="font-size: 10px;">礼物名称</span>
+                    </div>
+                    <div style="display: flex; align-items: center; white-space: nowrap;">
+                      <a-button 
+                        type="link" 
+                        @click="removeCustomSpin(rowIndex)"
+                        style="margin-left: 10px; color: grey;"><MinusCircleOutlined/>
+                      </a-button>
+                    </div>
+                  </template>
+
+                  <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
+                    <span style="text-align: center; font-size: 10px;">礼物图标</span>
+                    <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
+                  </a-col>
+
+                </a-card>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; text-align: justify; width: 100%; margin-bottom: 15px;">
+        <div style="display: flex; align-items: center; margin-bottom: 20px; width: 100%;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
-            参与用户
+            赠送机制
           </div>
-          <div style="width: 75%;">
-            <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
-              <!-- Radio Group on the left -->
-              <a-col :span="16">
-                <a-radio-group v-model="radioValue" style="text-align: left;">
-                  <a-radio value="radio1">全部用户</a-radio>
-                  <a-radio value="radio2">贵族用户</a-radio>
-                  <a-radio value="radio3">注册用户</a-radio>
-                  <a-radio value="radio4">贵族用户</a-radio>
-                  <a-radio value="radio5">自定义用户</a-radio>
-                </a-radio-group>
-                <a-button type="primary" ghost style=" padding: 0%; width: 100px; text-align: center;">+ 选择用户</a-button>
-              </a-col>
-            </a-row>
+          <div style="width: 75%; display: flex; align-items: center; justify-content: space-between;">
+            <a-space style="flex-grow: 1;">
+              <a-checkbox value="All" @change="handleAllusers">新用户注册</a-checkbox>
+              <a-checkbox value="Noble" @change="handleNobleusers">绑定手机号用户</a-checkbox>
+              <a-checkbox value="Noble" @change="handleNobleusers">绑定邮箱用户</a-checkbox>
+              <a-checkbox value="Noble" @change="handleNobleusers">认证用户</a-checkbox>
+              <a-checkbox value="Noble" @change="handleNobleusers">首充用户</a-checkbox>
+              <a-checkbox value="Noble" @change="handleNobleusers">首次消费用户</a-checkbox>
+            </a-space>
           </div>
         </div>
 
@@ -217,7 +246,6 @@ export default {
       radioValue: 'radio1', // Initial value for the radio group
 
       spin_value1: '0',
-      spin_value2: '0',
 
       imageUrl: '', // URL for the uploaded icon
       bannerUrl: '', // URL for the uploaded banner
@@ -225,32 +253,22 @@ export default {
       uploadHeaders: {
         Authorization: 'Bearer ' + localStorage.getItem('token'),
       },
-      customSpins: [
-        { value1: '', value2: '' } // Initial CustomSpin
+      spinCards: [
+        { value1: '' } // Initial CustomSpin
       ]
     };
   },
 
   computed: {
-    groupedCustomSpins() {
-      // Group the custom spins in pairs
-      return this.customSpins.reduce((result, value, index) => {
-        if (index % 2 === 0) {
-          result.push([value]);
-        } else {
-          result[result.length - 1].push(value);
-        }
-        return result;
-      }, []);
-    }
+
   },
 
   methods: {
     addCustomSpin() {
-      this.customSpins.push({ value1: '', value2: '' });
+      this.spinCards.push({ value1: '' });
     },
     removeCustomSpin(index) {
-      this.customSpins.splice(index, 1);
+      this.spinCards.splice(index, 1);
     },
 
     handleBack() {

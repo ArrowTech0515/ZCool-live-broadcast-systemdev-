@@ -333,11 +333,19 @@ export default {
     beforeUpload(file) {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJpgOrPng) {
-        this.$message.error('You can only upload JPG/PNG file!');
+        //this.$message.error('You can only upload JPG/PNG file!');
+        message.error({
+          content: 'You can only upload JPG/PNG file!',
+          duration: 2, // Duration in seconds
+        });
       }
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
-        this.$message.error('Image must smaller than 2MB!');
+        //this.$message.error('Image must smaller than 2MB!');
+        message.error({
+          content: 'Image must smaller than 2MB!',
+          duration: 2, // Duration in seconds
+        });
       }
       return isJpgOrPng && isLt2M;
     },
@@ -355,7 +363,11 @@ export default {
       if (response?.status === 200) {
         file.url = response.data.link;
       } else {
-        this.$message.error('上传失败');
+        //this.$message.error('上传失败');
+        message.error({
+          content: '上传失败。',
+          duration: 2, // Duration in seconds
+        });
       }
     },
     uploadData() {

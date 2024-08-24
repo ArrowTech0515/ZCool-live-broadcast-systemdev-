@@ -13,6 +13,9 @@
         <a-tab-pane key="4" tab="签到活动">
             <gift2Page />
         </a-tab-pane>
+        <a-tab-pane key="5" tab="送礼活动">
+            <gift22Page />
+        </a-tab-pane>
 
     </a-tabs>
 </template>
@@ -24,6 +27,7 @@ import activityPage from './index.vue';
 import taskPage from './task/index.vue'; // junn
 import giftPage from './gift/index.vue'; // junn
 import gift2Page from './gift copy/index.vue'; // junn
+import gift22Page from './gift copy 2/index.vue'; // junn
 
 export default {
 components: {
@@ -32,7 +36,8 @@ components: {
     activityPage,
     taskPage,
     giftPage,
-    gift2Page
+    gift2Page,
+    gift22Page,
 }
 }
 </script>
