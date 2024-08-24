@@ -75,6 +75,11 @@
                 </div>
               </div>
             </a-upload>
+            
+            <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
+              用户端活动中心展示封面
+            </div>
+
           </a-col>
         </div>
 
@@ -84,7 +89,7 @@
           </div>
           <div style="width: 75%;">
             <a-input 
-              placeholder="" 
+              placeholder="请输入" 
               style="text-align: center; width: 75%;"
             />
             <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
@@ -93,18 +98,15 @@
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
             活动类型
           </div>
           <div style="width: 75%;">
             <a-input 
-              placeholder="" 
+              placeholder="请输入" 
               style="text-align: center; width: 75%;"
             />
-            <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
-              用户不可见，仅后台用户可见
-            </div>
           </div>
         </div>
 
@@ -113,9 +115,6 @@
             展示位置
           </div>
           <div style="width: 75%; ">
-            <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
-              用户不可见，仅后台用户可见
-            </div>
             <a-space style="flex-grow: 1;">
               <a-checkbox value="All" @change="handleAllusers">首页右下角</a-checkbox>
               <a-checkbox value="Noble" @change="handleNobleusers">直播间右下角</a-checkbox>
@@ -135,84 +134,30 @@
             />
           </div>
         </div>
-        
-        <div style="display: flex; align-items: flex-start; width: 100%; margin-bottom: 15px; white-space: nowrap;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;margin-top: 10px;">
+      
+        <div style="display: flex; align-items: center; margin-bottom: 20px; width: 100%;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+            展示位置
+          </div>
+          <div style="width: 75%; ">
+            <a-space style="flex-grow: 1;">
+              <a-checkbox value="leopard" @change="handleAllusers">豹子号</a-checkbox>
+              <a-checkbox value="continuous" @change="handleNobleusers">连号</a-checkbox>
+              <a-checkbox value="serial" @change="handleRechargeusers">序列号</a-checkbox>
+              <a-checkbox value="interval" @change="handleRechargeusers">间隔号</a-checkbox>
+            </a-space>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: center; width: 100%; margin-bottom: 15px; white-space: nowrap;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px; margin-top: 10px;">
             充值赠送
           </div>
           <div :flex="auto" style="width: 75%;">
-            <a-button @click="addCustomSpin" 
-              style="color: grey; font-size: 10px; margin-bottom: 10px; width: 100px; text-align: center;">
-              添加赠送内容
-            </a-button>
-
-            <div style="width: 100%; display: flex; flex-direction: column;">
-              <div 
-                v-for="(spinPair, rowIndex) in groupedCustomSpins" :key="rowIndex"
-                style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-
-                <a-card class="spinCard" :bordered="true" style="background-color: rgb(242, 242, 242); 
-                      border-color: lightgrey; display: flex; align-items: center; width: 49%;">
-
-                  <a-row style="flex: 1; display: flex; align-items: center;">
-                    <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
-                      <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; font-size: 10px;">充值金额</span>
-                    </a-col>
-                    <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center;">
-                      <CustomSpin v-model:nValue="spin_value2" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; font-size: 10px;">赠送金额</span>
-                    </a-col>
-                    <a-button 
-                      type="link" 
-                      @click="removeCustomSpin(rowIndex * 2)"
-                      style="margin-left: 10px; color: grey;"><MinusCircleOutlined/></a-button>
-                  </a-row>
-
-                </a-card>
-
-                <a-card v-if="spinPair.length > 1" class="spinCard" :bordered="true" style="background-color: rgb(242, 242, 242); 
-                      border-color: lightgrey; display: flex; align-items: center; width: 49%;">
-
-                  <a-row style="flex: 1; display: flex; align-items: center;">
-                    <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
-                      <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; font-size: 10px;">充值金额</span>
-                    </a-col>
-                    <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center;">
-                      <CustomSpin v-model:nValue="spin_value2" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; font-size: 10px;">赠送金额</span>
-                    </a-col>
-                    <a-button 
-                      type="link" 
-                      @click="removeCustomSpin(rowIndex * 2 + 1)"
-                      style="margin-left: 10px; color: grey;"><MinusCircleOutlined/></a-button>
-                  </a-row>
-
-                </a-card>
-
-              </div>
-            </div>
+            <CustomSpin v-model:nValue="spin_value1" style="flex: auto; margin-bottom: 5px; width: 75%;"></CustomSpin>
           </div>
         </div>
-        
-        <div style="display: flex; align-items: center; text-align: justify; width: 100%; margin-bottom: 15px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
-            赠送规则
-          </div>
-          <div style="width: 75%;">
-            <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
-              <!-- Radio Group on the left -->
-              <a-col :span="16">
-                <a-radio-group v-model="radioValue" style="text-align: left;">
-                  <a-radio value="radio1">首次充值有效</a-radio>
-                  <a-radio value="radio2">多次充值有效</a-radio>
-                </a-radio-group>
-              </a-col>
-            </a-row>
-          </div>
-        </div>
-        
+
         <div style="display: flex; align-items: center; text-align: justify; width: 100%; margin-bottom: 15px;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
             参与用户

@@ -93,21 +93,6 @@
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
-            活动类型
-          </div>
-          <div style="width: 75%;">
-            <a-input 
-              placeholder="" 
-              style="text-align: center; width: 75%;"
-            />
-            <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
-              用户不可见，仅后台用户可见
-            </div>
-          </div>
-        </div>
-
         <div style="display: flex; align-items: center; margin-bottom: 20px; width: 100%;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
             展示位置
