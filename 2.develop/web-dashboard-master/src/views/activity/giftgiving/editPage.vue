@@ -140,13 +140,13 @@
 
           <div :flex="auto" style="width: 75%;">
 
-            <a-row style="margin-bottom: 15px; ">
-              <a-checkbox value="All" @change="handleAllusers">赠送钻石</a-checkbox>
-              <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
+            <a-row style=" margin-bottom: 15px; ">
+              <a-checkbox style="align-items: center; margin-right: 10px;" value="All" @change="handleAllusers">赠送钻石</a-checkbox>
+              <CustomSpin v-model:nValue="spin_value1" style="width: 60%; margin-bottom: 5px;"></CustomSpin>
             </a-row>
             
-            <a-row style="display: flex; margin-bottom: 15px; ">
-              <a-checkbox :flex="auto" value="All" @change="handleAllusers">赠送礼物</a-checkbox>
+            <a-row style="margin-bottom: 15px; ">
+              <a-checkbox style="align-items: center;" value="All" @change="handleAllusers">赠送礼物</a-checkbox>
               <a-col>
                 <a-button style="margin-right: 20px; " @click="addCustomSpin">添加礼物</a-button>
                 <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
@@ -159,36 +159,20 @@
 
             </a-row>
 
-            <div style="width: 100%; display: flex; flex-direction: row;">
-              <div 
-                v-for="(spinPair, rowIndex) in spinCards" :key="rowIndex"
-                style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <a-row gutter="[16, 16]" style="width: 100%; ">
+              <a-col
+                v-for="(spinPair, index) in spinCards"
+                :key="index"
+                :span="5" 
+                style="margin-bottom: 5px; display: flex; justify-content: center;">
+                
+                <GiftPanel 
+                  :spinValue="spinPair.spinValue" 
+                  :curIndex="spinPair.curIndex" 
+                  @remove-custom-spin="removeCustomSpin"/>
+              </a-col>
+            </a-row>
 
-                <a-card 
-                  class="spinCard" :bordered="true" 
-                  style="color: darkgray; border-color: darkgray; display: flex; align-items: center;">
-
-                  <template #title>
-                    <div style="color: darkgray; flex: 1; text-align: center;">
-                        <span style="font-size: 10px;">礼物名称</span>
-                    </div>
-                    <div style="display: flex; align-items: center; white-space: nowrap;">
-                      <a-button 
-                        type="link" 
-                        @click="removeCustomSpin(rowIndex)"
-                        style="margin-left: 10px; color: grey;"><MinusCircleOutlined/>
-                      </a-button>
-                    </div>
-                  </template>
-
-                  <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
-                    <span style="text-align: center; font-size: 10px;">礼物图标</span>
-                    <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                  </a-col>
-
-                </a-card>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -234,10 +218,12 @@
 <script>
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
 // const uploadRule = createUploadRule('主播头像', 'avatar_url')
+import GiftPanel from './GiftPanel.vue'
 
 export default {
   components: {
     CustomSpin,
+    GiftPanel
   },
 
   data() {
@@ -253,9 +239,20 @@ export default {
       uploadHeaders: {
         Authorization: 'Bearer ' + localStorage.getItem('token'),
       },
+      // spinCards: [
+      //   { value1: '' } // Initial CustomSpin
+      // ]
       spinCards: [
-        { value1: '' } // Initial CustomSpin
-      ]
+      { curIndex: 0, name: 'Gift 1', icon: '🎁', spinValue: 0 },
+      // { id: 2, name: 'Gift 2', icon: '🎂', spinValue: 20 },
+      // { id: 3, name: 'Gift 3', icon: '🍫', spinValue: 15 },
+      // { id: 4, name: 'Gift 4', icon: '💎', spinValue: 50 },
+      // { id: 5, name: 'Gift 5', icon: '🧸', spinValue: 25 },
+      // { id: 6, name: 'Gift 6', icon: '🎮', spinValue: 30 },
+      // { id: 7, name: 'Gift 7', icon: '🏆', spinValue: 40 },
+      // { id: 8, name: 'Gift 8', icon: '📱', spinValue: 35 }
+    ],
+      giftValidity: ''
     };
   },
 
@@ -265,10 +262,20 @@ export default {
 
   methods: {
     addCustomSpin() {
-      this.spinCards.push({ value1: '' });
+      const newId = this.spinCards.length
+      this.spinCards.push({
+        curIndex: newId,
+        name: `Gift ${newId}`,
+        icon: '🎁', // Default icon or change as needed
+        spinValue: 0 // Default value, can be modified
+      })
     },
-    removeCustomSpin(index) {
-      this.spinCards.splice(index, 1);
+    removeCustomSpin(curIndex) {
+      console.log("removeCustomSpin : " + curIndex)
+      console.log("removeCustomSpin1 : " + this.spinCards[curIndex].spinValue)
+      console.log("removeCustomSpin2 : " + this.spinCards[curIndex].curIndex)
+      this.spinCards.splice(curIndex, 1)
+      //this.spinCards = this.spinCards.filter(spinPair => spinPair.id !== id);
     },
 
     handleBack() {

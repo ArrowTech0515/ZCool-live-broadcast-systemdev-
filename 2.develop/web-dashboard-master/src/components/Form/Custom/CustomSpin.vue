@@ -33,6 +33,7 @@ export default {
       required: true,
     },
   },
+emits: ['update:nValue'],
   data() {
     return {
       localValue: this.nValue, // Initialize with the prop value
