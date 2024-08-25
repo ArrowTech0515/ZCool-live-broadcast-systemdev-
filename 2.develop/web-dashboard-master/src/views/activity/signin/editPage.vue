@@ -62,28 +62,32 @@
           </div>
         </div>
     
-        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
+        <div style="display: flex; align-items: flex-start; width: 100%; margin-bottom: 15px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; margin-top: 5px;padding-right: 10px; margin-right: 15px;">
             签到天数
           </div>
-          <a-card 
-            :bordered="true"
-            style="width: 75%; background-color: rgb(242, 242, 242); border-color: lightgrey; display: flex; align-items: center; width: 49%;">
-            <a-table :dataSource="dataSource" :pagination="false">
-              <a-table-column 
-                title="签到天数" dataIndex="col_1" key="col_1" align="center"></a-table-column>
-              <a-table-column title="签到奖励" dataIndex="col_2" key="col_2" align="center"></a-table-column>
+          <div style="width: 75%;">
+            <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
+              默认签到配置为7天，需要设置当前签到奖励
+            </div>
+            <a-card 
+              :bordered="true" 
+              style="width: 75%; background-color: rgb(242, 242, 242); border-color: lightgrey;">
+              <a-table :dataSource="dataSource" :pagination="false">
+                <a-table-column 
+                  title="签到天数" dataIndex="col_1" key="col_1" align="center"></a-table-column>
+                <a-table-column title="签到奖励" dataIndex="col_2" key="col_2" align="center"></a-table-column>
 
-              <template #bodyCell="{ column, text }">
-                <span v-if="column.dataIndex === 'col_2'">
-                  <span style="text-decoration: underline;color: blue; cursor: pointer;" @click="handleOperation('col_2')">{{ text }}</span>
-                </span>
-                <!-- Default rendering for other columns -->
-                <span v-else>{{ text }}</span>
-              </template>
-
-            </a-table>
-          </a-card>
+                <template #bodyCell="{ column, text }">
+                  <span v-if="column.dataIndex === 'col_2'">
+                    <span style="text-decoration: underline;color: blue; cursor: pointer;" @click="handleOperation('col_2')">{{ text }}</span>
+                  </span>
+                  <!-- Default rendering for other columns -->
+                  <span v-else>{{ text }}</span>
+                </template>
+              </a-table>
+            </a-card>
+          </div>
         </div>
 
         <div style="display: flex; align-items: center; text-align: justify; width: 100%; margin-bottom: 15px;">

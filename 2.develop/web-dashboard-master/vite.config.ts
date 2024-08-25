@@ -55,16 +55,16 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
     plugins: [
       // Junn / for run offline
 
-      // iconfont({
-      //   url: VITE_ICONFONT_URL,
-      //   distUrl: './public/iconfont/iconfont.js',
-      //   iconJson: './src/components/IconPicker/data.json',
-      //   inject: false,
-      //   prefix: 'i-',
-      //   dts: './types/iconfont.d.ts',
-      //   iconifyFile: './.iconify.json'
-      // }),
-      // 网站更新提醒
+      iconfont({
+        url: VITE_ICONFONT_URL,
+        distUrl: './public/iconfont/iconfont.js',
+        iconJson: './src/components/IconPicker/data.json',
+        inject: false,
+        prefix: 'i-',
+        dts: './types/iconfont.d.ts',
+        iconifyFile: './.iconify.json'
+      }),
+      //网站更新提醒
       VITE_UPDATE_NOTICE &&
       webUpdateNotice({
         versionType: 'build_timestamp',
