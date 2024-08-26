@@ -132,23 +132,33 @@
     </div>
 
   </a-card>
+
+  <AddRewardDialog 
+        :isModalVisible="isModalVisible"
+      @update:is-modal-visible="val => isModalVisible = val" />
+ 
 </template>
 
 <script lang="ts">
 import useOrderRule from './hooks/useOrderRule'
 import ModalForm from '@/components/Form/ModalForm/ModalForm.vue' // Adjust the path as necessary
 import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/anchor'
+import AddRewardDialog from './addRewardDialog.vue'
 
 
 const { createDialog } = useDialog()
 //const fApi = ref({})
 
 export default {
+  components: {
+    AddRewardDialog,
+  },
 
   data() {
     return {
       parentValue: '0', // Example initial value
       radioValue: 'radio1', // Initial value for the radio group
+      isModalVisible : false,
 
       dataSource: [
         {
@@ -204,9 +214,12 @@ export default {
     },
     handleOperation(operation) {
       // Add logic for handling the operation (e.g., audit, lock)
-      console.log("handleOperation : " + operation)
       if(operation === "添加奖励")
-        this.editItem()
+        {
+          //this.editItem()
+          console.log("handleOperation : " + this.isModalVisible.value)
+          this.isModalVisible  = true
+        }
     },
     handleAllusers() {
       // Handle All users selection
@@ -254,34 +267,34 @@ export default {
 
       console.log("editItem : " + formValue.value)
 
-      createDialog({
-        title: '添加奖励',
-        width: 500,
-        component:ModalForm,
-        componentProps: {
-            modelValue: formValue.value,
-            fApi: fApi.value,
-            ...formModalProps,
-          },
-        // component:
-        //   <ModalForm
-        //     v-model={formValue.value}
-        //     v-model:fApi={fApi.value}
-        //     {...formModalProps}
-        //   >
-        //   </ModalForm>
-        // ,
-        onConfirm() {
-          pagination.page = 1
-          pagination.total = 0
-          props.resetSearch()
-        },
-      })
-        // component: ModalForm,
-        // componentProps: {
-        //   modelValue: formValue.value,
-        //   fApi: fApi.value,
-        // },
+      // createDialog({
+      //   title: '添加奖励',
+      //   width: 500,
+      //   component:ModalForm,
+      //   componentProps: {
+      //       modelValue: formValue.value,
+      //       fApi: fApi.value,
+      //       ...formModalProps,
+      //     },
+      //   // component:
+      //   //   <ModalForm
+      //   //     v-model={formValue.value}
+      //   //     v-model:fApi={fApi.value}
+      //   //     {...formModalProps}
+      //   //   >
+      //   //   </ModalForm>
+      //   // ,
+      //   onConfirm() {
+      //     pagination.page = 1
+      //     pagination.total = 0
+      //     props.resetSearch()
+      //   },
+      // })
+      //   component: ModalForm,
+      //   componentProps: {
+      //     modelValue: formValue.value,
+      //     fApi: fApi.value,
+      //   },
     },
   },
 };

@@ -2,7 +2,10 @@
   <a-modal
     title="添加奖励"
     v-model:visible="isModalVisible"
+    maskClosable="false"
+    keyboard="false"
     :footer="null"
+    @update:visible="updateVisible"
   >
     <a-form-item label="奖励类型">
       <a-radio-group v-model:value="rewardType">
@@ -84,8 +87,24 @@ export default defineComponent({
     'a-table-column': Table.Column,
     CustomSpin,
   },
-  setup() {
-    const isModalVisible = ref(true);
+  props: {
+    isModalVisible: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  emits: ['update:isModalVisible'],
+
+  setup(props, { emit }) {
+    const updateVisible = (visible) => {
+      if (typeof visible === 'boolean') {
+        emit('update:isModalVisible', visible);
+      } else {
+        console.error('Invalid value for isModalVisible:', visible);
+      }
+    }
+    
     const rewardType = ref('diamond');
     const diamondCount = ref(0);
     const balanceCount = ref(0);
@@ -108,12 +127,12 @@ export default defineComponent({
 
     const handleOk = () => {
       console.log('OK Clicked', rewardType.value);
-      isModalVisible.value = false;
+      updateVisible(false);
     };
 
     const handleCancel = () => {
       console.log('Cancel Clicked');
-      isModalVisible.value = false;
+      updateVisible(false);
     };
 
     const onMountSelect = (key) => {
@@ -129,7 +148,7 @@ export default defineComponent({
     };
 
     return {
-      isModalVisible,
+      updateVisible,
       rewardType,
       diamondCount,
       balanceCount,
