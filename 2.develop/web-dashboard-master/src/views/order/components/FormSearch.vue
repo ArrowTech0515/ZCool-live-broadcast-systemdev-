@@ -20,7 +20,7 @@
             <div class="flex1 flex_end">
               <AButton
                 type="primary"
-                @click="emit('addItem')"
+                @click="emit('exportCSV')"
               >导出CSV</AButton>
             </div>
           </section>
@@ -41,7 +41,7 @@ const data = reactive({
   join_time: [],
 })
 
-const emit = defineEmits(['addItem', 'search'])
+const emit = defineEmits(['exportCSV', 'search'])
 const fApi = ref({})
 const option = {
   resetBtn: false,

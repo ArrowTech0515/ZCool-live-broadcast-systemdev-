@@ -62,7 +62,7 @@
       
         <a-col :flex="auto" >
             <a-form-item>
-              <a-button type="primary" block @click="onReset">导出CSV</a-button>
+              <a-button type="primary" block @click="exportCSV">导出CSV</a-button>
             </a-form-item>
         </a-col>
 
@@ -313,6 +313,10 @@ export default {
       this.status = '';
       // Implement reset logic
     },
+    exportCSV() {
+
+    },
+    
     handlePageChange(page) {
       this.currentPage = page;
     },

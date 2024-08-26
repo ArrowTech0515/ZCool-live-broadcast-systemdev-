@@ -50,13 +50,13 @@
 
           <a-col :flex="auto">
               <a-form-item>
-                <a-button type="primary" block @click="onReset">提现设置</a-button>
+                <a-button type="primary" block @click="onSettings">提现设置</a-button>
               </a-form-item>
           </a-col>
           
           <a-col :flex="auto">
               <a-form-item>
-                <a-button type="primary" block @click="onReset">导出CSV</a-button>
+                <a-button type="primary" block @click="exportCSV">导出CSV</a-button>
               </a-form-item>
           </a-col>
 
@@ -171,20 +171,34 @@
 
     </transition>
   </a-card>
+  
+  <ExportCSVDialog 
+        :isModalVisible="isModalVisible2" style="width: 550px;"
+      @update:is-modal-visible="val => isModalVisible2 = val" />
+  <SettingsDialog 
+        :isModalVisible="isModalVisible"
+      @update:is-modal-visible="val => isModalVisible = val" />
+
 </template>
 
 <script>
 
 import { message } from 'ant-design-vue';
 import reviewPage from './review/index.vue';
+import ExportCSVDialog from './exportCSVDialog.vue';
+import SettingsDialog from './withdrawalSettingsDialog.vue';
 
 export default {
   components: {
     reviewPage,
+    ExportCSVDialog,
+    SettingsDialog,
   },
   data() {
     return {
       showReviewPage: false, // New state to manage which view to show
+      isModalVisible : false,
+      isModalVisible2 : false,
 
       currentPage: 1,
       pageSize: 5,
@@ -327,6 +341,14 @@ export default {
       this.nBetting = '';
       this.status = '';
       // Implement reset logic
+    },
+    onSettings() {
+      console.log("handleOperation : " + this.isModalVisible.value)
+      this.isModalVisible  = true
+    },
+    exportCSV() {
+      console.log("handleOperation : " + this.isModalVisible2.value)
+      this.isModalVisible2  = true
     },
     handlePageChange(page) {
       this.currentPage = page;

@@ -29,14 +29,26 @@
         
         <!-- Right-aligned Buttons -->
         <a-col :span="12" style="text-align: right;">
-          <a-button  style="width: 100px; color: #1890ff; margin-right: 8px;">锁定</a-button>
-          <a-button  style="width: 100px;color: red; margin-right: 8px;">拒绝</a-button>
-          <a-button  style="width: 100px;">审核打款</a-button>
+          <a-button  style="width: 100px; color: #1890ff; margin-right: 8px;" @click="onLock">锁定</a-button>
+          <a-button  style="width: 100px;color: red; margin-right: 8px;" @click="onReject">拒绝</a-button>
+          <a-button  style="width: 100px;" @click="onReview">审核打款</a-button>
         </a-col>
       </a-row>
 
     </div>
   </a-card>
+
+  <reviewDialog 
+        :isModalVisible="isModalVisible3"
+      @update:is-modal-visible="val => isModalVisible3 = val" />
+
+  <rejectDialog 
+        :isModalVisible="isModalVisible2"
+      @update:is-modal-visible="val => isModalVisible2 = val" />
+
+  <lockDialog 
+        :isModalVisible="isModalVisible"
+      @update:is-modal-visible="val => isModalVisible = val" />
 </template>
   
 <script>
@@ -44,16 +56,23 @@ import firstLineData from './firstLineData.vue';
 import secondLineData from './secondLineData.vue';
 import thirdLineData from './thirdLineData.vue';
 import fourthLineData from './fourthLineData.vue';
+import reviewDialog from './reviewDialog.vue';
+import rejectDialog from './rejectDialog.vue';
+import lockDialog from './lockDialog.vue';
 
 export default {
   components: {
     firstLineData,
     secondLineData,
     thirdLineData,
-    fourthLineData
+    fourthLineData,
+    reviewDialog,
+    rejectDialog,
+    lockDialog
   },
 
   name: 'WithdrawDetails',
+
   props: {
     basicData: {
       type: Object,
@@ -76,6 +95,13 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      isModalVisible : false,
+      isModalVisible2 : false,
+      isModalVisible3 : false,
+    }
+  },
   methods: {
     onConfirm() {
       // Logic to handle confirm action
@@ -83,13 +109,25 @@ export default {
     },
     onReject() {
       // Logic to handle reject action
-      this.$emit('reject');
+      //this.$emit('reject');
     },
     handleBack() {
       // Handle the back action here
       // For example, navigate to the previous page:
       this.$emit('back'); // Emit the back event to the parent component
     },
+    onReview() {
+      console.log("onReview : " + this.isModalVisible3.value)
+      this.isModalVisible3  = true
+    },
+    onReject() {
+      console.log("onReject : " + this.isModalVisible2.value)
+      this.isModalVisible2  = true
+    },
+    onLock() {
+      this.isModalVisible  = true
+
+    }
   },
 }
 </script>
