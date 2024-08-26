@@ -9,6 +9,7 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
     formCreate.setData('guildOptions', guildList)
   })
   console.log("useOrderRule : ", guildList[0])
+
   return [
     {
       type: 'select',
@@ -48,7 +49,8 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
         change: (val) => {
           // First hide all dependent fields
 
-      console.log("on change : fApi = " + fApi.value)
+      console.log("on change2 : fApi = " + fApi.value)
+
 
           fApi.value.hidden(true, 'host_id');
           fApi.value.hidden(true, 'guild_name');

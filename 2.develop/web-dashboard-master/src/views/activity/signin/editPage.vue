@@ -80,7 +80,7 @@
 
                 <template #bodyCell="{ column, text }">
                   <span v-if="column.dataIndex === 'col_2'">
-                    <span style="text-decoration: underline;color: blue; cursor: pointer;" @click="handleOperation('col_2')">{{ text }}</span>
+                    <span style="text-decoration: underline;color: blue; cursor: pointer;" @click="handleOperation(text)">{{ text }}</span>
                   </span>
                   <!-- Default rendering for other columns -->
                   <span v-else>{{ text }}</span>
@@ -134,7 +134,14 @@
   </a-card>
 </template>
 
-<script>
+<script lang="ts">
+import useOrderRule from './hooks/useOrderRule'
+import ModalForm from '@/components/Form/ModalForm/ModalForm.vue' // Adjust the path as necessary
+import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/anchor'
+
+
+const { createDialog } = useDialog()
+//const fApi = ref({})
 
 export default {
 
@@ -197,13 +204,9 @@ export default {
     },
     handleOperation(operation) {
       // Add logic for handling the operation (e.g., audit, lock)
-      if(operation === "col_2")
-        this.showEditPage = true; // Switch to the add strategy view
-      else
-      {
-        console.log("handleOperation : " + operation)
-        this.showDataPage = true; // Switch to the add strategy view
-      }  
+      console.log("handleOperation : " + operation)
+      if(operation === "添加奖励")
+        this.editItem()
     },
     handleAllusers() {
       // Handle All users selection
@@ -216,6 +219,69 @@ export default {
     },
     handleCustomusers() {
       // Handle Custom users selection
+    },
+
+    async editItem() {
+      const formValue = ref({
+        avatar_url: '',
+        nickname: '',
+        phone: '',
+        email: '',
+        guild_id: '',
+        ps_ratio: '',
+        hourly_rate: '',
+        hourly_rate_ulimit: '',
+        password: '',
+        merch_id: [],
+      })
+
+      const fApi = ref(null)
+      const orderRule = useOrderRule(false, true, fApi)
+
+      console.log("editItem : fApi = " + fApi.value)
+
+      const formModalProps = reactive({
+        request: data => anchorAddOrEditReq(null, data),
+        getData(data) {
+          const { avatar_url, ...rest } = data
+          return {
+            ...rest,
+            avatar_url: getPathFromUrlArray(avatar_url),
+          }
+        },
+        rule: orderRule,
+      })
+
+      console.log("editItem : " + formValue.value)
+
+      createDialog({
+        title: '添加奖励',
+        width: 500,
+        component:ModalForm,
+        componentProps: {
+            modelValue: formValue.value,
+            fApi: fApi.value,
+            ...formModalProps,
+          },
+        // component:
+        //   <ModalForm
+        //     v-model={formValue.value}
+        //     v-model:fApi={fApi.value}
+        //     {...formModalProps}
+        //   >
+        //   </ModalForm>
+        // ,
+        onConfirm() {
+          pagination.page = 1
+          pagination.total = 0
+          props.resetSearch()
+        },
+      })
+        // component: ModalForm,
+        // componentProps: {
+        //   modelValue: formValue.value,
+        //   fApi: fApi.value,
+        // },
     },
   },
 };

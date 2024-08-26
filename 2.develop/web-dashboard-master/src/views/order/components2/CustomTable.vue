@@ -165,7 +165,7 @@ function blockUser(userItem) {
 }
 
 // 添加主播，不可编辑
-async function editItem() {
+async function exportCSV() {
   const formValue = ref({
     avatar_url: '',
     nickname: '',
@@ -181,6 +181,10 @@ async function editItem() {
 
   const fApi = ref(null)
   const anchorRule = useAnchorRule(false, true, fApi)
+
+  console.log("editItem : fApi = " + fApi.value)
+
+  
   const formModalProps = reactive({
     request: data => anchorAddOrEditReq(null, data),
     getData(data) {
@@ -192,6 +196,8 @@ async function editItem() {
     },
     rule: anchorRule,
   })
+
+  console.log("exportCSV : " + formValue.value)
 
   createDialog({
     title: '导出CSV',
@@ -213,6 +219,6 @@ async function editItem() {
 }
 
 defineExpose({
-  editItem,
+  exportCSV,
 })
 </script>

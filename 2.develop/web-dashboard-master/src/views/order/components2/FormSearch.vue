@@ -20,7 +20,7 @@
             <div class="flex1 flex_end">
               <AButton
                 type="primary"
-                @click="emit('addItem')"
+                @click="emit('exportCSV')"
               >导出CSV</AButton>
             </div>
           </section>
@@ -31,6 +31,7 @@
 </template>
 
 <script setup>
+// eslint-disable-next-line vue/require-prop-types
 const params = defineModel()
 const data = reactive({
   source_id: 0,
@@ -41,7 +42,7 @@ const data = reactive({
   join_time: [],
 })
 
-const emit = defineEmits(['addItem', 'search'])
+const emit = defineEmits(['search', 'exportCSV'])
 const fApi = ref({})
 const option = {
   resetBtn: false,
