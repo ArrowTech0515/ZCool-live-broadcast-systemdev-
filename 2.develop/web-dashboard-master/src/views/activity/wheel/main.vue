@@ -13,7 +13,9 @@
         <a-tab-pane key="4" tab="中奖记录">
             <winRecordPage />
         </a-tab-pane>
-
+        <a-tab-pane key="5" tab="提现记录">
+            <withdrawalRecordPage />
+        </a-tab-pane>
     </a-tabs>
 </template>
   
@@ -24,6 +26,7 @@ import mainPage from './index.vue';
 import basicConfigPage from './basicConfig/index.vue';
 import rewardConfigPage from './rewardConfig/index.vue';
 import winRecordPage from './winRecord/index.vue';
+import withdrawalRecordPage from './withdrawalRecord/index.vue';
 
 export default {
 components: {
@@ -33,6 +36,7 @@ components: {
     basicConfigPage,
     rewardConfigPage,
     winRecordPage,
+    withdrawalRecordPage
 }
 }
 </script>

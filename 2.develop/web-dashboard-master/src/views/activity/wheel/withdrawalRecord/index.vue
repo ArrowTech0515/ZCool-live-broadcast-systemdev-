@@ -12,14 +12,14 @@
       </a-col>
 
       <a-col :flex="1">
-        <a-form-item label="中奖人ID">
-          <a-input v-model="winnerID" placeholder="" />
+        <a-form-item label="提现人ID">
+          <a-input v-model="withdrawerID" placeholder="" />
         </a-form-item>
       </a-col>
 
       <a-col :flex="1">
-        <a-form-item label="中奖人昵称">
-          <a-input v-model="winPosition" placeholder="" />
+        <a-form-item label="提现人昵称">
+          <a-input v-model="withdrawPosition" placeholder="" />
         </a-form-item>
       </a-col>
       
@@ -47,12 +47,12 @@
     <!-- Your existing layout and table setup -->
     <a-table :data-source="paginatedData" :pagination="false">
       <a-table-column title="排序" dataIndex="sorting" key="sorting" align="center" />
-      <a-table-column title="中奖人ID" dataIndex="winnerID" key="winnerID" align="center" />
+      <a-table-column title="提现人ID" dataIndex="withdrawerID" key="withdrawerID" align="center" />
       <a-table-column title="昵称" dataIndex="nickname" key="nickname" align="center" />
-      <a-table-column title="中奖挡位" dataIndex="winPosition" key="winPosition" align="center" />
-      <a-table-column title="中奖类型" dataIndex="winType" key="winType" align="center" />
-      <a-table-column title="中奖金额" dataIndex="winAmount" key="winAmount" align="center" />
-      <a-table-column title="中奖时间" dataIndex="winTime" key="winTime" align="center" />
+      <a-table-column title="提现挡位" dataIndex="withdrawPosition" key="withdrawPosition" align="center" />
+      <a-table-column title="提现类型" dataIndex="withdrawType" key="withdrawType" align="center" />
+      <a-table-column title="提现金额" dataIndex="withdrawAmount" key="withdrawAmount" align="center" />
+      <a-table-column title="提现时间" dataIndex="withdrawTime" key="withdrawTime" align="center" />
 
     </a-table>
 
@@ -84,41 +84,41 @@ export default {
       totalItems: 100,
 
       merchantId: '',
-      winnerID: '',
-      winType: '',
-      winPosition: '',
+      withdrawerID: '',
+      withdrawType: '',
+      withdrawPosition: '',
       status: '',
 
       dataSource: [
         {
           key: '1',
           sorting: '1',
-          winnerID: '300001',
+          withdrawerID: '300001',
           nickname: '张张',
-          winPosition: '1000元挡位',
-          winType: '抽中现金',
-          winAmount: '0.01元红包',
-          winTime: '2024.05.25 10:00:00',
+          withdrawPosition: '1000元挡位',
+          withdrawType: '提现',
+          withdrawAmount: '1000元',
+          withdrawTime: '2024.05.25 10:00:00',
         },
         {
           key: '2',
           sorting: '2',
-          winnerID: '300002',
+          withdrawerID: '300002',
           nickname: '丽丽',
-          winPosition: '1000元挡位',
-          winType: '抽中金币',
-          winAmount: '0.01个金币',
-          winTime: '2024.05.25 10:00:00',
+          withdrawPosition: '1000元挡位',
+          withdrawType: '提现',
+          withdrawAmount: '1000元',
+          withdrawTime: '2024.05.25 10:00:00',
         },
         {
           key: '3',
           sorting: '3',
-          winnerID: '300003',
+          withdrawerID: '300003',
           nickname: '徐徐',
-          winPosition: '1000元挡位',
-          winType: '抽中幸运值',
-          winAmount: '0.01个幸运值',
-          winTime: '2024.05.25 10:00:00',
+          withdrawPosition: '1000元挡位',
+          withdrawType: '提现',
+          withdrawAmount: '1000元',
+          withdrawTime: '2024.05.25 10:00:00',
         },
         
         // Add more data objects here
@@ -139,9 +139,9 @@ export default {
     },
     onReset() {
       this.merchantId = '';
-      this.winnerID = '';
-      this.winType = '';
-      this.winPosition = '';
+      this.withdrawerID = '';
+      this.withdrawType = '';
+      this.withdrawPosition = '';
       this.status = '';
       // Implement reset logic
     },
