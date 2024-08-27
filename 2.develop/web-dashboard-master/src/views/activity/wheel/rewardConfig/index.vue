@@ -78,35 +78,35 @@ export default {
           operate: '编辑'
         },
         {
-          key: '1',
+          key: '2',
           sorting: '2',
           name: '幸运值',
           quantity: '100',
           operate: '编辑'
         },
         {
-          key: '1',
+          key: '3',
           sorting: '3',
           name: '能量',
           quantity: '100',
           operate: '编辑'
         },
         {
-          key: '1',
+          key: '4',
           sorting: '4',
           name: '钻石',
           quantity: '100',
           operate: '编辑'
         },
         {
-          key: '1',
+          key: '5',
           sorting: '5',
           name: '积分',
           quantity: '100',
           operate: '编辑'
         },
         {
-          key: '1',
+          key: '6',
           sorting: '6',
           name: '魅力',
           quantity: '100',

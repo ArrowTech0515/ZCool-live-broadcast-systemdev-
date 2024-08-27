@@ -88,7 +88,7 @@ export default {
           operate: '编辑'
         },
         {
-          key: '1',
+          key: '2',
           sorting: '2',
           name: '3000元挡位',
           withdrawal: '2000',
@@ -100,7 +100,7 @@ export default {
           operate: '编辑'
         },
         {
-          key: '1',
+          key: '3',
           sorting: '3',
           name: '5000元挡位',
           withdrawal: '5000',
