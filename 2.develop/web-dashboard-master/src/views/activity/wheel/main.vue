@@ -7,6 +7,9 @@
         <a-tab-pane key="2" tab="转盘基础配置">
             <basicConfigPage />
         </a-tab-pane>
+        <a-tab-pane key="3" tab="奖励配置">
+            <rewardConfigPage />
+        </a-tab-pane>
 
     </a-tabs>
 </template>
@@ -15,7 +18,8 @@
 import { Tabs } from 'ant-design-vue'
 
 import mainPage from './index.vue';
-import basicConfigPage from './basicConfiguration/index.vue';
+import basicConfigPage from './basicConfig/index.vue';
+import rewardConfigPage from './rewardConfig/index.vue';
 
 export default {
 components: {
@@ -23,6 +27,7 @@ components: {
     'a-tab-pane': Tabs.TabPane,
     mainPage,
     basicConfigPage,
+    rewardConfigPage,
 }
 }
 </script>

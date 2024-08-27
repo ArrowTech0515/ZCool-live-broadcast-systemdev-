@@ -173,6 +173,8 @@ export default {
         });
       } else if (this.operationType === '编辑') {
         const index = this.dataSource.findIndex(item => item.key === updatedData.key);
+        console.log("handleSave : index = " + index)
+        
         if (index !== -1) {
           this.dataSource.splice(index, 1, updatedData);
         }
