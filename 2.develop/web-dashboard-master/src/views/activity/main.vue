@@ -31,7 +31,7 @@ import taskPage from './task/index.vue'; // junn
 import goodNumberPage from './goodNumber/index.vue'; // junn
 import signinPage from './signin/index.vue'; // junn
 import giftgiving from './giftgiving/index.vue'; // junn
-import wheelPage from './wheel/index.vue'; // junn
+import wheelPage from './wheel/main.vue'; // junn
 
 export default {
 components: {
