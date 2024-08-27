@@ -22,12 +22,11 @@
       <a-table-column title="设备数限制" dataIndex="nDevicelimit" key="nDevicelimit" align="center"/>
       <a-table-column title="操作" dataIndex="operate" key="operate" align="center"/>
 
-      <template #bodyCell="{ column, text }">
+      <template #bodyCell="{ column, record }">
         <span v-if="column.dataIndex === 'operate'">
-          <span style="text-decoration: underline;color: green; cursor: pointer;" @click="handleOperation('编辑')">编辑</span>
+          <span style="text-decoration: underline;color: green; cursor: pointer;" @click="handleOperation(record)">编辑</span>
         </span>
-        <!-- Default rendering for other columns -->
-        <span v-else>{{ text }}</span>
+        <span v-else>{{ record[column.dataIndex] }}</span>
       </template>
 
     </a-table>
@@ -49,8 +48,12 @@
   </a-card>
 
   <AddorEditDialog 
-      :isModalVisible="isModalVisible"
-    @update:is-modal-visible="val => isModalVisible = val" />
+    :isModalVisible="isModalVisible"
+    :formData="selectedRow"
+    :operationType="operationType"
+    @update:is-modal-visible="val => isModalVisible = val"
+    @save="handleSave"
+  />
 
 </template>
 
@@ -68,6 +71,8 @@ export default {
       pageSize: 5,
       totalItems: 100,
       isModalVisible : false,
+      selectedRow: null,
+      operationType: '新增', // Default operation type
 
       dataSource: [
         {
@@ -122,7 +127,19 @@ export default {
   
     onAdd() {
       // Implement search logic
-
+      this.selectedRow = {
+        key: String(this.dataSource.length + 1), // Generate a new key
+        sorting: '',
+        name: '',
+        withdrawal: '',
+        validityPeriod: '',
+        nPromoters: '',
+        nSubordinate: '',
+        totalSubordinate: '',
+        nDevicelimit: ''
+      };
+      this.operationType = '新增';
+      this.isModalVisible = true;
     },
     handlePageChange(page) {
       this.currentPage = page;
@@ -132,12 +149,13 @@ export default {
       this.currentPage = 1; // Reset to the first page when page size changes
     },
 
-    handleOperation(operation) {
+    handleOperation(record) {
       // Add logic for handling the operation (e.g., audit, lock)
-      if(operation === "编辑")
+      // if(operation === "编辑")
       {  
-        console.log("handleOperation : " + this.isModalVisible.value)
-        this.isModalVisible  = true
+        this.selectedRow = { ...record } // Deep copy the selected row data
+        this.operationType = '编辑';
+        this.isModalVisible = true
       }
     },
 
@@ -145,6 +163,22 @@ export default {
       // Handle the back action here
       // For example, navigate to the previous page:
       this.$emit('back'); // Emit the back event to the parent component
+    },
+    handleSave(updatedData) {
+      // Implement save logic here (e.g., update the row in the dataSource)
+      if (this.operationType === '新增') {
+        this.dataSource.push({
+          ...updatedData,
+          key: String(this.dataSource.length + 1) // Generate a new key
+        });
+      } else if (this.operationType === '编辑') {
+        const index = this.dataSource.findIndex(item => item.key === updatedData.key);
+        if (index !== -1) {
+          this.dataSource.splice(index, 1, updatedData);
+        }
+      }
+      this.totalItems = this.dataSource.length; // Update totalItems if needed
+      this.isModalVisible = false; // Close the dialog
     },
   },
 };

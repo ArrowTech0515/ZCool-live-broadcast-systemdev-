@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="转盘新增"
+    :title="operationType === '新增' ? '转盘新增' : '转盘编辑'"
     v-model:visible="isModalVisible"
     maskClosable="false"
     keyboard="false"
@@ -8,27 +8,27 @@
     @update:visible="updateVisible"
   >
     <a-form-item label="转盘名称" :label-col="{ span: 6 }">
-      <a-input style="margin-bottom: 10px; "></a-input>
+      <a-input v-model:value="formData.name" style="margin-bottom: 10px; " />
     </a-form-item>
     <a-form-item label="提现金额" :label-col="{ span: 6 }">
-      <a-input style="margin-bottom: 10px; "></a-input>
+      <a-input v-model:value="formData.withdrawal" style="margin-bottom: 10px; " />
     </a-form-item>
     <a-form-item label="活动有效期" :label-col="{ span: 6 }">
-      <a-input style="margin-bottom: 10px; "></a-input>
+      <a-input v-model:value="formData.validityPeriod" style="margin-bottom: 10px; " />
     </a-form-item>
     <a-form-item label="推广人数" :label-col="{ span: 6 }">
-      <a-input style="margin-bottom: 10px; "></a-input>
+      <a-input v-model:value="formData.nPromoters" style="margin-bottom: 10px; " />
     </a-form-item>
     <a-form-item label="下级充值人数" :label-col="{ span: 6 }">
-      <a-input style="margin-bottom: 10px; "></a-input>
+      <a-input v-model:value="formData.nSubordinate" style="margin-bottom: 10px; " />
     </a-form-item>
     <a-form-item label="下级充值总金额" :label-col="{ span: 6 }">
-      <a-input style="margin-bottom: 10px; "></a-input>
+      <a-input v-model:value="formData.totalSubordinate" style="margin-bottom: 10px; " />
     </a-form-item>
     <a-form-item label="设备数限制" :label-col="{ span: 6 }">
-      <a-input style="margin-bottom: 10px; "></a-input>
+      <a-input v-model:value="formData.nDevicelimit" style="margin-bottom: 10px; " />
     </a-form-item>
-   
+
     <!-- Custom Footer -->
     <div class="custom-footer">
       <a-button style="width: 120px; margin-right: 30px;" @click="handleCancel">取消</a-button>
@@ -41,42 +41,49 @@
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
-  components: {
-
-  },
   props: {
     isModalVisible: {
       type: Boolean,
       default: false,
     },
+    formData: {
+      type: Object,
+      default: () => ({
+        name: '',
+        withdrawal: '',
+        validityPeriod: '',
+        nPromoters: '',
+        nSubordinate: '',
+        totalSubordinate: '',
+        nDevicelimit: '',
+      }),
+    },
+    operationType: {
+      type: String,
+      default: '新增',
+    },
   },
 
-  emits: ['update:isModalVisible'],
+  emits: ['update:isModalVisible', 'save'],
 
   setup(props, { emit }) {
     const updateVisible = (visible) => {
-      if (typeof visible === 'boolean') {
-        emit('update:isModalVisible', visible);
-      } else {
-        console.error('Invalid value for isModalVisible:', visible);
-      }
-    }
+      emit('update:isModalVisible', visible);
+    };
 
     const handleSave = () => {
-      console.log('OK Clicked', rewardType.value);
+      emit('save', props.formData);
       updateVisible(false);
-    }
+    };
 
     const handleCancel = () => {
-      console.log('Cancel Clicked');
       updateVisible(false);
-    }
+    };
 
     return {
-      updateVisible,
       handleSave,
       handleCancel,
-    }
+    };
   },
 });
 </script>
