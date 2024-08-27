@@ -8,13 +8,16 @@
             <taskPage />
         </a-tab-pane>
         <a-tab-pane key="3" tab="送礼活动">
-            <giftPage />
+            <goodNumberPage />
         </a-tab-pane>
         <a-tab-pane key="4" tab="签到活动">
             <signinPage />
         </a-tab-pane>
         <a-tab-pane key="5" tab="送礼活动">
             <giftgiving />
+        </a-tab-pane>
+        <a-tab-pane key="6" tab="转盘活动">
+            <wheelPage />
         </a-tab-pane>
 
     </a-tabs>
@@ -25,9 +28,10 @@ import { Tabs } from 'ant-design-vue'
 
 import activityPage from './index.vue';
 import taskPage from './task/index.vue'; // junn
-import giftPage from './gift/index.vue'; // junn
+import goodNumberPage from './goodNumber/index.vue'; // junn
 import signinPage from './signin/index.vue'; // junn
 import giftgiving from './giftgiving/index.vue'; // junn
+import wheelPage from './wheel/index.vue'; // junn
 
 export default {
 components: {
@@ -35,9 +39,10 @@ components: {
     'a-tab-pane': Tabs.TabPane,
     activityPage,
     taskPage,
-    giftPage,
+    goodNumberPage,
     signinPage,
     giftgiving,
+    wheelPage
 }
 }
 </script>

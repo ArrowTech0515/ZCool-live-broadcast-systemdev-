@@ -8,12 +8,16 @@
     @update:visible="updateVisible"
   >
 
+  <a-col style="text-align: center">
     <span style=" font-weight: bold; margin-bottom: 15px;">
       是否锁定当前体现订单
     </span>
+  </a-col>
+  <a-col style="text-align: center">
     <span style=" font-weight: bold; margin-bottom: 15px;">
       锁定后需要管理员/部门负责人/锁定人方可解锁操作
     </span>
+  </a-col>
         <!-- Custom Footer -->
     <div class="custom-footer">
       <a-button style="width: 120px; margin-right: 30px;" @click="handleCancel">取消</a-button>
