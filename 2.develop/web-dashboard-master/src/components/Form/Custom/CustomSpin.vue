@@ -19,7 +19,7 @@
     <!-- Right Button -->
     <a-button 
       @click="increment" 
-      style="position: absolute; right: 0; color: gray; font-size: 16px; font-weight: bold; padding: 0px 12px; z-index: 1;">
+      style="position: absolute; right: 0; color: gray; font-size: 16px; font-weight: bold; padding: 0px 11px; z-index: 1;">
       +
     </a-button>
   </div>

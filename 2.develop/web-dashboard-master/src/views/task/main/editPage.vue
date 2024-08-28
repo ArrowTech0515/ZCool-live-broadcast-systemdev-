@@ -114,7 +114,7 @@
                 <a-radio value="radio2" style="margin-right: 10px;">礼物奖励</a-radio>
                 <!-- Conditionally displayed button -->
                 <div v-if="operationType === '编辑'" style="margin-right: 10px;">
-                    <a-button @click="addCustomSpin">添加礼物</a-button>
+                    <a-button @click="onSelectGift">选择礼物</a-button>
                 </div>
                 <a-radio value="radio3">余额奖励</a-radio>
               </a-radio-group>
@@ -131,6 +131,8 @@
                   <GiftPanel 
                     :spinValue="spinPair.spinValue" 
                     :curIndex="spinPair.curIndex" 
+                    :name="spinPair.name"
+                    :icon="spinPair.icon"
                     @remove-custom-spin="removeCustomSpin"/>
                 </a-col>
               </a-row>
@@ -181,17 +183,25 @@
     </div>
 
   </a-card>
+  
+  <SelectGiftDialog 
+        :isModalVisible="isModalVisible"
+      @update:is-modal-visible="val => isModalVisible = val" />
+
 </template>
 
 <script>
-import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
+import CustomSpin from '@/components/Form/Custom/CustomSpin.vue'
 // const uploadRule = createUploadRule('主播头像', 'avatar_url')
 import GiftPanel from './GiftPanel.vue'
+import SelectGiftDialog from './selectGiftDialog.vue'
+
 
 export default {
   components: {
     CustomSpin,
-    GiftPanel
+    GiftPanel,
+    SelectGiftDialog
   },
   props: {
     operationType: {
@@ -201,6 +211,7 @@ export default {
   },
   data() {
     return {
+      isModalVisible : false,
 
       radioValueTaskType: 'radio1',  // For Task Type Radio Group
       radioValueCycle: 'radio1',     // For Cycle Mechanism Radio Group
@@ -212,9 +223,9 @@ export default {
       spin_value1: '0',
 
       spinCards: [
-      { curIndex: 0, name: 'Gift 1', icon: '🎁', spinValue: 0 },
-      // { id: 2, name: 'Gift 2', icon: '🎂', spinValue: 20 },
-      // { id: 3, name: 'Gift 3', icon: '🍫', spinValue: 15 },
+      { curIndex: 0, name: '礼物', icon: '🎁', spinValue: 0 },
+      { curIndex: 1, name: '礼物', icon: '🎂', spinValue: 20 },
+      { curIndex: 2, name: '礼物', icon: '🍫', spinValue: 15 },
       // { id: 4, name: 'Gift 4', icon: '💎', spinValue: 50 },
       // { id: 5, name: 'Gift 5', icon: '🧸', spinValue: 25 },
       // { id: 6, name: 'Gift 6', icon: '🎮', spinValue: 30 },
@@ -278,27 +289,11 @@ export default {
     handleCustomusers() {
       // Handle Custom users selection
     },
-    handleChange(info) {
-      if (info.file.status === 'done') {
-        this.imageUrl = URL.createObjectURL(info.file.originFileObj);
-      }
-    },
-    handleChangeBanner(info) {
-      if (info.file.status === 'done') {
-        this.bannerUrl = URL.createObjectURL(info.file.originFileObj);
-      }
-    },
-    handleSuccess(response, file) {
-      if (response?.status === 200) {
-        file.url = response.data.link;
-      } else {
-        //this.$message.error('上传失败');
-        message.error({
-          content: '上传失败。',
-          duration: 2, // Duration in seconds
-        });
-      }
-    },
+    onSelectGift() {
+      //this.editItem()
+      console.log("handleOperation : " + this.isModalVisible.value)
+      this.isModalVisible  = true
+    }
   },
 };
 </script>
