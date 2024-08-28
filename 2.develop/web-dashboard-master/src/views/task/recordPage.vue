@@ -40,7 +40,11 @@
 
     <!-- Your existing layout and table setup -->
     <a-table :data-source="paginatedData" :pagination="false">
-      <a-table-column title="全选" dataIndex="selectAll" key="selectAll" align="center" />
+      <a-table-column title="全选" key="selectAll" align="center">
+        <template #default="{ record }">
+          <a-checkbox :checked="selectedGifts.includes(record.key)" @change="onGiftSelect(record.key)" />
+        </template>
+      </a-table-column>
       <a-table-column title="日志标识" dataIndex="logID" key="logID" align="center" />
       <a-table-column title="用户标识" dataIndex="userID" key="userID" align="center"/>
       <a-table-column title="用户账号" dataIndex="nickName" key="nickName" align="center" />
@@ -71,16 +75,18 @@
 
 export default {
 
+  
   data() {
+    
     return {
       currentPage: 1,
       pageSize: 5,
       totalItems: 100,
-
+      selectedGifts: [],
+      
       dataSource: [
         {
           key: '1',
-          selectAll: '4234324',
           logID: '1',
           userID: '100004',
           nickName: '企鹅飞飞',
@@ -100,7 +106,13 @@ export default {
     },
   },
   methods: {
-  
+    onGiftSelect(key) {
+      if (this.selectedGifts.includes(key)) {
+        this.selectedGifts = this.selectedGifts.filter(k => k !== key);
+      } else {
+        this.selectedGifts.push(key);
+      }
+    },
     onSearch() {
       // Implement search logic
     },
