@@ -111,7 +111,6 @@
       <div v-else-if="showDataPage">
         <dataPage
           withdrawStatus="提现中"
-          
           @back="onBackToMainPage1"
           @confirm="handleConfirm"
           @reject="handleReject" />
@@ -120,7 +119,7 @@
       <div v-else>
         <editPage
           withdrawStatus="提现中"
-          
+          :operationType="operationType"
           @back="onBackToMainPage2"
           @confirm="handleConfirm"
           @reject="handleReject" />
@@ -205,6 +204,13 @@ export default {
     },
   },
   methods: {
+    onAdd() {
+      // Implement search logic
+      this.operationType = '添加';
+      //if(operation === "编辑")
+      this.showEditPage = true; // Switch to the add strategy view
+    },
+
     onSearch() {
       // Implement search logic
     },
@@ -227,11 +233,14 @@ export default {
     handleOperation(operation) {
       // Add logic for handling the operation (e.g., audit, lock)
       if(operation === "编辑")
-        this.showEditPage = true; // Switch to the add strategy view
+      {
+        this.operationType = '编辑';
+        this.showEditPage = true; // Switch to the edit view
+      }  
       else if(operation === "数据")
       {
         console.log("handleOperation : " + operation)
-        this.showDataPage = true; // Switch to the add strategy view
+        this.showDataPage = true; // Switch to the data view
       }  
     },
 

@@ -172,7 +172,7 @@ export default {
       // Add logic for handling the operation (e.g., audit, lock)
       if(operation === "编辑")
         this.showEditPage = true; // Switch to the add strategy view
-      else if(operation === "数据")
+      else// if(operation === "数据")
       {
         console.log("handleOperation : " + operation)
         this.showDataPage = true; // Switch to the add strategy view

@@ -10,101 +10,144 @@
           <span style="font-size: 20px; font-weight: bold; margin-left: 8px;">&lt;</span>
         </a-button>
         <div style="flex-grow: 1; text-align: center;">
-          <span style="font-size: 20px; font-weight: bold;">充值活动</span>
+          <div v-if="operationType === '添加'">
+            <span style="font-size: 20px; font-weight: bold;">添加任务</span>
+          </div>
+          <div v-else>
+            <span style="font-size: 20px; font-weight: bold;">编辑任务</span>
+          </div>
         </div>
       </div>
     </template>
 
     <div style="display: flex; justify-content: center;">
-      <a-col layout="vertical" style="width: 100%; max-width: 900px; white-space: nowrap;">
+      <a-col layout="vertical" style="width: 100%; max-width: 800px; white-space: nowrap;">
 
         <!-- Form Items Here -->
-      
-        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px;">
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
-            活动图标
-          </div>
-          <a-col :span="18">
-            <a-upload
-              name="banner"
-              :max-count="1"
-              list-type="picture-card"
-              accept="image/png,image/jpeg,image/jpg"
-              :action="uploadUrl"
-              :headers="uploadHeaders"
-              :data="uploadData"
-              :before-upload="beforeUpload"
-              @change="handleChangeBanner"
-              @success="handleSuccessBanner"
-              :show-upload-list="true"
-            >
-              <div class="upload-box">
-                <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="width: 80px; height: 80px;" />
-                <div v-else>
-                  <PlusCircleOutlined />
-                  <div style="margin-top: 8px; font-size: 10px;">上传</div>
-                </div>
-              </div>
-            </a-upload>
-          </a-col>
-        </div>
-
-        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
-            活动封面
-          </div>
-          <a-col :span="18">
-            <a-upload
-              name="banner"
-              :max-count="1"
-              list-type="picture-card"
-              accept="image/png,image/jpeg,image/jpg"
-              :action="uploadUrl"
-              :headers="uploadHeaders"
-              :data="uploadData"
-              :before-upload="beforeUpload"
-              @change="handleChangeBanner"
-              @success="handleSuccessBanner"
-              :show-upload-list="true"
-            >
-              <div class="upload-box">
-                <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="width: 200px; height: 100px;" />
-                <div v-else>
-                  <PlusCircleOutlined />
-                  <div style="margin-top: 8px; font-size: 10px;">上传</div>
-                </div>
-              </div>
-            </a-upload>
-            <div style="color: darkgray; font-size: 10px; text-align: left;">
-              用户端活动中心展示封面
-            </div>
-          </a-col>
-        </div>
-
-        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
-            活动名称
+            任务名称
           </div>
           <div style="width: 75%;">
-            <a-input 
-              placeholder="请输入" 
-              style="text-align: center; width: 75%;"
-            />
-            <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
-              用户不可见，仅后台用户可见
+            <div v-if="operationType === '添加'">
+              <a-input 
+                placeholder="请输入" 
+                style="text-align: center; width: 75%;"
+              />
+            </div>
+            <div v-else>
+              <a-select v-model="taskList" value="all">
+                <a-select-option value="all">请选择任务</a-select-option>
+                <a-select-option value="bindPhone">绑定手机号</a-select-option>
+                <a-select-option value="bindEmail">绑定邮箱号</a-select-option>
+                <a-select-option value="setAccountPassword">设置账号密码</a-select-option>
+                <a-select-option value="loginApp">登录APP</a-select-option>
+                <a-select-option value="shareLiveRoom">分享一次直播间</a-select-option>
+                <a-select-option value="watch10LiveRooms">观看10个直播间</a-select-option>
+                <a-select-option value="watch30LiveRooms">观看30个直播间</a-select-option>
+                <a-select-option value="watch10Minutes">观看直播10分钟</a-select-option>
+                <a-select-option value="watch30Minutes">观看直播30分钟</a-select-option>
+                <a-select-option value="watch2Hours">观看直播2小时</a-select-option>
+                <a-select-option value="send5Barrage">直播间弹幕发言5次</a-select-option>
+                <a-select-option value="buyNoble">购买贵族</a-select-option>
+                <a-select-option value="firstRecharge">首次充值</a-select-option>
+                <a-select-option value="recharge100Yuan">充值100元</a-select-option>
+                <a-select-option value="recharge1000Yuan">充值1000元</a-select-option>
+                <a-select-option value="postBarrage">发布1条弹幕</a-select-option>
+                <a-select-option value="exchangeDiamonds">兑换钻石</a-select-option>
+                <a-select-option value="firstSpendDiamonds">首次消费钻石</a-select-option>
+                <a-select-option value="spend10000Diamonds">消费钻石10000钻石</a-select-option>
+                <a-select-option value="followStreamer">关注主播</a-select-option>
+                <a-select-option value="joinStreamerFanClub">加入任意主播粉丝团</a-select-option>
+              </a-select>
             </div>
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 15px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
-            活动类型
+        <div style="display: flex; align-items: center; text-align: justify; width: 100%; margin-bottom: 15px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+            循环机制
           </div>
           <div style="width: 75%;">
-            <a-input 
-              placeholder="请输入" 
-              style="text-align: center; width: 75%;"
-            />
+            <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
+              <!-- Radio Group on the left -->
+              <a-col :span="16">
+                <a-radio-group v-model="radioValue" style="text-align: left;">
+                  <a-radio value="radio1" style="margin-right: 40px;">每日循环任务</a-radio>
+                  <a-radio value="radio2">一次性任务</a-radio>
+                </a-radio-group>
+              </a-col>
+            </a-row>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; text-align: justify; width: 100%; margin-bottom: 15px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+            参与用户
+          </div>
+          <div style="width: 75%;">
+            <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
+              <!-- Radio Group on the left -->
+              <a-col :span="16">
+                <a-radio-group v-model="radioValue" style="text-align: left;">
+                  <a-radio value="radio1">全部用户</a-radio>
+                  <a-radio value="radio2">贵族用户</a-radio>
+                  <a-radio value="radio3">新注册用户</a-radio>
+                  <a-radio value="radio5">自定义用户</a-radio>
+                </a-radio-group>
+                <a-button type="primary" ghost style=" padding: 0%; width: 100px; text-align: center;">+ 选择用户</a-button>
+              </a-col>
+            </a-row>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; width: 100%; margin-bottom: 15px; white-space: nowrap;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;margin-top: 10px;">
+            任务奖励
+          </div>
+
+          <div :flex="auto" style="width: 75%;">
+
+              <a-row style="margin-bottom: 10px; ">
+                <a-radio-group v-model="radioValue" style="text-align: left;">
+                  <a-radio value="radio1">钻石奖励</a-radio>
+                  <a-radio value="radio2">礼物奖励</a-radio>
+                  <div v-if="operationType === '编辑'">
+                    <a-button style="margin-right: 20px; " @click="addCustomSpin">添加礼物</a-button>
+                  </div>
+                  <a-radio value="radio3">余额奖励</a-radio>
+                </a-radio-group>
+              </a-row>
+
+              <div v-if="operationType === '编辑'">
+                <a-row gutter="[16, 16]" style="width: 100%; ">
+                  <a-col
+                    v-for="(spinPair, index) in spinCards"
+                    :key="index"
+                    :span="5" 
+                    style="margin-bottom: 5px; display: flex; justify-content: center;">
+                    
+                    <GiftPanel 
+                      :spinValue="spinPair.spinValue" 
+                      :curIndex="spinPair.curIndex" 
+                      @remove-custom-spin="removeCustomSpin"/>
+                  </a-col>
+                </a-row>
+              </div>
+              <div v-else>
+                <CustomSpin v-model:nValue="spin_value1" style="width: 60%; margin-bottom: 5px;"></CustomSpin>
+              </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+            任务次数
+          </div>
+          <div style="width: 75%;">
+            <a-row style=" margin-bottom: 15px; ">
+              <CustomSpin v-model:nValue="spin_value1" style="width: 60%; margin-bottom: 5px;"></CustomSpin>
+            </a-row>
           </div>
         </div>
 
@@ -112,101 +155,23 @@
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
             活动时间
           </div>
-          <div style="width: 75%;">
+          <a-row type="flex" style="width: 75%;">
+            <a-radio-group v-model="radioValue" style="text-align: left;" :span="4">
+              <a-radio value="radio1">永久有效</a-radio>
+              <a-radio value="radio2">自定义时间</a-radio>
+            </a-radio-group>
             <a-range-picker 
+              :span="12"
               :placeholder="['开始日期', '结束日期']"
               style="width: 75%; text-align: center;"
             />
-          </div>
-        </div>
-     
-        <div style="display: flex; align-items: center; margin-bottom: 20px; width: 100%;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
-            图标位置
-          </div>
-          <div style="width: 75%; ">
-            <a-space style="flex-grow: 1;">
-              <a-checkbox value="All" @change="handleAllusers">首页右下角</a-checkbox>
-              <a-checkbox value="Noble" @change="handleNobleusers">直播间右下角</a-checkbox>
-              <a-checkbox value="Recharge" @change="handleRechargeusers">个人中心右下角</a-checkbox>
-            </a-space>
-          </div>
-        </div>
-
-        <div style="display: flex; align-items: flex-start; width: 100%; margin-bottom: 15px; white-space: nowrap;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;margin-top: 10px;">
-            赠送内容
-          </div>
-
-          <div :flex="auto" style="width: 75%;">
-
-            <a-row style=" margin-bottom: 15px; ">
-              <a-checkbox style="align-items: center; margin-right: 10px;" value="All" @change="handleAllusers">赠送钻石</a-checkbox>
-              <CustomSpin v-model:nValue="spin_value1" style="width: 60%; margin-bottom: 5px;"></CustomSpin>
-            </a-row>
-            
-            <a-row style="margin-bottom: 15px; ">
-              <a-checkbox style="align-items: center;" value="All" @change="handleAllusers">赠送礼物</a-checkbox>
-              <a-col>
-                <a-button style="margin-right: 20px; " @click="addCustomSpin">添加礼物</a-button>
-                <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
-                  已添加 53个礼物
-                </div>
-              </a-col>
-              <a-form-item label="礼物有效期">
-                  <a-input style="text-align: center" v-model="gameId" value="1" placeholder="" /> 天
-              </a-form-item>
-
-            </a-row>
-
-            <a-row gutter="[16, 16]" style="width: 100%; ">
-              <a-col
-                v-for="(spinPair, index) in spinCards"
-                :key="index"
-                :span="5" 
-                style="margin-bottom: 5px; display: flex; justify-content: center;">
-                
-                <GiftPanel 
-                  :spinValue="spinPair.spinValue" 
-                  :curIndex="spinPair.curIndex" 
-                  @remove-custom-spin="removeCustomSpin"/>
-              </a-col>
-            </a-row>
-
-          </div>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 20px; width: 100%;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
-            赠送机制
-          </div>
-          <div style="width: 75%; display: flex; align-items: center; justify-content: space-between;">
-            <a-space style="flex-grow: 1;">
-              <a-checkbox value="All" @change="handleAllusers">新用户注册</a-checkbox>
-              <a-checkbox value="Noble" @change="handleNobleusers">绑定手机号用户</a-checkbox>
-              <a-checkbox value="Noble" @change="handleNobleusers">绑定邮箱用户</a-checkbox>
-              <a-checkbox value="Noble" @change="handleNobleusers">认证用户</a-checkbox>
-              <a-checkbox value="Noble" @change="handleNobleusers">首充用户</a-checkbox>
-              <a-checkbox value="Noble" @change="handleNobleusers">首次消费用户</a-checkbox>
-            </a-space>
-          </div>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 15px; width: 100%;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
-            审核机制
-          </div>
-          <div style="width: 75%; display: flex; align-items: center; justify-content: space-between;">
-            <a-space style="flex-grow: 1;">
-              <a-checkbox value="All" @change="handleAllusers">同IP审核</a-checkbox>
-              <a-checkbox value="Noble" @change="handleNobleusers">同设备审核</a-checkbox>
-            </a-space>
-          </div>
+          </a-row>
         </div>
 
         <!-- Center Aligned Save Button -->
         <a-form-item style="text-align: center; margin: 30px; white-space: nowrap;">
-          <a-button type="primary" style="width: 200px;">保存</a-button>
+          <a-button style="width: 120px; margin-right: 30px;" @click="handleCancel">取消</a-button>
+          <a-button style="width: 120px;" type="primary" @click="handleSave">确定</a-button>
         </a-form-item>
 
       </a-col>
@@ -225,7 +190,12 @@ export default {
     CustomSpin,
     GiftPanel
   },
-
+  props: {
+    operationType: {
+      type: String,
+      default: '新增',
+    },
+  },
   data() {
     return {
       parentValue: '0', // Example initial value
@@ -276,6 +246,16 @@ export default {
       console.log("removeCustomSpin2 : " + this.spinCards[curIndex].curIndex)
       this.spinCards.splice(curIndex, 1)
       //this.spinCards = this.spinCards.filter(spinPair => spinPair.id !== id);
+    },
+
+    handleSave() {
+    //  emit('save', props.formData)
+      this.handleBack()
+    },
+
+    handleCancel() {
+    //  updateVisible(false)
+      this.handleBack()
     },
 
     handleBack() {

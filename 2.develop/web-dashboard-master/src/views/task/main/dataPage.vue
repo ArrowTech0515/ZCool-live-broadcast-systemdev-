@@ -47,9 +47,9 @@
     <!-- </a-row> -->
 
       <a-col :span="3">
-          <a-form-item>
-            <a-button type="primary" block @click="onSearch">查询</a-button>
-          </a-form-item>
+        <a-form-item>
+          <a-button type="primary" block @click="onSearch">查询</a-button>
+        </a-form-item>
       </a-col>
     
     </a-row>

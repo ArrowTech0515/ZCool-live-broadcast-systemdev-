@@ -7,7 +7,7 @@
         <a-tab-pane key="2" tab="任务数据">
             <taskPage />
         </a-tab-pane>
-        <a-tab-pane key="3" tab="送礼活动">
+        <a-tab-pane key="3" tab="靓号活动">
             <goodNumberPage />
         </a-tab-pane>
         <a-tab-pane key="4" tab="签到活动">
