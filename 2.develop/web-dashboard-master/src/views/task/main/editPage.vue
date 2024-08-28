@@ -36,7 +36,7 @@
               />
             </div>
             <div v-else>
-              <a-select v-model="taskList" value="all">
+              <a-select v-model="taskList" value="all" style="width: 75%;">
                 <a-select-option value="all">请选择任务</a-select-option>
                 <a-select-option value="bindPhone">绑定手机号</a-select-option>
                 <a-select-option value="bindEmail">绑定邮箱号</a-select-option>
@@ -72,8 +72,8 @@
             <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
               <!-- Radio Group on the left -->
               <a-col :span="16">
-                <a-radio-group v-model="radioValue" style="text-align: left;">
-                  <a-radio value="radio1" style="margin-right: 40px;">每日循环任务</a-radio>
+                <a-radio-group v-model="radioValueCycle" style="text-align: left;">
+                  <a-radio value="radio1" style="margin-right: 75px;">每日循环任务</a-radio>
                   <a-radio value="radio2">一次性任务</a-radio>
                 </a-radio-group>
               </a-col>
@@ -89,7 +89,7 @@
             <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
               <!-- Radio Group on the left -->
               <a-col :span="16">
-                <a-radio-group v-model="radioValue" style="text-align: left;">
+                <a-radio-group v-model="radioValueUserType" style="text-align: left;">
                   <a-radio value="radio1">全部用户</a-radio>
                   <a-radio value="radio2">贵族用户</a-radio>
                   <a-radio value="radio3">新注册用户</a-radio>
@@ -105,38 +105,39 @@
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;margin-top: 10px;">
             任务奖励
           </div>
-
           <div :flex="auto" style="width: 75%;">
+            <a-row style="margin-bottom: 10px;">
+              <a-radio-group
+                  v-model="radioValueTaskType"
+                  style="display: flex; align-items: center; justify-content: space-between;  width: 70%;">
+                <a-radio value="radio1" style="margin-right: 10px;">钻石奖励</a-radio>
+                <a-radio value="radio2" style="margin-right: 10px;">礼物奖励</a-radio>
+                <!-- Conditionally displayed button -->
+                <div v-if="operationType === '编辑'" style="margin-right: 10px;">
+                    <a-button @click="addCustomSpin">添加礼物</a-button>
+                </div>
+                <a-radio value="radio3">余额奖励</a-radio>
+              </a-radio-group>
+            </a-row>
 
-              <a-row style="margin-bottom: 10px; ">
-                <a-radio-group v-model="radioValue" style="text-align: left;">
-                  <a-radio value="radio1">钻石奖励</a-radio>
-                  <a-radio value="radio2">礼物奖励</a-radio>
-                  <div v-if="operationType === '编辑'">
-                    <a-button style="margin-right: 20px; " @click="addCustomSpin">添加礼物</a-button>
-                  </div>
-                  <a-radio value="radio3">余额奖励</a-radio>
-                </a-radio-group>
+            <div v-if="operationType === '编辑'">
+              <a-row gutter="[16, 16]" style="width: 100%; ">
+                <a-col
+                  v-for="(spinPair, index) in spinCards"
+                  :key="index"
+                  :span="5" 
+                  style="margin-bottom: 5px; display: flex; justify-content: center;">
+                  
+                  <GiftPanel 
+                    :spinValue="spinPair.spinValue" 
+                    :curIndex="spinPair.curIndex" 
+                    @remove-custom-spin="removeCustomSpin"/>
+                </a-col>
               </a-row>
-
-              <div v-if="operationType === '编辑'">
-                <a-row gutter="[16, 16]" style="width: 100%; ">
-                  <a-col
-                    v-for="(spinPair, index) in spinCards"
-                    :key="index"
-                    :span="5" 
-                    style="margin-bottom: 5px; display: flex; justify-content: center;">
-                    
-                    <GiftPanel 
-                      :spinValue="spinPair.spinValue" 
-                      :curIndex="spinPair.curIndex" 
-                      @remove-custom-spin="removeCustomSpin"/>
-                  </a-col>
-                </a-row>
-              </div>
-              <div v-else>
-                <CustomSpin v-model:nValue="spin_value1" style="width: 60%; margin-bottom: 5px;"></CustomSpin>
-              </div>
+            </div>
+            <div v-else>
+              <CustomSpin v-model:nValue="spin_value1" style="width: 60%; margin-bottom: 5px;"></CustomSpin>
+            </div>
           </div>
         </div>
 
@@ -145,8 +146,8 @@
             任务次数
           </div>
           <div style="width: 75%;">
-            <a-row style=" margin-bottom: 15px; ">
-              <CustomSpin v-model:nValue="spin_value1" style="width: 60%; margin-bottom: 5px;"></CustomSpin>
+            <a-row >
+              <CustomSpin v-model:nValue="spin_value1" style="width: 60%;"></CustomSpin>
             </a-row>
           </div>
         </div>
@@ -155,16 +156,18 @@
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
             活动时间
           </div>
-          <a-row type="flex" style="width: 75%;">
-            <a-radio-group v-model="radioValue" style="text-align: left;" :span="4">
-              <a-radio value="radio1">永久有效</a-radio>
-              <a-radio value="radio2">自定义时间</a-radio>
-            </a-radio-group>
-            <a-range-picker 
-              :span="12"
-              :placeholder="['开始日期', '结束日期']"
-              style="width: 75%; text-align: center;"
-            />
+          <a-row type="flex" style="width: 75%;" align="middle">
+            <a-col :span="10">
+              <a-radio-group v-model="radioValueActivityTime">
+                <a-radio value="radio1">永久有效</a-radio>
+                <a-radio value="radio2">自定义时间</a-radio>
+              </a-radio-group>
+            </a-col>
+            <a-col :span="8">
+              <a-range-picker 
+                :placeholder="['开始日期', '结束日期']"
+              />
+            </a-col>
           </a-row>
         </div>
 
@@ -198,20 +201,16 @@ export default {
   },
   data() {
     return {
+
+      radioValueTaskType: 'radio1',  // For Task Type Radio Group
+      radioValueCycle: 'radio1',     // For Cycle Mechanism Radio Group
+      radioValueUserType: 'radio1',  // For Participant User Type Radio Group
+      radioValueActivityTime: 'radio1',  // For Activity Time Radio Group
+
       parentValue: '0', // Example initial value
-      radioValue: 'radio1', // Initial value for the radio group
 
       spin_value1: '0',
 
-      imageUrl: '', // URL for the uploaded icon
-      bannerUrl: '', // URL for the uploaded banner
-      uploadUrl: import.meta.env.VITE_API_HOST + '/api/v1/upload/resource',
-      uploadHeaders: {
-        Authorization: 'Bearer ' + localStorage.getItem('token'),
-      },
-      // spinCards: [
-      //   { value1: '' } // Initial CustomSpin
-      // ]
       spinCards: [
       { curIndex: 0, name: 'Gift 1', icon: '🎁', spinValue: 0 },
       // { id: 2, name: 'Gift 2', icon: '🎂', spinValue: 20 },
@@ -279,26 +278,6 @@ export default {
     handleCustomusers() {
       // Handle Custom users selection
     },
-
-    beforeUpload(file) {
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJpgOrPng) {
-        //this.$message.error('You can only upload JPG/PNG file!');
-        message.error({
-          content: 'You can only upload JPG/PNG file!',
-          duration: 2, // Duration in seconds
-        });
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        //this.$message.error('Image must smaller than 2MB!');
-        message.error({
-          content: 'Image must smaller than 2MB!',
-          duration: 2, // Duration in seconds
-        });
-      }
-      return isJpgOrPng && isLt2M;
-    },
     handleChange(info) {
       if (info.file.status === 'done') {
         this.imageUrl = URL.createObjectURL(info.file.originFileObj);
@@ -320,35 +299,9 @@ export default {
         });
       }
     },
-    uploadData() {
-      return { type: 1 };
-    },
-
   },
 };
 </script>
 
 <style scoped>
-.upload-box {
-  width: 80px;
-  height: 80px;
-  border: 1px dashed #d9d9d9;
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.upload-box-large {
-  width: 400px;
-  height: 80px;
-  border: 1px dashed #d9d9d9;
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
 </style>

@@ -77,7 +77,7 @@
   import gameManagement from '@/views/game/main.vue';
   import userManagement from '@/views/user/main.vue';
   import activityManagement from '@/views/activity/main.vue';
-  import taskManagement from '@/views/task/main/index.vue';
+  import taskManagement from '@/views/task/main.vue';
   
   export default {
     name: 'NavigationMenu',
