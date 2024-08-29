@@ -18,6 +18,14 @@
           <a-button block @click="onReset">重置</a-button>
         </a-form-item>
       </a-col>
+
+      
+      <a-col :span="3" style="margin-left: auto; margin-right: 1%;">
+        <a-form-item>
+          <a-button type="primary" block @click="onAddItem">新增会员分组</a-button>
+        </a-form-item>
+      </a-col>
+
     </a-row>
 
     <a-table :data-source="paginatedData" :pagination="false">
@@ -35,8 +43,8 @@
       <a-table-column title="备注" dataIndex="remark" key="remark" align="center"/>
       <a-table-column title="操作" dataIndex="operate" key="operate" align="center">
         <template #default="{ record }">
-          <span style="color: blue; margin-right: 8px; cursor: pointer;" @click="handleOperation('编辑')">编辑</span>
-          <a-popconfirm title='确定删除当前分组吗？' @confirm="() => delItem(record)">
+          <span style="color: blue; margin-right: 8px; cursor: pointer;" @click="onEditItem(record)">编辑</span>
+          <a-popconfirm title='确定删除当前分组吗？' @confirm="() => onDelItem(record)">
             <a-button type="link" danger size="small">删除</a-button>
           </a-popconfirm>
         </template>
@@ -63,6 +71,8 @@
 <script setup lang="jsx">
 import { ref, computed } from 'vue';
 import { getMessageListReq, messageAddOrEditReq, delMessageReq } from '@/api/message';
+
+const { createDialog } = useDialog()
 
 // Define reactive state
 const currentPage = ref(1);
@@ -100,23 +110,296 @@ const onGiftSelect = (key) => {
     selectedGifts.value.push(key);
   }
 };
+const onAddItem = () => {
+  const formValue = ref({
+    // user_id: item.group,
+    // mute_type: '',
+    // mute_end_time: '',
+    // reason: '',
+  })
 
-const delItem = (item) => {
+  const formModalProps = {
+    // request: setMuteReq,
+    // getData(data) {
+    //   const { user_id, ...params } = data
+    //   return {
+    //     ...params,
+    //     user_ids: [user_id],
+    //   }
+    // },
 
-  console.log("delItem : " + 1)
+    rule: [
+      {
+        type: 'input',
+        field: 'groupName',
+        title: '分组名称',
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'input',
+        field: 'nMemeberIndex',
+        title: '会员人数',
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'input',
+        field: 'rechargeStrategy',
+        title: '充值策略',
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'input',
+        field: 'withdrawalStrategy',
+        title: '提现策略',
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'input',
+        field: 'nMemeberIndex',
+        title: '返水策略',
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'input',
+        field: 'maxCashbackAmount',
+        title: '最高返现金额',
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'input',
+        field: 'remark',
+        title: '备注',
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+    ],
+  }
 
-  loading.value = true;
+  createDialog({
+    title: '新增会员分组',
+    width: 550,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        {...formModalProps}
+      />,
+    onConfirm(status) {
+      if (status) {
+        const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
+        if (! current) {
+          // Add new data code here
+        }
+        else {
+          // Same name already exists.
+        }
+      }
+    },
+  })
+}
+
+const onEditItem = (item) => {
+  const formValue = ref({
+    // user_id: item.group,
+    // mute_type: '',
+    // mute_end_time: '',
+    // reason: '',
+  })
+
+  const formModalProps = {
+    // request: setMuteReq,
+    // getData(data) {
+    //   const { user_id, ...params } = data
+    //   return {
+    //     ...params,
+    //     user_ids: [user_id],
+    //   }
+    // },
+
+    rule: [
+      {
+        type: 'input',
+        field: 'groupName',
+        title: '分组名称',
+        value: item.groupName,
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'input',
+        field: 'nMemeberIndex',
+        title: '会员人数',
+        value: item.nMemeberIndex,
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'input',
+        field: 'rechargeStrategy',
+        title: '充值策略',
+        value: item.rechargeStrategy,
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'input',
+        field: 'withdrawalStrategy',
+        title: '提现策略',
+        value: item.withdrawalStrategy,
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'input',
+        field: 'nMemeberIndex',
+        title: '返水策略',
+        value: item.rebateStrategy,
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'input',
+        field: 'maxCashbackAmount',
+        title: '最高返现金额',
+        value: item.maxCashbackAmount,
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'input',
+        field: 'remark',
+        title: '备注',
+        value: item.remark,
+        effect: {
+          required: true,
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+    ],
+  }
+
+  createDialog({
+    title: '禁言分组',
+    width: 550,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        {...formModalProps}
+      />,
+    onConfirm(status) {
+      if (status) {
+        const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
+        if (current) {
+          // Save data code here
+        }
+      }
+    },
+  })
+}
+
+const onDelItem = (item) => {
+
+  console.log("onDelItem : " + 1)
+
+  // loading.value = true;
   delMessageReq({
     message_ids: item.msg_id,
   })
   .then(() => {
-    loading.value = false;
+    // loading.value = false;
     pagination.page = 1;
     pagination.total = 0;
     props.resetSearch();
   })
   .catch(() => {
-    loading.value = false;
+    // loading.value = false;
   });
 };
 
