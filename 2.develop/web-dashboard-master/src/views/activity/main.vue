@@ -14,7 +14,7 @@
             <signinPage />
         </a-tab-pane>
         <a-tab-pane key="5" tab="送礼活动">
-            <giftgiving />
+            <giftGiving />
         </a-tab-pane>
         <a-tab-pane key="6" tab="转盘活动">
             <wheelPage />
@@ -30,7 +30,7 @@ import activityPage from './index.vue';
 import redumptionPage from './redumption/index.vue'; // junn
 import goodNumberPage from './goodNumber/index.vue'; // junn
 import signinPage from './signin/index.vue'; // junn
-import giftgiving from './giftgiving/index.vue'; // junn
+import giftGiving from './giftGiving/index.vue'; // junn
 import wheelPage from './wheel/main.vue'; // junn
 
 export default {
@@ -41,7 +41,7 @@ components: {
     redumptionPage,
     goodNumberPage,
     signinPage,
-    giftgiving,
+    giftGiving,
     wheelPage
 }
 }

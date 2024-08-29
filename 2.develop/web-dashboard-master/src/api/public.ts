@@ -7,7 +7,7 @@ export const getNobleListReq = params => get('/api/v1/noble/summary', params)
 // 工会列表
 export const getGuildListReq = (params = {}) => get('/api/v1/guild/summary', params)
 
-export const getUserListReq = (params = {}) => get('/api/v1/users/summary', params)
+export const getUserSummaryListReq = (params = {}) => get('/api/v1/users/summary', params)
 
 export const uploadImgReq = (file, type) => {
   // formdata 上传

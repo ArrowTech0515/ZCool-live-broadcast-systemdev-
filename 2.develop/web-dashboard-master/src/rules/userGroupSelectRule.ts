@@ -12,7 +12,7 @@ export default {
 
   effect: {
     fetch: {
-      action: '/api/v1/user/group', // Have to fix
+      action: '/api/v1/usergroup', // Have to fix
       to: 'options',
       method: 'get',
       parse: res => [
