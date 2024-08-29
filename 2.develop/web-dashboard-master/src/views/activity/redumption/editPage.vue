@@ -10,7 +10,7 @@
           <span style="font-size: 20px; font-weight: bold; margin-left: 8px;">&lt;</span>
         </a-button>
         <div style="flex-grow: 1; text-align: center;">
-          <span style="font-size: 20px; font-weight: bold;">充值活动</span>
+          <span style="font-size: 20px; font-weight: bold;">兑换活动</span>
         </div>
       </div>
     </template>
@@ -123,10 +123,10 @@
         
         <div style="display: flex; align-items: flex-start; width: 100%; margin-bottom: 15px; white-space: nowrap;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;margin-top: 10px;">
-            充值赠送
+            兑换赠送
           </div>
           <div :flex="auto" style="width: 75%;">
-            <a-button @click="addCustomSpin" 
+            <a-button @click="onSelectGift" 
               style="color: grey; font-size: 10px; margin-bottom: 10px; width: 100px; text-align: center;">
               添加赠送内容
             </a-button>
@@ -141,12 +141,17 @@
 
                   <a-row style="flex: 1; display: flex; align-items: center;">
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
-                      <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; font-size: 10px;">充值金额</span>
+                      <span 
+                        style="flex: 1; margin-bottom: 5px;
+                              padding-left: 30%; padding-right: 30%; padding-top: 4%; padding-bottom: 4%; 
+                              border: 1px solid lightgrey; border-radius: 5px; 
+                              background-color: white; color: grey; ">
+                            1:10</span>
+                      <span style=" color: grey;text-align: center; font-size: 10px;">兑换选项</span>
                     </a-col>
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center;">
                       <CustomSpin v-model:nValue="spin_value2" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; font-size: 10px;">赠送金额</span>
+                      <span style=" color: grey;text-align: center; font-size: 10px;">赠送钻石</span>
                     </a-col>
                     <a-button 
                       type="link" 
@@ -161,12 +166,17 @@
 
                   <a-row style="flex: 1; display: flex; align-items: center;">
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
-                      <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; font-size: 10px;">充值金额</span>
+                      <span 
+                        style="flex: 1; margin-bottom: 5px;
+                              padding-left: 30%; padding-right: 30%; padding-top: 4%; padding-bottom: 4%; 
+                              border: 1px solid lightgrey; border-radius: 5px; 
+                              background-color: white; color: grey; ">
+                            1:10</span>
+                      <span style=" color: grey;text-align: center; font-size: 10px;">兑换选项</span>
                     </a-col>
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center;">
                       <CustomSpin v-model:nValue="spin_value2" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; font-size: 10px;">赠送金额</span>
+                      <span style=" color: grey;text-align: center; font-size: 10px;">赠送钻石</span>
                     </a-col>
                     <a-button 
                       type="link" 
@@ -240,19 +250,28 @@
     </div>
 
   </a-card>
+
+  <SelectGiftDialog 
+        :isModalVisible="isModalVisible"
+      @update:is-modal-visible="val => isModalVisible = val" />
+
 </template>
 
 <script>
-import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
+// import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
 // const uploadRule = createUploadRule('主播头像', 'avatar_url')
+import SelectGiftDialog from './selectGiftDialog.vue'
 
 export default {
   components: {
-    CustomSpin,
+    SelectGiftDialog,
   },
 
   data() {
     return {
+
+      isModalVisible : false,
+
       parentValue: '0', // Example initial value
       radioValue: 'radio1', // Initial value for the radio group
 
@@ -286,6 +305,12 @@ export default {
   },
 
   methods: {
+    onSelectGift() {
+      //this.editItem()
+      console.log("handleOperation : " + this.isModalVisible.value)
+      this.isModalVisible  = true
+    },
+
     addCustomSpin() {
       this.customSpins.push({ value1: '', value2: '' });
     },

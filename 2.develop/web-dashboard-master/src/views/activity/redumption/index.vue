@@ -31,7 +31,7 @@
           </a-col>
           <a-col :span="3" style=" margin: 20px; margin-left: auto;">
               <a-form-item>
-                <a-button type="primary" block @click="onSearch">创建活动</a-button>
+                <a-button type="primary" block @click="onAdd">创建活动</a-button>
               </a-form-item>
           </a-col>
         </a-row>
@@ -144,6 +144,13 @@ export default {
     },
   },
   methods: {
+    onAdd() {
+      // Implement search logic
+      // this.operationType = '添加';
+      //if(operation === "编辑")
+      this.showEditPage = true; // Switch to the add strategy view
+    },
+
     onSearch() {
       // Implement search logic
     },

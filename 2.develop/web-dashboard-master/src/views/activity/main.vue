@@ -1,11 +1,11 @@
 <template>
     <a-tabs default-active-key="1">
     
-        <a-tab-pane key="1" tab="活动管理">
+        <a-tab-pane key="1" tab="充值活动">
             <activityPage />
         </a-tab-pane>
-        <a-tab-pane key="2" tab="任务数据">
-            <taskPage />
+        <a-tab-pane key="2" tab="兑换活动">
+            <redumptionPage />
         </a-tab-pane>
         <a-tab-pane key="3" tab="靓号活动">
             <goodNumberPage />
@@ -27,7 +27,7 @@
 import { Tabs } from 'ant-design-vue'
 
 import activityPage from './index.vue';
-import taskPage from './task/index.vue'; // junn
+import redumptionPage from './redumption/index.vue'; // junn
 import goodNumberPage from './goodNumber/index.vue'; // junn
 import signinPage from './signin/index.vue'; // junn
 import giftgiving from './giftgiving/index.vue'; // junn
@@ -38,7 +38,7 @@ components: {
     'a-tabs': Tabs,
     'a-tab-pane': Tabs.TabPane,
     activityPage,
-    taskPage,
+    redumptionPage,
     goodNumberPage,
     signinPage,
     giftgiving,
