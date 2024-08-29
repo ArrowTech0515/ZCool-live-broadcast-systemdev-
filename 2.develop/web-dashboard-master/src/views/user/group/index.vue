@@ -1,5 +1,5 @@
 <template>
-  <a-card style="background-color: white;">
+  <a-card style="background-color: white; margin-bottom: 1%; ">
     <a-row :gutter="16" :type="flex" style=" align-items: center; ">
       <a-col :flex="auto" style="margin-left: 3%; margin-right: 5%;">
         <a-form-item label="分组名称">
@@ -27,6 +27,9 @@
       </a-col>
 
     </a-row>
+  </a-card>
+
+  <a-card style="background-color: white;">
 
     <a-table :data-source="paginatedData" :pagination="false">
       <a-table-column title="默认分组" key="defaultGrouping" align="center">
@@ -71,6 +74,7 @@
 <script setup lang="jsx">
 import { ref, computed } from 'vue';
 import { getMessageListReq, messageAddOrEditReq, delMessageReq } from '@/api/message';
+import userGroupSelectRule from '@/rules/userGroupSelectRule';
 
 const { createDialog } = useDialog()
 
@@ -133,6 +137,10 @@ const onAddItem = () => {
         type: 'input',
         field: 'groupName',
         title: '分组名称',
+        props: {
+          placeholder: '请输入分组名称',
+          allowClear:true
+        },
         effect: {
           required: true,
         },
@@ -142,23 +150,28 @@ const onAddItem = () => {
           },
         },
       },
+      userGroupSelectRule,
+      // {
+      //   type: 'input',
+      //   field: 'nMemeberIndex',
+      //   title: '会员人数',
+      //   effect: {
+      //     required: true,
+      //   },
+      //   wrap: {
+      //     labelCol: {
+      //       span: 5,
+      //     },
+      //   },
+      // },
       {
-        type: 'input',
-        field: 'nMemeberIndex',
-        title: '会员人数',
-        effect: {
-          required: true,
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'input',
+        type: 'select',
         field: 'rechargeStrategy',
         title: '充值策略',
+        props: {
+          placeholder: '请选择',
+          allowClear:true
+        },
         effect: {
           required: true,
         },
@@ -169,9 +182,13 @@ const onAddItem = () => {
         },
       },
       {
-        type: 'input',
+        type: 'select',
         field: 'withdrawalStrategy',
         title: '提现策略',
+        props: {
+          placeholder: '请选择',
+          allowClear:true
+        },
         effect: {
           required: true,
         },
@@ -182,9 +199,13 @@ const onAddItem = () => {
         },
       },
       {
-        type: 'input',
+        type: 'select',
         field: 'nMemeberIndex',
         title: '返水策略',
+        props: {
+          placeholder: '请选择',
+          allowClear:true
+        },
         effect: {
           required: true,
         },
@@ -198,6 +219,10 @@ const onAddItem = () => {
         type: 'input',
         field: 'maxCashbackAmount',
         title: '最高返现金额',
+        props: {
+          placeholder: '请输入最高返水金额',
+          allowClear:true
+        },
         effect: {
           required: true,
         },
@@ -211,6 +236,10 @@ const onAddItem = () => {
         type: 'input',
         field: 'remark',
         title: '备注',
+        props: {
+          placeholder: '请输入分组名称',
+          allowClear:true
+        },
         effect: {
           required: true,
         },
@@ -293,7 +322,7 @@ const onEditItem = (item) => {
         },
       },
       {
-        type: 'input',
+        type: 'select',
         field: 'rechargeStrategy',
         title: '充值策略',
         value: item.rechargeStrategy,
@@ -307,7 +336,7 @@ const onEditItem = (item) => {
         },
       },
       {
-        type: 'input',
+        type: 'select',
         field: 'withdrawalStrategy',
         title: '提现策略',
         value: item.withdrawalStrategy,
@@ -321,7 +350,7 @@ const onEditItem = (item) => {
         },
       },
       {
-        type: 'input',
+        type: 'select',
         field: 'nMemeberIndex',
         title: '返水策略',
         value: item.rebateStrategy,
