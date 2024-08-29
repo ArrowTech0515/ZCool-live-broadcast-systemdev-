@@ -216,9 +216,9 @@
 </template>
 
 <script>
-import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
+import CustomSpin from '@/components/Form/Custom/CustomSpin.vue'
 // const uploadRule = createUploadRule('主播头像', 'avatar_url')
-import GiftPanel from './GiftPanel.vue'
+import GiftPanel from '@/components/Form/GiftPanel.vue'
 
 export default {
   components: {

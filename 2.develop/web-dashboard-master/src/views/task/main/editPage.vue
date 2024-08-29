@@ -123,7 +123,7 @@
             <div v-if="operationType === '编辑'">
               <a-row gutter="[16, 16]" style="width: 100%; ">
                 <a-col
-                  v-for="(spinPair, index) in spinCards"
+                  v-for="(spinPair, index) in giftPanel"
                   :key="index"
                   :span="5" 
                   style="margin-bottom: 5px; display: flex; justify-content: center;">
@@ -132,13 +132,13 @@
                     :spinValue="spinPair.spinValue" 
                     :curIndex="spinPair.curIndex" 
                     :name="spinPair.name"
-                    :icon="spinPair.icon"
+                    :imageUrl="spinPair.imageUrl"
                     @remove-custom-spin="removeCustomSpin"/>
                 </a-col>
               </a-row>
             </div>
             <div v-else>
-              <CustomSpin v-model:nValue="spin_value1" style="width: 60%; margin-bottom: 5px;"></CustomSpin>
+              <CustomSpin v-model:nValue="spin_value1" style="width: 75%; margin-bottom: 5px;"></CustomSpin>
             </div>
           </div>
         </div>
@@ -149,7 +149,7 @@
           </div>
           <div style="width: 75%;">
             <a-row >
-              <CustomSpin v-model:nValue="spin_value1" style="width: 60%;"></CustomSpin>
+              <CustomSpin v-model:nValue="spin_value1" style="width: 75%;"></CustomSpin>
             </a-row>
           </div>
         </div>
@@ -193,9 +193,10 @@
 <script>
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue'
 // const uploadRule = createUploadRule('主播头像', 'avatar_url')
-import GiftPanel from './GiftPanel.vue'
+import GiftPanel from '@/components/Form/GiftPanel.vue'
 import SelectGiftDialog from './selectGiftDialog.vue'
 
+import localImage from '@/assets/images/logo.png';
 
 export default {
   components: {
@@ -222,10 +223,10 @@ export default {
 
       spin_value1: '0',
 
-      spinCards: [
-      { curIndex: 0, name: '礼物', icon: '🎁', spinValue: 0 },
-      { curIndex: 1, name: '礼物', icon: '🎂', spinValue: 20 },
-      { curIndex: 2, name: '礼物', icon: '🍫', spinValue: 15 },
+      giftPanel: [
+      { curIndex: 0, name: '礼物', imageUrl: localImage, spinValue: 0 },
+      { curIndex: 1, name: '礼物', imageUrl: localImage, spinValue: 20 },
+      { curIndex: 2, name: '礼物', imageUrl: localImage, spinValue: 15 },
       // { id: 4, name: 'Gift 4', icon: '💎', spinValue: 50 },
       // { id: 5, name: 'Gift 5', icon: '🧸', spinValue: 25 },
       // { id: 6, name: 'Gift 6', icon: '🎮', spinValue: 30 },
@@ -242,20 +243,20 @@ export default {
 
   methods: {
     addCustomSpin() {
-      const newId = this.spinCards.length
-      this.spinCards.push({
+      const newId = this.giftPanel.length
+      this.giftPanel.push({
         curIndex: newId,
         name: `Gift ${newId}`,
-        icon: '🎁', // Default icon or change as needed
+        imageUrl: '@/assets/images/logo.png',//'🎁', // Default icon or change as needed
         spinValue: 0 // Default value, can be modified
       })
     },
     removeCustomSpin(curIndex) {
       console.log("removeCustomSpin : " + curIndex)
-      console.log("removeCustomSpin1 : " + this.spinCards[curIndex].spinValue)
-      console.log("removeCustomSpin2 : " + this.spinCards[curIndex].curIndex)
-      this.spinCards.splice(curIndex, 1)
-      //this.spinCards = this.spinCards.filter(spinPair => spinPair.id !== id);
+      console.log("removeCustomSpin1 : " + this.giftPanel[curIndex].spinValue)
+      console.log("removeCustomSpin2 : " + this.giftPanel[curIndex].curIndex)
+      this.giftPanel.splice(curIndex, 1)
+      //this.giftPanel = this.giftPanel.filter(spinPair => spinPair.id !== id);
     },
 
     handleSave() {

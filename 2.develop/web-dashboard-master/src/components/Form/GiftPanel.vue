@@ -20,13 +20,16 @@
       </a-row>
 
       <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center;">
-          <span style="text-align: center; font-size: 30px;">{{ icon }}</span>
+        <a-image 
+          :src="imageUrl"
+          alt="Gift Image" class="gift-image"/>
       </div>
       <CustomSpin v-model:nValue="this.spinValue" style="margin-top: auto;"></CustomSpin>
   </div>
 </template>
 
 <script>
+//https://aliyuncdn.antdv.com/logo.png
 export default {
 name: 'GiftPanel',
 props: {
@@ -42,7 +45,7 @@ props: {
     type: String,
     required: true
   },
-  icon: {
+  imageUrl: {
     type: String,
     required: true
   }
@@ -56,3 +59,11 @@ methods: {
 }
 }
 </script>
+
+<style scoped>
+.gift-image {
+  width: 50px; /* Adjust size as needed */
+  height: 50px;
+}
+/* Other styles */
+</style>
