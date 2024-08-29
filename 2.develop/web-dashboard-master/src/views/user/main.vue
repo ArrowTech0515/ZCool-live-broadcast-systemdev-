@@ -9,8 +9,12 @@
           <starManagement />
       </a-tab-pane>
 
-      <a-tab-pane key="3" tab="3">
+      <a-tab-pane key="3" tab="层级管理">
           <hierarchyManagement />
+      </a-tab-pane>
+
+      <a-tab-pane key="4" tab="分组管理">
+          <groupManagement />
       </a-tab-pane>
 
     </a-tabs>
@@ -22,6 +26,7 @@
   import userlistManagement from './list/index.vue'; // junn
   import starManagement from './star/index.vue'; // junn
   import hierarchyManagement from './hierarchy/index.vue'; // junn
+  import groupManagement from './group/index.vue'; // junn
   
   export default {
     components: {
@@ -29,7 +34,8 @@
       'a-tab-pane': Tabs.TabPane,
       userlistManagement,
       starManagement,
-      hierarchyManagement
+      hierarchyManagement,
+      groupManagement
     }
   }
   </script>
