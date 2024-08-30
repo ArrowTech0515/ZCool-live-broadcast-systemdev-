@@ -1,40 +1,27 @@
 <template>
-  <a-table :data-source="paginatedData" :pagination="false">
-    <a-table-column title="默认分组" key="defaultGrouping" align="center">
-      <template #default="{ record }">
-        <a-checkbox :checked="selectedGifts.includes(record.key)" @change="onGiftSelect(record.key)" />
-      </template>
-    </a-table-column>
-    <a-table-column title="分组名称" dataIndex="groupName" key="groupName" align="center" />
-    <a-table-column title="会员人数" dataIndex="nMemberIndex" key="nMemberIndex" align="center"/>
-    <a-table-column title="充值策略" dataIndex="rechargeStrategy" key="rechargeStrategy" align="center" />
-    <a-table-column title="提现策略" dataIndex="withdrawalStrategy" key="withdrawalStrategy" align="center" />
-    <a-table-column title="返水策略" dataIndex="rebateStrategy" key="rebateStrategy" align="center" />
-    <a-table-column title="最高返现金额" dataIndex="maxCashbackAmount" key="maxCashbackAmount" align="center"/>
-    <a-table-column title="备注" dataIndex="remark" key="remark" align="center"/>
-    <a-table-column title="操作" dataIndex="operate" key="operate" align="center">
-      <template #default="{ record }">
-        <span style="color: blue; margin-right: 8px; cursor: pointer;" @click="onEditItem(record)">编辑</span>
-        <a-popconfirm title='确定删除当前分组吗？' @confirm="() => onDelItem(record)">
-          <a-button type="link" danger size="small">删除</a-button>
-        </a-popconfirm>
-      </template>
-    </a-table-column>
-  </a-table>
+  <div>
+    <!-- 2xN Grid Layout -->
+    <a-row :gutter="[16, 16]">
+      <a-col v-for="(item, index) in paginatedItems" :key="index" :span="24 / columnsPerRow">
+        <LivebroadcastPanel />
+      </a-col>
+    </a-row>
 
-  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-    <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
-    <a-pagination
-      v-model:current="currentPage"
-      :total="totalItems"
-      :page-size="pageSize"
-      show-size-changer
-      :page-size-options="['5', '10', '20', '50', '100']"
-      :simple="false"
-      size="small"
-      @change="handlePageChange"
-      @show-size-change="handleSizeChange"
-    />
+    <!-- Pagination Controls -->
+    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+      <span style="margin-right: 8px;">共 {{ totalItems }} 条</span>
+      <a-pagination
+        v-model:current="currentPage"
+        :total="totalItems"
+        :page-size="pageSize"
+        show-size-changer
+        :page-size-options="['2', '6', '10', '20']"
+        :simple="false"
+        size="small"
+        @change="handlePageChange"
+        @show-size-change="handleSizeChange"
+      />
+    </div>
   </div>
 </template>
 
@@ -42,15 +29,11 @@
 import { ref, computed } from 'vue';
 import { getUserGroupListReq } from '@/api/usergroup';
 import userGroupSelectRule from '@/rules/userGroupSelectRule';
+import LivebroadcastPanel from './livebroadcastPanel.vue';
 
 const { createDialog } = useDialog()
 
 // Define reactive state
-const currentPage = ref(1);
-const pageSize = ref(5);
-const totalItems = ref(100);
-const selectedGifts = ref([]);
-const groupName = ref('');
 
 
 const props = defineProps({
@@ -83,41 +66,59 @@ const pagination = reactive({
 //   },
 // })
 
-const dataSource = ref([
-  {
-    key: '1',
-    groupName: 'KY一组',
-    nMemberIndex: 'ob_test',
-    rechargeStrategy: '809',
-    withdrawalStrategy: '提现',
-    rebateStrategy: '东方彩票',
-    maxCashbackAmount: '快三',
-    remark: '收入',
-    operate: '编辑 删除',
-  },
-]);
-
 function submitForm() {
   fApi.value.submit(formData => {
     getData(formData)
   })
 }
 
+const items = ref([
+  { title: '1', content: 'Content of card 1' },
+  { title: '2', content: 'Content of card 2' },
+  { title: '3', content: 'Content of card 3' },
+  { title: '4', content: 'Content of card 4' },
+  { title: '5', content: 'Content of card 5' },
+  { title: '6', content: 'Content of card 6' },
+  { title: '7', content: 'Content of card 7' },
+  { title: '8', content: 'Content of card 8' },
+  { title: '9', content: 'Content of card 9' },
+  { title: '10', content: 'Content of card 10' },
+  { title: '1', content: 'Content of card 1' },
+  { title: '2', content: 'Content of card 2' },
+  { title: '3', content: 'Content of card 3' },
+  { title: '4', content: 'Content of card 4' },
+  { title: '5', content: 'Content of card 5' },
+  { title: '6', content: 'Content of card 6' },
+  { title: '7', content: 'Content of card 7' },
+  { title: '8', content: 'Content of card 8' },
+  { title: '9', content: 'Content of card 9' },
+  { title: '10', content: 'Content of card 10' },
+]);
+
+const currentPage = ref(1);
+const pageSize = ref(20); // Default to 4 items per page
+const totalItems = computed(() => items.value.length);
+
+// Number of columns per row
+const columnsPerRow = computed(() => Math.ceil(pageSize.value / 2));
+
+// Handle page change
+const handlePageChange = (page) => {
+  currentPage.value = page;
+};
+
+// Handle page size change
+const handleSizeChange = (current, size) => {
+  pageSize.value = size;
+  currentPage.value = 1; // Reset to the first page when page size changes
+};
+
 // Computed property for paginated data
-const paginatedData = computed(() => {
+const paginatedItems = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value;
   const end = start + pageSize.value;
-  return dataSource.value.slice(start, end);
+  return items.value.slice(start, end);
 });
-
-// Methods
-const onGiftSelect = (key) => {
-  if (selectedGifts.value.includes(key)) {
-    selectedGifts.value = selectedGifts.value.filter(k => k !== key);
-  } else {
-    selectedGifts.value.push(key)
-  }
-}
 
 async function onAddItem(item = {}) {
 
@@ -456,15 +457,6 @@ const onDelItem = (item) => {
   .catch(() => {
     // loading.value = false;
   })
-}
-
-const handlePageChange = (page) => {
-  currentPage.value = page
-}
-
-const handleSizeChange = (current, size) => {
-  pageSize.value = size
-  currentPage.value = 1 // Reset to the first page when page size changes
 }
 
 defineExpose({

@@ -45,12 +45,12 @@
 </template>
 
 <script lang="jsx">
-import { defineComponent } from "vue";
-import { MenuOutlined } from "@ant-design/icons-vue";
+import { defineComponent } from "vue"
+import { MenuOutlined } from '@ant-design/icons-vue'
 
 export default defineComponent({
   components: {
     MenuOutlined,
-  },
-});
+  }
+})
 </script>

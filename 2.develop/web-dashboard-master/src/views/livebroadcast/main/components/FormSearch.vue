@@ -49,21 +49,21 @@
         </a-form-item>
       </a-col>
 
-      <a-col :span="2">
+      <a-col :flex="1">
         <a-form-item>
           <a-button type="primary" block @click="onSearch">
             <SearchOutlined /> 查询</a-button>
         </a-form-item>
       </a-col>
     
-      <a-col :span="2">
+      <a-col :flex="1">
         <a-form-item>
           <a-button block @click="onReset">
             <ReloadOutlined /> 重置</a-button>
         </a-form-item>
       </a-col>
       
-      <a-col :span="2" style="margin-left: auto; margin-right: 3%;">
+      <a-col :flex="auto" style="margin-left: auto; margin-right: 3%;">
         <a-form-item>
           <a-button type="primary" block @click="emit('operationRecord')">操作记录</a-button>
         </a-form-item>
