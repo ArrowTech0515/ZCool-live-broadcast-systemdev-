@@ -40,9 +40,11 @@
               <a-menu-item key="16">任务管理</a-menu-item>
               <a-menu-item key="17">活动管理</a-menu-item>
               <a-menu-item key="18">消息管理</a-menu-item>
-              <a-menu-item key="19">用户管理</a-menu-item>
+              <a-menu-item key="19">商户管理</a-menu-item>
               <a-menu-item key="20">平台自营直播</a-menu-item>
               <a-menu-item key="21">权限管理</a-menu-item>
+              <a-menu-item key="22">支付管理</a-menu-item>
+              <a-menu-item key="23">直播管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -69,6 +71,7 @@
   import messageManagement from '@/views/message/list/index.vue';
   import anchorManagement from '@/views/anchor/list/index.vue';
   import payManagement from '@/views/payment/channel/index.vue';
+  import merchantManagement from '@/views/merchant/list/index.vue';
 
   // new added
   import platformManagement from '@/views/platform/index.vue';
@@ -78,6 +81,7 @@
   import userManagement from '@/views/user/main.vue';
   import activityManagement from '@/views/activity/main.vue';
   import taskManagement from '@/views/task/main.vue';
+  import livebroadcastManagement from '@/views/livebroadcast/main.vue';
   
   export default {
     name: 'NavigationMenu',
@@ -89,20 +93,30 @@
       permissionManagement,
       messageManagement,
       anchorManagement,
-      platformManagement,
-      orderManagement,
+      merchantManagement,
+
       payManagement,
+      platformManagement,
+      userManagement,
+
+      orderManagement,
       widthrawalManagement,
       gameManagement,
-      userManagement,
       activityManagement,
-      taskManagement
+      taskManagement,
+      livebroadcastManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
+          case '23':
+            currentComponent.value = 'livebroadcastManagement'
+            break
+          case '22':
+            currentComponent.value = 'payManagement'
+            break
           case '21':
             currentComponent.value = 'permissionManagement'
             break
@@ -110,7 +124,7 @@
             currentComponent.value = 'platformManagement'
             break
           case '19':
-            currentComponent.value = 'userManagement'
+            currentComponent.value = 'merchantManagement'
             break
           case '18':
             currentComponent.value = 'messageManagement'
@@ -121,12 +135,6 @@
           case '16':
             currentComponent.value = 'taskManagement'
             break
-          case '5':
-            currentComponent.value = 'anchorManagement'
-            break
-          case '1':
-            currentComponent.value = 'payManagement'
-            break
           case '11':
             currentComponent.value = 'orderManagement'
             break
@@ -136,12 +144,21 @@
           case '15':
             currentComponent.value = 'gameManagement'
             break
+          case '5':
+            currentComponent.value = 'anchorManagement'
+            break
+          case '2':
+            currentComponent.value = 'userManagement'
+            break
+          case '1':
+            currentComponent.value = 'payManagement'
+            break
           default:
-            currentComponent.value = 'taskManagement'
+            currentComponent.value = 'livebroadcastManagement'
         }
       }
   
-      const currentComponent = ref('taskManagement') // Initial component
+      const currentComponent = ref('livebroadcastManagement') // Initial component
   
       return {
         collapse_flag,

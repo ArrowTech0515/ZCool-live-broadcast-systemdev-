@@ -1,16 +1,16 @@
 <template>
   <a-table :data-source="paginatedData" :pagination="false">
-    <a-table-column title="默认分组" key="default_grouping" align="center">
+    <a-table-column title="默认分组" key="defaultGrouping" align="center">
       <template #default="{ record }">
         <a-checkbox :checked="selectedGifts.includes(record.key)" @change="onGiftSelect(record.key)" />
       </template>
     </a-table-column>
-    <a-table-column title="分组名称" dataIndex="group_name" key="group_name" align="center" />
-    <a-table-column title="会员人数" dataIndex="member_count" key="member_count" align="center"/>
-    <a-table-column title="充值策略" dataIndex="recharge_strategy" key="recharge_strategy" align="center" />
-    <a-table-column title="提现策略" dataIndex="withdrawal_strategy" key="withdrawal_strategy" align="center" />
-    <a-table-column title="返水策略" dataIndex="rebate_strategy" key="rebate_strategy" align="center" />
-    <a-table-column title="最高返现金额" dataIndex="max_cashback_amount" key="max_cashback_amount" align="center"/>
+    <a-table-column title="分组名称" dataIndex="groupName" key="groupName" align="center" />
+    <a-table-column title="会员人数" dataIndex="nMemberIndex" key="nMemberIndex" align="center"/>
+    <a-table-column title="充值策略" dataIndex="rechargeStrategy" key="rechargeStrategy" align="center" />
+    <a-table-column title="提现策略" dataIndex="withdrawalStrategy" key="withdrawalStrategy" align="center" />
+    <a-table-column title="返水策略" dataIndex="rebateStrategy" key="rebateStrategy" align="center" />
+    <a-table-column title="最高返现金额" dataIndex="maxCashbackAmount" key="maxCashbackAmount" align="center"/>
     <a-table-column title="备注" dataIndex="remark" key="remark" align="center"/>
     <a-table-column title="操作" dataIndex="operate" key="operate" align="center">
       <template #default="{ record }">
@@ -50,7 +50,7 @@ const currentPage = ref(1);
 const pageSize = ref(5);
 const totalItems = ref(100);
 const selectedGifts = ref([]);
-const group_name = ref('');
+const groupName = ref('');
 
 
 const props = defineProps({
@@ -86,12 +86,12 @@ const pagination = reactive({
 const dataSource = ref([
   {
     key: '1',
-    group_name: 'KY一组',
-    member_count: 'ob_test',
-    recharge_strategy: '809',
-    withdrawal_strategy: '提现',
-    rebate_strategy: '东方彩票',
-    max_cashback_amount: '快三',
+    groupName: 'KY一组',
+    nMemberIndex: 'ob_test',
+    rechargeStrategy: '809',
+    withdrawalStrategy: '提现',
+    rebateStrategy: '东方彩票',
+    maxCashbackAmount: '快三',
     remark: '收入',
     operate: '编辑 删除',
   },
@@ -156,7 +156,7 @@ async function onAddItem(item = {}) {
     rule: [
       {
         type: 'input',
-        field: 'group_name',
+        field: 'groupName',
         title: '分组名称',
         props: {
           placeholder: '请输入分组名称',
@@ -174,7 +174,7 @@ async function onAddItem(item = {}) {
       // userGroupSelectRule,
       {
         type: 'select',
-        field: 'member_count',
+        field: 'nMemberIndex',
         title: '分组会员',
         mode: 'multiple',
         props: {
@@ -192,7 +192,7 @@ async function onAddItem(item = {}) {
       },
       {
         type: 'select',
-        field: 'recharge_strategy',
+        field: 'rechargeStrategy',
         title: '充值策略',
         props: {
           placeholder: '请选择',
@@ -209,7 +209,7 @@ async function onAddItem(item = {}) {
       },
       {
         type: 'select',
-        field: 'withdrawal_strategy',
+        field: 'withdrawalStrategy',
         title: '提现策略',
         props: {
           placeholder: '请选择',
@@ -226,7 +226,7 @@ async function onAddItem(item = {}) {
       },
       {
         type: 'select',
-        field: 'member_count',
+        field: 'nMemberIndex',
         title: '返水策略',
         props: {
           placeholder: '请选择',
@@ -243,7 +243,7 @@ async function onAddItem(item = {}) {
       },
       {
         type: 'input',
-        field: 'max_cashback_amount',
+        field: 'maxCashbackAmount',
         title: '最高返现金额',
         props: {
           placeholder: '请输入最高返水金额',
@@ -288,7 +288,7 @@ async function onAddItem(item = {}) {
       />,
     onConfirm(status) {
       if (status) {
-        const current = dataSource.value.find(item2 => item2.group_name === item.group_name)
+        const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
         if (! current) {
           // Add new data code here
         }
@@ -321,9 +321,9 @@ async function onEditItem(item = {}) {
     rule: [
       {
         type: 'input',
-        field: 'group_name',
+        field: 'groupName',
         title: '分组名称',
-        value: item.group_name,
+        value: item.groupName,
         effect: {
           required: true,
         },
@@ -335,9 +335,9 @@ async function onEditItem(item = {}) {
       },
       {
         type: 'input',
-        field: 'member_count',
+        field: 'nMemberIndex',
         title: '会员人数',
-        value: item.member_count,
+        value: item.nMemberIndex,
         effect: {
           required: true,
         },
@@ -349,9 +349,9 @@ async function onEditItem(item = {}) {
       },
       {
         type: 'select',
-        field: 'recharge_strategy',
+        field: 'rechargeStrategy',
         title: '充值策略',
-        value: item.recharge_strategy,
+        value: item.rechargeStrategy,
         effect: {
           required: true,
         },
@@ -363,9 +363,9 @@ async function onEditItem(item = {}) {
       },
       {
         type: 'select',
-        field: 'withdrawal_strategy',
+        field: 'withdrawalStrategy',
         title: '提现策略',
-        value: item.withdrawal_strategy,
+        value: item.withdrawalStrategy,
         effect: {
           required: true,
         },
@@ -377,9 +377,9 @@ async function onEditItem(item = {}) {
       },
       {
         type: 'select',
-        field: 'member_count',
+        field: 'nMemberIndex',
         title: '返水策略',
-        value: item.rebate_strategy,
+        value: item.rebateStrategy,
         effect: {
           required: true,
         },
@@ -391,9 +391,9 @@ async function onEditItem(item = {}) {
       },
       {
         type: 'input',
-        field: 'max_cashback_amount',
+        field: 'maxCashbackAmount',
         title: '最高返现金额',
-        value: item.max_cashback_amount,
+        value: item.maxCashbackAmount,
         effect: {
           required: true,
         },
@@ -430,7 +430,7 @@ async function onEditItem(item = {}) {
       />,
     onConfirm(status) {
       if (status) {
-        const current = dataSource.value.find(item2 => item2.group_name === item.group_name)
+        const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
         if (current) {
           // Save data code here
         }

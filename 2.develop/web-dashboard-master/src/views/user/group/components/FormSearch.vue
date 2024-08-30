@@ -1,24 +1,26 @@
 <template>
   <a-card style="background-color: white; margin-bottom: 1%; ">
     <a-row :gutter="16" :type="flex" style=" align-items: center; ">
+
       <a-col :flex="auto" style="margin-left: 3%; margin-right: 5%;">
         <a-form-item label="分组名称">
-          <a-input v-model:value="groupName" placeholder="请输入分组名称" />
+          <a-input v-model:value="group_name" placeholder="请输入分组名称" />
         </a-form-item>
       </a-col>
       
       <a-col :span="3">
         <a-form-item>
-          <a-button type="primary" block @click="onSearch">查询</a-button>
+          <a-button type="primary" block @click="onSearch">
+            <SearchOutlined /> 查询</a-button>
         </a-form-item>
       </a-col>
     
       <a-col :span="3">
         <a-form-item>
-          <a-button block @click="onReset">重置</a-button>
+          <a-button block @click="onReset">
+            <ReloadOutlined /> 重置</a-button>
         </a-form-item>
       </a-col>
-
       
       <a-col :span="3" style="margin-left: auto; margin-right: 1%;">
         <a-form-item>
@@ -64,7 +66,7 @@ const onSearch = () => {
 }
 
 const onReset = () => {
-  groupName.value = ''
+  group_name.value = ''
   // Implement reset logic
 }
 

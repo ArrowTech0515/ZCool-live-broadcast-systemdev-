@@ -1,173 +1,71 @@
 <template>
-  <a-modal
-    title="添加奖励"
-    v-model:visible="isModalVisible"
-    :footer="null"
-  >
-    <a-form-item label="奖励类型">
-      <a-radio-group v-model:value="rewardType">
-        <a-radio value="diamond">钻石奖励</a-radio>
-        <a-radio value="balance">余额奖励</a-radio>
-        <a-radio value="gift">礼物奖励</a-radio>
-        <a-radio value="mount">坐骑奖励</a-radio>
-      </a-radio-group>
-    </a-form-item>
+  <div>
+    <!-- 2xN Grid Layout -->
+    <a-row :gutter="[16, 16]">
+      <a-col v-for="(item, index) in paginatedItems" :key="index" :span="24 / columnsPerRow">
+        <a-card :title="'Card title ' + item.title" :bordered="false">
+          {{ item.content }}
+        </a-card>
+      </a-col>
+    </a-row>
 
-    <!-- Conditionally render the CustomSpin component if '钻石奖励' is selected -->
-    <a-form-item v-if="rewardType === 'diamond'" label="奖励钻石">
-      <CustomSpin v-model:nValue="diamondCount" style="width: 100%;" />
-      <div>
-        <span style="font-size: 10px; color: grey;">请输入奖励的钻石</span>
-      </div>
-    </a-form-item>
-
-    <!-- Conditionally render the CustomSpin component if '钻石奖励' is selected -->
-    <a-form-item v-else-if="rewardType === 'balance'" label="奖励余额">
-      <CustomSpin v-model:nValue="balanceCount" style="width: 100%;" />
-      <div>
-        <span style="font-size: 10px; color: grey;">请输入奖励的金额</span>
-      </div>
-    </a-form-item>
-
-    <!-- Conditionally render the table if '坐骑奖励' is selected -->
-    <a-form-item v-else-if="rewardType === 'mount'">
-      <a-table :dataSource="mountOptions" :pagination="false" bordered>
-        <a-table-column title="选择坐骑" dataIndex="name" key="name" align="center" />
-        <a-table-column
-          title="状态"
-          key="status"  
-          align="center"
-        >
-          <template #default="{ record }">
-            <a-radio :checked="selectedMount === record.key" @change="onMountSelect(record.key)" />
-          </template>
-        </a-table-column>
-      </a-table>
-    </a-form-item>
-
-    
-    <!-- Conditionally render the table if '坐骑奖励' is selected -->
-    <a-form-item v-else>
-      <a-input style="text-align: center; margin-bottom: 10px; " placeholder="请输入礼物名称搜索"></a-input>
-      <a-table :dataSource="giftOptions" :pagination="false" bordered>
-        <a-table-column title="礼物名称" dataIndex="name" key="name" align="center" />
-        <a-table-column title="礼物价值" dataIndex="value" key="value" align="center" />
-        <a-table-column title="状态" key="status" align="center">
-          <template #default="{ record }">
-            <a-checkbox :checked="selectedGifts.includes(record.key)" @change="onGiftSelect(record.key)" />
-          </template>
-        </a-table-column>
-      </a-table>
-      <span style=" color: gray;">已选择 {{ selectedGifts.length }} 个礼物</span>
-    </a-form-item>
-
-    <!-- Custom Footer -->
-    <div class="custom-footer">
-      <a-button style="width: 120px; margin-right: 30px;" @click="handleCancel">取消</a-button>
-      <a-button style="width: 120px;" type="primary" @click="handleOk">确定</a-button>
+    <!-- Pagination Controls -->
+    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+      <span style="margin-right: 8px;">共 {{ totalItems }} 条</span>
+      <a-pagination
+        v-model:current="currentPage"
+        :total="totalItems"
+        :page-size="pageSize"
+        show-size-changer
+        :page-size-options="['4', '6', '8', '10']"
+        :simple="false"
+        size="small"
+        @change="handlePageChange"
+        @show-size-change="handleSizeChange"
+      />
     </div>
-  </a-modal>
+  </div>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue';
-import { Modal, Radio, Button, Table } from 'ant-design-vue';
-import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
+<script setup>
+import { ref, computed } from 'vue';
+import { Row, Col, Card, Pagination } from 'ant-design-vue';
 
-export default defineComponent({
-  components: {
-    'a-modal': Modal,
-    'a-radio-group': Radio.Group,
-    'a-radio': Radio,
-    'a-button': Button,
-    'a-table': Table,
-    'a-table-column': Table.Column,
-    CustomSpin,
-  },
-  setup() {
-    const isModalVisible = ref(true);
-    const rewardType = ref('diamond');
-    const diamondCount = ref(0);
-    const balanceCount = ref(0);
-    const mountOptions = ref([
-      { name: '绚丽机车', key: '1' },
-      { name: '跑车', key: '2' },
-      { name: '飞机', key: '3' },
-      { name: '神兽麒麟', key: '4' },
-    ]);
-    const giftOptions = ref([
-      { name: '鲜花', value: 1, key: '1' },
-      { name: '灯牌', value: 1, key: '2' },
-      { name: '爱心', value: 1, key: '3' },
-      { name: '城堡', value: 10000, key: '4' },
-      { name: '蓝色妖姬', value: 666, key: '5' },
-    ]);
+const items = ref([
+  { title: '1', content: 'Content of card 1' },
+  { title: '2', content: 'Content of card 2' },
+  { title: '3', content: 'Content of card 3' },
+  { title: '4', content: 'Content of card 4' },
+  { title: '5', content: 'Content of card 5' },
+  { title: '6', content: 'Content of card 6' },
+  { title: '7', content: 'Content of card 7' },
+  { title: '8', content: 'Content of card 8' },
+  { title: '9', content: 'Content of card 9' },
+  { title: '10', content: 'Content of card 10' },
+]);
 
-    const selectedMount = ref(null);
-    const selectedGifts = ref([]);
+const currentPage = ref(1);
+const pageSize = ref(4); // Default to 4 items per page
+const totalItems = computed(() => items.value.length);
 
-    const handleOk = () => {
-      console.log('OK Clicked', rewardType.value);
-      isModalVisible.value = false;
-    };
+// Number of columns per row
+const columnsPerRow = computed(() => Math.ceil(pageSize.value / 2));
 
-    const handleCancel = () => {
-      console.log('Cancel Clicked');
-      isModalVisible.value = false;
-    };
+// Handle page change
+const handlePageChange = (page) => {
+  currentPage.value = page;
+};
 
-    const onMountSelect = (key) => {
-      selectedMount.value = key;
-    };
+// Handle page size change
+const handleSizeChange = (current, size) => {
+  pageSize.value = size;
+  currentPage.value = 1; // Reset to the first page when page size changes
+};
 
-    const onGiftSelect = (key) => {
-      if (selectedGifts.value.includes(key)) {
-        selectedGifts.value = selectedGifts.value.filter(k => k !== key);
-      } else {
-        selectedGifts.value.push(key);
-      }
-    };
-
-    return {
-      isModalVisible,
-      rewardType,
-      diamondCount,
-      balanceCount,
-      mountOptions,
-      giftOptions,
-      selectedMount,
-      selectedGifts,
-      handleOk,
-      handleCancel,
-      onMountSelect,
-      onGiftSelect,
-    };
-  },
+// Computed property for paginated data
+const paginatedItems = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return items.value.slice(start, end);
 });
 </script>
-
-<style scoped>
-.ant-modal-header {
-  text-align: center;
-}
-
-.ant-modal-title {
-  font-weight: bold;
-  color: #FFD700; /* Yellow color */
-}
-
-.ant-radio-group {
-  display: flex;
-  justify-content: space-around;
-}
-
-.custom-footer {
-  display: flex;
-  justify-content: center;
-  margin-top: 24px;
-}
-
-.custom-footer .ant-btn {
-  margin: 0 8px;
-}
-</style>
