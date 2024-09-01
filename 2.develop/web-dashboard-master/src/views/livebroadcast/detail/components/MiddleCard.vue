@@ -12,8 +12,9 @@ const data = [
 </script>
 
 <template>
-  <a-card style="width: 100%; padding: 20px; margin-bottom: 1%;">
-    <a-row type="flex" justify="space-between" align="middle" style="height: 100%;">
+  <a-card style="width: 100%; margin-bottom: 1%;">
+    <a-row type="flex" justify="space-between" align="middle" 
+    style="height: 100%; padding-left: 4%; padding-right: 4%;">
       <template v-for="(item, index) in data" :key="index">
         <a-col
           style="text-align: center; display: flex; flex-direction: column; justify-content: center;"
