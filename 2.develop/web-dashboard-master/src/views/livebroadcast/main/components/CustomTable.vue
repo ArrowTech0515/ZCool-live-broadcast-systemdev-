@@ -30,13 +30,19 @@ import { ref, computed } from 'vue';
 import { getUserGroupListReq } from '@/api/usergroup';
 import userGroupSelectRule from '@/rules/userGroupSelectRule';
 import LivebroadcastPanel from './livebroadcastPanel.vue';
+import { Menu, Dropdown } from 'ant-design-vue';
 
 const { createDialog } = useDialog()
 
 // Define reactive state
-
+defineComponent({
+  components: {
+    Dropdown,
+  }
+})
 
 const props = defineProps({
+
   searchParams: {
     type: Object,
     default: () => ({}),
@@ -99,6 +105,7 @@ const currentPage = ref(1)
 const pageSize = ref(20) // Default to 4 items per page
 const totalItems = computed(() => items.value.length)
 
+const cntAnchors = ref(25)
 // Number of columns per row
 const columnsPerRow = computed(() => Math.ceil(pageSize.value / 2))
 
@@ -392,6 +399,16 @@ async function onOperationRecord(item = {}) {
     ],
   };
 
+  // Generate 25 menu items
+    const menuItems = Array.from({ length: cntAnchors.value }, (_, i) => (
+      <a-menu-item key={i + 1}>主播{i + 1}</a-menu-item>
+    ))
+
+    const menu_in_card = (
+      <a-menu style="max-height: 200px; overflow-y: auto;"> {/* Add scrolling */}
+        {menuItems}
+      </a-menu>
+    );
 
   createDialog({
     title: '操作记录',
@@ -431,7 +448,15 @@ async function onOperationRecord(item = {}) {
             <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
               <a-row type="flex" justify="space-between" align="middle">
                 <a-col span="18">
-                  <a href="#" style="font-size: 12px; color: #1890ff; ">25位主播</a>
+                  <a-dropdown placement="bottomRight" v-slots={{ overlay: menu_in_card }}>
+                    <a
+                      href="javascript:void(0);"
+                      style="font-size: 12px; cursor: pointer; color: #1890ff;"
+                    >
+                      25位主播
+                    </a>
+                  </a-dropdown>
+
                   <a-row justify="space-between">
                     <a-col>
                       <div style="font-size: 12px; margin-right: 10px;">XX层级/XX层级</div>
@@ -481,9 +506,14 @@ async function onOperationRecord(item = {}) {
               <a-row type="flex" justify="space-between" align="middle">
                 <a-col span="18">
                   <a-row justify="space-between">
-                    <a-col>
-                      <a href="#" style="font-size: 12px; color: #1890ff; ">24位主播</a>
-                    </a-col>
+                    <a-dropdown placement="bottomRight" v-slots={{ overlay: menu_in_card }}>
+                      <a
+                        href="javascript:void(0);"
+                        style="font-size: 12px; cursor: pointer; color: #1890ff;"
+                      >
+                        24位主播
+                      </a>
+                    </a-dropdown>
                     <a-col>
                       <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
                         2022-12-12 12:21 —— 2022-12-12 12:21

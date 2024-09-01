@@ -31,7 +31,6 @@
 import { ref, computed } from 'vue';
 import { getUserGroupListReq } from '@/api/usergroup';
 import userGroupSelectRule from '@/rules/userGroupSelectRule';
-import LivebroadcastPanel from './livebroadcastPanel.vue';
 
 const { createDialog } = useDialog()
 

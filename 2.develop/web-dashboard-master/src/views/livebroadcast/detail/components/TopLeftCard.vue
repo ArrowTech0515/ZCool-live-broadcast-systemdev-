@@ -1,6 +1,7 @@
 <script setup lang="jsx">
-import { ref } from 'vue';
-import { Card, Row, Col, Button, Avatar } from 'ant-design-vue';
+
+const emit = defineEmits(['emit_search', 'emit_hideItems'])
+const fApi = ref({})
 
 const broadcasterName = '主播昵称';
 const liveDuration = '8: 43: 32';
@@ -20,7 +21,7 @@ const broadcasterImage = 'https://via.placeholder.com/40'; // Placeholder image 
         <span style="font-weight: bold;">直播时长: {{ liveDuration }}</span>
       </a-col>
       <a-col>
-        <Button type="primary">强制下播</Button>
+        <a-button type="primary">强制下播</a-button>
       </a-col>
     </a-row>
 
