@@ -1,56 +1,45 @@
 <template>
-  <a-card bordered style="width: 300px;">
-    <!-- Header -->
-    <div
-      style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d9d9d9; padding-bottom: 8px;"
-    >
-      <a-checkbox />
-      <span>房间号：3232423</span>
-      <MenuOutlined style="font-size: 16px; color: black;" />
-    </div>
-
-    <!-- Body -->
-    <div
-      style="position: relative; margin-top: 16px; height: 200px; border: 1px solid #d9d9d9;"
-    >
-      <!-- Time Text (Top Left) -->
-      <div
-        style="position: absolute; top: 8px; left: 8px; font-size: 24px; font-weight: bold;"
-      >
-        13:21
-      </div>
-      <!-- Password Button (Top Right) -->
-      <a-button
-        type="primary"
-        shape="round"
-        style="position: absolute; top: 8px; right: 8px;"
-      >
-        密码
-      </a-button>
-      <!-- Live Stream Area -->
-      <div
-        style="display: flex; justify-content: center; align-items: center; height: 100%; font-size: 18px;"
-      >
-        直播画面
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <div
-      style="text-align: center; border-top: 1px solid #d9d9d9; padding-top: 8px; padding-bottom: 8px; margin-top: 16px;"
-    >
-      桃之夭夭
-    </div>
-  </a-card>
+  <div class="envelope">
+    <div class="diagonal-line diagonal-line-one"></div>
+    <div class="diagonal-line diagonal-line-two"></div>
+    <span class="text" style="background: lightgrey; z-index: 1;">密码</span>
+  </div>
 </template>
 
-<script lang="jsx">
-import { defineComponent } from "vue";
-import { MenuOutlined } from "@ant-design/icons-vue";
+<style scoped>
+.envelope {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 40px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  text-align: center;
+  line-height: 40px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+  overflow: hidden;
+}
 
-export default defineComponent({
-  components: {
-    MenuOutlined,
-  },
-});
-</script>
+
+/* Add crossing diagonals */
+.diagonal-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid grey;
+}
+
+.diagonal-line-one {
+  transform: rotate(32deg);
+  transform-origin: top left;
+}
+
+.diagonal-line-two {
+  transform: rotate(-32deg);
+  transform-origin: top right;
+}
+</style>

@@ -7,7 +7,9 @@
     >
       <a-checkbox />
       <span>房间号：3232423</span>
-      <MenuOutlined style="font-size: 16px; color: black;" />
+      <Dropdown placement="bottomRight" :overlay="menu" trigger="click">
+        <MenuOutlined style="font-size: 16px; cursor: pointer" />
+      </Dropdown>
     </div>
 
     <!-- Body -->
@@ -21,13 +23,11 @@
         13:21
       </div>
       <!-- Password Button (Top Right) -->
-      <a-button
-        type="primary"
-        shape="round"
-        style="position: absolute; top: 8px; right: 8px;"
+      <EnvelopeText
+        style="position: absolute; top: 0px; right: 0px;"
       >
         密码
-      </a-button>
+      </EnvelopeText>
       <!-- Live Stream Area -->
       <div
         style="display: flex; justify-content: center; align-items: center; 
@@ -46,13 +46,30 @@
   </a-card>
 </template>
 
-<script lang="jsx">
+<script lang="jsx" setup>
 import { defineComponent } from "vue"
 import { MenuOutlined } from '@ant-design/icons-vue'
 
-export default defineComponent({
+import { Menu, Dropdown } from 'ant-design-vue';
+
+defineComponent({
   components: {
-    MenuOutlined,
+    MenuOutlined, Dropdown
   }
 })
+
+const menu = (
+  <Menu>
+    <Menu.Item>
+      <span style="font-size: 12px; padding: 10px;">主播来源: 平台</span>
+    </Menu.Item>
+    <Menu.Item>
+      <span style="font-size: 12px; padding: 10px;">展示商户: 29位商户</span>
+    </Menu.Item>
+    <Menu.Item>
+      <span style="font-size: 12px; padding: 10px;">所属工会: XXXX工会</span>
+    </Menu.Item>
+  </Menu>
+)
+
 </script>
