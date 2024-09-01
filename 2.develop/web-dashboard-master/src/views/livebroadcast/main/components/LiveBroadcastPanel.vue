@@ -1,8 +1,9 @@
 <template>
-  <a-card bordered style="width: 300px;">
+  <a-card bordered style="width: 230px; padding: 0%;">
     <!-- Header -->
     <div
-      style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d9d9d9; padding-bottom: 8px;"
+      style="display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;"
     >
       <a-checkbox />
       <span>房间号：3232423</span>
@@ -11,11 +12,11 @@
 
     <!-- Body -->
     <div
-      style="position: relative; margin-top: 16px; height: 200px; border: 1px solid #d9d9d9;"
+      style="position: relative; margin-top: 16px; height: 230px; "
     >
       <!-- Time Text (Top Left) -->
       <div
-        style="position: absolute; top: 8px; left: 8px; font-size: 24px; font-weight: bold;"
+        style="position: absolute; top: 0px; left: 0px; font-size: 22px; font-weight: bold;"
       >
         13:21
       </div>
@@ -29,7 +30,8 @@
       </a-button>
       <!-- Live Stream Area -->
       <div
-        style="display: flex; justify-content: center; align-items: center; height: 100%; font-size: 18px;"
+        style="display: flex; justify-content: center; align-items: center; 
+        height: 100%; font-size: 20px;"
       >
         直播画面
       </div>
@@ -37,7 +39,7 @@
 
     <!-- Footer -->
     <div
-      style="text-align: center; border-top: 1px solid #d9d9d9; padding-top: 8px; padding-bottom: 8px; margin-top: 16px;"
+      style="text-align: center; border-top: 1px solid #d9d9d9; padding-top: 8px; "
     >
       桃之夭夭
     </div>

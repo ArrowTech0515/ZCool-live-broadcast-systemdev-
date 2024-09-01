@@ -65,25 +65,25 @@
       
       <a-col :flex="auto" style="margin-left: auto; margin-right: 3%;">
         <a-form-item>
-          <a-button type="primary" block @click="emit('operationRecord')">操作记录</a-button>
+          <a-button type="primary" block @click="emit('emit_operationRecord')">操作记录</a-button>
         </a-form-item>
       </a-col>
       
       <a-col :span="2">
         <a-form-item>
-          <a-button type="primary" block @click="emit('emitBlock')">屏蔽</a-button>
+          <a-button type="primary" block @click="emit('emit_block')">屏蔽</a-button>
         </a-form-item>
       </a-col>
       
       <a-col :span="2">
         <a-form-item>
-          <a-button type="primary" block @click="emit('emitCategory')">分类</a-button>
+          <a-button type="primary" block @click="emit('emit_category')">分类</a-button>
         </a-form-item>
       </a-col>
       
       <a-col :span="2">
         <a-form-item>
-          <a-button type="primary" block @click="emit('emitHide')">隐藏</a-button>
+          <a-button type="primary" block @click="emit('emit_hideItems')">隐藏</a-button>
         </a-form-item>
       </a-col>
 
@@ -94,23 +94,14 @@
 <script setup lang="jsx">
 import { ref, computed } from 'vue'
 // const params = defineModel()
-// const data = reactive({
-//   merch_id: 0,
-//   app_id: 0,
-//   acct_status: 0,
-//   is_bind: 0,
-//   os_type: 0,
-//   mu_name: '',
-//   au_id: '',
-//   phone: '',
-//   ip: '',
-//   email: '',
-//   hiera: 0,
-//   is_online: false,
-//   reg_time: [],
-// })
+const groupName = ref('')
+const room_number = ref('')
+const nick_name = ref('')
+const merchant_type = ref('all')
+const room_type = ref('all')
+const guild_type = ref('all')
 
-const emit = defineEmits(['addItem', 'search'])
+const emit = defineEmits(['emit_search', 'emit_hideItems'])
 const fApi = ref({})
 
 function submitForm() {
@@ -126,6 +117,11 @@ const onSearch = () => {
 
 const onReset = () => {
   groupName.value = ''
+  room_number.value = ''
+  nick_name.value = ''
+  merchant_type.value = 'all'
+  room_type.value = 'all'
+  guild_type.value = 'all'
   // Implement reset logic
 }
 

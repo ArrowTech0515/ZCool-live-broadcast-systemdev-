@@ -93,43 +93,39 @@ const items = ref([
   { title: '8', content: 'Content of card 8' },
   { title: '9', content: 'Content of card 9' },
   { title: '10', content: 'Content of card 10' },
-]);
+])
 
-const currentPage = ref(1);
-const pageSize = ref(20); // Default to 4 items per page
-const totalItems = computed(() => items.value.length);
+const currentPage = ref(1)
+const pageSize = ref(20) // Default to 4 items per page
+const totalItems = computed(() => items.value.length)
 
 // Number of columns per row
-const columnsPerRow = computed(() => Math.ceil(pageSize.value / 2));
+const columnsPerRow = computed(() => Math.ceil(pageSize.value / 2))
 
 // Handle page change
 const handlePageChange = (page) => {
-  currentPage.value = page;
-};
+  currentPage.value = page
+}
 
 // Handle page size change
 const handleSizeChange = (current, size) => {
-  pageSize.value = size;
-  currentPage.value = 1; // Reset to the first page when page size changes
-};
+  pageSize.value = size
+  currentPage.value = 1 // Reset to the first page when page size changes
+}
 
 // Computed property for paginated data
 const paginatedItems = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value;
-  const end = start + pageSize.value;
-  return items.value.slice(start, end);
-});
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return items.value.slice(start, end)
+})
 
-async function onAddItem(item = {}) {
+async function onHideItems(item = {}) {
 
   console.log("onAddItem : " + item.value)
   const formValue = ref({
     // user_id: userItem.user_id,
-    // avatar_url: userItem.avatar_url,
-    // nickname: userItem.nickname,
-    // phone: userItem.phone,
-    // email: userItem.email,
-    // password: userItem.password,
+
   })
 
   // const isCreate = !item.group_id
@@ -156,35 +152,11 @@ async function onAddItem(item = {}) {
 
     rule: [
       {
-        type: 'input',
-        field: 'groupName',
-        title: '分组名称',
-        props: {
-          placeholder: '请输入分组名称',
-          allowClear:true
-        },
-        effect: {
-          required: true,
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      // userGroupSelectRule,
-      {
-        type: 'select',
-        field: 'nMemberIndex',
-        title: '分组会员',
-        mode: 'multiple',
-        props: {
-          placeholder: '请选择',
-          allowClear:true
-        },
-        effect: {
-          required: true,
-        },
+        type: 'radio',
+        field: 'hidden_time',
+        title: '本场直播',
+        value: '',
+        options: Object.keys(ENUM.hidden_time).map(key => ({ label: ENUM.hidden_time[key], value: parseInt(key) })),
         wrap: {
           labelCol: {
             span: 5,
@@ -192,95 +164,25 @@ async function onAddItem(item = {}) {
         },
       },
       {
-        type: 'select',
-        field: 'rechargeStrategy',
-        title: '充值策略',
+        type: 'a-time-picker',
+        field: 'hidden_time',
+        title: '隐藏时段',
         props: {
-          placeholder: '请选择',
-          allowClear:true
-        },
-        effect: {
-          required: true,
+          placeholder: '选择时间',
+          allowClear: true,
+          format: 'HH:mm:ss',  // You can customize the format if needed
         },
         wrap: {
           labelCol: {
             span: 5,
           },
         },
-      },
-      {
-        type: 'select',
-        field: 'withdrawalStrategy',
-        title: '提现策略',
-        props: {
-          placeholder: '请选择',
-          allowClear:true
-        },
-        effect: {
-          required: true,
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'select',
-        field: 'nMemberIndex',
-        title: '返水策略',
-        props: {
-          placeholder: '请选择',
-          allowClear:true
-        },
-        effect: {
-          required: true,
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'input',
-        field: 'maxCashbackAmount',
-        title: '最高返现金额',
-        props: {
-          placeholder: '请输入最高返水金额',
-          allowClear:true
-        },
-        effect: {
-          required: true,
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'input',
-        field: 'remark',
-        title: '备注',
-        props: {
-          placeholder: '请输入分组名称',
-          allowClear:true
-        },
-        effect: {
-          required: true,
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
+      }
     ],
   }
 
   createDialog({
-    title: '新增会员分组',
+    title: '隐藏',
     width: 550,
     component:
       <ModalForm
@@ -460,7 +362,7 @@ const onDelItem = (item) => {
 }
 
 defineExpose({
-  onAddItem,
+  onHideItems
 })
 
 </script>

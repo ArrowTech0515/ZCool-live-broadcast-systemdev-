@@ -3,7 +3,7 @@
     <FormSearch
       ref="formSearchRef"
       v-model="searchParams"
-      @add-item="() => customTableRef.onAddItem()"
+      @emit_hideItems="() => customTableRef.onHideItems()"
     />
     <CustomTable
       ref="customTableRef"
