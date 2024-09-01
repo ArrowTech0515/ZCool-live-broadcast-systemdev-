@@ -30,6 +30,7 @@ import { ref, computed } from 'vue';
 import { getUserGroupListReq } from '@/api/usergroup';
 import userGroupSelectRule from '@/rules/userGroupSelectRule';
 import LivebroadcastPanel from './livebroadcastPanel.vue';
+import { render } from 'nprogress';
 
 const { createDialog } = useDialog()
 
@@ -263,7 +264,7 @@ async function onCategory(item = {}) {
   }
 
   createDialog({
-    title: '隐藏',
+    title: '分类',
     width: 550,
     component:
       <ModalForm
@@ -335,7 +336,7 @@ async function onBlock(item = {}) {
   }
 
   createDialog({
-    title: '隐藏',
+    title: '屏蔽',
     width: 550,
     component:
       <ModalForm
@@ -356,12 +357,202 @@ async function onBlock(item = {}) {
   })
 }
 
+async function onOperationRecord(item = {}) {
+
+  console.log("onBlock : " + item.value)
+  const formValue = ref({
+    // user_id: userItem.user_id,
+  })
+
+  const formModalProps1 = {
+  rule: [
+
+    ],
+  };
+
+
+  createDialog({
+    title: '操作记录',
+    width: 600,
+    component: {
+    setup() {
+      const activeTabKey = ref('tab1');
+
+      return () => (
+      <div>
+        <a-tabs v-model:activeKey={activeTabKey.value} centered class="custom-tabs">
+          <a-tab-pane key="tab1" tab="分类">
+          <div>
+            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
+              <a-row type="flex" justify="space-between" align="middle" margin="0">
+                <a-col span="18">
+                  <div style="font-size: 12px;">主播昵称</div>
+                  <a-row  justify="space-between">
+                    <a-col>
+                      <div style="margin-right: 10px;font-size: 12px;">充值用户/贵族用户</div>
+                    </a-col>
+                    <a-col>
+                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
+                        2022-12-12 12:21 —— 2022-12-12 12:21
+                      </div>
+                    </a-col>
+                  </a-row>
+                </a-col>
+                <a-col span="4" style="display: flex; justify-content: flex-end; align-items: center;">
+                  <a-button type="primary">
+                    删除
+                  </a-button>
+                </a-col>
+              </a-row>
+            </a-card>
+
+            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
+              <a-row type="flex" justify="space-between" align="middle">
+                <a-col span="18">
+                  <a href="#" style="font-size: 12px; color: #1890ff; ">25位主播</a>
+                  <a-row justify="space-between">
+                    <a-col>
+                      <div style="font-size: 12px; margin-right: 10px;">XX层级/XX层级</div>
+                    </a-col>
+                    <a-col>
+                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
+                        2022-12-12 12:21 —— 2022-12-12 12:21
+                      </div>
+                    </a-col>
+                  </a-row>
+                </a-col>
+                <a-col span="4" style="font-size: 12px; display: flex; justify-content: flex-end; align-items: center;">
+                  <a-button type="primary">
+                    删除
+                  </a-button>
+                </a-col>
+              </a-row>
+            </a-card>
+          </div>
+          </a-tab-pane>
+
+          <a-tab-pane key="tab2" tab="隐藏">
+            <div>
+            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
+              <a-row type="flex" justify="space-between" align="middle" margin="0">
+                <a-col span="18">
+                  <a-row  justify="space-between">
+                    <a-col>
+                      <div style="margin-right: 10px;font-size: 12px;">主播昵称</div>
+                    </a-col>
+                    <a-col>
+                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
+                        本场直播
+                      </div>
+                    </a-col>
+                  </a-row>
+                </a-col>
+                <a-col span="4" style="display: flex; justify-content: flex-end; align-items: center;">
+                  <a-button type="primary">
+                    删除
+                  </a-button>
+                </a-col>
+              </a-row>
+            </a-card>
+
+            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
+              <a-row type="flex" justify="space-between" align="middle">
+                <a-col span="18">
+                  <a-row justify="space-between">
+                    <a-col>
+                      <a href="#" style="font-size: 12px; color: #1890ff; ">24位主播</a>
+                    </a-col>
+                    <a-col>
+                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
+                        2022-12-12 12:21 —— 2022-12-12 12:21
+                      </div>
+                    </a-col>
+                  </a-row>
+                </a-col>
+                <a-col span="4" style="font-size: 12px; display: flex; justify-content: flex-end; align-items: center;">
+                  <a-button type="primary">
+                    删除
+                  </a-button>
+                </a-col>
+              </a-row>
+            </a-card>
+          </div>
+          </a-tab-pane>
+
+          <a-tab-pane key="tab3" tab="屏蔽">
+            <div>
+            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
+              <a-row type="flex" justify="space-between" align="middle" margin="0">
+                <a-col span="18">
+                  <a-row  justify="space-between">
+                    <a-col>
+                      <div style="margin-right: 10px;font-size: 12px;">普通房间/贵族房间</div>
+                    </a-col>
+                    <a-col>
+                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
+                        2022-12-12 12:21 —— 2022-12-12 12:21
+                      </div>
+                    </a-col>
+                  </a-row>
+                </a-col>
+                <a-col span="4" style="display: flex; justify-content: flex-end; align-items: center;">
+                  <a-button type="primary">
+                    删除
+                  </a-button>
+                </a-col>
+              </a-row>
+            </a-card>
+
+            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
+              <a-row type="flex" justify="space-between" align="middle">
+                <a-col span="18">
+                  <a-row justify="space-between">
+                    <a-col>
+                      <div style="margin-right: 10px;font-size: 12px;">普通房间/贵族房间</div>
+                    </a-col>
+                    <a-col>
+                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
+                        2022-12-12 12:21 —— 2022-12-12 12:21
+                      </div>
+                    </a-col>
+                  </a-row>
+                </a-col>
+                <a-col span="4" style="font-size: 12px; display: flex; justify-content: flex-end; align-items: center;">
+                  <a-button type="primary">
+                    删除
+                  </a-button>
+                </a-col>
+              </a-row>
+            </a-card>
+          </div>
+          </a-tab-pane>
+
+          </a-tabs>
+        </div>
+      );
+    },
+  },
+  onConfirm(status) {
+    if (status) {
+      const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
+      if (! current) {
+        // Add new data code here
+      }
+      else {
+        // Same name already exists.
+      }
+    }
+  },
+})
+}
+
 defineExpose({
-  onHideItems, onCategory, onBlock
+  onHideItems, onCategory, onBlock, onOperationRecord
 })
 
 </script>
 
 <style scoped>
 /* Add your scoped styles here */
+
 </style>

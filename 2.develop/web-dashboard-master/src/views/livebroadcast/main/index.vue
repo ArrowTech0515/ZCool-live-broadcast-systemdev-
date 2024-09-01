@@ -6,6 +6,7 @@
       @emit_hideItems="() => customTableRef.onHideItems()"
       @emit_category="() => customTableRef.onCategory()"
       @emit_block="() => customTableRef.onBlock()"
+      @emit_operationRecord="() => customTableRef.onOperationRecord()"
     />
     <CustomTable
       ref="customTableRef"
