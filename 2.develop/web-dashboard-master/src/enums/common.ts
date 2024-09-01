@@ -133,7 +133,7 @@ export default {
     7: '贵族用户',
     8: '游客用户',
   },
-  block_type: {
+  live_streamling_block_type: {
     1: '普通房间',
     2: '门票房间',
     3: '贵族房间',

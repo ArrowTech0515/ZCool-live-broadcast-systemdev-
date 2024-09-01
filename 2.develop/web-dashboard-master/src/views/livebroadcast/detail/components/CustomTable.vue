@@ -1,27 +1,29 @@
 <template>
-  <div>
-    <!-- 2xN Grid Layout -->
-    <a-row :gutter="[16, 16]">
-      <a-col v-for="(item, index) in paginatedItems" :key="index" :span="24 / columnsPerRow">
-        <LivebroadcastPanel />
-      </a-col>
-    </a-row>
+    <a-table :data-source="paginatedData" :pagination="false">
+    <a-table-column title="礼物类型" dataIndex="gift_type" key="gift_type" align="center" />
+    <a-table-column title="礼物数量" dataIndex="gift_quantity" key="gift_quantity" align="center" />
+    <a-table-column title="礼物价值" dataIndex="gift_value" key="gift_value" align="center" />
+    <a-table-column title="总价值" dataIndex="total_value" key="total_value" align="center" />
+    <a-table-column title="送礼用户" dataIndex="gift_user" key="gift_user" align="center" />
+    <a-table-column title="赠送时间" dataIndex="gift_time" key="gift_time" align="center" />
+    <a-table-column title="所属商户" dataIndex="merchant" key="merchant" align="center" />
+    <a-table-column title="应用名称" dataIndex="app_name" key="app_name" align="center" />
+    <a-table-column title="应用ID" dataIndex="app_id" key="app_id" align="center" />
+  </a-table>
 
-    <!-- Pagination Controls -->
-    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-      <span style="margin-right: 8px;">共 {{ totalItems }} 条</span>
-      <a-pagination
-        v-model:current="currentPage"
-        :total="totalItems"
-        :page-size="pageSize"
-        show-size-changer
-        :page-size-options="['2', '6', '10', '20']"
-        :simple="false"
-        size="small"
-        @change="handlePageChange"
-        @show-size-change="handleSizeChange"
-      />
-    </div>
+  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+    <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
+    <a-pagination
+      v-model:current="currentPage"
+      :total="totalItems"
+      :page-size="pageSize"
+      show-size-changer
+      :page-size-options="['5', '10', '20', '50', '100']"
+      :simple="false"
+      size="small"
+      @change="handlePageChange"
+      @show-size-change="handleSizeChange"
+    />
   </div>
 </template>
 
@@ -34,7 +36,6 @@ import LivebroadcastPanel from './livebroadcastPanel.vue';
 const { createDialog } = useDialog()
 
 // Define reactive state
-
 
 const props = defineProps({
   searchParams: {
@@ -71,36 +72,39 @@ function submitForm() {
     getData(formData)
   })
 }
+const currentPage = ref(1);
+const pageSize = ref(5);
+const totalItems = ref(100);
+const selectedGifts = ref([]);
+const group_name = ref('');
 
-const items = ref([
-  { title: '1', content: 'Content of card 1' },
-  { title: '2', content: 'Content of card 2' },
-  { title: '3', content: 'Content of card 3' },
-  { title: '4', content: 'Content of card 4' },
-  { title: '5', content: 'Content of card 5' },
-  { title: '6', content: 'Content of card 6' },
-  { title: '7', content: 'Content of card 7' },
-  { title: '8', content: 'Content of card 8' },
-  { title: '9', content: 'Content of card 9' },
-  { title: '10', content: 'Content of card 10' },
-  { title: '1', content: 'Content of card 1' },
-  { title: '2', content: 'Content of card 2' },
-  { title: '3', content: 'Content of card 3' },
-  { title: '4', content: 'Content of card 4' },
-  { title: '5', content: 'Content of card 5' },
-  { title: '6', content: 'Content of card 6' },
-  { title: '7', content: 'Content of card 7' },
-  { title: '8', content: 'Content of card 8' },
-  { title: '9', content: 'Content of card 9' },
-  { title: '10', content: 'Content of card 10' },
+const dataSource = ref([
+{
+    key: '1',
+    gift_type: '鲜花',
+    gift_quantity: '222',
+    gift_value: '1',
+    total_value: '222',
+    gift_user: '想你的夜',
+    gift_time: '2022-03-23 23:32:32',
+    merchant: '平台',
+    app_name: 'XXXXX应用',
+    app_id: '324234',
+  },
+  {
+    key: '2',
+    gift_type: '蓝色妖姬',
+    gift_quantity: '1',
+    gift_value: '666',
+    total_value: '666',
+    gift_user: '春风者',
+    gift_time: '2022-03-23 23:32:32',
+    merchant: 'XXXXX商户',
+    app_name: 'XXXXX应用',
+    app_id: '3424234',
+  },
 ])
 
-const currentPage = ref(1)
-const pageSize = ref(20) // Default to 4 items per page
-const totalItems = computed(() => items.value.length)
-
-// Number of columns per row
-const columnsPerRow = computed(() => Math.ceil(pageSize.value / 2))
 
 // Handle page change
 const handlePageChange = (page) => {
@@ -114,11 +118,12 @@ const handleSizeChange = (current, size) => {
 }
 
 // Computed property for paginated data
-const paginatedItems = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value
-  const end = start + pageSize.value
-  return items.value.slice(start, end)
-})
+const paginatedData = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return dataSource.value.slice(start, end);
+});
+
 
 async function onHideItems(item = {}) {
 
@@ -296,10 +301,10 @@ async function onBlock(item = {}) {
     rule: [
       {
         type: 'checkbox',
-        field: 'live_streamling_block_type',
+        field: 'block_type',
         title: '屏蔽直播类型',
         value: '',
-        options: Object.keys(ENUM.live_streamling_block_type).map(key => ({ label: ENUM.live_streamling_block_type[key], value: parseInt(key) })),
+        options: Object.keys(ENUM.block_type).map(key => ({ label: ENUM.block_type[key], value: parseInt(key) })),
         wrap: {
           labelCol: {
             span: 5,
