@@ -177,6 +177,87 @@ async function onHideItems(item = {}) {
             span: 5,
           },
         },
+      },
+      {
+        type: 'a-form-item',
+        field: 'infoText',
+        render: () => (
+          <div style={{ color: 'black', marginTop: '10px' }}>
+            设置后，主播不在客户端展示，也无法通过搜索或者关注进入主播直播间.
+          </div>
+        ),
+      },
+    ],
+  }
+
+  createDialog({
+    title: '隐藏',
+    width: 550,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        {...formModalProps}
+      />,
+    onConfirm(status) {
+      if (status) {
+        const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
+        if (! current) {
+          // Add new data code here
+        }
+        else {
+          // Same name already exists.
+        }
+      }
+    },
+  })
+}
+
+async function onCategory(item = {}) {
+
+  console.log("onCategory : " + item.value)
+  const formValue = ref({
+    // user_id: userItem.user_id,
+  })
+
+  const formModalProps = {
+
+    rule: [
+      {
+        type: 'a-form-item',
+        field: 'infoText',
+        render: () => (
+          <div style={{ color: 'black', marginTop: '10px' }}>
+            设置后，主播仅对当前分类用户可见
+          </div>
+        ),
+      },
+      {
+        type: 'checkbox',
+        field: 'category_type',
+        title: '选择分类',
+        value: '',
+        options: Object.keys(ENUM.category_type).map(key => ({ label: ENUM.category_type[key], value: parseInt(key) })),
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'rangePicker',
+        field: 'effective_time',
+        title: '生效时间',
+        value: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          valueFormat: 'X',
+          placeholder: ['开始时间', '结束时间'],
+        },
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
       }
     ],
   }
@@ -203,32 +284,37 @@ async function onHideItems(item = {}) {
   })
 }
 
-async function onEditItem(item = {}) {
+async function onBlock(item = {}) {
+
+  console.log("onBlock : " + item.value)
   const formValue = ref({
-    // user_id: item.group,
-    // mute_type: '',
-    // mute_end_time: '',
-    // reason: '',
+    // user_id: userItem.user_id,
   })
 
   const formModalProps = {
-    // request: setMuteReq,
-    // getData(data) {
-    //   const { user_id, ...params } = data
-    //   return {
-    //     ...params,
-    //     user_ids: [user_id],
-    //   }
-    // },
 
     rule: [
       {
-        type: 'input',
-        field: 'groupName',
-        title: '分组名称',
-        value: item.groupName,
-        effect: {
-          required: true,
+        type: 'checkbox',
+        field: 'block_type',
+        title: '屏蔽直播类型',
+        value: '',
+        options: Object.keys(ENUM.block_type).map(key => ({ label: ENUM.block_type[key], value: parseInt(key) })),
+        wrap: {
+          labelCol: {
+            span: 5,
+          },
+        },
+      },
+      {
+        type: 'rangePicker',
+        field: 'block_time',
+        title: '屏蔽时间',
+        value: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          valueFormat: 'X',
+          placeholder: ['开始时间', '结束时间'],
         },
         wrap: {
           labelCol: {
@@ -237,94 +323,19 @@ async function onEditItem(item = {}) {
         },
       },
       {
-        type: 'input',
-        field: 'nMemberIndex',
-        title: '会员人数',
-        value: item.nMemberIndex,
-        effect: {
-          required: true,
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'select',
-        field: 'rechargeStrategy',
-        title: '充值策略',
-        value: item.rechargeStrategy,
-        effect: {
-          required: true,
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'select',
-        field: 'withdrawalStrategy',
-        title: '提现策略',
-        value: item.withdrawalStrategy,
-        effect: {
-          required: true,
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'select',
-        field: 'nMemberIndex',
-        title: '返水策略',
-        value: item.rebateStrategy,
-        effect: {
-          required: true,
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'input',
-        field: 'maxCashbackAmount',
-        title: '最高返现金额',
-        value: item.maxCashbackAmount,
-        effect: {
-          required: true,
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'input',
-        field: 'remark',
-        title: '备注',
-        value: item.remark,
-        effect: {
-          required: true,
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
+        type: 'a-form-item',
+        field: 'infoText',
+        render: () => (
+          <div style={{ color: 'black', marginTop: '10px' }}>
+            屏蔽后对应类型的直播间将不在应用中展示，同时搜索页无法搜索，用户也不可进入屏蔽类型的主播直播间
+          </div>
+        ),
       },
     ],
   }
 
   createDialog({
-    title: '禁言分组',
+    title: '隐藏',
     width: 550,
     component:
       <ModalForm
@@ -334,35 +345,19 @@ async function onEditItem(item = {}) {
     onConfirm(status) {
       if (status) {
         const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
-        if (current) {
-          // Save data code here
+        if (! current) {
+          // Add new data code here
+        }
+        else {
+          // Same name already exists.
         }
       }
     },
   })
 }
 
-const onDelItem = (item) => {
-
-  console.log("onDelItem : " + 1)
-
-  // loading.value = true;
-  delMessageReq({
-    message_ids: item.msg_id,
-  })
-  .then(() => {
-    // loading.value = false;
-    pagination.page = 1
-    pagination.total = 0
-    props.resetSearch()
-  })
-  .catch(() => {
-    // loading.value = false;
-  })
-}
-
 defineExpose({
-  onHideItems
+  onHideItems, onCategory, onBlock
 })
 
 </script>

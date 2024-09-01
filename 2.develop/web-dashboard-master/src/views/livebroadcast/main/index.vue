@@ -4,6 +4,8 @@
       ref="formSearchRef"
       v-model="searchParams"
       @emit_hideItems="() => customTableRef.onHideItems()"
+      @emit_category="() => customTableRef.onCategory()"
+      @emit_block="() => customTableRef.onBlock()"
     />
     <CustomTable
       ref="customTableRef"
