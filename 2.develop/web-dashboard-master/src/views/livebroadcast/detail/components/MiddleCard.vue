@@ -9,31 +9,28 @@ const data = [
   { value: 73857, label: '新增关注' },
   { value: 73857, label: '新增点赞' },
 ];
-
 </script>
 
 <template>
-  <a-card style="width: 100%; padding: 20px; margin-bottom: 1%">
-    <a-row type="flex" justify="space-between" align="middle">
-      <a-col
-        v-for="(item, index) in data"
-        :key="index"
-        style="text-align: center"
-      >
-        <div style="font-size: 24px; font-weight: bold;">{{ item.value }}</div>
-        <div style="margin-top: 10px;">{{ item.label }}</div>
-        <Divider type="vertical" v-if="index < data.length - 1" />
-      </a-col>
+  <a-card style="width: 100%; padding: 20px; margin-bottom: 1%;">
+    <a-row type="flex" justify="space-between" align="middle" style="height: 100%;">
+      <template v-for="(item, index) in data" :key="index">
+        <a-col
+          style="text-align: center; display: flex; flex-direction: column; justify-content: center;"
+        >
+          <div style="font-size: 24px; font-weight: bold;">{{ item.value }}</div>
+          <div style="margin-top: 10px;">{{ item.label }}</div>
+        </a-col>
+        <Divider
+          v-if="index < data.length - 1"
+          type="vertical"
+          style="height: auto; align-self: stretch; background-color: lightgrey; "
+        />
+      </template>
     </a-row>
   </a-card>
 </template>
 
 <style scoped>
-a-col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+/* Any additional styles can go here */
 </style>

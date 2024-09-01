@@ -1,13 +1,9 @@
 <template>
   <div class="page_container">
-    <FormSearch
-      ref="formSearchRef"
-      v-model="searchParams"
-      @emit_hideItems="() => customTableRef.onHideItems()"
-      @emit_category="() => customTableRef.onCategory()"
-      @emit_block="() => customTableRef.onBlock()"
-      @emit_operationRecord="() => customTableRef.onOperationRecord()"
-    />
+    <a-row>
+      <TopLeftCard style="width: 58%;"></TopLeftCard>
+      <TopRightCard style="width: 38%;"></TopRightCard>
+    </a-row>
     <MiddleCard></MiddleCard>
     <CustomTable
       ref="customTableRef"
@@ -21,6 +17,8 @@
 <script setup lang="jsx">
 import CustomTable from './components/CustomTable.vue'
 import FormSearch from './components/FormSearch.vue'
+import TopLeftCard from './components/TopLeftCard.vue'
+import TopRightCard from './components/TopRightCard.vue'
 import MiddleCard from './components/MiddleCard.vue'
 
 const customTableRef = ref(null)
