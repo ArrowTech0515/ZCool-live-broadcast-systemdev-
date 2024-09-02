@@ -7,7 +7,8 @@
         />
       <TopRightCard 
         style="width: 38%;"
-        @emit_mute="() => customTableRef.onMute()"      
+        @emit_mute="() => customTableRef.onMute()"   
+        @emit_blacklist="() => customTableRef.onBlackList()"     
       />
     </a-row>
     <MiddleCard></MiddleCard>

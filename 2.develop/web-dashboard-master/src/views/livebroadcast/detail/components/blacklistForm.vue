@@ -8,16 +8,19 @@
       <span>{{ formData.content }}</span>
     </a-form-item>
 
-    <a-form-item label="禁言时长">
+    <a-form-item label="拉黑类型">
+      <a-checkbox value="account">{{ENUM.block_type[1]}}</a-checkbox>
+      <a-checkbox value="device">{{ENUM.block_type[2]}}</a-checkbox>
+      <a-checkbox value="IP">{{ENUM.block_type[3]}}</a-checkbox>
+   </a-form-item>
+
+    <a-form-item label="拉黑时效">
       <a-radio-group v-model:value="formData.muteDuration">
         <a-radio value="7days">{{ENUM.ageing_type[1]}}</a-radio>
         <a-radio value="permanent">{{ENUM.ageing_type[2]}}</a-radio>
         <a-radio value="customize">{{ENUM.ageing_type[3]}}</a-radio>
       </a-radio-group>
       <a-date-picker v-if="formData.muteDuration === 'customize'" v-model:value="formData.customMuteTime" placeholder="选择时间" />
-      <a-typography-text type="secondary" style="font-size: 10px; color: gray; display: block; margin-top: 8px;">
-        在禁言期间，用户不可发言，其他功能正常使用
-      </a-typography-text>
     </a-form-item>
 
     <a-form-item label="理由">

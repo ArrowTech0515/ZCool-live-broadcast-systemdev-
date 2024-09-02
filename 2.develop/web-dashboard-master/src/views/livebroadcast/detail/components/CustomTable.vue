@@ -33,6 +33,7 @@ import { getUserGroupListReq } from '@/api/usergroup';
 import userGroupSelectRule from '@/rules/userGroupSelectRule';
 import MuteForm from './muteForm.vue';
 import ModalForm from '@/components/Form/ModalForm/ModalForm.vue';
+import BlacklistForm from './blacklistForm.vue';
 
 const { createDialog } = useDialog()
 
@@ -126,98 +127,6 @@ const paginatedData = computed(() => {
 });
 
 
-async function onHideItems(item = {}) {
-
-  console.log("onAddItem : " + item.value)
-  const formValue = ref({
-    // user_id: userItem.user_id,
-
-  })
-
-  // const isCreate = !item.group_id
-  // if (!item.group_id) {
-  //   // user_id 需要生成
-  //   const [err, { group_id } = {}] = await to(createUserGroupIdReq())
-  //   if (err) {
-  //     console.log(err)
-  //     return
-  //   }
-  //   formValue.value.group_id = group_id
-  // }
-  const formModalProps = {
-    // request: data => userAddOrEditReq(isCreate ? null : userItem.user_id, data),
-    // getData(data) {
-    //   const { avatar_url, ...rest } = data
-    //   return {
-    //     ...rest,
-    //     avatar_url: getPathFromUrlArray(avatar_url),
-    //     // 如果是修改用户，body 里 user_id 传 null，user_id 放到 url path中。反之，创建用户，user_id 放到 body 中
-    //     user_id: isCreate ? data.user_id : undefined,
-    //   }
-    // }
-
-    rule: [
-      {
-        type: 'radio',
-        field: 'hidden_time',
-        title: '本场直播',
-        value: '',
-        options: Object.keys(ENUM.hidden_time).map(key => ({ label: ENUM.hidden_time[key], value: parseInt(key) })),
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'a-time-picker',
-        field: 'hidden_time',
-        title: '隐藏时段',
-        props: {
-          placeholder: '选择时间',
-          allowClear: true,
-          format: 'HH:mm:ss',  // You can customize the format if needed
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'a-form-item',
-        field: 'infoText',
-        render: () => (
-          <div style={{ color: 'black', marginTop: '10px' }}>
-            设置后，主播不在客户端展示，也无法通过搜索或者关注进入主播直播间.
-          </div>
-        ),
-      },
-    ],
-  }
-
-  createDialog({
-    title: '隐藏',
-    width: 550,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        {...formModalProps}
-      />,
-    onConfirm(status) {
-      if (status) {
-        const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
-        if (! current) {
-          // Add new data code here
-        }
-        else {
-          // Same name already exists.
-        }
-      }
-    },
-  })
-}
-
 async function onForceStop(item = {}) {
   console.log("onForceStop : " + item.value);
   
@@ -301,8 +210,58 @@ async function onMute(item = {}) {
 })
 }
 
+async function onBlackList(item = {}) {
+
+  console.log("onBlock : " + item.value)
+  const formValue = ref({
+    // user_id: userItem.user_id,
+  })
+
+  const formModalProps1 = {
+  rule: [
+
+    ],
+  };
+
+  const formData = ref({
+    username: '用户昵称',
+    content: '内容内容内容',
+    blacklist_type: 'type1',
+    duration: '1',
+    customMuteTime: null,
+    reason: '',
+  });
+
+  createDialog({
+    title: '拉黑',
+    width: 600,
+    component: {
+    setup() {
+      return () => (
+      <div>
+        <ModalForm>
+          <BlacklistForm formData={formData.value}/>
+        </ModalForm>
+      </div>
+      )
+    },
+  },
+  onConfirm(status) {
+    if (status) {
+      const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
+      if (! current) {
+        // Add new data code here
+      }
+      else {
+        // Same name already exists.
+      }
+    }
+  },
+  })
+}
+
 defineExpose({
-  onForceStop, onMute
+  onForceStop, onMute, onBlackList
 })
 
 </script>

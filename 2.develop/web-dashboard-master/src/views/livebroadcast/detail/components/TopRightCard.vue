@@ -1,6 +1,6 @@
 <script setup lang="jsx">
 
-const emit = defineEmits(['emit_mute'])
+const emit = defineEmits(['emit_mute', 'emit_blacklist'])
 const fApi = ref({})
 
 const charmValue = 348458;
@@ -67,8 +67,12 @@ const handleRowClick = (id) => {
           <a-button 
                 size="small" type="primary" style="background-color: #60c0f0; font-size: 12px;"
                 @click="emit('emit_mute')">禁言</a-button>
-          <a-button size="small" type="primary" style="background-color: green; font-size: 12px;">撤回</a-button>
-          <a-button size="small" type="primary" style="background-color: #cc6600; font-size: 12px;">拉黑</a-button>
+          <a-button 
+                size="small" type="primary" style="background-color: green; font-size: 12px;"
+                @click="emit('emit_mute')">撤回</a-button>
+          <a-button 
+                size="small" type="primary" style="background-color: #cc6600; font-size: 12px;"
+                @click="emit('emit_blacklist')">拉黑</a-button>
           <a-button size="small" type="primary" style="background-color: blue; font-size: 12px;">踢出房间</a-button>
         </a-col>
       </a-row>
