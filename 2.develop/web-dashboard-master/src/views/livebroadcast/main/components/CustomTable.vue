@@ -3,7 +3,7 @@
     <!-- 2xN Grid Layout -->
     <a-row :gutter="[16, 16]">
       <a-col v-for="(item, index) in paginatedItems" :key="index" :span="24 / columnsPerRow">
-        <LivebroadcastPanel />
+        <LivebroadcastPanel :spanText="item.spanText" />
       </a-col>
     </a-row>
 
@@ -80,26 +80,16 @@ function submitForm() {
 }
 
 const items = ref([
-  { title: '1', content: 'Content of card 1' },
-  { title: '2', content: 'Content of card 2' },
-  { title: '3', content: 'Content of card 3' },
-  { title: '4', content: 'Content of card 4' },
-  { title: '5', content: 'Content of card 5' },
-  { title: '6', content: 'Content of card 6' },
-  { title: '7', content: 'Content of card 7' },
-  { title: '8', content: 'Content of card 8' },
-  { title: '9', content: 'Content of card 9' },
-  { title: '10', content: 'Content of card 10' },
-  { title: '1', content: 'Content of card 1' },
-  { title: '2', content: 'Content of card 2' },
-  { title: '3', content: 'Content of card 3' },
-  { title: '4', content: 'Content of card 4' },
-  { title: '5', content: 'Content of card 5' },
-  { title: '6', content: 'Content of card 6' },
-  { title: '7', content: 'Content of card 7' },
-  { title: '8', content: 'Content of card 8' },
-  { title: '9', content: 'Content of card 9' },
-  { title: '10', content: 'Content of card 10' },
+  { title: '1', spanText: '密码', content: 'Content of card 1' },
+  { title: '2', spanText: '计时', content: 'Content of card 2' },
+  { title: '3', spanText: '门票', content: 'Content of card 3' },
+  { title: '4', spanText: '贵族', content: 'Content of card 4' },
+  { title: '5', spanText: '', content: 'Content of card 5' },
+  { title: '6', spanText: '', content: 'Content of card 6' },
+  { title: '7', spanText: '', content: 'Content of card 7' },
+  { title: '8', spanText: '', content: 'Content of card 8' },
+  { title: '9', spanText: '', content: 'Content of card 9' },
+  { title: '10', spanText: '', content: 'Content of card 10' },
 ])
 
 const currentPage = ref(1)
@@ -146,7 +136,8 @@ async function onHideItems(item = {}) {
   //   }
   //   formValue.value.group_id = group_id
   // }
-  const formModalProps = {
+  
+  //const formModalProps = {
     // request: data => userAddOrEditReq(isCreate ? null : userItem.user_id, data),
     // getData(data) {
     //   const { avatar_url, ...rest } = data
@@ -158,33 +149,46 @@ async function onHideItems(item = {}) {
     //   }
     // }
 
+    const formModalProps = {
     rule: [
       {
         type: 'radio',
-        field: 'hidden_time',
-        title: '本场直播',
+        field: 'muteDuration',
+        title: '禁言时长',
         value: '',
-        options: Object.keys(ENUM.hidden_time).map(key => ({ label: ENUM.hidden_time[key], value: parseInt(key) })),
+        options: [
+          { label: ENUM.ageing_type[1], value: '7days' },
+          { label: ENUM.ageing_type[2], value: 'permanent' },
+          { label: ENUM.ageing_type[3], value: 'customize' }
+        ],
         wrap: {
           labelCol: {
             span: 5,
           },
         },
-      },
-      {
-        type: 'a-time-picker',
-        field: 'hidden_time',
-        title: '隐藏时段',
-        props: {
-          placeholder: '选择时间',
-          allowClear: true,
-          format: 'HH:mm:ss',  // You can customize the format if needed
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
+        control: [
+          {
+            handle: val => val === 'customize', // Condition to append the date picker
+            append: 'muteDuration',
+            rule: [
+              {
+                type: 'datePicker',
+                field: 'customMuteTime',
+                title: '选择时间',
+                value: '',
+                props: {
+                  placeholder: '选择时间',
+                  style: 'width: 100%',
+                },
+                wrap: {
+                  labelCol: {
+                    span: 5,
+                  },
+                },
+              }
+            ]
+          }
+        ]
       },
     ],
   }
@@ -199,7 +203,7 @@ async function onHideItems(item = {}) {
       >
         <a-form-item>
           <span style="font-size: 12px; color: gray; display: block; margin: 10px auto; text-align: center;">
-            屏蔽后对应类型的直播间将不在应用中展示，同时搜索页无法搜索，用户也不可进入屏蔽类型的主播直播间
+            设置后，主播不在客户端展示，也无法通过搜索或者关注进入主播直播间
           </span>
         </a-form-item>
       </ModalForm>,

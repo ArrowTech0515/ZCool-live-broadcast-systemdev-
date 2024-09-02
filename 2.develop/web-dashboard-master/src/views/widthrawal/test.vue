@@ -2,7 +2,7 @@
   <div class="envelope">
     <div class="diagonal-line diagonal-line-one"></div>
     <div class="diagonal-line diagonal-line-two"></div>
-    <span class="text" style="background: lightgrey; z-index: 1;">密码</span>
+    <span class="text">密码</span>
   </div>
 </template>
 
@@ -22,24 +22,34 @@
   overflow: hidden;
 }
 
-
 /* Add crossing diagonals */
 .diagonal-line {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  width: 200%;  /* Increase to ensure the lines reach the corners */
+  height: 100%; /* Ensure the height fits the container */
   border: 1px solid grey;
+  z-index: 1; /* Set a lower z-index for lines */
 }
 
 .diagonal-line-one {
-  transform: rotate(32deg);
+  transform: rotate(33deg);
   transform-origin: top left;
+  top: -50%;
+  left: -50%;
 }
 
 .diagonal-line-two {
-  transform: rotate(-32deg);
+  transform: rotate(-33deg);
   transform-origin: top right;
+  top: -50%;
+  right: -50%;
+}
+
+.text {
+  position: relative;
+  z-index: 2; /* Set a higher z-index to bring text in front */
+  background-color: #f0f0f0;
+  font-size: 16px;
+  padding: 0 5px; /* Adjust padding to make background visible around the text */
 }
 </style>

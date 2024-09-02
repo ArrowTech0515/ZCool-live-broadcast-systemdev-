@@ -44,7 +44,6 @@
               <a-menu-item key="20">平台自营直播</a-menu-item>
               <a-menu-item key="21">权限管理</a-menu-item>
               <a-menu-item key="22">支付管理</a-menu-item>
-              <a-menu-item key="23">直播管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -111,9 +110,6 @@
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
-          case '23':
-            currentComponent.value = 'livebroadcastManagement'
-            break
           case '22':
             currentComponent.value = 'payManagement'
             break
@@ -135,14 +131,17 @@
           case '16':
             currentComponent.value = 'taskManagement'
             break
+          case '15':
+            currentComponent.value = 'gameManagement'
+            break
           case '11':
             currentComponent.value = 'orderManagement'
             break
           case '12':
             currentComponent.value = 'widthrawalManagement'
             break
-          case '15':
-            currentComponent.value = 'gameManagement'
+          case '7':
+            currentComponent.value = 'livebroadcastManagement'
             break
           case '5':
             currentComponent.value = 'anchorManagement'

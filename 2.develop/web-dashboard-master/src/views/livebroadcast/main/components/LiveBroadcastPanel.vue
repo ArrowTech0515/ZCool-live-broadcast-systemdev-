@@ -23,11 +23,12 @@
         13:21
       </div>
       <!-- Password Button (Top Right) -->
-      <EnvelopeText
-        style="position: absolute; top: 0px; right: 0px;"
-      >
-        密码
-      </EnvelopeText>
+      <div v-if="spanText!==''" >
+        <EnvelopeText
+          style="position: absolute; top: 0px; right: 0px;" :spanText="spanText" 
+        >
+        </EnvelopeText>
+      </div>
       <!-- Live Stream Area -->
       <div
         style="display: flex; justify-content: center; align-items: center; 
@@ -48,13 +49,24 @@
 
 <script lang="jsx" setup>
 import { defineComponent } from "vue"
+import { defineProps } from 'vue'
+
 import { MenuOutlined } from '@ant-design/icons-vue'
 
-import { Menu, Dropdown } from 'ant-design-vue';
+import { Menu, Dropdown } from 'ant-design-vue'
+import EnvelopeText from './EnvelopeText.vue'
+
+// Define the props the component will accept
+defineProps({
+  spanText: {
+    type: String,
+    required: true,
+  },
+})
 
 defineComponent({
   components: {
-    MenuOutlined, Dropdown
+    MenuOutlined, Dropdown, EnvelopeText
   }
 })
 
