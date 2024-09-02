@@ -14,10 +14,25 @@
         <a-radio value="permanent">{{ENUM.ageing_type[2]}}</a-radio>
         <a-radio value="customize">{{ENUM.ageing_type[3]}}</a-radio>
       </a-radio-group>
-      <a-date-picker v-if="formData.muteDuration === 'customize'" v-model:value="formData.customMuteTime" placeholder="选择时间" />
       <a-typography-text type="secondary" style="font-size: 10px; color: gray; display: block; margin-top: 8px;">
         在禁言期间，用户不可发言，其他功能正常使用
       </a-typography-text>
+    </a-form-item>
+
+    <a-form-item
+      v-if="formData.muteDuration === 'customize'"
+      label="选择时间"
+      :label-col="{ span: 5 }"
+    >
+      <a-date-picker
+        v-model="formData.end_time"
+        show-time
+        :showTime="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
+        :disabled-date="disabledDate"
+        format="YYYY-MM-DD HH:mm:ss"
+        value-format="X"
+        placeholder="选择时间"
+      />
     </a-form-item>
 
     <a-form-item label="理由">
@@ -27,6 +42,9 @@
 </template>
 
 <script lang="jsx" setup>
+
+import dayjs from 'dayjs'
+
 const props = defineProps({
   formData: {
     type: Object,

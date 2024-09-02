@@ -252,7 +252,7 @@ async function onMute(item = {}) {
   const formData = ref({
     username: '用户昵称',
     content: 'XXXXXXXXXXX',
-    muteDuration: '1',
+    muteDuration: '7days',
     customMuteTime: null,
     reason: '',
   });

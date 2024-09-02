@@ -27,6 +27,7 @@
 
 <script setup lang="jsx">
 import { ref, computed } from 'vue';
+import dayjs from 'dayjs'
 import { getUserGroupListReq } from '@/api/usergroup';
 import userGroupSelectRule from '@/rules/userGroupSelectRule';
 import LivebroadcastPanel from './livebroadcastPanel.vue';
@@ -153,7 +154,7 @@ async function onHideItems(item = {}) {
     rule: [
       {
         type: 'radio',
-        field: 'muteDuration',
+        field: 'hideDuration',
         title: '禁言时长',
         value: '',
         options: [
@@ -169,22 +170,21 @@ async function onHideItems(item = {}) {
         control: [
           {
             handle: val => val === 'customize', // Condition to append the date picker
-            append: 'muteDuration',
+            append: 'hideDuration',
             rule: [
               {
                 type: 'datePicker',
-                field: 'customMuteTime',
+                field: 'end_time',
                 title: '选择时间',
                 value: '',
                 props: {
-                  placeholder: '选择时间',
-                  style: 'width: 100%',
-                },
-                wrap: {
-                  labelCol: {
-                    span: 5,
+                  showTime: { defaultValue: dayjs('00:00:00', 'HH:mm:ss') },
+                  disabledDate: (current) => {
+                    return current && current < dayjs().endOf('day')
                   },
-                },
+                  format: 'YYYY-MM-DD HH:mm:ss',
+                  valueFormat: 'X',
+                }
               }
             ]
           }
