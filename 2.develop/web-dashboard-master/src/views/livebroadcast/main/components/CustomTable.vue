@@ -449,12 +449,11 @@ async function onOperationRecord(item = {}) {
               <a-row type="flex" justify="space-between" align="middle">
                 <a-col span="18">
                   <a-dropdown placement="bottomRight" v-slots={{ overlay: menu_in_card }}>
-                    <a
-                      href="javascript:void(0);"
+                    <span
                       style="font-size: 12px; cursor: pointer; color: #1890ff;"
                     >
                       25位主播
-                    </a>
+                    </span>
                   </a-dropdown>
 
                   <a-row justify="space-between">

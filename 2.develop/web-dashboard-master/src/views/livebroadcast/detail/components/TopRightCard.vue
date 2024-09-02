@@ -1,9 +1,11 @@
 <script setup lang="jsx">
-import { ref } from 'vue';
-import { Card, Row, Col, Avatar, Button } from 'ant-design-vue';
+
+const emit = defineEmits(['emit_mute'])
+const fApi = ref({})
 
 const charmValue = 348458;
 const onlineUsers = 345223;
+
 const messages = [
   { id: 1, user: '东方幻梦', content: '加入了直播间', type: 'notification' },
   { id: 2, user: '东方幻梦', content: '加入了直播间', type: 'notification' },
@@ -41,11 +43,11 @@ const handleRowClick = (id) => {
         :key="message.id"
         align="middle"
         style="margin-bottom: 10px; position: relative; padding: 0px; cursor: pointer;"
-        @click="handleRowClick(message.id)"
       >
         <a-card
           style="background-color: #c0c0c0; display: flex; align-items: center; 
           padding-right: 1px; padding-left: 1px;" bodyStyle="padding: 0;"
+          @click="handleRowClick(message.id)"
         >
           <a-row flex="auto" style="align-items: center; padding-top: 2%; padding-bottom: 2%; width: 100%;">
             <Avatar icon="user" size="small" style="margin-right: 5px;" />
@@ -62,7 +64,9 @@ const handleRowClick = (id) => {
           v-if="selectedMessageId === message.id"
           style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; padding: 1px; background-color: white;"
         >
-          <a-button size="small" type="primary" style="background-color: #60c0f0; font-size: 12px;">禁言</a-button>
+          <a-button 
+                size="small" type="primary" style="background-color: #60c0f0; font-size: 12px;"
+                @click="emit('emit_mute')">禁言</a-button>
           <a-button size="small" type="primary" style="background-color: green; font-size: 12px;">撤回</a-button>
           <a-button size="small" type="primary" style="background-color: #cc6600; font-size: 12px;">拉黑</a-button>
           <a-button size="small" type="primary" style="background-color: blue; font-size: 12px;">踢出房间</a-button>

@@ -1,6 +1,6 @@
 <script setup lang="jsx">
 
-const emit = defineEmits(['emit_search', 'emit_hideItems'])
+const emit = defineEmits(['emit_forceStop'])
 const fApi = ref({})
 
 const broadcasterName = '主播昵称';
@@ -21,7 +21,7 @@ const broadcasterImage = 'https://via.placeholder.com/40'; // Placeholder image 
         <span style="font-weight: bold;">直播时长: {{ liveDuration }}</span>
       </a-col>
       <a-col>
-        <a-button type="primary">强制下播</a-button>
+        <a-button type="primary" @click="emit('emit_forceStop')">强制下播</a-button>
       </a-col>
     </a-row>
 

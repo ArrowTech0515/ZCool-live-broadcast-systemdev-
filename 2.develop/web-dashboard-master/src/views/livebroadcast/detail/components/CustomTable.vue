@@ -216,79 +216,42 @@ async function onHideItems(item = {}) {
   })
 }
 
-async function onCategory(item = {}) {
-
-  console.log("onCategory : " + item.value)
+async function onForceStop(item = {}) {
+  console.log("onForceStop : " + item.value);
+  
   const formValue = ref({
     // user_id: userItem.user_id,
-  })
-
-  const formModalProps = {
-
-    rule: [
-      {
-        type: 'a-form-item',
-        field: 'infoText',
-        render: () => (
-          <div style={{ color: 'black', marginTop: '10px' }}>
-            设置后，主播仅对当前分类用户可见
-          </div>
-        ),
-      },
-      {
-        type: 'checkbox',
-        field: 'category_type',
-        title: '选择分类',
-        value: '',
-        options: Object.keys(ENUM.category_type).map(key => ({ label: ENUM.category_type[key], value: parseInt(key) })),
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'rangePicker',
-        field: 'effective_time',
-        title: '生效时间',
-        value: '',
-        props: {
-          format: 'YYYY-MM-DD',
-          valueFormat: 'X',
-          placeholder: ['开始时间', '结束时间'],
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      }
-    ],
-  }
+  });
 
   createDialog({
-    title: '分类',
-    width: 550,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        {...formModalProps}
-      />,
+    title: '强制下播',
+    width: 500,
+    component: {
+      setup() {
+        return () => (
+          <div style="padding: 20px; text-align: center;">
+            是否强制结束当前直播？
+          </div>
+        )
+      },
+    },
     onConfirm(status) {
       if (status) {
-        const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
-        if (! current) {
+        const current = dataSource.value.find(
+          item2 => item2.gift_type === item.gift_type
+        );
+        if (!current) {
           // Add new data code here
-        }
-        else {
-          // Same name already exists.
+        } else {
+          // Handle case where same name already exists
         }
       }
     },
-  })
+  });
 }
 
-async function onBlock(item = {}) {
+
+async function onMute(item = {}) {
 
   console.log("onBlock : " + item.value)
   const formValue = ref({
@@ -573,7 +536,7 @@ async function onOperationRecord(item = {}) {
 }
 
 defineExpose({
-  onHideItems, onCategory, onBlock, onOperationRecord
+  onForceStop, onMute
 })
 
 </script>
