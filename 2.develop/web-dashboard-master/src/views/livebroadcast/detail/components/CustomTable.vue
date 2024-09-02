@@ -161,6 +161,79 @@ async function onForceStop(item = {}) {
   });
 }
 
+async function onWithdraw(item = {}) {
+  console.log("onForceStop : " + item.value);
+  
+  const formValue = ref({
+    // user_id: userItem.user_id,
+  });
+
+  createDialog({
+    title: '撤回弹幕',
+    width: 500,
+    component: {
+      setup() {
+        return () => (
+          <div>
+            <div style="padding: 20px; text-align: center;">
+              是否撤回XXX用户的聊天弹幕？
+            </div>
+            <div style="padding: 20px; text-align: center;">
+              发言内容：发言内容内容内容
+            </div>
+          </div>
+        )
+      },
+    },
+    onConfirm(status) {
+      if (status) {
+        const current = dataSource.value.find(
+          item2 => item2.gift_type === item.gift_type
+        )
+        if (!current) {
+          // Add new data code here
+        } else {
+          // Handle case where same name already exists
+        }
+      }
+    },
+  });
+}
+
+async function onOut(item = {}) {
+  console.log("onForceStop : " + item.value);
+  
+  const formValue = ref({
+    // user_id: userItem.user_id,
+  });
+
+  createDialog({
+    title: '踢出房间',
+    width: 500,
+    component: {
+      setup() {
+        return () => (
+          <div style="padding: 20px; text-align: center;">
+            是否将用户“用户昵称”踢出直播间？
+          </div>
+        )
+      },
+    },
+    onConfirm(status) {
+      if (status) {
+        const current = dataSource.value.find(
+          item2 => item2.gift_type === item.gift_type
+        )
+        if (!current) {
+          // Add new data code here
+        } else {
+          // Handle case where same name already exists
+        }
+      }
+    },
+  });
+}
+
 async function onMute(item = {}) {
 
   console.log("onBlock : " + item.value)
@@ -261,7 +334,7 @@ async function onBlackList(item = {}) {
 }
 
 defineExpose({
-  onForceStop, onMute, onBlackList
+  onForceStop, onMute, onBlackList, onWithdraw, onOut
 })
 
 </script>
