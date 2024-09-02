@@ -31,6 +31,8 @@
 import { ref, computed } from 'vue';
 import { getUserGroupListReq } from '@/api/usergroup';
 import userGroupSelectRule from '@/rules/userGroupSelectRule';
+import MuteForm from './muteForm.vue';
+import ModalForm from '@/components/Form/ModalForm/ModalForm.vue';
 
 const { createDialog } = useDialog()
 
@@ -250,103 +252,7 @@ async function onForceStop(item = {}) {
   });
 }
 
-
 async function onMute(item = {}) {
-
-  console.log("onBlock : " + item.value)
-  const formValue = ref({
-    // user_id: userItem.user_id,
-  })
-
-  const formModalProps = {
-
-    rule: [
-      {
-        type: 'checkbox',
-        field: 'block_type',
-        title: '屏蔽直播类型',
-        value: '',
-        options: Object.keys(ENUM.block_type).map(key => ({ label: ENUM.block_type[key], value: parseInt(key) })),
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      {
-        type: 'rangePicker',
-        field: 'block_time',
-        title: '屏蔽时间',
-        value: '',
-        props: {
-          format: 'YYYY-MM-DD',
-          valueFormat: 'X',
-          placeholder: ['开始时间', '结束时间'],
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-      // {
-      //   type: 'a-form-input', // This tells the form generator to treat this as a form item
-      //   field: 'infoText',
-      //   title: '',
-   
-      //   props: {
-      //     style: {
-      //       fontSize: '10px',
-      //     }, 
-      //   },
-      //   render: () => (
-      //     <div style={{ fontSize: '10px', color: '#8c8c8c' }}>
-      //       屏蔽后对应类型的直播间将不在应用中展示，同时搜索页无法搜索，用户也不可进入屏蔽类型的主播直播间
-      //     </div>
-      //   ),
-      // },
-      {
-        type: 'rangePicker',
-        field: 'block_time',
-        title: '屏蔽时间',
-        value: '',
-        props: {
-          format: 'YYYY-MM-DD',
-          valueFormat: 'X',
-          placeholder: ['开始时间', '结束时间'],
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
-    ],
-  }
-
-  createDialog({
-    title: '屏蔽',
-    width: 550,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        {...formModalProps}
-      ></ModalForm>,
-    onConfirm(status) {
-      if (status) {
-        const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
-        if (! current) {
-          // Add new data code here
-        }
-        else {
-          // Same name already exists.
-        }
-      }
-    },
-  })
-}
-
-async function onOperationRecord(item = {}) {
 
   console.log("onBlock : " + item.value)
   const formValue = ref({
@@ -359,166 +265,26 @@ async function onOperationRecord(item = {}) {
     ],
   };
 
+  const formData = ref({
+    username: '用户昵称',
+    content: 'XXXXXXXXXXX',
+    muteDuration: '1',
+    customMuteTime: null,
+    reason: '',
+  });
 
   createDialog({
-    title: '操作记录',
+    title: '禁言',
     width: 600,
     component: {
     setup() {
-      const activeTabKey = ref('tab1');
-
       return () => (
       <div>
-        <a-tabs v-model:activeKey={activeTabKey.value} centered class="custom-tabs">
-          <a-tab-pane key="tab1" tab="分类">
-          <div>
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
-              <a-row type="flex" justify="space-between" align="middle" margin="0">
-                <a-col span="18">
-                  <div style="font-size: 12px;">主播昵称</div>
-                  <a-row  justify="space-between">
-                    <a-col>
-                      <div style="margin-right: 10px;font-size: 12px;">充值用户/贵族用户</div>
-                    </a-col>
-                    <a-col>
-                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
-                        2022-12-12 12:21 —— 2022-12-12 12:21
-                      </div>
-                    </a-col>
-                  </a-row>
-                </a-col>
-                <a-col span="4" style="display: flex; justify-content: flex-end; align-items: center;">
-                  <a-button type="primary">
-                    删除
-                  </a-button>
-                </a-col>
-              </a-row>
-            </a-card>
-
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
-              <a-row type="flex" justify="space-between" align="middle">
-                <a-col span="18">
-                  <a href="#" style="font-size: 12px; color: #1890ff; ">25位主播</a>
-                  <a-row justify="space-between">
-                    <a-col>
-                      <div style="font-size: 12px; margin-right: 10px;">XX层级/XX层级</div>
-                    </a-col>
-                    <a-col>
-                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
-                        2022-12-12 12:21 —— 2022-12-12 12:21
-                      </div>
-                    </a-col>
-                  </a-row>
-                </a-col>
-                <a-col span="4" style="font-size: 12px; display: flex; justify-content: flex-end; align-items: center;">
-                  <a-button type="primary">
-                    删除
-                  </a-button>
-                </a-col>
-              </a-row>
-            </a-card>
-          </div>
-          </a-tab-pane>
-
-          <a-tab-pane key="tab2" tab="隐藏">
-            <div>
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
-              <a-row type="flex" justify="space-between" align="middle" margin="0">
-                <a-col span="18">
-                  <a-row  justify="space-between">
-                    <a-col>
-                      <div style="margin-right: 10px;font-size: 12px;">主播昵称</div>
-                    </a-col>
-                    <a-col>
-                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
-                        本场直播
-                      </div>
-                    </a-col>
-                  </a-row>
-                </a-col>
-                <a-col span="4" style="display: flex; justify-content: flex-end; align-items: center;">
-                  <a-button type="primary">
-                    删除
-                  </a-button>
-                </a-col>
-              </a-row>
-            </a-card>
-
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
-              <a-row type="flex" justify="space-between" align="middle">
-                <a-col span="18">
-                  <a-row justify="space-between">
-                    <a-col>
-                      <a href="#" style="font-size: 12px; color: #1890ff; ">24位主播</a>
-                    </a-col>
-                    <a-col>
-                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
-                        2022-12-12 12:21 —— 2022-12-12 12:21
-                      </div>
-                    </a-col>
-                  </a-row>
-                </a-col>
-                <a-col span="4" style="font-size: 12px; display: flex; justify-content: flex-end; align-items: center;">
-                  <a-button type="primary">
-                    删除
-                  </a-button>
-                </a-col>
-              </a-row>
-            </a-card>
-          </div>
-          </a-tab-pane>
-
-          <a-tab-pane key="tab3" tab="屏蔽">
-            <div>
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
-              <a-row type="flex" justify="space-between" align="middle" margin="0">
-                <a-col span="18">
-                  <a-row  justify="space-between">
-                    <a-col>
-                      <div style="margin-right: 10px;font-size: 12px;">普通房间/贵族房间</div>
-                    </a-col>
-                    <a-col>
-                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
-                        2022-12-12 12:21 —— 2022-12-12 12:21
-                      </div>
-                    </a-col>
-                  </a-row>
-                </a-col>
-                <a-col span="4" style="display: flex; justify-content: flex-end; align-items: center;">
-                  <a-button type="primary">
-                    删除
-                  </a-button>
-                </a-col>
-              </a-row>
-            </a-card>
-
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
-              <a-row type="flex" justify="space-between" align="middle">
-                <a-col span="18">
-                  <a-row justify="space-between">
-                    <a-col>
-                      <div style="margin-right: 10px;font-size: 12px;">普通房间/贵族房间</div>
-                    </a-col>
-                    <a-col>
-                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
-                        2022-12-12 12:21 —— 2022-12-12 12:21
-                      </div>
-                    </a-col>
-                  </a-row>
-                </a-col>
-                <a-col span="4" style="font-size: 12px; display: flex; justify-content: flex-end; align-items: center;">
-                  <a-button type="primary">
-                    删除
-                  </a-button>
-                </a-col>
-              </a-row>
-            </a-card>
-          </div>
-          </a-tab-pane>
-
-          </a-tabs>
-        </div>
-      );
+        <ModalForm>
+          <MuteForm formData={formData.value}/>
+        </ModalForm>
+      </div>
+      )
     },
   },
   onConfirm(status) {

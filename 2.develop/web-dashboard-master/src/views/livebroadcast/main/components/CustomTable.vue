@@ -31,6 +31,7 @@ import { getUserGroupListReq } from '@/api/usergroup';
 import userGroupSelectRule from '@/rules/userGroupSelectRule';
 import LivebroadcastPanel from './livebroadcastPanel.vue';
 import { Menu, Dropdown } from 'ant-design-vue';
+import OperationRecordForm from './operationRecordForm.vue';
 
 const { createDialog } = useDialog()
 
@@ -404,182 +405,23 @@ async function onOperationRecord(item = {}) {
       <a-menu-item key={i + 1}>主播{i + 1}</a-menu-item>
     ))
 
-    const menu_in_card = (
+    const menu_in_card = () => (
       <a-menu style="max-height: 200px; overflow-y: auto;"> {/* Add scrolling */}
         {menuItems}
       </a-menu>
-    );
+    )
 
   createDialog({
     title: '操作记录',
     width: 600,
     component: {
     setup() {
-      const activeTabKey = ref('tab1');
+      //const activeTabKey = ref('tab1');
 
       return () => (
       <div>
-        <a-tabs v-model:activeKey={activeTabKey.value} centered class="custom-tabs">
-          <a-tab-pane key="tab1" tab="分类">
-          <div>
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
-              <a-row type="flex" justify="space-between" align="middle" margin="0">
-                <a-col span="18">
-                  <div style="font-size: 12px;">主播昵称</div>
-                  <a-row  justify="space-between">
-                    <a-col>
-                      <div style="margin-right: 10px;font-size: 12px;">充值用户/贵族用户</div>
-                    </a-col>
-                    <a-col>
-                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
-                        2022-12-12 12:21 —— 2022-12-12 12:21
-                      </div>
-                    </a-col>
-                  </a-row>
-                </a-col>
-                <a-col span="4" style="display: flex; justify-content: flex-end; align-items: center;">
-                  <a-button type="primary">
-                    删除
-                  </a-button>
-                </a-col>
-              </a-row>
-            </a-card>
-
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
-              <a-row type="flex" justify="space-between" align="middle">
-                <a-col span="18">
-                  <a-dropdown placement="bottomRight" v-slots={{ overlay: menu_in_card }}>
-                    <span
-                      style="font-size: 12px; cursor: pointer; color: #1890ff;"
-                    >
-                      25位主播
-                    </span>
-                  </a-dropdown>
-
-                  <a-row justify="space-between">
-                    <a-col>
-                      <div style="font-size: 12px; margin-right: 10px;">XX层级/XX层级</div>
-                    </a-col>
-                    <a-col>
-                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
-                        2022-12-12 12:21 —— 2022-12-12 12:21
-                      </div>
-                    </a-col>
-                  </a-row>
-                </a-col>
-                <a-col span="4" style="font-size: 12px; display: flex; justify-content: flex-end; align-items: center;">
-                  <a-button type="primary">
-                    删除
-                  </a-button>
-                </a-col>
-              </a-row>
-            </a-card>
-          </div>
-          </a-tab-pane>
-
-          <a-tab-pane key="tab2" tab="隐藏">
-            <div>
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
-              <a-row type="flex" justify="space-between" align="middle" margin="0">
-                <a-col span="18">
-                  <a-row  justify="space-between">
-                    <a-col>
-                      <div style="margin-right: 10px;font-size: 12px;">主播昵称</div>
-                    </a-col>
-                    <a-col>
-                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
-                        本场直播
-                      </div>
-                    </a-col>
-                  </a-row>
-                </a-col>
-                <a-col span="4" style="display: flex; justify-content: flex-end; align-items: center;">
-                  <a-button type="primary">
-                    删除
-                  </a-button>
-                </a-col>
-              </a-row>
-            </a-card>
-
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
-              <a-row type="flex" justify="space-between" align="middle">
-                <a-col span="18">
-                  <a-row justify="space-between">
-                    <a-dropdown placement="bottomRight" v-slots={{ overlay: menu_in_card }}>
-                      <a
-                        href="javascript:void(0);"
-                        style="font-size: 12px; cursor: pointer; color: #1890ff;"
-                      >
-                        24位主播
-                      </a>
-                    </a-dropdown>
-                    <a-col>
-                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
-                        2022-12-12 12:21 —— 2022-12-12 12:21
-                      </div>
-                    </a-col>
-                  </a-row>
-                </a-col>
-                <a-col span="4" style="font-size: 12px; display: flex; justify-content: flex-end; align-items: center;">
-                  <a-button type="primary">
-                    删除
-                  </a-button>
-                </a-col>
-              </a-row>
-            </a-card>
-          </div>
-          </a-tab-pane>
-
-          <a-tab-pane key="tab3" tab="屏蔽">
-            <div>
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
-              <a-row type="flex" justify="space-between" align="middle" margin="0">
-                <a-col span="18">
-                  <a-row  justify="space-between">
-                    <a-col>
-                      <div style="margin-right: 10px;font-size: 12px;">普通房间/贵族房间</div>
-                    </a-col>
-                    <a-col>
-                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
-                        2022-12-12 12:21 —— 2022-12-12 12:21
-                      </div>
-                    </a-col>
-                  </a-row>
-                </a-col>
-                <a-col span="4" style="display: flex; justify-content: flex-end; align-items: center;">
-                  <a-button type="primary">
-                    删除
-                  </a-button>
-                </a-col>
-              </a-row>
-            </a-card>
-
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
-              <a-row type="flex" justify="space-between" align="middle">
-                <a-col span="18">
-                  <a-row justify="space-between">
-                    <a-col>
-                      <div style="margin-right: 10px;font-size: 12px;">普通房间/贵族房间</div>
-                    </a-col>
-                    <a-col>
-                      <div style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis; text-align: right;">
-                        2022-12-12 12:21 —— 2022-12-12 12:21
-                      </div>
-                    </a-col>
-                  </a-row>
-                </a-col>
-                <a-col span="4" style="font-size: 12px; display: flex; justify-content: flex-end; align-items: center;">
-                  <a-button type="primary">
-                    删除
-                  </a-button>
-                </a-col>
-              </a-row>
-            </a-card>
-          </div>
-          </a-tab-pane>
-
-          </a-tabs>
-        </div>
+        <OperationRecordForm menu_in_card={menu_in_card} />
+      </div>
       );
     },
   },
