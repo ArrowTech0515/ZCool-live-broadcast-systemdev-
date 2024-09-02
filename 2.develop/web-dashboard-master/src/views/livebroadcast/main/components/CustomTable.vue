@@ -130,7 +130,7 @@ const paginatedItems = computed(() => {
 
 async function onHideItems(item = {}) {
 
-  console.log("onAddItem : " + item.value)
+  console.log("onHideItems : " + item.value)
   const formValue = ref({
     // user_id: userItem.user_id,
 
@@ -186,15 +186,6 @@ async function onHideItems(item = {}) {
           },
         },
       },
-      {
-        type: 'a-form-item',
-        field: 'infoText',
-        render: () => (
-          <div style={{ color: 'black', marginTop: '10px' }}>
-            设置后，主播不在客户端展示，也无法通过搜索或者关注进入主播直播间.
-          </div>
-        ),
-      },
     ],
   }
 
@@ -205,7 +196,13 @@ async function onHideItems(item = {}) {
       <ModalForm
         v-model={formValue.value}
         {...formModalProps}
-      />,
+      >
+        <a-form-item>
+          <span style="font-size: 12px; color: gray; display: block; margin: 10px auto; text-align: center;">
+            屏蔽后对应类型的直播间将不在应用中展示，同时搜索页无法搜索，用户也不可进入屏蔽类型的主播直播间
+          </span>
+        </a-form-item>
+      </ModalForm>,
     onConfirm(status) {
       if (status) {
         const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
@@ -230,15 +227,6 @@ async function onCategory(item = {}) {
   const formModalProps = {
 
     rule: [
-      {
-        type: 'a-form-item',
-        field: 'infoText',
-        render: () => (
-          <div style={{ color: 'black', marginTop: '10px' }}>
-            设置后，主播仅对当前分类用户可见
-          </div>
-        ),
-      },
       {
         type: 'checkbox',
         field: 'category_type',
@@ -277,7 +265,13 @@ async function onCategory(item = {}) {
       <ModalForm
         v-model={formValue.value}
         {...formModalProps}
-      />,
+      >
+      <a-form-item>
+        <span style="font-size: 12px; color: gray; display: block; margin: 10px auto; text-align: center;">
+          设置后，主播仅对当前分类用户可见
+        </span>
+      </a-form-item>
+      </ModalForm>,
     onConfirm(status) {
       if (status) {
         const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
@@ -330,38 +324,6 @@ async function onBlock(item = {}) {
           },
         },
       },
-      // {
-      //   type: 'a-form-input', // This tells the form generator to treat this as a form item
-      //   field: 'infoText',
-      //   title: '',
-   
-      //   props: {
-      //     style: {
-      //       fontSize: '10px',
-      //     }, 
-      //   },
-      //   render: () => (
-      //     <div style={{ fontSize: '10px', color: '#8c8c8c' }}>
-      //       屏蔽后对应类型的直播间将不在应用中展示，同时搜索页无法搜索，用户也不可进入屏蔽类型的主播直播间
-      //     </div>
-      //   ),
-      // },
-      {
-        type: 'rangePicker',
-        field: 'block_time',
-        title: '屏蔽时间',
-        value: '',
-        props: {
-          format: 'YYYY-MM-DD',
-          valueFormat: 'X',
-          placeholder: ['开始时间', '结束时间'],
-        },
-        wrap: {
-          labelCol: {
-            span: 5,
-          },
-        },
-      },
     ],
   }
 
@@ -372,7 +334,13 @@ async function onBlock(item = {}) {
       <ModalForm
         v-model={formValue.value}
         {...formModalProps}
-      ></ModalForm>,
+      >
+        <a-form-item>
+          <span style="font-size: 12px; color: gray; display: block; margin: 10px auto; text-align: center;">
+            屏蔽后对应类型的直播间将不在应用中展示，同时搜索页无法搜索，用户也不可进入屏蔽类型的主播直播间
+          </span>
+        </a-form-item>
+      </ModalForm>,
     onConfirm(status) {
       if (status) {
         const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
@@ -389,7 +357,7 @@ async function onBlock(item = {}) {
 
 async function onOperationRecord(item = {}) {
 
-  console.log("onBlock : " + item.value)
+  console.log("onOperationRecord : " + item.value)
   const formValue = ref({
     // user_id: userItem.user_id,
   })
