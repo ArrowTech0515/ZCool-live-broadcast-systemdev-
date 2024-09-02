@@ -42,7 +42,7 @@ const handleRowClick = (id) => {
         v-for="message in messages"
         :key="message.id"
         align="middle"
-        style="margin-bottom: 10px; position: relative; padding: 0px; cursor: pointer;"
+        style="margin-bottom: 10px; margin-top: 10px; position: relative; padding: 0px; cursor: pointer;"
       >
         <a-card
           style="background-color: #c0c0c0; display: flex; align-items: center; 
@@ -50,7 +50,7 @@ const handleRowClick = (id) => {
           @click="handleRowClick(message.id)"
         >
           <a-row flex="auto" style="align-items: center; padding-top: 2%; padding-bottom: 2%; width: 100%;">
-            <Avatar icon="user" size="small" style="margin-right: 5px;" />
+            <a-avatar icon="user" size="small" style="margin-right: 5px;" />
             <span style="color: #1890ff; font-weight: bold; font-size: 10px;">{{ message.user }}:</span>
             <span 
                 :style="{ marginLeft: '5px', fontSize: '10px', 

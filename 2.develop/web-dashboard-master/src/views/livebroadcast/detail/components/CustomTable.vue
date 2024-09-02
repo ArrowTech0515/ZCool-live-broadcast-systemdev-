@@ -34,6 +34,7 @@ import userGroupSelectRule from '@/rules/userGroupSelectRule';
 import MuteForm from './muteForm.vue';
 import ModalForm from '@/components/Form/ModalForm/ModalForm.vue';
 import BlacklistForm from './blacklistForm.vue';
+import { message } from 'ant-design-vue';
 
 const { createDialog } = useDialog()
 
@@ -128,11 +129,11 @@ const paginatedData = computed(() => {
 
 
 async function onForceStop(item = {}) {
-  console.log("onForceStop : " + item.value);
+  console.log("onForceStop : " + item.value)
   
   const formValue = ref({
     // user_id: userItem.user_id,
-  });
+  })
 
   createDialog({
     title: '强制下播',
@@ -147,18 +148,19 @@ async function onForceStop(item = {}) {
       },
     },
     onConfirm(status) {
-      if (status) {
-        const current = dataSource.value.find(
-          item2 => item2.gift_type === item.gift_type
-        );
-        if (!current) {
-          // Add new data code here
-        } else {
-          // Handle case where same name already exists
-        }
-      }
+
+        message.success({
+          content: `已强制结束当前直播。`,
+          duration: 2, // Duration in seconds
+        })
+
+        // message.error({
+        //   content: '失败，请重试。',
+        //   duration: 1, // Duration in seconds
+        // })
+
     },
-  });
+  })
 }
 
 async function onWithdraw(item = {}) {
