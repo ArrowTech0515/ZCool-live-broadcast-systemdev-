@@ -30,6 +30,9 @@ import blockUserRule from '@/rules/blockUserRule'
 import MerchCell from '@/components/Business/MerchCell.jsx'
 import useAnchorRule from '../hooks/useAnchorRule'
 import { getPathFromUrlArray } from '@/utils/index'
+import { message } from 'ant-design-vue';
+
+const emit = defineEmits(['emit_editData'])
 
 const props = defineProps({
   searchParams: {
@@ -186,67 +189,70 @@ const columns = [
     customRender: ({ record }) => (
       <div style={centeredStyle}>
         <span 
-              style="text-decoration: underline;color: blue; margin-right: 12px; cursor: pointer;" click="onEdit">
+              style="text-decoration: underline;color: blue; margin-right: 12px; cursor: pointer;" 
+              onClick={() => emit('emit_editData', record)}>
               编辑</span>
         <span v-if="record.action.status==='下架'"
-              style="text-decoration: underline;color: red; cursor: pointer;" click="onSaleStatus('下架')">
+              style="text-decoration: underline;color: red; cursor: pointer;" 
+              onClick={() => onSaleStatus('下架', record)}>
               {record.action.status}</span>
         <span v-else
-              style="text-decoration: underline;color: blue; cursor: pointer;" click="onSaleStatus('上架')">
+              style="text-decoration: underline;color: blue; cursor: pointer;" 
+              onClick={() => onSaleStatus('上架', record)}>
               {record.action.status}</span>
       </div>
     )
   }
 ]
 
-// 拉黑
-function blockUser(userItem) {
-  const formValue = ref({
-    anchor_id: userItem.anchor_id,
-    block_type: '',
-    ageing_type: '',
-    end_time: '',
-    reason: '',
-  })
+// 上架
+function onSaleStatus(option) {
 
-  const formModalProps = {
-    request: setAnchorBlackReq,
-    getData(data) {
-      const { anchor_id, ...params } = data
-      return {
-        ...params,
-        anchor_ids: [anchor_id],
-      }
-    },
-
-    rule: [
-      {
-        type: 'input',
-        field: 'anchor_id',
-        value: userItem.anchor_id,
-        hidden: true,
+  if(option === '上架') {
+    createDialog({
+      title: '上架',
+      width: 400,
+      component:
+      <div style="padding: 20px; text-align: center;">
+              是否上架当前赛事直播？
+            </div>,
+      onConfirm(status) {
+        this.$emit('confirm')
+          
+          message.success({
+            content: `上架成功`,
+            duration: 2, // Duration in seconds
+          })
       },
-      ...blockUserRule,
-    ],
+      onReject() {
+        // Logic to handle reject action
+        this.$emit('reject')
+      },
+    })
   }
+  else {
+    createDialog({
+      title: '下架',
+      width: 400,
+      component:
+        <div style="padding: 20px; text-align: center;">
+          是否下架当前赛事主播？
+        </div>,
+      onConfirm(status) {
 
-  createDialog({
-    title: '拉黑',
-    width: 500,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        {...formModalProps}
-      />,
-    onConfirm(status) {
-      if (status) {
-        const current = dataSource.value.find(item => item.anchor_id === userItem.anchor_id)
-        if (current) {
-          current.acct_status = 2
-        }
-      }
-    },
-  })
+        this.$emit('confirm')
+        
+        message.success({
+          content: `下架成功`,
+          duration: 2, // Duration in seconds
+        })
+      },
+      onReject() {
+        // Logic to handle reject action
+        this.$emit('reject')
+      },
+    })
+  }
 }
 
 // 添加主播，不可编辑

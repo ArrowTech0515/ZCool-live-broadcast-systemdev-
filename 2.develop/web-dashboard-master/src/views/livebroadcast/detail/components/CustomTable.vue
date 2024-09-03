@@ -137,7 +137,7 @@ async function onForceStop(item = {}) {
 
   createDialog({
     title: '强制下播',
-    width: 500,
+    width: 400,
     component: {
       setup() {
         return () => (
@@ -172,7 +172,7 @@ async function onWithdraw(item = {}) {
 
   createDialog({
     title: '撤回弹幕',
-    width: 500,
+    width: 400,
     component: {
       setup() {
         return () => (
@@ -211,7 +211,7 @@ async function onOut(item = {}) {
 
   createDialog({
     title: '踢出房间',
-    width: 500,
+    width: 400,
     component: {
       setup() {
         return () => (
