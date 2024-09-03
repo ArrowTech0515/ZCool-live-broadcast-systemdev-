@@ -1,11 +1,11 @@
 <template>
   <transition name="fade-slide" mode="out-in">
-    <div v-if="!showEditPage">
+    <div v-if="!showEditPage && !showCoverPage">
       <div class="page_container">
         <FormSearch
           ref="formSearchRef"
           v-model="searchParams"
-          @addItem="() => customTableRef.editItem()"
+          @emit_cover="() => onAddCover()"
         />
         <CustomTable
           ref="customTableRef"
@@ -16,6 +16,12 @@
       </div>
     </div>
 
+    <div v-else-if="showCoverPage">
+      <coverPage
+        @emit_back="onBackToMainPage2"
+        @confirm="handleConfirm"
+        @reject="handleReject" />
+    </div>
     <div v-else>
       <editPage
         @emit_back="onBackToMainPage2"
@@ -29,6 +35,7 @@
 import CustomTable from './components/CustomTable.vue'
 import FormSearch from './components/FormSearch.vue'
 import editPage from './editPage.vue'
+import coverPage from './coverConfigPage.vue'
 
 const customTableRef = ref(null)
 const formSearchRef = ref(null)
@@ -41,15 +48,20 @@ defineComponent({
 })
 
 const showEditPage = ref(false) // New state to manage which view to show
+const showCoverPage = ref(false) // New state to manage which view to show
 
 const onBackToMainPage2 = () => {
   showEditPage.value = false // Switch back to the main table view
+  showCoverPage.value = false // Switch back to the main table view
 }
 
 const onEditData = (record) => {
   // Add logic for handling the operation (e.g., audit, lock)
   console.log("onEditData : record = " + record)
   showEditPage.value = true // Switch to the add strategy view
+}
+const onAddCover = () => {
+  showCoverPage.value = true // Switch to the add strategy view
 }
 
 </script>
