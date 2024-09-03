@@ -18,7 +18,7 @@
 
     <div v-else>
       <editPage
-        @back="onBackToMainPage2"
+        @emit_back="onBackToMainPage2"
         @confirm="handleConfirm"
         @reject="handleReject" />
     </div>
