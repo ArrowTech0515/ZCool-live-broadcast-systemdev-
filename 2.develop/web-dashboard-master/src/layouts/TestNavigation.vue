@@ -73,7 +73,7 @@
   import merchantManagement from '@/views/merchant/list/index.vue';
 
   // new added
-  import platformManagement from '@/views/platform/index.vue';
+  import settingManagement from '@/views/setting/main.vue';
   import orderManagement from '@/views/order/main.vue';
   import widthrawalManagement from '@/views/widthrawal/main.vue';
   import gameManagement from '@/views/game/main.vue';
@@ -95,7 +95,7 @@
       merchantManagement,
 
       payManagement,
-      platformManagement,
+      settingManagement,
       userManagement,
 
       orderManagement,
@@ -117,7 +117,7 @@
             currentComponent.value = 'permissionManagement'
             break
           case '20':
-            currentComponent.value = 'platformManagement'
+            currentComponent.value = 'settingManagement'
             break
           case '19':
             currentComponent.value = 'merchantManagement'
