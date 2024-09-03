@@ -66,14 +66,16 @@
   import LLogo from '@/layouts/components/LLogo.vue';
   import LBreadCrumb from '@/layouts/components/LBreadCrumb.vue';
 
+  
+  import statisticsManagement from '@/views/statistics/index/index.vue';
   import permissionManagement from '@/views/permissions/index.vue';
   import messageManagement from '@/views/message/list/index.vue';
   import anchorManagement from '@/views/anchor/list/index.vue';
   import payManagement from '@/views/payment/channel/index.vue';
   import merchantManagement from '@/views/merchant/list/index.vue';
+  import settingManagement from '@/views/setting/main.vue';
 
   // new added
-  import settingManagement from '@/views/setting/main.vue';
   import orderManagement from '@/views/order/main.vue';
   import widthrawalManagement from '@/views/widthrawal/main.vue';
   import gameManagement from '@/views/game/main.vue';
@@ -89,6 +91,7 @@
       LLogo,
       LBreadCrumb,
 
+      statisticsManagement,
       permissionManagement,
       messageManagement,
       anchorManagement,
@@ -134,11 +137,11 @@
           case '15':
             currentComponent.value = 'gameManagement'
             break
-          case '11':
-            currentComponent.value = 'orderManagement'
-            break
           case '12':
             currentComponent.value = 'widthrawalManagement'
+            break
+          case '11':
+            currentComponent.value = 'orderManagement'
             break
           case '7':
             currentComponent.value = 'livebroadcastManagement'
@@ -150,7 +153,7 @@
             currentComponent.value = 'userManagement'
             break
           case '1':
-            currentComponent.value = 'payManagement'
+            currentComponent.value = 'statisticsManagement'
             break
           default:
             currentComponent.value = 'livebroadcastManagement'

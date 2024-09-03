@@ -5,11 +5,11 @@
           <levelPage />
       </a-tab-pane>
       
-      <a-tab-pane key="2" tab="category配置">
+      <a-tab-pane key="2" tab="分类配置">
           <categoryPage />
       </a-tab-pane>
       
-      <a-tab-pane key="3" tab="client配置">
+      <a-tab-pane key="3" tab="版本配置">
           <clientPage />
       </a-tab-pane>
       
@@ -17,11 +17,11 @@
           <noblePage />
       </a-tab-pane>
       
-      <a-tab-pane key="5" tab="redirect配置">
+      <a-tab-pane key="5" tab="跳转页面配置">
           <redirectPage />
       </a-tab-pane>
       
-      <a-tab-pane key="6" tab="general配置">
+      <a-tab-pane key="6" tab="直播间付费设置">
           <generalPage />
       </a-tab-pane>
   

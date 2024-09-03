@@ -23,7 +23,7 @@ export type ResponseType = {
   [key: string]: any
 }
 const request = new Request<ResponseType>({
-  timeout: 30000, // 超时 30S
+  timeout: 1000, // 30000, // 超时 30S //Junn
   baseURL: VITE_API_HOST, // 接口地址
   withCredentials: false, // 是否允许带cookie
   headers: { 'Content-Type': 'application/json;charset=UTF-8' },
