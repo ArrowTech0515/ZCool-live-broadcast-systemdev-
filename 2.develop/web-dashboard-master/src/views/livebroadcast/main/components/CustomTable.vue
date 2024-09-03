@@ -411,8 +411,113 @@ async function onOperationRecord(item = {}) {
 })
 }
 
+
+async function onFollow(item = {}) {
+
+console.log("onOperationRecord : " + item.value)
+const formValue = ref({
+  // user_id: userItem.user_id,
+})
+
+const formModalProps1 = {
+  rule: [
+
+    ],
+  };
+
+  // Generate 25 menu items
+    const menuItems = Array.from({ length: cntAnchors.value }, (_, i) => (
+      <a-menu-item key={i + 1}>主播{i + 1}</a-menu-item>
+    ))
+
+    const menu_in_card = () => (
+      <a-menu style="max-height: 200px; overflow-y: auto;"> {/* Add scrolling */}
+        {menuItems}
+      </a-menu>
+    )
+
+  createDialog({
+    title: '操作记录',
+    width: 600,
+    component: {
+    setup() {
+      //const activeTabKey = ref('tab1');
+
+      return () => (
+      <div>
+        <OperationRecordForm menu_in_card={menu_in_card} />
+      </div>
+      );
+    },
+  },
+  onConfirm(status) {
+    if (status) {
+      const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
+      if (! current) {
+        // Add new data code here
+      }
+      else {
+        // Same name already exists.
+      }
+    }
+  },
+  })
+}
+
+async function onUnFollow(item = {}) {
+
+  console.log("onOperationRecord : " + item.value)
+  const formValue = ref({
+    // user_id: userItem.user_id,
+  })
+
+  const formModalProps1 = {
+    rule: [
+
+      ],
+    };
+
+    // Generate 25 menu items
+      const menuItems = Array.from({ length: cntAnchors.value }, (_, i) => (
+        <a-menu-item key={i + 1}>主播{i + 1}</a-menu-item>
+      ))
+
+      const menu_in_card = () => (
+        <a-menu style="max-height: 200px; overflow-y: auto;"> {/* Add scrolling */}
+          {menuItems}
+        </a-menu>
+      )
+
+    createDialog({
+      title: '操作记录',
+      width: 600,
+      component: {
+      setup() {
+        //const activeTabKey = ref('tab1');
+
+        return () => (
+        <div>
+          <OperationRecordForm menu_in_card={menu_in_card} />
+        </div>
+        );
+      },
+    },
+    onConfirm(status) {
+      if (status) {
+        const current = dataSource.value.find(item2 => item2.groupName === item.groupName)
+        if (! current) {
+          // Add new data code here
+        }
+        else {
+          // Same name already exists.
+        }
+      }
+    },
+  })
+}
+
 defineExpose({
-  onHideItems, onCategory, onBlock, onOperationRecord
+  onHideItems, onCategory, onBlock, onOperationRecord, onFollow, onUnFollow
 })
 
 </script>

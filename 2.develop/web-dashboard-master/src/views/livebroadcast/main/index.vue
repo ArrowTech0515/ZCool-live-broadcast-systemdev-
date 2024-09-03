@@ -7,6 +7,8 @@
       @emit_category="() => customTableRef.onCategory()"
       @emit_block="() => customTableRef.onBlock()"
       @emit_operationRecord="() => customTableRef.onOperationRecord()"
+      @emit_follow="() => customTableRef.onFollow()"
+      @emit_unfollow="() => customTableRef.onUnFollow()"
     />
     <CustomTable
       ref="customTableRef"
