@@ -44,6 +44,7 @@
               <a-menu-item key="20">平台自营直播</a-menu-item>
               <a-menu-item key="21">权限管理</a-menu-item>
               <a-menu-item key="22">支付管理</a-menu-item>
+              <a-menu-item key="23">策略管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -83,6 +84,7 @@
   import activityManagement from '@/views/activity/main.vue';
   import taskManagement from '@/views/task/main.vue';
   import livebroadcastManagement from '@/views/livebroadcast/main.vue';
+  import strategyManagement from '@/views/strategy/main.vue';
   
   export default {
     name: 'NavigationMenu',
@@ -106,13 +108,17 @@
       gameManagement,
       activityManagement,
       taskManagement,
-      livebroadcastManagement
+      livebroadcastManagement,
+      strategyManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
+          case '23':
+            currentComponent.value = 'strategyManagement'
+            break
           case '22':
             currentComponent.value = 'payManagement'
             break
@@ -160,7 +166,7 @@
         }
       }
   
-      const currentComponent = ref('orderManagement') // Initial component
+      const currentComponent = ref('strategyManagement') // Initial component
   
       return {
         collapse_flag,

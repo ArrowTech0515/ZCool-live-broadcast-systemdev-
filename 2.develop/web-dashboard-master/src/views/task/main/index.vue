@@ -56,7 +56,7 @@
               </a-form-item>
           </a-col>
           
-          <a-col :span="2">
+          <a-col :flex="auto">
               <a-form-item>
                 <a-button type="primary" block @click="onAdd">添加任务</a-button>
               </a-form-item>

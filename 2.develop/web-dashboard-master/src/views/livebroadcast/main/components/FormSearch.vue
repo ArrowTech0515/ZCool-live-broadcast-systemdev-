@@ -49,35 +49,35 @@
         </a-form-item>
       </a-col>
 
-      <a-col :span="2" style="margin-left: auto;">
+      <a-col :flex="auto" style="margin-left: auto;">
         <a-form-item>
           <a-button type="primary" block @click="onSearch">
             <SearchOutlined /> 查询</a-button>
         </a-form-item>
       </a-col>
     
-      <a-col :span="2">
+      <a-col :flex="auto">
         <a-form-item>
           <a-button block @click="onReset">
             <ReloadOutlined /> 重置</a-button>
         </a-form-item>
       </a-col>
       
-      <a-col :span="2" style="margin-left: auto;">
+      <a-col :flex="auto" style="margin-left: auto;">
         <a-form-item>
           <a-button type="primary" style="background-color: green;" block @click="emit('emit_follow')">
             跟随平台</a-button>
         </a-form-item>
       </a-col>
       
-      <a-col :span="2" style="margin-right: 3%;">
+      <a-col :flex="auto" style="margin-right: 3%;">
         <a-form-item>
           <a-button type="primary" style="background-color: green;" block @click="emit('emit_unfollow')">
             取消跟随</a-button>
         </a-form-item>
       </a-col>
       
-      <a-col :span="2" style="margin-right: 3%;">
+      <a-col :flex="auto" style="margin-right: 3%;">
         <a-form-item>
           <a-button type="primary" block @click="emit('emit_operationRecord')">操作记录</a-button>
         </a-form-item>
