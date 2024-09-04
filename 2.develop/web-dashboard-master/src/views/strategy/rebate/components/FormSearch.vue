@@ -42,13 +42,8 @@ const data = reactive({
   created_time: '', // RangePicker for Created Time
 })
 
-
-const handleMenuClick = (option) => {
-  message.info(`You selected ${option}`)
-  this.$emit('emit_more', option)
-}
-
 const emit = defineEmits(['emit_add'])
+
 const fApi = ref({})
 const option = {
   resetBtn: false,

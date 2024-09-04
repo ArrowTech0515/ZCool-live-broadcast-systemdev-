@@ -73,6 +73,7 @@ const { loading, refresh } = useRequest(() => getAnchorListReq({
     pagination.total = data.total_data
   },
 })
+const { createDialog } = useDialog()
 
 const centeredStyle = { textAlign: 'center' }
 
@@ -83,7 +84,7 @@ const dataSource = ref([
     member_group: '高价值会员 | VIP会员',
     rebate_type: '自动返水',
     rebate_percentage: '1.5',
-    rebate_period: '实时',
+    rebate_period: '實時',
     collection_method: '自动派发',
     strategy_status: '启用',
     created_time: '2024-08-29 12:30:12',
@@ -186,7 +187,7 @@ const columns = [
     customRender: ({ record }) => <div style={centeredStyle}>{record.rebate_percentage}</div>
   },
   {
-    title: '返水周期',
+    title: '返水週期',
     dataIndex: 'rebate_period',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.rebate_period}</div>
@@ -227,7 +228,7 @@ const columns = [
     customRender: ({ record }) => <div style={centeredStyle}>{record.last_operator}</div>
   },
   {
-    title: '备注',
+    title: '備註',
     dataIndex: 'remark',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.remark}</div>
@@ -240,7 +241,7 @@ const columns = [
       <div style={centeredStyle}>
         <span 
           style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
-          onClick={() => emit('emit_editData', record)}>
+          onClick={() => on_Add_Edit(record)}>
           编辑</span>
         <span style="text-decoration: underline;color: blue; margin-right: 12px; cursor: pointer;"
           onClick={() => emit('emit_apply', record)}>应用</span>
@@ -249,5 +250,114 @@ const columns = [
       </div>
     )
   }
-];
+]
+
+
+// 添加
+async function on_Add_Edit(record) {
+
+
+  const isCreate = !record // true: Add, false: Edit
+  console.log("on_Add_Edit : " + record?.strategy_name)
+  console.log("isCreate : " + isCreate)
+
+  const formValue = ref({
+
+  })
+
+  const fApi = ref(null)
+  // const anchorRule = useAnchorRule(false, true, fApi)
+  const formModalProps = reactive({
+    // request: data => anchorAddOrEditReq(null, data),
+    // getData(data) {
+    //   const { avatar_url, ...rest } = data
+    //   return {
+    //     ...rest,
+    //     avatar_url: getPathFromUrlArray(avatar_url),
+    //   }
+    // },
+     rule:// anchorRule,
+     [
+      {
+        type: 'input',
+        field: 'strategy_name',
+        title: '策略名称',
+        value: isCreate ? '' : record?.strategy_name,
+        props: {
+          placeholder: '请输入',
+        }
+      },
+      {
+        type: 'select',
+        field: 'rebate_type',
+        title: '返水方式',
+        value: isCreate ? '' : record?.rebate_type,
+      },
+      {
+        type: 'input',
+        field: 'rebate_percentage',
+        title: '返水比例',
+        value: isCreate ? '' : record?.rebate_percentage,
+        props: {
+          placeholder: '请输入',
+        }
+      },
+      {
+        type: 'select',
+        field: 'rebate_period',
+        title: '返水週期',
+        value: isCreate ? '' : record?.rebate_period,
+      },
+      {
+        type: 'select',
+        field: 'collection_method',
+        title: '领取方式',
+        value: isCreate ? '' : record?.collection_method,
+      },
+      {
+        type: 'input',
+        field: 'remark',
+        title: '備註',
+        value: isCreate ? '' : record?.remark,
+        props: {
+          placeholder: '请输入',
+          type: 'textarea'
+        },
+      },
+      {
+        type: 'switch',
+        field: 'strategy_status',
+        title: '策略状态',
+        value: record?.strategy_status === '启用',
+      },
+     ]
+  })
+
+  createDialog({
+    title: '编辑',
+    width: 500,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      <div v-if="!isCreate" >
+        <a-form-item class="ml20" label="策略ID">
+          <span>{ record?.strategy_id }</span>
+        </a-form-item>
+      </div>
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
+}
+
+defineExpose({
+  on_Add_Edit,
+})
 </script>
