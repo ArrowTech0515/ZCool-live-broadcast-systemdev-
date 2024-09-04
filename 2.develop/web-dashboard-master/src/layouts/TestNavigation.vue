@@ -160,7 +160,7 @@
         }
       }
   
-      const currentComponent = ref('livebroadcastManagement') // Initial component
+      const currentComponent = ref('orderManagement') // Initial component
   
       return {
         collapse_flag,
