@@ -13,7 +13,8 @@ import { SearchOutlined,
     CheckCircleFilled, 
     PlusCircleOutlined, 
     MinusCircleOutlined,
-     } from '@ant-design/icons-vue';
+    DownOutlined,
+     } from '@ant-design/icons-vue'
 
 const app = createApp(App)
 
@@ -22,7 +23,7 @@ app.component('ReloadOutlined', ReloadOutlined)
 app.component('CheckCircleFilled', CheckCircleFilled)
 app.component('PlusCircleOutlined', PlusCircleOutlined)
 app.component('MinusCircleOutlined', MinusCircleOutlined)
-
+app.component('DownOutlined', DownOutlined)
 
 app.config.globalProperties.$enums = ENUMS
 
