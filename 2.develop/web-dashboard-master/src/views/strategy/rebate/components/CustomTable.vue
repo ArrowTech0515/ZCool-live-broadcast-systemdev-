@@ -126,7 +126,7 @@ const dataSource = ref([
   {
     strategy_id: '100101',
     strategy_name: '新手会员返水',
-    member_group: '',
+    member_group: null,
     rebate_type: '手动返水',
     rebate_percentage: '0.8',
     rebate_period: '—',
@@ -154,26 +154,34 @@ const columns = [
     customRender: ({ record }) => <div style={centeredStyle}>{record.strategy_name}</div>
   },
   {
-    title: '会员分组',
-    dataIndex: 'member_group',
-    align: 'center',
-    customRender: ({ record }) => {
-      const groups = record.member_group.split(' | ')
-      if (!record.member_group) 
-        return null
-      return (
-        <div style="display: flex; flex-wrap: wrap; justify-content: center;">
-          {groups.map((group, index) => (
-            <a-card 
-              key={index} 
-              style="background-color: grey; border-radius: 5% 40%; padding: 0; display: flex; justify-content: center; align-items: center; height: 24px; min-width: 60px;">
-              <span style="font-size: 12px; color: #fbfbfb;">{group}</span>
-            </a-card>
-          ))}
-        </div>
-      );
-    }
-  },
+  title: '会员分组',
+  dataIndex: 'member_group',
+  align: 'center',
+  customRender: ({ record }) => {
+    const groups = record.member_group?.split('|') || []
+    console.log("id : " + record.strategy_id)
+    console.log("groups : " + groups.length)
+    if (!groups.length) 
+      return null
+
+    return (
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 5px;"> 
+        {groups.map((group, index) => (
+          <span 
+          key="index"
+           style="font-size: 12px; background-color: grey; color: #fbfbfb; 
+           text-align: center; padding: 3px; margin: 0; word-wrap: break-word; white-space: normal;
+           border-radius: 2% 40%;">
+              {group}
+            </span>
+      
+        ))}
+      </div>
+    );
+  }
+},
+
+
   {
     title: '返水方式',
     dataIndex: 'rebate_type',
@@ -244,9 +252,9 @@ const columns = [
           onClick={() => on_Add_Edit(record)}>
           编辑</span>
         <span style="text-decoration: underline;color: blue; margin-right: 12px; cursor: pointer;"
-          onClick={() => emit('emit_apply', record)}>应用</span>
-        <span style="text-decoration: underline;color: red; cursor: pointer;"
-          onClick={() => emit('emit_delete', record)}>删除</span>
+          onClick={() => onApply(record)}>应用</span>
+        <span style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;"
+          onClick={() => onDelete(record)}>删除</span>
       </div>
     )
   }
@@ -255,7 +263,105 @@ const columns = [
 
 // 添加
 async function on_Add_Edit(record) {
+  const isCreate = !record // true: Add, false: Edit
+  const formValue = ref({
+    strategy_name: isCreate ? '' : record.strategy_name,
+    rebate_type: isCreate ? '' : record.rebate_type,
+    rebate_percentage: isCreate ? '' : record.rebate_percentage,
+    rebate_period: isCreate ? '' : record.rebate_period,
+    collection_method: isCreate ? '' : record.collection_method,
+    remark: isCreate ? '' : record.remark,
+    strategy_status: record?.strategy_status === '启用',
+  })
 
+  const fApi = ref(null)
+  const formModalProps = reactive({
+    rule: [
+      {
+        type: 'input',
+        field: 'strategy_name',
+        title: '策略名称',
+        value: formValue.value.strategy_name,
+        props: {
+          placeholder: '请输入',
+        }
+      },
+      {
+        type: 'select',
+        field: 'rebate_type',
+        title: '返水方式',
+        value: formValue.value.rebate_type,
+      },
+      {
+        type: 'input',
+        field: 'rebate_percentage',
+        title: '返水比例',
+        value: formValue.value.rebate_percentage,
+        props: {
+          placeholder: '请输入',
+        }
+      },
+      {
+        type: 'select',
+        field: 'rebate_period',
+        title: '返水週期',
+        value: formValue.value.rebate_period,
+      },
+      {
+        type: 'select',
+        field: 'collection_method',
+        title: '领取方式',
+        value: formValue.value.collection_method,
+      },
+      {
+        type: 'input',
+        field: 'remark',
+        title: '備註',
+        value: formValue.value.remark,
+        props: {
+          placeholder: '请输入',
+          type: 'textarea'
+        },
+      },
+      {
+        type: 'switch',
+        field: 'strategy_status',
+        title: '策略状态',
+        value: formValue.value.strategy_status,
+      },
+    ]
+  })
+
+  createDialog({
+    title: isCreate ? '新增策略' : '编辑策略',
+    width: 500,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      <div v-if="!isCreate" >
+        <a-form-item class="ml20" label="策略ID">
+          <span>{ record?.strategy_id }</span>
+        </a-form-item>
+      </div>
+      </ModalForm>
+    ,
+    async onConfirm() {
+      // try {
+      //   // Call the API to save the data
+      //   await anchorAddOrEditReq(isCreate ? null : record.strategy_id, formValue.value)
+      //   message.success(isCreate ? '新增策略成功' : '编辑策略成功')
+      //   refresh() // Refresh the table after saving the data
+      // } catch (error) {
+      //   message.error('保存失败，请重试')
+      // }
+    },
+  })
+}
+
+async function onApply(record) {
 
   const isCreate = !record // true: Add, false: Edit
   console.log("on_Add_Edit : " + record?.strategy_name)
@@ -276,65 +382,27 @@ async function on_Add_Edit(record) {
     //     avatar_url: getPathFromUrlArray(avatar_url),
     //   }
     // },
-     rule:// anchorRule,
-     [
-      {
-        type: 'input',
-        field: 'strategy_name',
-        title: '策略名称',
-        value: isCreate ? '' : record?.strategy_name,
-        props: {
-          placeholder: '请输入',
-        }
-      },
+    rule:// anchorRule,
+    [
       {
         type: 'select',
-        field: 'rebate_type',
-        title: '返水方式',
-        value: isCreate ? '' : record?.rebate_type,
-      },
-      {
-        type: 'input',
-        field: 'rebate_percentage',
-        title: '返水比例',
-        value: isCreate ? '' : record?.rebate_percentage,
+        field: 'group_name',
+        title: '分组名称',
+        value: [],
         props: {
-          placeholder: '请输入',
-        }
-      },
-      {
-        type: 'select',
-        field: 'rebate_period',
-        title: '返水週期',
-        value: isCreate ? '' : record?.rebate_period,
-      },
-      {
-        type: 'select',
-        field: 'collection_method',
-        title: '领取方式',
-        value: isCreate ? '' : record?.collection_method,
-      },
-      {
-        type: 'input',
-        field: 'remark',
-        title: '備註',
-        value: isCreate ? '' : record?.remark,
-        props: {
-          placeholder: '请输入',
-          type: 'textarea'
+          mode: 'multiple',  // Enable multi-select
+          options: [
+            { label: '高价值会员', value: '高价值会员' },
+            { label: 'VIP会员', value: 'VIP会员' },
+          ],
+          placeholder: '请选择会员分组',
         },
       },
-      {
-        type: 'switch',
-        field: 'strategy_status',
-        title: '策略状态',
-        value: record?.strategy_status === '启用',
-      },
-     ]
+    ]
   })
 
   createDialog({
-    title: '编辑',
+    title: '应用',
     width: 500,
     component:
       <ModalForm
@@ -343,8 +411,8 @@ async function on_Add_Edit(record) {
         {...formModalProps}
       >
       <div v-if="!isCreate" >
-        <a-form-item class="ml20" label="策略ID">
-          <span>{ record?.strategy_id }</span>
+        <a-form-item class="ml20">
+          <span>选择需应用的会员分组:下拉,多选,选项为系统中 已创建得会员分组。</span>
         </a-form-item>
       </div>
       </ModalForm>
@@ -357,6 +425,8 @@ async function on_Add_Edit(record) {
   })
 }
 
+async function onDelete(record) {
+}
 defineExpose({
   on_Add_Edit,
 })
