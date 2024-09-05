@@ -265,7 +265,7 @@ async function on_Add_Edit(record) {
 
   createDialog({
     title: isCreate ? '新增' : '编辑',
-    width: 700,
+    width: '60%',
     component:
       <ModalForm
         v-model={formValue.value}
@@ -273,7 +273,7 @@ async function on_Add_Edit(record) {
         {...formModalProps}
       >
         <div v-if="!isCreate" >
-          <a-form-item class="ml30" label="策略ID">
+          <a-form-item class="ml95" label="策略ID">
             <span>{ record?.strategy_id }</span>
           </a-form-item>
         </div>
@@ -343,7 +343,7 @@ async function onApply(record) {
       >
       <div v-if="!isCreate" >
         <a-form-item class="ml20">
-          <span>选择需应用的会员分组:下拉,多选,选项为系统中 已创建得会员分组。</span>
+          <span>选择需应用的会员分组:下拉, 多选, 选项为系统中 已创建得会员分组。</span>
         </a-form-item>
       </div>
       </ModalForm>

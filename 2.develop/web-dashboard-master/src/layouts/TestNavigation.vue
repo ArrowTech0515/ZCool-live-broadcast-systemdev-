@@ -166,7 +166,7 @@
         }
       }
   
-      const currentComponent = ref('strategyManagement') // Initial component
+      const currentComponent = ref('activityManagement') // Initial component
   
       return {
         collapse_flag,

@@ -2,7 +2,7 @@
     <a-tabs default-active-key="1">
     
         <a-tab-pane key="1" tab="充值活动">
-            <activityPage />
+            <rechargePage />
         </a-tab-pane>
         <a-tab-pane key="2" tab="兑换活动">
             <redumptionPage />
@@ -26,7 +26,7 @@
 <script>
 import { Tabs } from 'ant-design-vue'
 
-import activityPage from './index.vue';
+import rechargePage from './recharge/index.vue';
 import redumptionPage from './redumption/index.vue'; // junn
 import goodNumberPage from './goodNumber/index.vue'; // junn
 import signinPage from './signin/index.vue'; // junn
@@ -37,7 +37,7 @@ export default {
 components: {
     'a-tabs': Tabs,
     'a-tab-pane': Tabs.TabPane,
-    activityPage,
+    rechargePage,
     redumptionPage,
     goodNumberPage,
     signinPage,

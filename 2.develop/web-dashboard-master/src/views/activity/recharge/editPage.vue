@@ -257,126 +257,116 @@
   </a-card>
 </template>
 
-<script>
-import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
-// const uploadRule = createUploadRule('主播头像', 'avatar_url')
+<script setup lang="jsx">
+import { ref, computed } from 'vue'
+import { message } from 'ant-design-vue'
+import CustomSpin from '@/components/Form/Custom/CustomSpin.vue'
 
-export default {
-  components: {
-    CustomSpin,
-  },
 
-  data() {
-    return {
-      parentValue: '0', // Example initial value
-      radioValue: 'radio1', // Initial value for the radio group
+// Define emits
+const emit = defineEmits(['back'])  // Define the 'back' event
 
-      spin_value1: '0',
-      spin_value2: '0',
+const parentValue = ref('0') // Example initial value
+const radioValue = ref('radio1') // Initial value for the radio group
+const spin_value1 = ref('0')
+const spin_value2 = ref('0')
 
-      imageUrl: '', // URL for the uploaded icon
-      bannerUrl: '', // URL for the uploaded banner
-      uploadUrl: import.meta.env.VITE_API_HOST + '/api/v1/upload/resource',
-      uploadHeaders: {
-        Authorization: 'Bearer ' + localStorage.getItem('token'),
-      },
-      customSpins: [
-        { value1: '', value2: '' } // Initial CustomSpin
-      ]
-    };
-  },
+const imageUrl = ref('') // URL for the uploaded icon
+const bannerUrl = ref('') // URL for the uploaded banner
+const uploadUrl = import.meta.env.VITE_API_HOST + '/api/v1/upload/resource'
+const uploadHeaders = {
+  Authorization: 'Bearer ' + localStorage.getItem('token'),
+}
 
-  computed: {
-    groupedCustomSpins() {
-      // Group the custom spins in pairs
-      return this.customSpins.reduce((result, value, index) => {
-        if (index % 2 === 0) {
-          result.push([value]);
-        } else {
-          result[result.length - 1].push(value);
-        }
-        return result;
-      }, []);
+const customSpins = ref([{ value1: '', value2: '' }])
+
+const groupedCustomSpins = computed(() => {
+  return customSpins.value.reduce((result, value, index) => {
+    if (index % 2 === 0) {
+      result.push([value])
+    } else {
+      result[result.length - 1].push(value)
     }
-  },
+    return result
+  }, [])
+})
 
-  methods: {
-    addCustomSpin() {
-      this.customSpins.push({ value1: '', value2: '' });
-    },
-    removeCustomSpin(index) {
-      this.customSpins.splice(index, 1);
-    },
+const addCustomSpin = () => {
+  customSpins.value.push({ value1: '', value2: '' })
+}
 
-    handleBack() {
-      // Handle the back action here
-      // For example, navigate to the previous page:
-      this.$emit('back'); // Emit the back event to the parent component
-    },
-    handleOperation(text) {
-      // Handle the operation related to "区块链汇率"
-      console.log(text);
-    },
-    handleAllusers() {
-      // Handle All users selection
-    },
-    handleNobleusers() {
-      // Handle Noble users selection
-    },
-    handleRechargeusers() {
-      // Handle Recharge users selection
-    },
-    handleCustomusers() {
-      // Handle Custom users selection
-    },
+const removeCustomSpin = (index) => {
+  customSpins.value.splice(index, 1)
+}
 
-    beforeUpload(file) {
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJpgOrPng) {
-        //this.$message.error('You can only upload JPG/PNG file!');
-        message.error({
-          content: 'You can only upload JPG/PNG file!',
-          duration: 2, // Duration in seconds
-        });
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        //this.$message.error('Image must smaller than 2MB!');
-        message.error({
-          content: 'Image must smaller than 2MB!',
-          duration: 2, // Duration in seconds
-        });
-      }
-      return isJpgOrPng && isLt2M;
-    },
-    handleChange(info) {
-      if (info.file.status === 'done') {
-        this.imageUrl = URL.createObjectURL(info.file.originFileObj);
-      }
-    },
-    handleChangeBanner(info) {
-      if (info.file.status === 'done') {
-        this.bannerUrl = URL.createObjectURL(info.file.originFileObj);
-      }
-    },
-    handleSuccess(response, file) {
-      if (response?.status === 200) {
-        file.url = response.data.link;
-      } else {
-        //this.$message.error('上传失败');
-        message.error({
-          content: '上传失败。',
-          duration: 2, // Duration in seconds
-        });
-      }
-    },
-    uploadData() {
-      return { type: 1 };
-    },
+const handleBack = () => {
+  // Emit the back event to the parent component
+  // Replace this with your actual back navigation logic if needed
+  emit('back')
+}
 
-  },
-};
+const handleOperation = (text) => {
+  console.log(text)
+}
+
+const handleAllusers = () => {
+  // Handle All users selection
+}
+
+const handleNobleusers = () => {
+  // Handle Noble users selection
+}
+
+const handleRechargeusers = () => {
+  // Handle Recharge users selection
+}
+
+const beforeUpload = (file) => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+  if (!isJpgOrPng) {
+    message.error({
+      content: 'You can only upload JPG/PNG file!',
+      duration: 2, // Duration in seconds
+    })
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2
+  if (!isLt2M) {
+    message.error({
+      content: 'Image must smaller than 2MB!',
+      duration: 2, // Duration in seconds
+    })
+  }
+  return isJpgOrPng && isLt2M
+}
+
+const handleChange = (info) => {
+  if (info.file.status === 'done') {
+    imageUrl.value = URL.createObjectURL(info.file.originFileObj)
+  }
+}
+
+const handleChangeBanner = (info) => {
+  if (info.file.status === 'done') {
+    bannerUrl.value = URL.createObjectURL(info.file.originFileObj)
+  }
+}
+
+const handleSuccess = (response, file) => {
+  if (response?.status === 200) {
+    file.url = response.data.link
+  } else {
+    message.error({
+      content: '上传失败。',
+      duration: 2, // Duration in seconds
+    })
+  }
+}
+
+const uploadData = () => {
+  return { type: 1 }
+}
 </script>
+
 
 <style scoped>
 .upload-box {
