@@ -177,11 +177,9 @@ const columns = [
       
         ))}
       </div>
-    );
-  }
-},
-
-
+      );
+    }
+  },
   {
     title: '返水方式',
     dataIndex: 'rebate_type',
@@ -259,7 +257,6 @@ const columns = [
     )
   }
 ]
-
 
 // 添加
 async function on_Add_Edit(record) {

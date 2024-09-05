@@ -5,10 +5,13 @@
           <rebateStrategy />
       </a-tab-pane>
       
-      <a-tab-pane key="2" tab="提现策略">
+      <a-tab-pane key="2" tab="充值策略 ">
           <withdrawalStrategy />
       </a-tab-pane>
-  
+      
+      <a-tab-pane key="3" tab="提现策略">
+          <withdrawalStrategy />
+      </a-tab-pane>
     </a-tabs>
   </template>
   
@@ -16,7 +19,7 @@
   import { Tabs } from 'ant-design-vue'
 
   import rebateStrategy from './rebate/index.vue'
-  import withdrawalStrategy from './rebate/index.vue'
+  import withdrawalStrategy from './withdrawal/index.vue'
   
   export default {
     components: {
