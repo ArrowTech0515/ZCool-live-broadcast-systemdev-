@@ -84,7 +84,7 @@
           </div>
           <div style="width: 75%;">
             <a-input 
-              placeholder="" 
+              placeholder="请输入活动名称" 
               style="text-align: center; width: 75%;"
             />
             <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">

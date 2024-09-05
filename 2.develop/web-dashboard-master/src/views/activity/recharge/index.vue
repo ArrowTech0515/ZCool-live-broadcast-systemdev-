@@ -99,7 +99,6 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import editPage from './editPage.vue'
 import dataPage from './dataPage.vue'
 

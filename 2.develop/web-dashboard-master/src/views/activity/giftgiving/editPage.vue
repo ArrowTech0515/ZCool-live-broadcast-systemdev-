@@ -10,7 +10,7 @@
           <span style="font-size: 20px; font-weight: bold; margin-left: 8px;">&lt;</span>
         </a-button>
         <div style="flex-grow: 1; text-align: center;">
-          <span style="font-size: 20px; font-weight: bold;">充值活动</span>
+          <span style="font-size: 20px; font-weight: bold;">送礼活动</span>
         </div>
       </div>
     </template>
@@ -87,7 +87,7 @@
           </div>
           <div style="width: 75%;">
             <a-input 
-              placeholder="请输入" 
+              placeholder="请输入活动名称" 
               style="text-align: center; width: 75%;"
             />
             <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
@@ -102,7 +102,7 @@
           </div>
           <div style="width: 75%;">
             <a-input 
-              placeholder="请输入" 
+              placeholder="请输入活动类型" 
               style="text-align: center; width: 75%;"
             />
           </div>
