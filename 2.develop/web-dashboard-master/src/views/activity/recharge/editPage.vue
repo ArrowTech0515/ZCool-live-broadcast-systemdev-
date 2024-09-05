@@ -84,8 +84,8 @@
           </div>
           <div style="width: 75%;">
             <a-input 
-              placeholder="" 
-              style="text-align: center; width: 75%;"
+              placeholder="请输入活动名称" 
+              style="text-align: center; width: 75%;" v-model:value="formData.activityName"
             />
             <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
               用户不可见，仅后台用户可见
@@ -99,8 +99,8 @@
           </div>
           <div style="width: 75%;">
             <a-input 
-              placeholder="" 
-              style="text-align: center; width: 75%;"
+              placeholder="请输入活动类型" 
+              style="text-align: center; width: 75%;" v-model:value="formData.activityType"
             />
             <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
               用户不可见，仅后台用户可见
@@ -132,6 +132,8 @@
             <a-range-picker 
               :placeholder="['开始日期', '结束日期']"
               style="width: 75%; text-align: center;"
+              v-model:range="formData.activityTime" 
+              show-time
             />
           </div>
         </div>
@@ -263,10 +265,19 @@ import { message } from 'ant-design-vue'
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue'
 
 
+defineProps({
+  formData: {
+      type: Object,
+      default: () => ({
+        activityName: '',
+        activityType: '',
+        activityTime: [null, null],
+      }),
+    },
+})
 // Define emits
 const emit = defineEmits(['back'])  // Define the 'back' event
 
-const parentValue = ref('0') // Example initial value
 const radioValue = ref('radio1') // Initial value for the radio group
 const spin_value1 = ref('0')
 const spin_value2 = ref('0')

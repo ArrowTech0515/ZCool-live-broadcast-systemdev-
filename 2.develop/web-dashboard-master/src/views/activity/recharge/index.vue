@@ -85,11 +85,11 @@
 
       <!-- Data Page and Edit Page transitions -->
       <div v-else-if="showDataPage">
-        <dataPage @back="onBackToMainPage1" @confirm="handleConfirm" @reject="handleReject" />
+        <dataPage  @back="onBackToMainPage1" @confirm="handleConfirm" @reject="handleReject" />
       </div>
 
       <div v-else>
-        <editPage @back="onBackToMainPage2" @confirm="handleConfirm" @reject="handleReject" />
+        <editPage :formData="selectedActivity" @back="onBackToMainPage2" @confirm="handleConfirm" @reject="handleReject" />
       </div>
 
     </transition>
@@ -111,6 +111,12 @@ const activity_status = ref('all') // Initialize the activity status to 'all'
 const currentPage = ref(1)
 const pageSize = ref(5)
 const totalItems = ref(100)
+
+// Operation handling for "数据" and "编辑"
+const showEditPage = ref(false)
+const showDataPage = ref(false)
+
+const selectedActivity = ref(null) // Ref to store the selected activity
 
 // Data source for the table
 const dataSource = ref([
@@ -144,6 +150,18 @@ const onReset = () => {
   activity_status.value = 'all' // Reset the activity_status select
 }
 
+const parseActivityTime = (timeStr: string) => {
+  const times = timeStr.split('——') // Split the time range string by '——'
+  if (times.length === 2) {
+    const start = new Date(times[0].trim()) // Convert to Date object
+    const end = new Date(times[1].trim()) // Convert to Date object
+    if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+      return [start, end] // Return array of Date objects
+    }
+  }
+  return [null, null] // Return null if parsing fails
+}
+
 // Pagination methods
 const handlePageChange = (page: number) => {
   currentPage.value = page
@@ -154,13 +172,25 @@ const handleSizeChange = (current: number, size: number) => {
   currentPage.value = 1 // Reset to the first page when page size changes
 }
 
-// Operation handling for "数据" and "编辑"
-const showEditPage = ref(false)
-const showDataPage = ref(false)
-
-const handleOperation = (operation: string) => {
+const handleOperation = (operation: string, record: any) => {
   if (operation === '编辑') {
+    selectedActivity.value = record // Set the selected record data
+    console.log("activityName : " + selectedActivity.value.activityName)
+
+    // Parse activityTime and store it in selectedActivity for a-range-picker
+    const parsedTime = parseActivityTime(record.activityTime)
+
+    console.log("parsedTime : " + parsedTime)
+
+    if (parsedTime) {
+      selectedActivity.value.activityTime = parsedTime // Set the parsed date range
+      console.log("selectedActivity.value.activityTime : " + selectedActivity.value.activityTime)
+    } else {
+      console.error('Invalid activityTime format:', record.activityTime)
+    }
+
     showEditPage.value = true
+
   } else if (operation === '数据') {
     showDataPage.value = true
   }
