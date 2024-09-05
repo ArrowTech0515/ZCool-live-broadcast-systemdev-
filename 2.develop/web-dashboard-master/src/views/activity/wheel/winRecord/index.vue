@@ -1,9 +1,9 @@
 <template>
   <a-card style="background-color: white;">
-    <a-row :gutter="16"  type="flex" >
+    <a-row :gutter="16" type="flex">
 
       <!-- First Column -->
-      <a-col :flex="auto">
+      <a-col :flex="auto" style="margin-right: 20px; margin-left: 20px;">
         <a-form-item label="时间">
           <a-range-picker :placeholder="['开始日期', '结束日期']">
             <!-- options here -->
@@ -11,35 +11,32 @@
         </a-form-item>
       </a-col>
 
-      <a-col :flex="1">
+      <a-col :flex="auto" style="margin-right: 20px;">
         <a-form-item label="中奖人ID">
-          <a-input v-model="winnerID" placeholder="" />
+          <a-input v-model:value="winnerID" placeholder="请输入中奖人ID" />
         </a-form-item>
       </a-col>
 
-      <a-col :flex="1">
+      <a-col :flex="auto" style="margin-right: 20px;">
         <a-form-item label="中奖人昵称">
-          <a-input v-model="winPosition" placeholder="" />
+          <a-input v-model:value="winPosition" placeholder="请输入中奖人昵称" />
         </a-form-item>
       </a-col>
       
-      <!-- Separator -->
-      <a-col>
-        <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
-      </a-col>
-
       <!-- Second Column -->
-      <a-col  :span="3">
+      <a-col :flex="auto" style="margin-left: auto;">
         <a-form-item>
           <a-button type="primary" block @click="onSearch">
-            <SearchOutlined /> 查询</a-button>
+            <SearchOutlined /> 查询
+          </a-button>
         </a-form-item>
       </a-col>
 
-      <a-col :span="3">
+      <a-col :flex="auto">
         <a-form-item>
           <a-button block @click="onReset">
-            <ReloadOutlined /> 重置</a-button>
+            <ReloadOutlined /> 重置
+          </a-button>
         </a-form-item>
       </a-col>
     </a-row>
@@ -53,11 +50,10 @@
       <a-table-column title="中奖类型" dataIndex="winType" key="winType" align="center" />
       <a-table-column title="中奖金额" dataIndex="winAmount" key="winAmount" align="center" />
       <a-table-column title="中奖时间" dataIndex="winTime" key="winTime" align="center" />
-
     </a-table>
 
     <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-      <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
+      <span style="margin-right: 8px;">共 {{ totalItems }} 条</span>
       <a-pagination
         v-model:current="currentPage"
         :total="totalItems"
@@ -74,102 +70,80 @@
   </a-card>
 </template>
 
-<script>
 
-export default {
-  data() {
-    return {
-      currentPage: 1,
-      pageSize: 15,
-      totalItems: 100,
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { SearchOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 
-      merchantId: '',
-      winnerID: '',
-      winType: '',
-      winPosition: '',
-      status: '',
+// Reactive state variables
+const currentPage = ref(1)
+const pageSize = ref(15)
+const totalItems = 100
 
-      dataSource: [
-        {
-          key: '1',
-          sorting: '1',
-          winnerID: '300001',
-          nickname: '张张',
-          winPosition: '1000元挡位',
-          winType: '抽中现金',
-          winAmount: '0.01元红包',
-          winTime: '2024.05.25 10:00:00',
-        },
-        {
-          key: '2',
-          sorting: '2',
-          winnerID: '300002',
-          nickname: '丽丽',
-          winPosition: '1000元挡位',
-          winType: '抽中金币',
-          winAmount: '0.01个金币',
-          winTime: '2024.05.25 10:00:00',
-        },
-        {
-          key: '3',
-          sorting: '3',
-          winnerID: '300003',
-          nickname: '徐徐',
-          winPosition: '1000元挡位',
-          winType: '抽中幸运值',
-          winAmount: '0.01个幸运值',
-          winTime: '2024.05.25 10:00:00',
-        },
-        
-        // Add more data objects here
-      ],
-    };
+const winnerID = ref('')
+const winPosition = ref('')
+const winType = ref('')
+
+// Table data
+const dataSource = ref([
+  {
+    key: '1',
+    sorting: '1',
+    winnerID: '300001',
+    nickname: '张张',
+    winPosition: '1000元挡位',
+    winType: '抽中现金',
+    winAmount: '0.01元红包',
+    winTime: '2024.05.25 10:00:00',
   },
-  
-  computed: {
-    paginatedData() {
-      const start = (this.currentPage - 1) * this.pageSize;
-      const end = start + this.pageSize;
-      return this.dataSource.slice(start, end);
-    },
+  {
+    key: '2',
+    sorting: '2',
+    winnerID: '300002',
+    nickname: '丽丽',
+    winPosition: '1000元挡位',
+    winType: '抽中金币',
+    winAmount: '0.01个金币',
+    winTime: '2024.05.25 10:00:00',
   },
-  methods: {
-    onSearch() {
-      // Implement search logic
-    },
-    onReset() {
-      this.merchantId = '';
-      this.winnerID = '';
-      this.winType = '';
-      this.winPosition = '';
-      this.status = '';
-      // Implement reset logic
-    },
-    handlePageChange(page) {
-      this.currentPage = page;
-    },
-    handleSizeChange(current, size) {
-      this.pageSize = size;
-      this.currentPage = 1; // Reset to the first page when page size changes
-    },
+  {
+    key: '3',
+    sorting: '3',
+    winnerID: '300003',
+    nickname: '徐徐',
+    winPosition: '1000元挡位',
+    winType: '抽中幸运值',
+    winAmount: '0.01个幸运值',
+    winTime: '2024.05.25 10:00:00',
   },
-};
+])
+
+// Computed property for paginated data
+const paginatedData = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return dataSource.value.slice(start, end)
+})
+
+// Methods
+const onSearch = () => {
+  console.log('Search clicked with:', winnerID.value, winPosition.value)
+  // Implement search logic here
+}
+
+const onReset = () => {
+  winnerID.value = ''
+  winPosition.value = ''
+  winType.value = ''
+}
+
+const handlePageChange = (page: number) => {
+  currentPage.value = page
+}
+
+const handleSizeChange = (current: number, size: number) => {
+  pageSize.value = size
+  currentPage.value = 1 // Reset to the first page when page size changes
+}
 </script>
 
-<style scoped>
-.expanded-row-content {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-left: 40px;  /* Add margin to the whole sub-row */
-}
-
-.row {
-  display: contents;
-}
-
-.cell {
-  padding: 8px;
-  white-space: pre-line; /* Ensure text wraps in each cell */
-}
-</style>

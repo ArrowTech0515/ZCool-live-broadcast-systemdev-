@@ -85,6 +85,8 @@
 <script lang="jsx" setup>
 import { ref, computed } from 'vue';
 
+const emit = defineEmits(['back'])  // Define the 'back' event
+
 const user_id = ref('') // Initialize as an empty string
 const nick_name = ref('') // Initialize the activity status to 'all'
 const time = ref('') // Initialize the activity status to 'all'
