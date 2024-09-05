@@ -86,6 +86,8 @@
 <script lang="jsx" setup>
 import { ref, computed } from 'vue'
 
+const emit = defineEmits(['back'])  // Define the 'back' event
+
 // State variables
 const currentPage = ref(1)
 const pageSize = ref(5)
@@ -162,7 +164,7 @@ const handleOperation = (operation) => {
 const handleBack = () => {
   // Handle the back action here
   // For example, navigate to the previous page:
-  this.$emit('back') // Emit the back event to the parent component
+  emit('back') // Emit the back event to the parent component
 }
 </script>
 

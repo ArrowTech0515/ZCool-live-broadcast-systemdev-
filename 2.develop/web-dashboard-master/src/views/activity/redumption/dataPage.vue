@@ -83,7 +83,7 @@
 </template>
 
 <script lang="jsx" setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from 'vue'
 
 const emit = defineEmits(['back'])  // Define the 'back' event
 
@@ -92,9 +92,9 @@ const nick_name = ref('') // Initialize the activity status to 'all'
 const time = ref('') // Initialize the activity status to 'all'
 
 // States for pagination and data
-const currentPage = ref(1);
-const pageSize = ref(5);
-const totalItems = ref(100);
+const currentPage = ref(1)
+const pageSize = ref(5)
+const totalItems = ref(100)
 
 const dataSource = ref([
   {
@@ -121,18 +121,18 @@ const dataSource = ref([
     activityStatus: '43242',
     operationAccount: '2012-12-12 12:21',
   },
-]);
+])
 
 const paginatedData = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value;
-  const end = start + pageSize.value;
-  return dataSource.value.slice(start, end);
-});
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return dataSource.value.slice(start, end)
+})
 
 const onSearch = () => {
-  console.log('Search clicked with user ID:', user_id.value, 'and nickname:', nickName.value);
+  console.log('Search clicked with user ID:', user_id.value, 'and nickname:', nickName.value)
   // Implement search logic
-};
+}
 
 const onReset = () => {
   console.log('Reset clicked')
@@ -140,22 +140,22 @@ const onReset = () => {
   nick_name.value = '' // Reset the nickName input
   time.value = ''
   // Implement reset logic
-};
+}
 
 const handlePageChange = (page) => {
-  currentPage.value = page;
-};
+  currentPage.value = page
+}
 
 const handleSizeChange = (current, size) => {
-  pageSize.value = size;
-  currentPage.value = 1; // Reset to the first page when page size changes
-};
+  pageSize.value = size
+  currentPage.value = 1 // Reset to the first page when page size changes
+}
 
 const handleBack = () => {
-  console.log('Back button clicked');
+  console.log('Back button clicked')
   // Emit the back event to the parent component
-  emit('back');
-};
+  emit('back')
+}
 </script>
 
 
