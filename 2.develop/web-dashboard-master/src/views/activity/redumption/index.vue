@@ -70,7 +70,7 @@
         </a-table>
 
         <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-          <span style="margin-right: 8px;">共 {{totalItems}} 条</span>
+          <span style="margin-right: 8px;">共 {{totalItems}}条</span>
           <a-pagination
             v-model:current="currentPage"
             :total="totalItems"

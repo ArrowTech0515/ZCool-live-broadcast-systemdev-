@@ -45,6 +45,7 @@
               <a-menu-item key="21">权限管理</a-menu-item>
               <a-menu-item key="22">支付管理</a-menu-item>
               <a-menu-item key="23">策略管理</a-menu-item>
+              <a-menu-item key="24">⾸存管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -85,6 +86,7 @@
   import taskManagement from '@/views/task/main.vue';
   import livebroadcastManagement from '@/views/livebroadcast/main.vue';
   import strategyManagement from '@/views/strategy/main.vue';
+  import firstDepositManagement from '@/views/firstDeposit/main/index.vue';
   
   export default {
     name: 'NavigationMenu',
@@ -109,13 +111,17 @@
       activityManagement,
       taskManagement,
       livebroadcastManagement,
-      strategyManagement
+      strategyManagement,
+      firstDepositManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
+          case '24':
+            currentComponent.value = 'firstDepositManagement'
+            break
           case '23':
             currentComponent.value = 'strategyManagement'
             break
@@ -166,7 +172,7 @@
         }
       }
   
-      const currentComponent = ref('activityManagement') // Initial component
+      const currentComponent = ref('firstDepositManagement') // Initial component
   
       return {
         collapse_flag,

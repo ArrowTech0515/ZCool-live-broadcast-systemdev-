@@ -87,100 +87,96 @@ const centeredStyle = { textAlign: 'center' }
 
 const dataSource = ref([
   {
-    created_time: '2023-07-05 16:59:18',
-    order_number: '202307052009007',
-    merchant_name: '银商01',
-    bank_name: '东南银行',
-    bank_card_number: '2051****4976',
-    user_id: '400023497',
-    amount: '2,000.00',
-    order_status: '成功',
-    payee: '王一',
-    action: { edit: true }
+    orderNumber: '789456',
+    userId: 'j12345',
+    nickname: '大聖',
+    userAccount: 'user01',
+    rechargeType: '手動入款',
+    registrationTime: '2024-10-13 12:23:00',
+    creationTime: '2024-10-14 12:23:00',
   },
   {
-    created_time: '2023-07-04 16:59:18',
-    order_number: '202307052009007',
-    merchant_name: '银商02',
-    bank_name: '美丽银行',
-    bank_card_number: '4008****2634',
-    user_id: '400025791',
-    amount: '20,000.00',
-    order_status: '成功',
-    payee: '马二',
-    action: { edit: true }
-  }
+    orderNumber: '789457',
+    userId: 'k33223',
+    nickname: '胖虎',
+    userAccount: 'user02',
+    rechargeType: '轉帳匯款',
+    registrationTime: '2024-05-22 12:23:00',
+    creationTime: '2024-05-22 17:37:00',
+  },
+  {
+    orderNumber: '789458',
+    userId: 'polo323',
+    nickname: '福德正神',
+    userAccount: 'user03',
+    rechargeType: '轉帳匯款',
+    registrationTime: '2024-05-22 13:45:12',
+    creationTime: '2024-05-22 18:32:12',
+  },
+  {
+    orderNumber: '789443',
+    userId: 'greenflower',
+    nickname: '翠花',
+    userAccount: 'user04',
+    rechargeType: '轉帳匯款',
+    registrationTime: '2024-04-09 12:23:00',
+    creationTime: '2024-04-09 14:43:12',
+  },
+  {
+    orderNumber: '789412',
+    userId: 'greenflower',
+    nickname: '翠花',
+    userAccount: 'user04',
+    rechargeType: '轉帳匯款',
+    registrationTime: '2024-03-13 12:23:00',
+    creationTime: '2024-03-13 13:23:00',
+  },
 ]);
 
 const columns = [
   {
-    title: '创建时间',
-    dataIndex: 'created_time',
+    title: '首存订单单号',
+    dataIndex: 'orderNumber',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.created_time}</div>
-  },
-  {
-    title: '订单号',
-    dataIndex: 'order_number',
-    align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.order_number}</div>
-  },
-  {
-    title: '银商名称',
-    dataIndex: 'merchant_name',
-    align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.merchant_name}</div>
-  },
-  {
-    title: '银行名称',
-    dataIndex: 'bank_name',
-    align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.bank_name}</div>
-  },
-  {
-    title: '银行卡号',
-    dataIndex: 'bank_card_number',
-    align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.bank_card_number}</div>
+    customRender: ({ record }) => <div style={centeredStyle}>{record.orderNumber}</div>,
   },
   {
     title: '用户ID',
-    dataIndex: 'user_id',
+    dataIndex: 'userId',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.user_id}</div>
+    customRender: ({ record }) => <div style={centeredStyle}>{record.userId}</div>,
   },
   {
-    title: '金额',
-    dataIndex: 'amount',
+    title: '昵称',
+    dataIndex: 'nickname',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.amount}</div>
+    customRender: ({ record }) => <div style={centeredStyle}>{record.nickname}</div>,
   },
   {
-    title: '订单状态',
-    dataIndex: 'order_status',
+    title: '用户帳號',
+    dataIndex: 'userAccount',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.order_status}</div>
+    customRender: ({ record }) => <div style={centeredStyle}>{record.userAccount}</div>,
   },
   {
-    title: '出款人',
-    dataIndex: 'payee',
+    title: '充值類型',
+    dataIndex: 'rechargeType',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.payee}</div>
+    customRender: ({ record }) => <div style={centeredStyle}>{record.rechargeType}</div>,
   },
   {
-    title: '操作',
-    dataIndex: 'action',
+    title: '註冊時間',
+    dataIndex: 'registrationTime',
     align: 'center',
-    customRender: ({ record }) => (
-      <div style={centeredStyle}>
-        <span 
-          style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
-          onClick={() => emit('emit_editData', record)}>
-          编辑</span>
-      </div>
-    )
-  }
-];
+    customRender: ({ record }) => <div style={centeredStyle}>{record.registrationTime}</div>,
+  },
+  {
+    title: '創建時間',
+    dataIndex: 'creationTime',
+    align: 'center',
+    customRender: ({ record }) => <div style={centeredStyle}>{record.creationTime}</div>,
+  },
+]
 
 // 上架
 function onSaleStatus(option) {
