@@ -177,14 +177,14 @@ const columns = [
 
 async function exportCSV() {
   const formValue = ref({
-    first_deposit_order_number: null,
+    user_id: null,
     application_id: null,
   })
 
   const fApi = ref(null)
   const orderRule = useOrderRule(false, true, fApi)
 
-  console.log("editItem : fApi = " + fApi.value)
+  console.log("导出CSV : fApi = " + fApi.value)
   
   const formModalProps = reactive({
     request: data => anchorAddOrEditReq(null, data),
@@ -198,10 +198,10 @@ async function exportCSV() {
     rule: orderRule,
   })
 
-  console.log("first_deposit_order_number: " + formValue.first_deposit_order_number)
+  console.log("user_id: " + formValue.user_id)
 
   createDialog({
-    title: '導出列表',
+    title: '导出CSV',
     width: 600,
     component:
       <ModalForm
@@ -219,55 +219,7 @@ async function exportCSV() {
   })
 }
 
-// 添加主播，不可编辑
-async function editItem() {
-  const formValue = ref({
-    avatar_url: '',
-    nickname: '',
-    phone: '',
-    email: '',
-    guild_id: '',
-    ps_ratio: '',
-    hourly_rate: '',
-    hourly_rate_ulimit: '',
-    password: '',
-    merch_id: [],
-  })
-
-  const fApi = ref(null)
-  const anchorRule = useOrderRule(false, true, fApi)
-  const formModalProps = reactive({
-    request: data => anchorAddOrEditReq(null, data),
-    getData(data) {
-      const { avatar_url, ...rest } = data
-      return {
-        ...rest,
-        avatar_url: getPathFromUrlArray(avatar_url),
-      }
-    },
-    rule: anchorRule,
-  })
-
-  createDialog({
-    title: '导出CSV',
-    width: 500,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        v-model:fApi={fApi.value}
-        {...formModalProps}
-      >
-      </ModalForm>
-    ,
-    onConfirm() {
-      pagination.page = 1
-      pagination.total = 0
-      props.resetSearch()
-    },
-  })
-}
-
 defineExpose({
-  editItem, exportCSV
+  exportCSV
 })
 </script>

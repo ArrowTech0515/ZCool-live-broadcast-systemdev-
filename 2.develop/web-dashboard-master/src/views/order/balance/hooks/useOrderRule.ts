@@ -27,7 +27,6 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
       type: 'select',
       field: 'application_id',
       title: '导出应用',
-      value: '',
       options: [
       ],
       props: {

@@ -28,6 +28,7 @@ import ENUMS from '@/enums/common'
 import blockUserRule from '@/rules/blockUserRule'
 import MerchCell from '@/components/Business/MerchCell.jsx'
 import useOrderRule from '../hooks/useOrderRule'
+import useComplaintRule from '../hooks/useComplaintRule'
 import { getPathFromUrlArray } from '@/utils/index'
 
 
@@ -265,22 +266,22 @@ const columns = [
     dataIndex: 'refund_complaint',
     align: 'center',
     customRender: ({ record }) => 
-    <div style="color: #1890ff; text-decoration: underline; cursor: pointer;" onClick={() => onComplaintContent()}>{record.refund_complaint}</div>,
+    <div style="color: #1890ff; text-decoration: underline; cursor: pointer;" onClick={() => onComplaintContent(record)}>{record.refund_complaint}</div>,
   },
   {
     title: '操作',
     dataIndex: 'action',
     align: 'center',
     customRender: ({ record }) => 
-    <div style="color: #1890ff; text-decoration: underline; cursor: pointer;" onClick={() => onRefund()}>{record.action}</div>,
+    <div style="color: #1890ff; text-decoration: underline; cursor: pointer;" onClick={() => onRefund(record)}>{record.action}</div>,
   }
 ]
 
 
 async function exportCSV() {
   const formValue = ref({
-    first_deposit_order_number: null,
-    application_id: null,
+    user_id: null,
+    nick_name: null,
   })
 
   const fApi = ref(null)
@@ -300,10 +301,10 @@ async function exportCSV() {
     rule: orderRule,
   })
 
-  console.log("first_deposit_order_number: " + formValue.first_deposit_order_number)
+  console.log("user_id: " + formValue.user_id)
 
   createDialog({
-    title: '導出列表',
+    title: '导出CSV',
     width: 600,
     component:
       <ModalForm
@@ -321,11 +322,52 @@ async function exportCSV() {
   })
 }
 
-const onComplaintContent = () => {
+async function onComplaintContent(record) {
   console.log("onComplaintContent : ")
+  const formValue = ref({
+    user_id: record.user_id,
+    user_nickname: record.user_nickname,
+  })
+
+  const fApi = ref(null)
+  const complaintRule = useComplaintRule(record, fApi)
+
+  console.log("editItem : fApi = " + fApi.value)
+  
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
+    },
+    rule: complaintRule,
+  })
+
+  console.log("user_id: " + formValue.user_id)
+
+  createDialog({
+    title: '投诉内容',
+    width: 600,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
 }
 
-const onRefund = () => {
+async function onRefund() {
   console.log("onRefund : ")
 }
 
