@@ -14,11 +14,11 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
       type: 'select',
       field: 'merchant_id',
       title: '导出对象',
-      value: '',
+
       options: [],
       props: {
-        // placeholder: '所有商户',
-         allowClear:false
+        placeholder: '所有商户',
+        allowClear:false
       },
     },
     {
@@ -84,7 +84,6 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
       type: 'select',
       field: 'guild_name',
       title: '工会名称',
-      value: '请选择工会',
       options: [],  // Populated dynamically
       props: {
         placeholder: '请选择工会',
@@ -95,7 +94,6 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
       type: 'select',
       field: 'export_type',
       title: '导出类型',
-      value: '请选择导出类型',
       options: [],
       props: {
         placeholder: '请选择导出类型',
@@ -110,27 +108,35 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
         { label: '全部时间', value: 'allTime' },
         { label: '自定义时间', value: 'customTime' }
       ],
-      // on: {
-      //   change: (val) => {
-      //     if (val === 'customTime') {
-      //       fApi.value.show('join_time');
-      //     } else {
-      //       fApi.value.hide('join_time');
-      //     }
-      //   },
-      // },
+      on: {
+        change: (val) => {
+
+          const selectedValue = val.value || val
+
+          console.log("Selected value (after accessing):", selectedValue)
+          console.log("selectedValue.target.value : ", selectedValue.target.value)
+
+          // Show the field depending on the selected radio option
+          if (selectedValue.target.value === 'customTime')
+            fApi.value.hidden(false, 'join_time')
+          else{
+            fApi.value.hidden(true, 'join_time')
+            console.log("value3 : " + selectedValue)
+          }
+        },
+      },
     },
     {
       type: 'rangePicker',
       field: 'join_time',
-      title: '',
+      title: '自定义时间',
       value: '',
       props: {
         format: 'YYYY-MM-DD',
         valueFormat: 'X',
         placeholder: ['开始日期', '结束日期'],
       },
-      hidden: false, // Hidden by default
+      hidden: true, // Initially hidden
     }
   ]
 }

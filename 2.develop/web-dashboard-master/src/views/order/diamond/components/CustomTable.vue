@@ -27,7 +27,7 @@ import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/a
 import ENUMS from '@/enums/common'
 import blockUserRule from '@/rules/blockUserRule'
 import MerchCell from '@/components/Business/MerchCell.jsx'
-import useAnchorRule from '../hooks/useOrderRule'
+import useOrderRule from '../hooks/useOrderRule'
 import { getPathFromUrlArray } from '@/utils/index'
 
 
@@ -276,6 +276,51 @@ const columns = [
   }
 ]
 
+
+async function exportCSV() {
+  const formValue = ref({
+    first_deposit_order_number: null,
+    application_id: null,
+  })
+
+  const fApi = ref(null)
+  const orderRule = useOrderRule(false, true, fApi)
+
+  console.log("editItem : fApi = " + fApi.value)
+  
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
+    },
+    rule: orderRule,
+  })
+
+  console.log("first_deposit_order_number: " + formValue.first_deposit_order_number)
+
+  createDialog({
+    title: '導出列表',
+    width: 600,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
+}
+
 const onComplaintContent = () => {
   console.log("onComplaintContent : ")
 }
@@ -283,6 +328,11 @@ const onComplaintContent = () => {
 const onRefund = () => {
   console.log("onRefund : ")
 }
+
+
+defineExpose({
+  exportCSV
+})
 
 </script>
 

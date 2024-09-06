@@ -18,10 +18,10 @@
               class="ml10 mb10"
               @click="resetForm"
             ><ReloadOutlined/>重置</AButton>
-            <div class="flex1 ml100 mb10 flex_end">
+            <div class="flex1 ml120 mb10 flex_end">
               <AButton
                 type="primary"
-                @click="emit('exportCSV')"
+                @click="emit('export_csv')"
               >导出CSV</AButton>
             </div>
           </section>
@@ -43,7 +43,7 @@ const data = reactive({
   join_time: [],
 })
 
-const emit = defineEmits(['search', 'exportCSV'])
+const emit = defineEmits(['search', 'export_csv'])
 const fApi = ref({})
 const option = {
   resetBtn: false,

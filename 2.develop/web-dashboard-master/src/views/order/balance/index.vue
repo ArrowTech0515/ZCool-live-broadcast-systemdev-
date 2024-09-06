@@ -3,7 +3,7 @@
     <FormSearch
       ref="formSearchRef"
       v-model="searchParams"
-      @addItem="() => customTableRef.editItem()"
+      @export_csv="() => customTableRef.exportCSV()"
     />
     <CustomTable
       ref="customTableRef"

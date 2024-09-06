@@ -28,7 +28,7 @@
               <AButton
                 class="mb15"
                 type="primary"
-                @click="emit('exportCSV')"
+                @click="emit('export_csv')"
               >导出CSV</AButton>
             </div>
           </section>
@@ -49,7 +49,7 @@ const data = reactive({
   join_time: [],
 })
 
-const emit = defineEmits(['exportCSV', 'search'])
+const emit = defineEmits(['export_csv', 'search'])
 const fApi = ref({})
 const option = {
   resetBtn: false,

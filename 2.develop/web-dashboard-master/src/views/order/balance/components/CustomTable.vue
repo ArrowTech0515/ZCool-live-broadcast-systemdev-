@@ -2,19 +2,24 @@
   <a-table
     rowKey="anchor_id"
     :pagination="false"
-    :scroll="{ x: 1200, y: 800 }"
-    :dataSource
+    :dataSource="paginatedData"
     :columns="columns"
     :loading="loading"
   />
-  <a-pagination
-    class="mt15"
-    hideOnSinglePage
-    v-model:current="pagination.page"
-    v-model:pageSize="pagination.limit"
-    size="small"
-    :total="pagination.total"
-  />
+  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+    <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
+    <a-pagination
+      v-model:current="pagination.page"
+      :total="pagination.total"
+      :page-size="pagination.limit"
+      show-size-changer
+      :page-size-options="['5', '10', '20', '50', '100']"
+      :simple="false"
+      size="small"
+      @change="handlePageChange"
+      @show-size-change="handleSizeChange"
+    />
+  </div>
 </template>
 
 <script setup lang="jsx">
@@ -22,7 +27,7 @@ import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/a
 import ENUMS from '@/enums/common'
 import blockUserRule from '@/rules/blockUserRule'
 import MerchCell from '@/components/Business/MerchCell.jsx'
-import useAnchorRule from '../hooks/useOrderRule'
+import useOrderRule from '../hooks/useOrderRule'
 import { getPathFromUrlArray } from '@/utils/index'
 
 const props = defineProps({
@@ -39,9 +44,41 @@ const props = defineProps({
 const router = useRouter()
 const pagination = reactive({
   page: 1,
-  limit: 10,
-  total: 0,
+  limit: 5,
+  total: 100,
 })
+
+const paginatedData = computed(() => {
+  const start = (pagination.page - 1) * pagination.limit
+  const end = start + pagination.limit
+  return dataSource.value.slice(start, end)
+})
+
+const handlePageChange = (page) =>  {
+  pagination.page = page
+}
+
+const handleSizeChange = (current, size) => {
+  pagination.limit = size
+  pagination.page = 1 // Reset to the first page when page size changes
+}
+
+const { loading, refresh } = useRequest(() => getAnchorListReq({
+  ...props.searchParams,
+  page: pagination.page,
+  limit: pagination.limit,
+}), {
+  refreshDeps: true,
+  onSuccess(data) {
+    dataSource.value = data.items
+    pagination.total = data.total_data
+  },
+})
+
+const { createDialog } = useDialog()
+
+const { customRender } = MerchCell(loading)
+
 const dataSource = ref([
 {
     anchor_id: '1',
@@ -77,22 +114,8 @@ const dataSource = ref([
     rr_weight: '2024-09-03 14:00',
   }
 ])
-const { loading, refresh } = useRequest(() => getAnchorListReq({
-  ...props.searchParams,
-  page: pagination.page,
-  limit: pagination.limit,
-}), {
-  refreshDeps: true,
-  onSuccess(data) {
-    dataSource.value = data.items
-    pagination.total = data.total_data
-  },
-})
-const { createDialog } = useDialog()
 
-const { customRender } = MerchCell(loading)
-
-const centeredStyle = { textAlign: 'center' };
+const centeredStyle = { textAlign: 'center' }
 
 const columns = [
   {
@@ -151,52 +174,47 @@ const columns = [
   }
 ]
 
-// 拉黑
-function blockUser(userItem) {
+
+async function exportCSV() {
   const formValue = ref({
-    anchor_id: userItem.anchor_id,
-    block_type: '',
-    ageing_type: '',
-    end_time: '',
-    reason: '',
+    first_deposit_order_number: null,
+    application_id: null,
   })
 
-  const formModalProps = {
-    request: setAnchorBlackReq,
+  const fApi = ref(null)
+  const orderRule = useOrderRule(false, true, fApi)
+
+  console.log("editItem : fApi = " + fApi.value)
+  
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
     getData(data) {
-      const { anchor_id, ...params } = data
+      const { avatar_url, ...rest } = data
       return {
-        ...params,
-        anchor_ids: [anchor_id],
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
       }
     },
+    rule: orderRule,
+  })
 
-    rule: [
-      {
-        type: 'input',
-        field: 'anchor_id',
-        value: userItem.anchor_id,
-        hidden: true,
-      },
-      ...blockUserRule,
-    ],
-  }
+  console.log("first_deposit_order_number: " + formValue.first_deposit_order_number)
 
   createDialog({
-    title: '拉黑',
-    width: 500,
+    title: '導出列表',
+    width: 600,
     component:
       <ModalForm
         v-model={formValue.value}
+        v-model:fApi={fApi.value}
         {...formModalProps}
-      />,
-    onConfirm(status) {
-      if (status) {
-        const current = dataSource.value.find(item => item.anchor_id === userItem.anchor_id)
-        if (current) {
-          current.acct_status = 2
-        }
-      }
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
     },
   })
 }
@@ -217,7 +235,7 @@ async function editItem() {
   })
 
   const fApi = ref(null)
-  const anchorRule = useAnchorRule(false, true, fApi)
+  const anchorRule = useOrderRule(false, true, fApi)
   const formModalProps = reactive({
     request: data => anchorAddOrEditReq(null, data),
     getData(data) {
@@ -250,6 +268,6 @@ async function editItem() {
 }
 
 defineExpose({
-  editItem,
+  editItem, exportCSV
 })
 </script>
