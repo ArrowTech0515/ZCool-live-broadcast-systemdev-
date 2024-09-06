@@ -367,8 +367,56 @@ async function onComplaintContent(record) {
   })
 }
 
-async function onRefund() {
+async function onRefund(record) {
   console.log("onRefund : ")
+  const formValue = ref({
+    user_id: record.user_id,
+    user_nickname: record.user_nickname,
+  })
+
+  const fApi = ref(null)
+  const complaintRule = useComplaintRule(fApi)
+
+  console.log("editItem : fApi = " + fApi.value)
+  
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
+    },
+    rule: complaintRule,
+  })
+
+  console.log("user_id: " + formValue.user_id)
+
+  createDialog({
+    title: '退款',
+    width: 500,
+    component:
+      <ModalForm
+          v-model={formValue.value}
+          v-model:fApi={fApi.value}
+        >
+        <div style="text-align: center;">
+          <a-form-item>
+            <span style="font-weight: bold;">是否退回当前订单钻石至用户?</span>
+          </a-form-item>
+          <a-form-item>
+            <span style="color: red; font-size: 12px;">仅可退回工会、主播、商户收益的分成钻石</span>
+          </a-form-item>
+        </div>
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
 }
 
 
