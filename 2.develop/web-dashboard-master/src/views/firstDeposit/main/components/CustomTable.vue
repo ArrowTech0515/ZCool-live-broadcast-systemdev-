@@ -25,12 +25,10 @@
 
 <script setup lang="jsx">
 import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/anchor'
-import ENUMS from '@/enums/common'
-import blockUserRule from '@/rules/blockUserRule'
 import MerchCell from '@/components/Business/MerchCell.jsx'
-import useAnchorRule from '../hooks/useOrderRule'
 import { getPathFromUrlArray } from '@/utils/index'
-import { message } from 'ant-design-vue';
+import { message } from 'ant-design-vue'
+import useFirstDepositRule from '../hooks/useFirstDepositRule'
 
 const emit = defineEmits(['emit_editData'])
 
@@ -178,54 +176,50 @@ const columns = [
   },
 ]
 
-// 上架
-function onSaleStatus(option) {
 
-  if(option === '上架') {
-    createDialog({
-      title: '上架',
-      width: 400,
-      component:
-      <div style="padding: 20px; text-align: center;">
-              是否上架当前赛事直播？
-            </div>,
-      onConfirm(status) {
-        this.$emit('confirm')
-          
-          message.success({
-            content: `上架成功`,
-            duration: 2, // Duration in seconds
-          })
-      },
-      onReject() {
-        // Logic to handle reject action
-        this.$emit('reject')
-      },
-    })
-  }
-  else {
-    createDialog({
-      title: '下架',
-      width: 400,
-      component:
-        <div style="padding: 20px; text-align: center;">
-          是否下架当前赛事主播？
-        </div>,
-      onConfirm(status) {
+async function exportList() {
+  const formValue = ref({
+    first_deposit_order_number: null,
+    application_id: null,
+  })
 
-        this.$emit('confirm')
-        
-        message.success({
-          content: `下架成功`,
-          duration: 2, // Duration in seconds
-        })
-      },
-      onReject() {
-        // Logic to handle reject action
-        this.$emit('reject')
-      },
-    })
-  }
+  const fApi = ref(null)
+  const firstDepositRule = useFirstDepositRule(false, true, fApi)
+
+  console.log("editItem : fApi = " + fApi.value)
+
+  
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
+    },
+    rule: firstDepositRule,
+  })
+
+  console.log("first_deposit_order_number: " + formValue.first_deposit_order_number)
+
+  createDialog({
+    title: '導出列表',
+    width: 600,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
 }
 
 // 添加主播，不可编辑
@@ -277,6 +271,6 @@ async function editItem() {
 }
 
 defineExpose({
-  editItem,
+  editItem, exportList
 })
 </script>

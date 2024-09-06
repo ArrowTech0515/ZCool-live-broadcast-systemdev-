@@ -4,6 +4,7 @@
       ref="formSearchRef"
       v-model="searchParams"
       @addItem="() => customTableRef.editItem()"
+      @emit_export_list="() => customTableRef.exportList()"
     />
     <CustomTable
       ref="customTableRef"

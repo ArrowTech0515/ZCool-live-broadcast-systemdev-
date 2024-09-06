@@ -21,7 +21,7 @@
             <div class="flex1 flex_end">
               <AButton
                 type="primary"
-                @click="emit('emit_export')"
+                @click="emit('emit_export_list')"
               >導出列表</AButton>
             </div>
           </section>
@@ -43,7 +43,7 @@ const data = reactive({
   order_status: null, // This will trigger the placeholder in the select field
 })
 
-const emit = defineEmits([])
+const emit = defineEmits(['emit_export_list'])
 const fApi = ref({})
 const option = {
   resetBtn: false,
@@ -113,21 +113,9 @@ const rule = ref([
   {
     type: 'select',
     field: 'recharge_type',
-    title: '充值类型',
-    props: {
-      placeholder: '请选择充值类型', // Add placeholder
-    },
-    effect: {
-      fetch: {
-        action: '/api/v1/source/recharge_type',
-        to: 'options',
-        method: 'get',
-        parse: res => [
-          { value: 0, label: '所有来源' },
-          ...res.items.map(item => ({ value: item.source_id, label: item.source_name })),
-        ],
-      },
-    },
+    title: '充值類型',
+    value: ENUM.recharge_type[1],
+    options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
   },
   { type: 'btns' },
 ])
