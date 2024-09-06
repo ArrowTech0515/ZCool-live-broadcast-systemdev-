@@ -42,7 +42,41 @@ const pagination = reactive({
   limit: 10,
   total: 0,
 })
-const dataSource = ref([])
+const dataSource = ref([
+{
+    anchor_id: '1',
+    source_name: '商户1',
+    nickname: '应用1',
+    room_id: '订单号1',
+    phone: '用户昵称1',
+    email: '用户ID1',
+    sr_weight: '兑换比例1',
+    fr_weight: '兑换余额1',
+    rr_weight: '2024-09-01 12:00',
+  },
+  {
+    anchor_id: '2',
+    source_name: '商户2',
+    nickname: '应用2',
+    room_id: '订单号2',
+    phone: '用户昵称2',
+    email: '用户ID2',
+    sr_weight: '兑换比例2',
+    fr_weight: '兑换余额2',
+    rr_weight: '2024-09-02 13:00',
+  },
+  {
+    anchor_id: '3',
+    source_name: '商户3',
+    nickname: '应用3',
+    room_id: '订单号3',
+    phone: '用户昵称3',
+    email: '用户ID3',
+    sr_weight: '兑换比例3',
+    fr_weight: '兑换余额3',
+    rr_weight: '2024-09-03 14:00',
+  }
+])
 const { loading, refresh } = useRequest(() => getAnchorListReq({
   ...props.searchParams,
   page: pagination.page,
@@ -58,43 +92,62 @@ const { createDialog } = useDialog()
 
 const { customRender } = MerchCell(loading)
 
+const centeredStyle = { textAlign: 'center' };
+
 const columns = [
-  customRender,
   {
     title: '所属商户',
     dataIndex: 'source_name',
+    align: 'center',  // This aligns the content centrally
+    customRender: ({ record }) => <div style={centeredStyle}>{record.source_name}</div>,
   },
   {
     title: '所属应用',
     dataIndex: 'nickname',
+    align: 'center',
+    customRender: ({ record }) => <div style={centeredStyle}>{record.nickname}</div>,
   },
   {
     title: '订单号',
     dataIndex: 'nickname',
+    align: 'center',
+    customRender: ({ record }) => <div style={centeredStyle}>{record.nickname}</div>,
   },
   {
     title: '用户昵称',
     dataIndex: 'room_id',
+    align: 'center',
+    customRender: ({ record }) => <div style={centeredStyle}>{record.room_id}</div>,
   },
   {
     title: '用户ID',
     dataIndex: 'phone',
+    align: 'center',
+    customRender: ({ record }) => <div style={centeredStyle}>{record.phone}</div>,
   },
   {
     title: '兑换比例',
     dataIndex: 'email',
+    align: 'center',
+    customRender: ({ record }) => <div style={centeredStyle}>{record.email}</div>,
   },
   {
     title: '兑换余额',
     dataIndex: 'sr_weight',
+    align: 'center',
+    customRender: ({ record }) => <div style={centeredStyle}>{record.sr_weight}</div>,
   },
   {
     title: '兑换钻石',
     dataIndex: 'fr_weight',
+    align: 'center',
+    customRender: ({ record }) => <div style={centeredStyle}>{record.fr_weight}</div>,
   },
   {
     title: '时间',
     dataIndex: 'rr_weight',
+    align: 'center',
+    customRender: ({ record }) => <div style={centeredStyle}>{record.rr_weight}</div>,
   }
 ]
 

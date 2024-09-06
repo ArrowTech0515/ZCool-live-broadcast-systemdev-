@@ -172,7 +172,7 @@
         }
       }
   
-      const currentComponent = ref('firstDepositManagement') // Initial component
+      const currentComponent = ref('orderManagement') // Initial component
   
       return {
         collapse_flag,

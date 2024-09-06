@@ -8,17 +8,25 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb15" style="width: 100%;">
-            <AButton
-              @click="submitForm"
-              type="primary"
-            >查询</AButton>
-            <AButton
-              class="ml10"
-              @click="resetForm"
-            >重置</AButton>
-            <div class="flex1 flex_end">
+          <!-- Main flex container with full width -->
+          <section class="flex mb15" style="display: flex; justify-content: space-between; align-items: center;">
+            <!-- Left-aligned buttons -->
+            <div>
               <AButton
+                class="ml20 mb15"
+                @click="submitForm"
+                type="primary"
+              ><SearchOutlined/>查询</AButton>
+              <AButton
+                class="ml10 mb15"
+                @click="resetForm"
+              ><ReloadOutlined/>重置</AButton>
+            </div>
+
+            <!-- Right-aligned button (with margin-left: auto) -->
+            <div style="margin-left: 550px;">
+              <AButton
+                class="mb15"
                 type="primary"
                 @click="emit('exportCSV')"
               >导出CSV</AButton>
@@ -59,29 +67,14 @@ const option = {
 }
 
 const rule = ref([
-  // {
-  //   type: 'select',
-  //   field: 'source_id',
-  //   title: '来源',
-  //   value: '',
-  //   options: [],
-  //   effect: {
-  //     fetch: {
-  //       action: '/api/v1/source/summary',
-  //       to: 'options',
-  //       method: 'get',
-  //       parse: res => [
-  //         { value: 0, label: '所有来源' },
-  //         ...res.items.map(item => ({ value: item.source_id, label: item.source_name })),
-  //       ],
-  //     },
-  //   },
-  // },
   {
     type: 'input',
     field: 'acct',
     title: '商户/用户名称',
     value: '',
+    props: {
+      placeholder: '请输入名称',
+    },
     wrap: {
       labelCol: { span: 10 },
     },
@@ -91,12 +84,18 @@ const rule = ref([
     field: 'nickname',
     title: '订单号',
     value: '',
+    props: {
+      placeholder: '请输入订单号',
+    },
   },
   {
     type: 'input',
     field: 'nickname',
     title: 'ID搜索',
     value: '',
+    props: {
+      placeholder: '请输入ID',
+    },
   },
   {
     type: 'rangePicker',
@@ -106,6 +105,7 @@ const rule = ref([
     props: {
       format: 'YYYY-MM-DD',
       valueFormat: 'X',
+      placeholder: ['开始日期', '结束日期'], // Placeholder for the rangePicker
     },
   },
   {
@@ -113,14 +113,29 @@ const rule = ref([
     field: 'live_status',
     title: '所有商户',
     value: '',
-    options: Object.keys(ENUM.guild_status).map(key => ({ value: parseInt(key), label: ENUM.guild_status[key] })),
+    props: {
+      placeholder: '请选择商户状态',
+    },
+    options: Object.keys(ENUM.guild_status).map(key => ({
+      value: parseInt(key),
+      label: ENUM.guild_status[key]
+    })),
+    wrap: {
+      labelCol: { span: 10 },
+    },
   },
   {
     type: 'select',
     field: 'acct_status',
     title: '所有应用',
     value: '',
-    options: Object.keys(ENUM.anchor_acct_status).map(key => ({ value: parseInt(key), label: ENUM.anchor_acct_status[key] })),
+    props: {
+      placeholder: '请选择应用状态',
+    },
+    options: Object.keys(ENUM.anchor_acct_status).map(key => ({
+      value: parseInt(key),
+      label: ENUM.anchor_acct_status[key]
+    })),
   },
   { type: 'btns' },
 ])
@@ -147,4 +162,3 @@ defineExpose({
   resetForm,
 })
 </script>
-

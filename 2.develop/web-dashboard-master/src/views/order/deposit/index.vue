@@ -44,9 +44,10 @@
       <a-col :span="8">
         <a-input v-model:value="form.account" :placeholder="form.placeholders.account" style="text-align: center;" />
       </a-col>
-      <a-col style="width: 100px;">
-        <a-button type="primary" @click="handleQuery"><SearchOutlined/>查询</a-button>
-      </a-col>
+      <a-row>
+        <a-button style="margin-left: 9px;" type="primary" @click="handleQuery"><SearchOutlined/>查询</a-button>
+        <a-button style="margin-left: 16px;" type="default" @click="handleReset"><ReloadOutlined/>重置</a-button>
+      </a-row>
     </a-row>
 
     <!-- Third row with 用户ID and button -->
@@ -58,7 +59,10 @@
         <a-input v-model:value="form.user_id" :placeholder="form.placeholders.user_id" style="text-align: center;" />
       </a-col>
       <a-col :span="4">
-        <a-button type="primary" @click="handleVerify"><CheckCircleFilled/>验证</a-button>
+        <a-button 
+          type="primary" @click="handleVerify"
+          style="background-color: green;"
+          ><CheckCircleFilled/>验证</a-button>
       </a-col>
     </a-row>
 
@@ -187,6 +191,7 @@
 </template>
 
 <script setup>
+import { RestOutlined } from '@ant-design/icons-vue';
 import { reactive } from 'vue'
 
 // Initialize the form and data dynamically
@@ -269,6 +274,12 @@ const handleQuery = () => {
   console.log('Query account:', form.account)
 }
 
+const handleReset = () => {
+  console.log('Query account:', form.account)
+
+  form.account = ''
+  form.user_id = ''
+}
 const handleVerify = () => {
   console.log('Verify UserID:', form.user_id)
 }
