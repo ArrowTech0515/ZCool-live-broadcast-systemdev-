@@ -3,7 +3,7 @@
   <!-- Inline Layout with Texts, Select, and Buttons -->
     <a-row align="middle" style="margin-bottom: 16px;">
       <!-- Centered Text elements and Select -->
-      <a-col style="flex: 1; display: flex; justify-content: space-around; align-items: center;">
+      <a-col style="flex: auto; display: flex; justify-content: space-around; align-items: center;">
         <a-col style="text-align: center;">
           <span>成功金额: 514469</span>
         </a-col>
@@ -27,10 +27,10 @@
       </a-col>
 
       <!-- Buttons on the right -->
-      <a-col style="flex: none; text-align: right;">
-        <a-button type="primary" style="margin-right: 8px;">导出失败数据</a-button>
-        <a-button type="primary" style="margin-right: 8px;">导出付款方式</a-button>
-        <a-button>免验证设置</a-button>
+      <a-col style="flex: auto; text-align: right;">
+        <a-button :flex="1" type="primary" style="margin-right: 8px;">导出失败数据</a-button>
+        <a-button :flex="1" type="primary" style="margin-right: 8px;">导出付款方式</a-button>
+        <a-button :flex="1">免验证设置</a-button>
       </a-col>
     </a-row>
     <!-- Your existing layout and table setup -->

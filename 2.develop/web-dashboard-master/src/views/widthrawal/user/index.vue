@@ -60,7 +60,7 @@
             </a-form-item>
         </a-col>
       
-        <a-col :flex="auto" >
+        <a-col :span="2" >
             <a-form-item>
               <a-button type="primary" block @click="exportCSV">导出CSV</a-button>
             </a-form-item>

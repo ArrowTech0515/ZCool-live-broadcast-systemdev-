@@ -24,7 +24,7 @@
             </div>
 
             <!-- Right-aligned button (with margin-left: auto) -->
-            <div style="margin-left: 550px;">
+            <div style="margin-left: 10px;">
               <AButton
                 class="mb15"
                 type="primary"
