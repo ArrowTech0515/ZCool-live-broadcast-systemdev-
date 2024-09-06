@@ -30,7 +30,7 @@ import rechargePage from './recharge/index.vue';
 import redumptionPage from './redumption/index.vue'; // junn
 import goodNumberPage from './goodNumber/index.vue'; // junn
 import signinPage from './signin/index.vue'; // junn
-import giftGiving from './giftgiving/index.vue'; // junn
+import giftGiving from './giftGiving/index.vue'; // junn
 import wheelPage from './wheel/main.vue'; // junn
 
 export default {

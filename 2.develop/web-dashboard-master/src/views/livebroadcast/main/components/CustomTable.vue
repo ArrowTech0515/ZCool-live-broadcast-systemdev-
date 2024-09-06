@@ -30,7 +30,7 @@ import { ref, computed } from 'vue';
 import dayjs from 'dayjs'
 import { getUserGroupListReq } from '@/api/usergroup';
 import userGroupSelectRule from '@/rules/userGroupSelectRule';
-import LivebroadcastPanel from './livebroadcastPanel.vue';
+import LivebroadcastPanel from './LiveBroadcastPanel.vue';
 import { Menu, Dropdown } from 'ant-design-vue';
 import OperationRecordForm from './operationRecordForm.vue';
 
