@@ -2,19 +2,24 @@
   <a-table
     rowKey="anchor_id"
     :pagination="false"
-    :scroll="{ x: 1200, y: 800 }"
-    :dataSource
+    :dataSource="paginatedData"
     :columns="columns"
     :loading="loading"
   />
-  <a-pagination
-    class="mt15"
-    hideOnSinglePage
-    v-model:current="pagination.page"
-    v-model:pageSize="pagination.limit"
-    size="small"
-    :total="pagination.total"
-  />
+  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+    <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
+    <a-pagination
+      v-model:current="pagination.page"
+      :total="pagination.total"
+      :page-size="pagination.limit"
+      show-size-changer
+      :page-size-options="['5', '10', '20', '50', '100']"
+      :simple="false"
+      size="small"
+      @change="handlePageChange"
+      @show-size-change="handleSizeChange"
+    />
+  </div>
 </template>
 
 <script setup lang="jsx">
@@ -24,6 +29,7 @@ import blockUserRule from '@/rules/blockUserRule'
 import MerchCell from '@/components/Business/MerchCell.jsx'
 import useAnchorRule from '../hooks/useOrderRule'
 import { getPathFromUrlArray } from '@/utils/index'
+
 
 const props = defineProps({
   searchParams: {
@@ -39,10 +45,25 @@ const props = defineProps({
 const router = useRouter()
 const pagination = reactive({
   page: 1,
-  limit: 10,
-  total: 0,
+  limit: 5,
+  total: 100,
 })
-const dataSource = ref([])
+
+const paginatedData = computed(() => {
+  const start = (pagination.page - 1) * pagination.limit
+  const end = start + pagination.limit
+  return dataSource.value.slice(start, end)
+})
+
+const handlePageChange = (page) =>  {
+  pagination.page = page
+}
+
+const handleSizeChange = (current, size) => {
+  pagination.limit = size
+  pagination.page = 1 // Reset to the first page when page size changes
+}
+
 const { loading, refresh } = useRequest(() => getAnchorListReq({
   ...props.searchParams,
   page: pagination.page,
@@ -54,170 +75,220 @@ const { loading, refresh } = useRequest(() => getAnchorListReq({
     pagination.total = data.total_data
   },
 })
+
 const { createDialog } = useDialog()
 
 const { customRender } = MerchCell(loading)
 
-const columns = [
-  customRender,
+const dataSource = ref([
   {
-    title: '所属商户',
-    dataIndex: 'source_name',
+    app: '应用名称',
+    order_id: 'LW23942994',
+    user_nickname: '张斌',
+    user_id: '21312',
+    expense_type: '赠送礼物',
+    gifted_anchor: '桃之夭夭',
+    room_number: '342423',
+    description: '礼物：XXX (1个)',
+    expense_diamonds: '34223',
+    expense_time: '2022-03-03 12:22:32',
+    refund_complaint: '投诉内容',
+    action: '退款'
   },
   {
+    app: '哈哈哈直播',
+    order_id: 'FJ423424',
+    user_nickname: '李四',
+    user_id: '434322',
+    expense_type: '直播翻译',
+    gifted_anchor: '桃之夭夭',
+    room_number: '4324234',
+    description: '文字翻译 (本场直播)',
+    expense_diamonds: '4324',
+    expense_time: '2022-03-03 12:22:32',
+    refund_complaint: '',
+    action: '退款'
+  },
+  {
+    app: '站酷直播',
+    order_id: 'GZ4343242',
+    user_nickname: '王五',
+    user_id: '43242',
+    expense_type: '开通贵族',
+    gifted_anchor: '',
+    room_number: '',
+    description: '购买：XX贵族 (1个月)',
+    expense_diamonds: '4324',
+    expense_time: '2022-03-03 12:22:32',
+    refund_complaint: '',
+    action: '退款'
+  },
+  {
+    app: '站酷直播',
+    order_id: 'GZ4343242',
+    user_nickname: '王五',
+    user_id: '43242',
+    expense_type: '购买坐骑',
+    gifted_anchor: '桃之夭夭',
+    room_number: '342423',
+    description: '购买：XXX坐骑 (3个月)',
+    expense_diamonds: '4324',
+    expense_time: '2022-03-03 12:22:32',
+    refund_complaint: '',
+    action: '退款'
+  },
+  {
+    app: '站酷直播',
+    order_id: 'GZ4343242',
+    user_nickname: '王五',
+    user_id: '43242',
+    expense_type: '购买靓号',
+    gifted_anchor: '',
+    room_number: '',
+    description: '购买：XXXXX靓号 (1个月)',
+    expense_diamonds: '4324',
+    expense_time: '2022-03-03 12:22:32',
+    refund_complaint: '',
+    action: '退款'
+  },
+  {
+    app: '站酷直播',
+    order_id: 'GZ4343242',
+    user_nickname: '王五',
+    user_id: '43242',
+    expense_type: '粉丝团',
+    gifted_anchor: '',
+    room_number: '',
+    description: '开通初爱粉',
+    expense_diamonds: '4324',
+    expense_time: '2022-03-03 12:22:32',
+    refund_complaint: '',
+    action: '退款'
+  },
+  {
+    app: '站酷直播',
+    order_id: 'GZ4343242',
+    user_nickname: '王五',
+    user_id: '43242',
+    expense_type: '粉丝团',
+    gifted_anchor: '桃之夭夭',
+    room_number: '342423',
+    description: '升级超级粉',
+    expense_diamonds: '4324',
+    expense_time: '2022-03-03 12:22:32',
+    refund_complaint: '',
+    action: '退款'
+  },
+  {
+    app: '站酷直播',
+    order_id: 'GZ4343242',
+    user_nickname: '王五',
+    user_id: '43242',
+    expense_type: '付费弹幕',
+    gifted_anchor: '桃之夭夭',
+    room_number: '342423',
+    description: '购买：付费弹幕',
+    expense_diamonds: '4324',
+    expense_time: '2022-03-03 12:22:32',
+    refund_complaint: '',
+    action: '退款'
+  },
+  {
+    app: '站酷直播',
+    order_id: 'GZ4343242',
+    user_nickname: '王五',
+    user_id: '43242',
+    expense_type: '游戏消费',
+    gifted_anchor: '桃之夭夭',
+    room_number: '342423',
+    description: '斗地主消费',
+    expense_diamonds: '4324',
+    expense_time: '2022-03-03 12:22:32',
+    refund_complaint: '',
+    action: '退款'
+  }
+])
+
+const columns = [
+  {
     title: '所属应用',
-    dataIndex: 'nickname',
+    dataIndex: 'app',
+    align: 'center'
   },
   {
     title: '订单号',
-    dataIndex: 'nickname',
+    dataIndex: 'order_id',
+    align: 'center'
   },
   {
     title: '用户昵称',
-    dataIndex: 'room_id',
+    dataIndex: 'user_nickname',
+    align: 'center'
   },
   {
     title: '用户ID',
-    dataIndex: 'phone',
-  },
-  {
-    title: '赠送主播',
-    dataIndex: 'email',
-  },
-  {
-    title: '房间号',
-    dataIndex: 'email',
-  },
-  {
-    title: '主播ID',
-    dataIndex: 'sr_weight',
-  },
-  {
-    title: '所属工会',
-    dataIndex: 'fr_weight',
+    dataIndex: 'user_id',
+    align: 'center'
   },
   {
     title: '消费类型',
-    dataIndex: 'sr_weight',
+    dataIndex: 'expense_type',
+    align: 'center'
+  },
+  {
+    title: '赠送主播',
+    dataIndex: 'gifted_anchor',
+    align: 'center'
+  },
+  {
+    title: '房间号',
+    dataIndex: 'room_number',
+    align: 'center'
+  },
+  {
+    title: '说明',
+    dataIndex: 'description',
+    align: 'center'
   },
   {
     title: '消费钻石',
-    dataIndex: 'fr_weight',
+    dataIndex: 'expense_diamonds',
+    align: 'center'
   },
   {
-    title: '时间',
-    dataIndex: 'rr_weight',
-    props: {
-          format: 'YYYY-MM-DD',
-          valueFormat: 'X',
-        },
+    title: '消费时间',
+    dataIndex: 'expense_time',
+    align: 'center'
+  },
+  {
+    title: '退款投诉',
+    dataIndex: 'refund_complaint',
+    align: 'center',
+    customRender: ({ record }) => 
+    <div style="color: #1890ff; text-decoration: underline; cursor: pointer;" onClick={() => onComplaintContent()}>{record.refund_complaint}</div>,
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    align: 'center',
+    customRender: ({ record }) => 
+    <div style="color: #1890ff; text-decoration: underline; cursor: pointer;" onClick={() => onRefund()}>{record.action}</div>,
   }
 ]
 
-// 拉黑
-function blockUser(userItem) {
-  const formValue = ref({
-    anchor_id: userItem.anchor_id,
-    block_type: '',
-    ageing_type: '',
-    end_time: '',
-    reason: '',
-  })
-
-  const formModalProps = {
-    request: setAnchorBlackReq,
-    getData(data) {
-      const { anchor_id, ...params } = data
-      return {
-        ...params,
-        anchor_ids: [anchor_id],
-      }
-    },
-
-    rule: [
-      {
-        type: 'input',
-        field: 'anchor_id',
-        value: userItem.anchor_id,
-        hidden: true,
-      },
-      ...blockUserRule,
-    ],
-  }
-
-  createDialog({
-    title: '拉黑',
-    width: 500,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        {...formModalProps}
-      />,
-    onConfirm(status) {
-      if (status) {
-        const current = dataSource.value.find(item => item.anchor_id === userItem.anchor_id)
-        if (current) {
-          current.acct_status = 2
-        }
-      }
-    },
-  })
+const onComplaintContent = () => {
+  console.log("onComplaintContent : ")
 }
 
-async function exportCSV() {
-  const formValue = ref({
-    avatar_url: '',
-    nickname: '',
-    phone: '',
-    email: '',
-    guild_id: '',
-    ps_ratio: '',
-    hourly_rate: '',
-    hourly_rate_ulimit: '',
-    password: '',
-    merch_id: [],
-  })
-
-  const fApi = ref(null)
-  const anchorRule = useAnchorRule(false, true, fApi)
-
-  console.log("editItem : fApi = " + fApi.value)
-
-  
-  const formModalProps = reactive({
-    request: data => anchorAddOrEditReq(null, data),
-    getData(data) {
-      const { avatar_url, ...rest } = data
-      return {
-        ...rest,
-        avatar_url: getPathFromUrlArray(avatar_url),
-      }
-    },
-    rule: anchorRule,
-  })
-
-  console.log("exportCSV : " + formValue.value)
-
-  createDialog({
-    title: '导出CSV',
-    width: 500,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        v-model:fApi={fApi.value}
-        {...formModalProps}
-      >
-      </ModalForm>
-    ,
-    onConfirm() {
-      pagination.page = 1
-      pagination.total = 0
-      props.resetSearch()
-    },
-  })
+const onRefund = () => {
+  console.log("onRefund : ")
 }
 
-defineExpose({
-  exportCSV,
-})
 </script>
+
+<style>
+.ant-table-cell {
+  text-align: center;
+}
+
+</style>

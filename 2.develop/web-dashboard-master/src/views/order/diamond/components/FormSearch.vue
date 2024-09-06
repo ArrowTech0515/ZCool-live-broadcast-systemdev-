@@ -8,16 +8,17 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb15" style="width: 100%;">
+          <section class="flex ml15 mr15 mb15" >
             <AButton
               @click="submitForm"
+              class="ml10 mb10"
               type="primary"
-            >查询</AButton>
+            ><SearchOutlined/>查询</AButton>
             <AButton
-              class="ml10"
+              class="ml10 mb10"
               @click="resetForm"
-            >重置</AButton>
-            <div class="flex1 flex_end">
+            ><ReloadOutlined/>重置</AButton>
+            <div class="flex1 ml100 mb10 flex_end">
               <AButton
                 type="primary"
                 @click="emit('exportCSV')"
@@ -60,86 +61,104 @@ const option = {
 }
 
 const rule = ref([
-  // {
-  //   type: 'select',
-  //   field: 'source_id',
-  //   title: '来源',
-  //   value: '',
-  //   options: [],
-  //   effect: {
-  //     fetch: {
-  //       action: '/api/v1/source/summary',
-  //       to: 'options',
-  //       method: 'get',
-  //       parse: res => [
-  //         { value: 0, label: '所有来源' },
-  //         ...res.items.map(item => ({ value: item.source_id, label: item.source_name })),
-  //       ],
-  //     },
-  //   },
-  // },
   {
-    type: 'input',
-    field: 'acct',
-    title: '商户/用户名称',
-    value: '',
+    type: 'select',
+    field: 'merchant_type',
+    title: '所有商户',
+    value: 1,
+    props: {
+      placeholder: '请选择商户状态',
+    },
+    options: Object.keys(ENUM.merchant_type).map(key => ({
+      value: parseInt(key),
+      label: ENUM.merchant_type[key]
+    })),
     wrap: {
       labelCol: { span: 10 },
     },
   },
   {
+    type: 'select',
+    field: 'application_type',
+    title: '所有应用',
+    value: 1,
+    props: {
+      placeholder: '请选择应用状态',
+    },
+    options: Object.keys(ENUM.application_type).map(key => ({
+      value: parseInt(key),
+      label: ENUM.application_type[key]
+    })),
+  },
+  {
     type: 'input',
-    field: 'nickname',
+    field: 'order_number',
     title: '订单号',
     value: '',
-  },
-  {
-    type: 'input',
-    field: 'nickname',
-    title: '用户昵称/主播昵称',
-    value: '',
-    wrap: {
-      labelCol: { span: 10 },
+    props: {
+      placeholder: '请输入订单号',
     },
   },
   {
     type: 'input',
-    field: 'nickname',
-    title: 'ID搜索',
+    field: 'user_id',
+    title: '用户ID',
     value: '',
+    props: {
+      placeholder: '请输入用户ID',
+    },
+  },
+  {
+    type: 'input',
+    field: 'user_nickname',
+    title: '用户昵称',
+    value: '',
+    props: {
+      placeholder: '请输入用户昵称',
+    },
+  },
+  {
+    type: 'input',
+    field: 'anchor_nickname',
+    title: '主播昵称',
+    value: '',
+    props: {
+      placeholder: '请输入主播昵称',
+    },
   },
   {
     type: 'rangePicker',
-    field: 'join_time',
-    title: '时间区间',
+    field: 'time_interval',
+    title: '时间',
     value: '',
     props: {
       format: 'YYYY-MM-DD',
       valueFormat: 'X',
+      placeholder: ['开始日期', '结束日期'], // Add placeholders for the rangePicker
     },
   },
   {
     type: 'select',
-    field: 'live_status',
-    title: '所有商户',
-    value: 1,
-    options: Object.keys(ENUM.guild_status).map(key => ({ value: parseInt(key), label: ENUM.guild_status[key] })),
-  },
-  {
-    type: 'select',
-    field: 'acct_status',
-    title: '所有应用',
-    value: 1,
-    options: Object.keys(ENUM.anchor_acct_status).map(key => ({ value: parseInt(key), label: ENUM.anchor_acct_status[key] })),
-  },
-  {
-    type: 'select',
-    field: 'acct_status',
+    field: 'consumption_type',
     title: '消费类型',
     value: 1,
-    options: Object.keys(ENUM.anchor_acct_status).map(key => ({ value: parseInt(key), label: ENUM.anchor_acct_status[key] })),
+    props: {
+      placeholder: '请选择消费类型',
+    },
+    options: Object.keys(ENUM.consumption_type).map(key => ({
+      value: parseInt(key),
+      label: ENUM.consumption_type[key]
+    })),
+    wrap: {
+      labelCol: { span: 10 },
+    },
   },
-  { type: 'btns' },
+  { 
+    type: 'btns',
+    wrap: {
+        labelCol: { span: 10 },
+      },
+   },
 ])
 
 function resetForm() {
@@ -164,4 +183,3 @@ defineExpose({
   resetForm,
 })
 </script>
-

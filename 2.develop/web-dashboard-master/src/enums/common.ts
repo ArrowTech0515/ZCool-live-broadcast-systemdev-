@@ -175,5 +175,20 @@ export default {
   recharge_type: {
     1: '手動入款',
     2: '轉帳匯款',
+  },
+  merchant_type: {
+    1: '商户1',
+    2: '商户2',
+    3: '商户3',
+  },
+  application_type: {
+    1: '应用1',
+    2: '应用2',
+  },
+  consumption_type: {
+    1: '类型1',
+    2: '类型2',
+    3: '类型3',
+    4: '类型4',
   }
 }
