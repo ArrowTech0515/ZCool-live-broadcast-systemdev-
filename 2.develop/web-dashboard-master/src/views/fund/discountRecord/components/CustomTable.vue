@@ -28,6 +28,8 @@ import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/a
 import MerchCell from '@/components/Business/MerchCell.jsx'
 import { getPathFromUrlArray } from '@/utils/index'
 import { message } from 'ant-design-vue'
+import useExportListRule from '../hooks/useExportListRule'
+import useAddRule from '../hooks/useAddRule'
 
 const props = defineProps({
   searchParams: {
@@ -221,4 +223,92 @@ const columns = [
   },
 ]
 
+async function exportList() {
+  const formValue = ref({
+    user_id: null,
+    application_id: null,
+  })
+
+  const fApi = ref(null)
+  const exportListRule = useExportListRule(false, true, fApi)
+
+  console.log("editItem : fApi = " + fApi.value)
+
+  
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
+    },
+    rule: exportListRule,
+  })
+
+  console.log("user_id: " + formValue.user_id)
+
+  createDialog({
+    title: '導出列表',
+    width: 600,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
+}
+
+// 添加主播，不可编辑
+async function emitAdd() {
+  const formValue = ref({
+    avatar_url: '',
+    nickname: '',
+  })
+
+  const fApi = ref(null)
+  const addRule = useAddRule(false, true, fApi)
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
+    },
+    rule: addRule,
+  })
+
+  createDialog({
+    title: '新增優惠',
+    width: 500,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
+}
+
+defineExpose({
+  exportList, emitAdd
+})
 </script>
