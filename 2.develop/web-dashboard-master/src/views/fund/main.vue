@@ -1,24 +1,22 @@
 <template>
     <a-tabs default-active-key="1">
         
-      <a-tab-pane key="1" tab="余额订单">
-          <balance />
+      <a-tab-pane key="1" tab="餘額⽇誌">
+          <balancelog />
       </a-tab-pane>
-      
-  
     </a-tabs>
   </template>
   
   <script>
   import { Tabs } from 'ant-design-vue'
 
-  import balance from './balance/index.vue'
+  import balancelog from './balancelog/index.vue'
   
   export default {
     components: {
       'a-tabs': Tabs,
       'a-tab-pane': Tabs.TabPane,
-      balance,
+      balancelog,
     }
   }
   </script>

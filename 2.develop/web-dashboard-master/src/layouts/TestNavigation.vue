@@ -46,6 +46,7 @@
               <a-menu-item key="22">支付管理</a-menu-item>
               <a-menu-item key="23">策略管理</a-menu-item>
               <a-menu-item key="24">⾸存管理</a-menu-item>
+              <a-menu-item key="25">资金管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -63,30 +64,31 @@
   
   <script lang="ts">
 
-  import { ref } from 'vue';
-  import LHeader from '@/layouts/components/LHeader.vue';
-  import LLogo from '@/layouts/components/LLogo.vue';
-  import LBreadCrumb from '@/layouts/components/LBreadCrumb.vue';
+  import { ref } from 'vue'
+  import LHeader from '@/layouts/components/LHeader.vue'
+  import LLogo from '@/layouts/components/LLogo.vue'
+  import LBreadCrumb from '@/layouts/components/LBreadCrumb.vue'
 
   
-  import statisticsManagement from '@/views/statistics/index/index.vue';
-  import permissionManagement from '@/views/permissions/index.vue';
-  import messageManagement from '@/views/message/list/index.vue';
-  import anchorManagement from '@/views/anchor/list/index.vue';
-  import payManagement from '@/views/payment/channel/index.vue';
-  import merchantManagement from '@/views/merchant/list/index.vue';
-  import settingManagement from '@/views/setting/main.vue';
+  import statisticsManagement from '@/views/statistics/index/index.vue'
+  import permissionManagement from '@/views/permissions/index.vue'
+  import messageManagement from '@/views/message/list/index.vue'
+  import anchorManagement from '@/views/anchor/list/index.vue'
+  import payManagement from '@/views/payment/channel/index.vue'
+  import merchantManagement from '@/views/merchant/list/index.vue'
+  import settingManagement from '@/views/setting/main.vue'
 
   // new added
-  import orderManagement from '@/views/order/main.vue';
-  import widthrawalManagement from '@/views/widthrawal/main.vue';
-  import gameManagement from '@/views/game/main.vue';
-  import userManagement from '@/views/user/main.vue';
-  import activityManagement from '@/views/activity/main.vue';
-  import taskManagement from '@/views/task/main.vue';
-  import livebroadcastManagement from '@/views/livebroadcast/main.vue';
-  import strategyManagement from '@/views/strategy/main.vue';
-  import firstDepositManagement from '@/views/firstDeposit/main/index.vue';
+  import orderManagement from '@/views/order/main.vue'
+  import widthrawalManagement from '@/views/widthrawal/main.vue'
+  import gameManagement from '@/views/game/main.vue'
+  import userManagement from '@/views/user/main.vue'
+  import activityManagement from '@/views/activity/main.vue'
+  import taskManagement from '@/views/task/main.vue'
+  import livebroadcastManagement from '@/views/livebroadcast/main.vue'
+  import strategyManagement from '@/views/strategy/main.vue'
+  import firstDepositManagement from '@/views/firstDeposit/main/index.vue'
+  import fundManagement from '@/views/fund/main.vue'
   
   export default {
     name: 'NavigationMenu',
@@ -112,13 +114,17 @@
       taskManagement,
       livebroadcastManagement,
       strategyManagement,
-      firstDepositManagement
+      firstDepositManagement,
+      fundManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
+          case '25':
+            currentComponent.value = 'fundManagement'
+            break
           case '24':
             currentComponent.value = 'firstDepositManagement'
             break
@@ -168,11 +174,11 @@
             currentComponent.value = 'statisticsManagement'
             break
           default:
-            currentComponent.value = 'livebroadcastManagement'
+            currentComponent.value = 'fundManagement'
         }
       }
   
-      const currentComponent = ref('orderManagement') // Initial component
+      const currentComponent = ref('fundManagement') // Initial component
   
       return {
         collapse_flag,
