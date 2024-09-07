@@ -12,7 +12,7 @@
   <script>
   import { Tabs } from 'ant-design-vue'
 
-  import balance from './balance/index.vue'
+  import balance from './main/index.vue'
   
   export default {
     components: {

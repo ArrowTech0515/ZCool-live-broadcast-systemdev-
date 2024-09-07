@@ -8,9 +8,9 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb30" style="flex: auto; margin-left: 0%;">
+          <section class="flex mb30" style="flex: auto;">
             <AButton
-              class="ml20"
+              style="margin-left: auto;"
               @click="submitForm"
               type="primary"
             ><SearchOutlined/>查询</AButton>
@@ -18,12 +18,6 @@
               class="ml10"
               @click="resetForm"
             ><ReloadOutlined/>重置</AButton>
-            <div class="flex1 flex_end">
-              <AButton
-                type="primary"
-                @click="emit('emit_export_list')"
-              >導出列表</AButton>
-            </div>
           </section>
         </template>
       </form-create>
@@ -35,15 +29,15 @@
 
 const params = defineModel()
 const data = reactive({
-  banker_name: null, // This will trigger the placeholder in the select field
-  bank_name: null, // Same here for bank_name select field
-  bank_card_number: null, // Same here for bank_card_number select field
-  user_id: '', // Input fields can use empty string to show placeholder
-  order_number: '', // Input fields can use empty string to show placeholder
-  order_status: null, // This will trigger the placeholder in the select field
+  number_id: '', // This will trigger the placeholder in the select field
+  game_id: '', // Same here for bank_name select field
+  game_name: '', // Same here for bank_card_number select field
+  game_platform: null, // Input fields can use empty string to show placeholder
+  time: '', // This will trigger the placeholder in the select field
+  category: null, // Input fields can use empty string to show placeholder
+  specific_type: null, // This will trigger the placeholder in the select field
 })
 
-const emit = defineEmits(['emit_export_list'])
 const fApi = ref({})
 const option = {
   resetBtn: false,
@@ -62,8 +56,44 @@ const option = {
 
 const rule = ref([
   {
+    type: 'input',
+    field: 'number_id',
+    title: '编号ID',
+    value: '',
+    props: {
+      placeholder: '请输入编号ID', // Add placeholder
+    },
+  },
+  {
+    type: 'input',
+    field: 'game_id',
+    title: '游戏ID',
+    value: '',
+    props: {
+      placeholder: '请输入游戏ID', // Add placeholder
+    },
+  },
+  {
+    type: 'input',
+    field: 'game_name',
+    title: '游戏名称',
+    value: '',
+    props: {
+      placeholder: '请输入游戏名称', // Add placeholder请选择状态
+    },
+  },
+  {
+    type: 'select',
+    field: 'game_platform',
+    title: '游戏平台',
+    props: {
+      placeholder: '请选择游戏平台', // Add placeholder请选择状态
+    },
+    //options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
+  },
+  {
     type: 'rangePicker',
-    field: 'register_time',
+    field: 'time',
     title: '註冊時間',
     value: '',
     className: 'form-time-picker',
@@ -73,49 +103,22 @@ const rule = ref([
     },
   },
   {
-    type: 'input',
-    field: 'user_id',
-    title: '用户ID',
-    value: '',
+    type: 'select',
+    field: 'category',
+    title: '充值類型',
     props: {
-      placeholder: '请输入用户ID', // Add placeholder
+      placeholder: '请选择充值類型', // Add placeholder请选择状态
     },
-  },
-  {
-    type: 'input',
-    field: 'user_account',
-    title: '用户账号',
-    value: '',
-    props: {
-      placeholder: '请输入用户账号', // Add placeholder
-    },
-  },
-  {
-    type: 'rangePicker',
-    field: 'create_time',
-    title: '創建時間',
-    value: '',
-    className: 'form-time-picker',
-    props: {
-      format: 'YYYY-MM-DD HH:mm:ss',
-      valueFormat: 'X',
-    },
-  },
-  {
-    type: 'input',
-    field: 'first_deposit_order_number',
-    title: '首存訂單單號',
-    value: '',
-    props: {
-      placeholder: '请输入首存訂單單號', // Add placeholder
-    },
+    //options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
   },
   {
     type: 'select',
-    field: 'recharge_type',
+    field: 'specific_type',
     title: '充值類型',
-    value: ENUM.recharge_type[1],
-    options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
+    props: {
+      placeholder: '请选择充值類型', // Add placeholder请选择状态
+    },
+    //options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
   },
   { type: 'btns' },
 ])
