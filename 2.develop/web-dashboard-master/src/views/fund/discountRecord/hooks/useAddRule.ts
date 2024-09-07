@@ -12,73 +12,59 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
 
   return [
     {
-      type: 'select',
-      field: 'first_deposit_order_number',
-      title: '首存訂單單號',
-      options: [],
+      type: 'input',
+      field: 'user_id',
+      title: '用户ID',
+      value: '',
       props: {
-         placeholder: '请选择首存訂單單號',
-         allowClear:false
+         placeholder: '请输入用户ID',
+      },
+    },
+    {
+      type: 'input',
+      field: 'nickname',
+      title: '用户昵称',
+      value: '',
+      props: {
+         placeholder: '请输入用户昵称',
       },
     },
     {
       type: 'select',
-      field: 'application_id',
-      title: '导出应用',
+      field: 'activity_name',
+      title: '活动名称',
+      props: {
+        placeholder: '请选择活动名称', // Add placeholder
+      },
+    },
+    {
+      type: 'input',
+      field: 'bonusAmountOrRate',
+      title: '優惠金額/比例',
+      value: '',
+      props: {
+         placeholder: '请输入優惠金額/比例',
+      },
+    },
+    {
+      type: 'select',
+      field: 'prize_type',
+      title: '派獎類型',
       options: [
       ],
       props: {
-        placeholder: '请选择导出应用',
+        placeholder: '请选择派獎類型',
         allowClear:true
       },
     },
     {
-      type: 'select',
-      field: 'export_type',
-      title: '导出类型',
-      options: [],
-      props: {
-        placeholder: '请选择导出类型',
-      },
-    },
-    {
-      type: 'radio',
-      field: 'export_time',
-      title: '导出时间',
-      value: 'allTime', // Default to 'allTime'
-      options: [
-        { label: '全部时间', value: 'allTime' },
-        { label: '自定义时间', value: 'customTime' }
-      ],
-      on: {
-        change: (val) => {
-
-          const selectedValue = val.value || val
-
-          console.log("Selected value (after accessing):", selectedValue)
-          console.log("selectedValue.target.value : ", selectedValue.target.value)
-
-          // Show the field depending on the selected radio option
-          if (selectedValue.target.value === 'customTime')
-            fApi.value.hidden(false, 'join_time')
-          else{
-            fApi.value.hidden(true, 'join_time')
-            console.log("value3 : " + selectedValue)
-          }
-        },
-      },
-    },
-    {
-      type: 'rangePicker',
-      field: 'join_time',
-      title: '自定义时间',
+      type: 'input',
+      field: 'washMultiple',
+      title: '洗碼倍數',
       value: '',
       props: {
-        format: 'YYYY-MM-DD',
-        valueFormat: 'X',
-        placeholder: ['开始日期', '结束日期'],
+         placeholder: '请输入洗碼倍數',
       },
-      hidden: true, // Initially hidden
-    }
+    },
   ]
 }

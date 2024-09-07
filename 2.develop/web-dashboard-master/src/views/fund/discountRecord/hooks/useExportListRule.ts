@@ -12,13 +12,12 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
 
   return [
     {
-      type: 'select',
-      field: 'first_deposit_order_number',
-      title: '首存訂單單號',
-      options: [],
+      type: 'input',
+      field: 'user_id',
+      title: '用户ID',
+      value: '',
       props: {
-         placeholder: '请选择首存訂單單號',
-         allowClear:false
+         placeholder: '请输入用户ID',
       },
     },
     {
