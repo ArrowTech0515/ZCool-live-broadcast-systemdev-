@@ -1,250 +1,203 @@
 <template>
-  <a-card style="background-color: white;">
-    <a-row :gutter="16"  type="flex" >
+  <a-card style="background-color: white; margin-bottom: 1%;">
+    <a-row :gutter="16" type="flex">
       <!-- First Column -->
-
       <a-col :flex="1">
-            <a-form-item label="商户">
-              <a-select v-model="merchantId" placeholder="全部">
-                <!-- options here -->
-              </a-select>
-            </a-form-item>
-            <a-form-item label="游戏名">
-              <a-input v-model="gameId" placeholder="游戏名" />
-            </a-form-item>
+        <a-form-item label="商户">
+          <a-select v-model:value="merchantId" placeholder="请选择商户">
+            <!-- options here -->
+          </a-select>
+        </a-form-item>
+        <a-form-item label="游戏名">
+          <a-input v-model:value="game_name" placeholder="请输入游戏名" />
+        </a-form-item>
       </a-col>
 
       <a-col :flex="auto">
-          <a-form-item label="渠道">
-            <a-select v-model="status" placeholder="全部">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-          <a-form-item label="时间">
-            <a-range-picker :placeholder="['开始日期', '结束日期']">
-          <!-- options here -->
-        </a-range-picker>
-      </a-form-item>
-
+        <a-form-item label="渠道">
+          <a-select v-model:value="channel" placeholder="请选择渠道">
+            <!-- options here -->
+          </a-select>
+        </a-form-item>
+        <a-form-item label="时间">
+          <a-range-picker v-model:value="time" :placeholder="['开始日期', '结束日期']" />
+        </a-form-item>
       </a-col>
 
       <a-col :flex="1">
         <a-form-item label="主播ID">
-          <a-input v-model="nBetting" placeholder="请输入主播ID" />
+          <a-input v-model:value="anchor_id" placeholder="请输入主播ID" />
         </a-form-item>
       </a-col>
-      
+
       <!-- Separator -->
       <a-col>
         <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
       </a-col>
 
       <!-- Second Column -->
-      <a-col :flex="1">
-          <a-form-item>
-            <a-button type="primary" block @click="onSearch">
-              <SearchOutlined /> 查询</a-button>
-          </a-form-item>
+      <a-col :span="2">
+        <a-form-item>
+          <a-button type="primary" block @click="onSearch">
+            <SearchOutlined /> 查询
+          </a-button>
+        </a-form-item>
 
-          <a-form-item>
-            <a-button block @click="onReset">
-              <ReloadOutlined /> 重置</a-button>
-          </a-form-item>
+        <a-form-item>
+          <a-button block @click="onReset">
+            <ReloadOutlined /> 重置
+          </a-button>
+        </a-form-item>
       </a-col>
     </a-row>
-
-    <!-- Your existing layout and table setup -->
-    <a-table :data-source="paginatedData" :pagination="false">
-      <a-table-column title="主播ID" dataIndex="anchorID" key="anchorID" align="center" />
-      <a-table-column title="主播昵称" dataIndex="nickName" key="nickName" align="center" />
-      <a-table-column title="总投注/总票数" dataIndex="totalBets_Tickets" key="totalBets_Tickets" align="center" />
-      <a-table-column title="总投注人数" dataIndex="totalBettors" key="totalBettors" align="center" />
-      <a-table-column title="一分快三" dataIndex="omThree" key="omThree" align="center" />
-      <a-table-column title="一分快车" dataIndex="omExpress" key="omExpress" align="center">
-      </a-table-column>
-      <a-table-column title="一分时时彩" dataIndex="omLottery" key="omLottery" align="center">
-      </a-table-column>
-      <a-table-column title="百人牛牛" dataIndex="men100" key="men100" align="center">
-      </a-table-column>
-      <a-table-column title="鱼虾蟹" dataIndex="crab" key="crab" align="center">
-      </a-table-column>
-      <a-table-column title="操作" dataIndex="operate" key="operate" align="center">
-      </a-table-column>
-
-      <template #bodyCell="{ column, text }" >
-
-        <!-- Render Multiline Text for '游戏ID' Column with Color Styling -->
-
-        <span v-if="column.dataIndex === 'totalBets_Tickets'">
-          <div v-for="(line, index) in text.split('\n')" :key="index">
-            <span>{{ line }}</span>
-          </div>
-        </span>
-
-        <span v-else-if="column.dataIndex === 'omThree'
-                || column.dataIndex === 'men100'
-                || column.dataIndex === 'omExpress'
-                || column.dataIndex === 'omLottery'
-                || column.dataIndex === 'crab' ">
-          <div v-for="(line, index) in text.split('\n')" :key="index">
-            <!-- Check for colon and split the text into label and value -->
-            <span v-if="index == 2">
-                <span :style="{ color: 'red' }">{{ line }}</span>
-            </span>
-            <span v-else >
-              <span>{{ line}} </span>
-            </span>
-          </div>
-        </span>
-
-        <span v-else-if="column.dataIndex === 'operate'">
-          <span style="color: blue;">
-            {{ text }}
-          </span>
-        </span>
-        <!-- Default Rendering for Other Columns -->
-        <span v-else>{{ text }}</span>
-      </template>
-
-    </a-table>
-
-    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-      <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
-      <a-pagination
-        v-model:current="currentPage"
-        :total="totalItems"
-        :page-size="pageSize"
-        show-size-changer
-        :page-size-options="['5', '10', '20', '50', '100']"
-        :simple="false"
-        size="small"
-        @change="handlePageChange"
-        @show-size-change="handleSizeChange"
-      />
-    </div>
-
   </a-card>
+
+  <!-- Your existing layout and table setup -->
+  <a-table :data-source="paginatedData" :pagination="false">
+    <a-table-column title="主播ID" dataIndex="anchorID" key="anchorID" align="center" />
+    <a-table-column title="主播昵称" dataIndex="nickName" key="nickName" align="center" />
+    <a-table-column title="总投注/总票数" dataIndex="totalBets_Tickets" key="totalBets_Tickets" align="center" />
+    <a-table-column title="总投注人数" dataIndex="totalBettors" key="totalBettors" align="center" />
+    <a-table-column title="一分快三" dataIndex="omThree" key="omThree" align="center" />
+    <a-table-column title="一分快车" dataIndex="omExpress" key="omExpress" align="center" />
+    <a-table-column title="一分时时彩" dataIndex="omLottery" key="omLottery" align="center" />
+    <a-table-column title="百人牛牛" dataIndex="men100" key="men100" align="center" />
+    <a-table-column title="鱼虾蟹" dataIndex="crab" key="crab" align="center" />
+    <a-table-column title="操作" dataIndex="operate" key="operate" align="center" />
+
+    <template #bodyCell="{ column, text }">
+      <!-- Render Multiline Text for '游戏ID' Column with Color Styling -->
+      <span v-if="column.dataIndex === 'totalBets_Tickets'">
+        <div v-for="(line, index) in text.split('\n')" :key="index">
+          <span>{{ line }}</span>
+        </div>
+      </span>
+
+      <span v-else-if="column.dataIndex === 'omThree'
+                      || column.dataIndex === 'men100'
+                      || column.dataIndex === 'omExpress'
+                      || column.dataIndex === 'omLottery'
+                      || column.dataIndex === 'crab' ">
+        <div v-for="(line, index) in text.split('\n')" :key="index">
+          <!-- Check for colon and split the text into label and value -->
+          <span v-if="index == 2">
+            <span :style="{ color: 'red' }">{{ line }}</span>
+          </span>
+          <span v-else>
+            <span>{{ line }}</span>
+          </span>
+        </div>
+      </span>
+
+      <span v-else-if="column.dataIndex === 'operate'">
+        <span style="color: blue;">
+          {{ text }}
+        </span>
+      </span>
+      <!-- Default Rendering for Other Columns -->
+      <span v-else>{{ text }}</span>
+    </template>
+  </a-table>
+
+  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+    <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
+    <a-pagination
+      v-model:current="currentPage"
+      :total="totalItems"
+      :page-size="pageSize"
+      show-size-changer
+      :page-size-options="['5', '10', '20', '50', '100']"
+      :simple="false"
+      size="small"
+      @change="handlePageChange"
+      @show-size-change="handleSizeChange"
+    />
+  </div>
 </template>
 
-<script>
+<script lang="jsx" setup>
+import { ref, computed } from 'vue';
 
-export default {
-  data() {
-    return {
-      currentPage: 1,
-      pageSize: 5,
-      totalItems: 100,
+const currentPage = ref(1);
+const pageSize = ref(5);
+const totalItems = ref(100);
 
-      dataSource: [
-        {
-          key: '1',
-          anchorID: '125p198',
-          nickName: '瞎想企鹅_nh',
-          totalBets_Tickets: '540\n9.75(票)',
-          totalBettors: '4',
-          omThree: '515.00\n(2人)\n105.40\n9.45(票)',
-          omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
-          omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
-          men100: '515.00\n(2人)\n105.40\n9.45(票)',
-          crab: '515.00\n(2人)\n105.40\n9.45(票)',
-          operate: '收益详情',
-        },
-        {
-          key: '2',
-          anchorID: '125p198',
-          nickName: '瞎想企鹅_nh',
-          totalBets_Tickets: '540\n9.75(票)',
-          totalBettors: '4',
-          omThree: '515.00\n(2人)\n105.40\n9.45(票)',
-          omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
-          omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
-          men100: '515.00\n(2人)\n105.40\n9.45(票)',
-          crab: '515.00\n(2人)\n105.40\n9.45(票)',
-          operate: '收益详情',
-        },
-        {
-          key: '3',
-          anchorID: '125p198',
-          nickName: '瞎想企鹅_nh',
-          totalBets_Tickets: '540\n9.75(票)',
-          totalBettors: '4',
-          omThree: '515.00\n(2人)\n105.40\n9.45(票)',
-          omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
-          omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
-          men100: '515.00\n(2人)\n105.40\n9.45(票)',
-          crab: '515.00\n(2人)\n105.40\n9.45(票)',
-          operate: '收益详情',
-        },
-        {
-          key: '4',
-          anchorID: '125p198',
-          nickName: '瞎想企鹅_nh',
-          totalBets_Tickets: '540\n9.75(票)',
-          totalBettors: '4',
-          omThree: '515.00\n(2人)\n105.40\n9.45(票)',
-          omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
-          omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
-          men100: '515.00\n(2人)\n105.40\n9.45(票)',
-          crab: '515.00\n(2人)\n105.40\n9.45(票)',
-          operate: '收益详情',
-        },
-        {
-          key: '5',
-          anchorID: '125p198',
-          nickName: '瞎想企鹅_nh',
-          totalBets_Tickets: '540\n9.75(票)',
-          totalBettors: '4',
-          omThree: '515.00\n(2人)\n105.40\n9.45(票)',
-          omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
-          omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
-          men100: '515.00\n(2人)\n105.40\n9.45(票)',
-          crab: '515.00\n(2人)\n105.40\n9.45(票)',
-          operate: '收益详情',
-        },
-        {
-          key: '6',
-          anchorID: '125p198',
-          nickName: '瞎想企鹅_nh',
-          totalBets_Tickets: '540\n9.75(票)',
-          totalBettors: '4',
-          omThree: '515.00\n(2人)\n105.40\n9.45(票)',
-          omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
-          omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
-          men100: '515.00\n(2人)\n105.40\n9.45(票)',
-          crab: '515.00\n(2人)\n105.40\n9.45(票)',
-          operate: '收益详情',
-        },    // Add more data objects here
-      ],
-    };
+const merchantId = ref(null);
+const game_name = ref('');
+const platform = ref('');
+const anchor_id = ref('');
+const channel = ref(null);
+const time = ref('');
+
+const dataSource = [
+  {
+    key: '1',
+    anchorID: '125p198',
+    nickName: '瞎想企鹅_nh',
+    totalBets_Tickets: '540\n9.75(票)',
+    totalBettors: '4',
+    omThree: '515.00\n(2人)\n105.40\n9.45(票)',
+    omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
+    omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
+    men100: '515.00\n(2人)\n105.40\n9.45(票)',
+    crab: '515.00\n(2人)\n105.40\n9.45(票)',
+    operate: '收益详情',
   },
-  
-  computed: {
-    paginatedData() {
-      const start = (this.currentPage - 1) * this.pageSize;
-      const end = start + this.pageSize;
-      return this.dataSource.slice(start, end);
-    },
+  {
+    key: '2',
+    anchorID: '125p198',
+    nickName: '瞎想企鹅_nh',
+    totalBets_Tickets: '540\n9.75(票)',
+    totalBettors: '4',
+    omThree: '515.00\n(2人)\n105.40\n9.45(票)',
+    omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
+    omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
+    men100: '515.00\n(2人)\n105.40\n9.45(票)',
+    crab: '515.00\n(2人)\n105.40\n9.45(票)',
+    operate: '收益详情',
   },
-  methods: {
-    onSearch() {
-      // Implement search logic
-    },
-    onReset() {
-      this.merchantId = '';
-      this.gameId = '';
-      this.platform = '';
-      this.nBetting = '';
-      this.status = '';
-      // Implement reset logic
-    },
-    handlePageChange(page) {
-      this.currentPage = page;
-    },
-    handleSizeChange(current, size) {
-      this.pageSize = size;
-      this.currentPage = 1; // Reset to the first page when page size changes
-    },
+  {
+    key: '3',
+    anchorID: '125p198',
+    nickName: '瞎想企鹅_nh',
+    totalBets_Tickets: '540\n9.75(票)',
+    totalBettors: '4',
+    omThree: '515.00\n(2人)\n105.40\n9.45(票)',
+    omExpress: '515.00\n(2人)\n105.40\n9.45(票)',
+    omLottery: '515.00\n(2人)\n105.40\n9.45(票)',
+    men100: '515.00\n(2人)\n105.40\n9.45(票)',
+    crab: '515.00\n(2人)\n105.40\n9.45(票)',
+    operate: '收益详情',
   },
+  // Add more data objects here
+];
+
+const paginatedData = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return dataSource.slice(start, end);
+});
+
+const onSearch = () => {
+  // Implement search logic
+};
+
+const onReset = () => {
+  merchantId.value = null;
+  game_name.value = '';
+  platform.value = '';
+  anchor_id.value = '';
+  channel.value = null;
+  time.value = '';
+};
+
+const handlePageChange = (page) => {
+  currentPage.value = page;
+};
+
+const handleSizeChange = (current, size) => {
+  pageSize.value = size;
+  currentPage.value = 1; // Reset to the first page when page size changes
 };
 </script>
 
@@ -253,7 +206,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-left: 40px;  /* Add margin to the whole sub-row */
+  margin-left: 40px; /* Add margin to the whole sub-row */
 }
 
 .row {

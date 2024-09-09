@@ -1,5 +1,5 @@
 <template>
-  <a-card style="background-color: white;">
+  <a-card style="background-color: white; margin-bottom: 1%;">
     <a-row :gutter="16" type="flex">
 
       <!-- First Column -->
@@ -41,7 +41,7 @@
       </a-col>
 
       <!-- Second Column -->
-      <a-col :span="3">
+      <a-col :span="2">
         <a-form-item>
           <a-button type="primary" block @click="onSearch">
             <SearchOutlined /> 查询
@@ -56,6 +56,7 @@
       </a-col>
 
     </a-row>
+  </a-card>
 
     <!-- Table Setup -->
     <a-table :data-source="paginatedData" :pagination="false">
@@ -104,7 +105,6 @@
       />
     </div>
 
-  </a-card>
 </template>
 
 <script lang="jsx" setup>

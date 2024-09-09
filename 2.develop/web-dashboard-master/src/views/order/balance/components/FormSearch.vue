@@ -9,22 +9,20 @@
       >
         <template #type-btns>
           <!-- Main flex container with full width -->
-          <section class="flex mb15" style="display: flex; justify-content: space-between; align-items: center;">
+          <section class="flex mb30" style="flex: auto; margin-left: 0%;">
             <!-- Left-aligned buttons -->
-            <div>
-              <AButton
-                class="ml20 mb15"
-                @click="submitForm"
-                type="primary"
-              ><SearchOutlined/>查询</AButton>
-              <AButton
-                class="ml10 mb15"
-                @click="resetForm"
-              ><ReloadOutlined/>重置</AButton>
-            </div>
+            <AButton
+              class="ml20"
+              @click="submitForm"
+              type="primary"
+            ><SearchOutlined/>查询</AButton>
+            <AButton
+              class="ml10"
+              @click="resetForm"
+            ><ReloadOutlined/>重置</AButton>
 
             <!-- Right-aligned button (with margin-left: auto) -->
-            <div style="margin-left: 10px;">
+            <div class="flex1 flex_end">
               <AButton
                 class="mb15"
                 type="primary"

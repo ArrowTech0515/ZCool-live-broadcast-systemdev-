@@ -8,17 +8,17 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex ml15 mr15 mb15" >
+          <section class="flex mb30" style="flex: auto; margin-left: 0%;">
             <AButton
               @click="submitForm"
-              class="ml10 mb10"
+              class="ml10"
               type="primary"
             ><SearchOutlined/>查询</AButton>
             <AButton
-              class="ml10 mb10"
+              class="ml10"
               @click="resetForm"
             ><ReloadOutlined/>重置</AButton>
-            <div class="flex1 ml120 mb10 flex_end">
+            <div class="flex1 flex_end">
               <AButton
                 type="primary"
                 @click="emit('export_csv')"

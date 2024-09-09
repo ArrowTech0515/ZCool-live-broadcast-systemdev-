@@ -9,6 +9,7 @@
       >
         <template #type-btns>
           <section class="flex mb30" style="flex: auto; margin-left: 0%;">
+            
             <AButton
               class="ml20"
               @click="submitForm"
@@ -18,6 +19,7 @@
               class="ml10"
               @click="resetForm"
             ><ReloadOutlined/>重置</AButton>
+
             <div class="flex1 flex_end">
               <AButton
                 class="same-width-button"

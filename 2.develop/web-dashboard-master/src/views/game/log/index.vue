@@ -1,11 +1,11 @@
 <template>
-  <a-card style="background-color: white;">
+  <a-card style="background-color: white; margin-bottom: 1%;">
     <a-col :gutter="16" type="flex">
       <a-row :gutter="16" type="flex">
         <!-- First Column -->
         <a-col :flex="1">
           <a-form-item label="商户">
-            <a-select v-model:value="merchantId" placeholder="全部" />
+            <a-select v-model:value="merchantId" placeholder="请选择商户" />
           </a-form-item>
           <a-form-item label="游戏名">
             <a-input v-model:value="gameId" placeholder="请输入游戏名" />
@@ -14,7 +14,7 @@
 
         <a-col :flex="1">
           <a-form-item label="渠道">
-            <a-select v-model:value="channel" placeholder="全部" />
+            <a-select v-model:value="channel" placeholder="请选择渠道" />
           </a-form-item>
           <a-form-item label="单号">
             <a-input v-model:value="orderId" placeholder="请输入单号" />
@@ -23,11 +23,13 @@
 
         <a-col :flex="auto">
           <a-form-item label="游戏平台">
-            <a-select v-model:value="platform" placeholder="全部" />
+            <a-select v-model:value="platform" placeholder="请选择游戏平台" />
           </a-form-item>
-          <a-form-item label="时间">
-            <a-range-picker v-model:value="dateRange" :placeholder="['开始日期', '结束日期']" />
-          </a-form-item>
+          <a-row>
+            <a-form-item label="时间" >
+              <a-range-picker v-model:value="dateRange" :placeholder="['开始日期', '结束日期']" />
+            </a-form-item>
+          </a-row>
         </a-col>
 
         <!-- Separator -->
@@ -36,7 +38,7 @@
         </a-col>
 
         <!-- Second Column -->
-        <a-col :span="3">
+        <a-col :span="2">
           <a-form-item>
             <a-button type="primary" block @click="onSearch">
               <SearchOutlined /> 查询
@@ -50,6 +52,7 @@
           </a-form-item>
         </a-col>
       </a-row>
+    </a-col>
 
       <!-- Statistics -->
       <a-flex gap="large" align="start" horizontal>
@@ -70,7 +73,7 @@
           <span style="font-weight: bold; font-size: 14px;">0</span>
         </a-form-item>
       </a-flex>
-    </a-col>
+    </a-card>
 
     <!-- Table Setup -->
     <a-table :data-source="paginatedData" :pagination="false">
@@ -99,7 +102,6 @@
         @show-size-change="handleSizeChange"
       />
     </div>
-  </a-card>
 </template>
 
 <script lang="jsx" setup>
