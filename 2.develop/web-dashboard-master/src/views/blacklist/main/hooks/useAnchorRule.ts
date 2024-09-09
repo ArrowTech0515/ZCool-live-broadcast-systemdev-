@@ -1,140 +1,82 @@
-import { getGuildListReq } from '@/api/public'
 import { type Api } from '@form-create/ant-design-vue'
-import createUploadRule from '@/rules/createUploadRule'
 
-const uploadRule = createUploadRule('主播头像', 'avatar_url')
-export default function (ps_ratio_disabled = false, requiredPassword = true, fApi: Ref<Api>) {
-  const {
-    merchRelRule
-  } = useMerchantMultipleSelect('展示商户')
-
-  let guildList = []
-  getGuildListReq().then(res => {
-    guildList = res.items.map(item => ({ value: item.guild_id, label: item.guild_name, ps_ratio: item.ps_ratio }))
-    formCreate.setData('labelOptions', guildList)
-  })
+export default function (fApi: Ref<Api>) {
 
   return [
-    uploadRule,
     {
       type: 'input',
-      field: 'nickname',
-      title: '用户昵称',
-      value: '',
-      validate: [{ type: 'string', max: 10, required: true, message: '用户昵称最多10个字' }],
-    },
-    {
-      type: 'input',
-      field: 'phone',
-      title: '手机号',
-      value: '',
-      validate: [{ type: 'string', message: '请输入正确的手机号', required: true }],
+      field: 'block_users',
+      title: '拉黑用户',
       props: {
-        type: 'tel',
+         placeholder: '请输入用户ID搜索',
       },
     },
     {
-      type: 'input',
-      field: 'email',
-      title: '邮箱',
+      type: 'checkbox',
+      field: 'block_type',
+      title: '拉黑类型',
       value: '',
-      validate: [{ type: 'email', message: '请输入正确的邮箱' }],
+      options: Object.keys(ENUM.block_type2).map(key => ({ label: ENUM.block_type2[key], value: parseInt(key) })),
+    },
+    {
+      type: 'radio',
+      field: 'blacklist_type',
+      title: '拉黑时效',
+      value: 1, // Default to 'allTime'
+      options: Object.keys(ENUM.blacklist_type).map(key => ({ label: ENUM.blacklist_type[key], value: parseInt(key) })),
+      on: {
+        change: (val) => {
+
+          const selectedValue = val.value || val
+
+          console.log("Selected value (after accessing):", selectedValue)
+          console.log("selectedValue.target.value : ", selectedValue.target.value)
+
+          // Show the field depending on the selected radio option
+          if (selectedValue.target.value === 3)
+            fApi.value.hidden(false, 'join_time')
+          else{
+            fApi.value.hidden(true, 'join_time')
+            console.log("value3 : " + selectedValue)
+          }
+        },
+      },
+    },
+    {
+      type: 'datePicker',
+      field: 'join_time',
+      title: '自定义时间',
+      value: '',
       props: {
-        type: 'email'
+        format: 'YYYY-MM-DD',
+        valueFormat: 'X',
+        placeholder: ['开始时间', '结束时间'],
+      },
+      hidden: true, // Initially hidden
+      wrap: {
+        labelCol: {
+          span: 5,
+        },
       },
     },
     {
       type: 'select',
-      field: 'guild_id',
-      title: '所属公会',
-      value: '',
-      options: [],
+      field: 'blacklist_platform',
+      title: '拉黑平台',
+      value: '全部平台',
       props: {
-        allowClear: true,
-      },
-      effect: {
-        loadData: {
-          attr: 'labelOptions',
-          to: 'options'
-        },
-      },
-      on: {
-        change(val) {
-          const ps_ratio = guildList.find(item => item.value === val)?.ps_ratio
-          if (ps_ratio) {
-            nextTick(() => {
-              fApi.value.setValue({
-                ps_ratio,
-              })
-              fApi.value.mergeRules({
-                'ps_ratio': { props: { disabled: true } }
-              })
-            })
-          } else {
-            nextTick(() => {
-              fApi.value.updateRule({
-                'ps_ratio': { props: { disabled: ps_ratio_disabled || false } }
-              })
-            })
-          }
-        }
-      },
-    },
-    {
-      type: 'input-number',
-      field: 'ps_ratio',
-      title: '分成比例',
-      value: '',
-      props: {
-        formatter: value => `${value}%`,
-        max: 100,
-        min: 0,
-        step: 1,
-        precision: 0,
-        disabled: ps_ratio_disabled,
-      },
-      wrap: {
-        help: '选择公会后，默认跟随公会分成比例',
-      },
-    },
-    {
-      type: 'input-number',
-      field: 'hourly_rate',
-      title: '主播时薪',
-      value: '',
-      props: {
-        min: 0,
-        step: 1,
-        precision: 0,
-      },
-      wrap: {
-        help: '仅做直播时长薪资计算，和分成无关',
-      },
-    },
-    {
-      type: 'input-number',
-      field: 'hourly_rate_ulimit',
-      title: '时薪上限',
-      value: '',
-      props: {
-        step: 1,
-        precision: 0,
-      },
-      wrap: {
-        help: '按小时计算，直播每日可活动时薪的小时上限',
+        placeholder: '请选择拉黑平台',
       },
     },
     {
       type: 'input',
-      field: 'password',
-      title: '登录密码',
+      field: 'reason',
+      title: '理由',
       value: '',
-      validate: [{ type: 'pattern', required: requiredPassword, pattern: '^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{8,16}$', message: '请输入 8~16位数字和字母组合密码' }],
       props: {
-        type: 'password',
-        placeholder: '请输入 8~16 位数字和字母组合密码',
+        placeholder: '请输入拉黑理由',
+        type: 'textarea'
       },
     },
-    merchRelRule,
   ]
 }

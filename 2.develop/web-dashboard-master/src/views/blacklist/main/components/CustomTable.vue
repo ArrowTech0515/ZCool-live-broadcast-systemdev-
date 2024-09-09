@@ -196,8 +196,13 @@ const columns = [
     dataIndex: 'action',
     align: 'center',
     customRender: ({ record }) => (
-      <div style="color: blue; cursor: pointer;">{record.action}</div>
-    ),
+      <div style={centeredStyle}>
+        <span 
+              style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;" 
+              onClick={() => onRelease(record)}>
+              解除</span>
+      </div>
+    )
   },
 ]
 
@@ -206,15 +211,6 @@ const columns = [
 async function onAddUser() {
   const formValue = ref({
     avatar_url: '',
-    nickname: '',
-    phone: '',
-    email: '',
-    guild_id: '',
-    ps_ratio: '',
-    hourly_rate: '',
-    hourly_rate_ulimit: '',
-    password: '',
-    merch_id: [],
   })
 
   const fApi = ref(null)
@@ -254,28 +250,19 @@ async function onAddUser() {
 async function onAddAnchor() {
   const formValue = ref({
     avatar_url: '',
-    nickname: '',
-    phone: '',
-    email: '',
-    guild_id: '',
-    ps_ratio: '',
-    hourly_rate: '',
-    hourly_rate_ulimit: '',
-    password: '',
-    merch_id: [],
   })
 
   const fApi = ref(null)
-  const anchorRule = useAnchorRule(false, true, fApi)
+  const anchorRule = useAnchorRule(fApi)
   const formModalProps = reactive({
-    request: data => anchorAddOrEditReq(null, data),
-    getData(data) {
-      const { avatar_url, ...rest } = data
-      return {
-        ...rest,
-        avatar_url: getPathFromUrlArray(avatar_url),
-      }
-    },
+    // request: data => anchorAddOrEditReq(null, data),
+    // getData(data) {
+    //   const { avatar_url, ...rest } = data
+    //   return {
+    //     ...rest,
+    //     avatar_url: getPathFromUrlArray(avatar_url),
+    //   }
+    // },
     rule: anchorRule,
   })
 
@@ -297,6 +284,11 @@ async function onAddAnchor() {
     },
   })
 }
+
+const onRelease = (record) => {
+
+}
+
 defineExpose({
   onAddAnchor, onAddUser
 })
