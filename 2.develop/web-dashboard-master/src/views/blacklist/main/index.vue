@@ -3,6 +3,8 @@
     <FormSearch
       ref="formSearchRef"
       v-model="searchParams"
+      @emit_adduser="() => customTableRef.onAddUser()"
+      @emit_addanchor="() => customTableRef.onAddAnchor()"
     />
     <CustomTable
       ref="customTableRef"
