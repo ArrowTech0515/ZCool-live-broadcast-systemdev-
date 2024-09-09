@@ -25,6 +25,9 @@
 
 <script setup lang="jsx">
 import { message } from 'ant-design-vue'
+import useProcessRule from '../hooks/useProcessRule'
+import useCheckRule from '../hooks/useCheckRule.ts'
+const { createDialog } = useDialog()
 
 const pagination = reactive({
   page: 1,
@@ -58,7 +61,7 @@ const dataSource = ref([
     unbanRequest: '申请账号: 管理员\n申请时间: 2022-12-21 21:21:21',
     status: '状态：待处理\n理由：',
     operation_info: '',
-    action: '处理',
+    action: true, //处理
   },
   {
     id: '2',
@@ -70,7 +73,7 @@ const dataSource = ref([
     unbanRequest: '申请账号: 管理员\n申请时间: 2022-12-22 21:21:21',
     status: '状态：已解禁\n理由：我是反馈内容',
     operation_info: '操作账号：管理员\n操作时间：2022-03-03 12:22:21',
-    action: '处理',
+    action: false,
   },
   {
     id: '3',
@@ -82,7 +85,7 @@ const dataSource = ref([
     unbanRequest: '申请账号: 管理员\n申请时间: 2022-12-22 21:21:21',
     status: '状态：已解禁\n理由：我是反馈内容',
     operation_info: '操作账号：管理员\n操作时间：2022-03-03 12:22:21',
-    action: '处理',
+    action: false,
   },
 ]);
 
@@ -212,10 +215,11 @@ const columns = [
     align: 'center',
     customRender: ({ record }) => (
       <div style="text-align: center; ">
-        <span 
-              style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;" 
+        <span v-if="record.action"
+              style="color: #1890ff; margin-right: 12px; cursor: pointer;" 
               onClick={() => onProcess(record)}>
               处理</span>
+        <span v-else style="color: lightgrey; margin-right: 12px; cursor: pointer;" >处理</span>
       </div>
     ),
   },
@@ -224,21 +228,95 @@ const columns = [
 // Methods for handling copy and view actions
 const copyText = (text) => {
   navigator.clipboard.writeText(text).then(() => {
-    message.success('复制成功');
+    message.success({
+      content: `已成功复制到剪贴板。`,
+      duration: 1, // Duration in seconds
+    });
   }).catch(() => {
-    message.error('复制失败');
+    message.error({
+      content: '复制到剪贴板失败，请重试。',
+      duration: 1, // Duration in seconds
+    });
   });
 }
 
 const viewEvidence = (record) => {
   // Handle viewing the evidence here
-  createDialog({
-    title: '查看证据',
-    width: 500,
-    component: `<div>${record.unbanEvidence}</div>`,
-    onConfirm() {
-      message.success('证据查看完成');
+  const formValue = ref({
+    avatar_url: '',
+  })
+
+  const fApi = ref(null)
+  const checkRule = useCheckRule(record, fApi)
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
     },
-  });
+    rule: checkRule,
+  })
+
+  createDialog({
+    title: '查看',
+    width: 500,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
 }
+
+
+
+const onProcess = (record) => {
+  const formValue = ref({
+    avatar_url: '',
+  })
+
+  const fApi = ref(null)
+  const processRule = useProcessRule(record, fApi)
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
+    },
+    rule: processRule,
+  })
+
+  createDialog({
+    title: '处理',
+    width: 500,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
+}
+
 </script>

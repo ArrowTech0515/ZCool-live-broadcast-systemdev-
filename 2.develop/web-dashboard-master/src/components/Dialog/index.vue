@@ -46,7 +46,7 @@ function handleLoading(val = false) {
 <template>
   <AModal v-bind="localProps">
     <template #title>
-      <slot name="title">{{ title }}</slot>
+      <slot name="title" style="text-align: center;">{{ title }}</slot>
     </template>
     <template #default>
       <slot>
@@ -66,7 +66,7 @@ function handleLoading(val = false) {
           v-if="footer === undefined"
         >
           <a-button @click="handleCancel">取消</a-button>
-          <a-button
+          <a-button 
             type="primary"
             @click="handleConfirm"
             :loading="loading"
