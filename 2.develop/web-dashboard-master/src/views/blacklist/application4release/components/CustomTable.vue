@@ -1,6 +1,6 @@
 <template>
   <a-table
-    rowKey="anchor_id"
+    rowKey="id"
     :pagination="false"
     :dataSource="paginatedData"
     :columns="columns"
@@ -24,25 +24,8 @@
 </template>
 
 <script setup lang="jsx">
-import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/anchor'
-import MerchCell from '@/components/Business/MerchCell.jsx'
-import { getPathFromUrlArray } from '@/utils/index'
 import { message } from 'ant-design-vue'
-import useExportListRule from '../hooks/useExportListRule'
-import useAddRule from '../hooks/useAddRule'
 
-const props = defineProps({
-  searchParams: {
-    type: Object,
-    default: () => ({}),
-  },
-  resetSearch: {
-    type: Function,
-    default: () => { },
-  },
-})
-
-const router = useRouter()
 const pagination = reactive({
   page: 1,
   limit: 5,
@@ -64,292 +47,198 @@ const handleSizeChange = (current, size) => {
   pagination.page = 1 // Reset to the first page when page size changes
 }
 
-const { loading, refresh } = useRequest(() => getAnchorListReq({
-  ...props.searchParams,
-  page: pagination.page,
-  limit: pagination.limit,
-}), {
-  refreshDeps: true,
-  onSuccess(data) {
-    dataSource.value = data.items
-    pagination.total = data.total_data
-  },
-})
-
-const { createDialog } = useDialog()
-
-const { customRender } = MerchCell(loading)
-
-const centeredStyle = { textAlign: 'center' }
-
 const dataSource = ref([
   {
-    orderNumber: '789456',
-    userId: 'j12345',
-    nickname: '大聖',
-    userAccount: 'user01',
-    activityName: '充值返利',
-    activityId: '001',
-    status: '待審核',
-    bonusAmountOrRate: '10%',
-    washMultiple: 1,
-    creator: '系統',
-    reviewer: 'admin01',
-    applicationTime: '2024-08-28 12:10:12',
-    rewardTime: '',
-    remark: '',
+    id: '1',
+    appInfo: '应用名称: 打赏直播\n应用ID: 32423423',
+    anchorInfo: '主播昵称: \n房间号: 3435545',
+    blacklistInfo: '拉黑类型: 设备拉黑\n拉黑时效: 拉黑7天\n拉黑范围: 本平台\n拉黑原因: 理由理由',
+    unbanEvidence: '解禁证据: 这是解禁证据',
+    actionInfo: '操作人: 张三\n时间: 2022-12-21 21:21:21',
+    unbanRequest: '申请账号: 管理员\n申请时间: 2022-12-21 21:21:21',
+    status: '状态：待处理\n理由：',
+    operation_info: '',
+    action: '处理',
   },
   {
-    orderNumber: '789457',
-    userId: 'k33223',
-    nickname: '胖虎',
-    userAccount: 'user02',
-    activityName: '連續簽到',
-    activityId: '002',
-    status: '審核通過',
-    bonusAmountOrRate: 50,
-    washMultiple: 2,
-    creator: '系統',
-    reviewer: 'admin02',
-    applicationTime: '2024-08-25 12:10:44',
-    rewardTime: '',
-    remark: '',
+    id: '2',
+    appInfo: '应用名称: 打赏直播\n应用ID: 32423423',
+    anchorInfo: '主播昵称: \n房间号: 1234567',
+    blacklistInfo: '拉黑类型: 全平台\n拉黑时效: 永久拉黑\n拉黑范围: 全平台\n拉黑原因: 违规内容',
+    unbanEvidence: '解禁证据: 这是解禁证据',
+    actionInfo: '拉黑平台：XXXX商户\n操作人: 李四\n时间: 2022-12-21 22:21:21',
+    unbanRequest: '申请账号: 管理员\n申请时间: 2022-12-22 21:21:21',
+    status: '状态：已解禁\n理由：我是反馈内容',
+    operation_info: '操作账号：管理员\n操作时间：2022-03-03 12:22:21',
+    action: '处理',
   },
   {
-    orderNumber: '789458',
-    userId: 'polo323',
-    nickname: '福德正神',
-    userAccount: 'user03',
-    activityName: '首存禮包',
-    activityId: '003',
-    status: '已完成',
-    bonusAmountOrRate: 100,
-    washMultiple: 1,
-    creator: '系統',
-    reviewer: 'admin02',
-    applicationTime: '2024-08-24 12:20:48',
-    rewardTime: '2024-08-24 13:20:33',
-    remark: '獎勵已發放',
-  },
-  {
-    orderNumber: '789443',
-    userId: 'greenflower',
-    nickname: '翠花',
-    userAccount: 'user04',
-    activityName: '每日任務',
-    activityId: '004',
-    status: '已派獎',
-    bonusAmountOrRate: 30,
-    washMultiple: 1.5,
-    creator: '系統',
-    reviewer: 'admin01',
-    applicationTime: '2024-08-23 12:20:48',
-    rewardTime: '2024-08-23 13:20:33',
-    remark: '',
-  },
-  {
-    orderNumber: '789412',
-    userId: 'greenflower',
-    nickname: '翠花',
-    userAccount: 'user04',
-    activityName: '新手禮包',
-    activityId: '005',
-    status: '審核不通過',
-    bonusAmountOrRate: 20,
-    washMultiple: 1,
-    creator: 'operator01',
-    reviewer: 'admin01',
-    applicationTime: '2024-08-22 12:20:48',
-    rewardTime: '',
-    remark: '不符合條件',
+    id: '3',
+    appInfo: '应用名称: 打赏直播\n应用ID: 32423423',
+    anchorInfo: '主播昵称: \n房间号: 1234567',
+    blacklistInfo: '拉黑类型: 全平台\n拉黑时效: 永久拉黑\n拉黑范围: 全平台\n拉黑原因: 违规内容',
+    unbanEvidence: '解禁证据: 这是解禁证据',
+    actionInfo: '操作人: 张三\n时间: 2022-12-21 22:21:21',
+    unbanRequest: '申请账号: 管理员\n申请时间: 2022-12-22 21:21:21',
+    status: '状态：已解禁\n理由：我是反馈内容',
+    operation_info: '操作账号：管理员\n操作时间：2022-03-03 12:22:21',
+    action: '处理',
   },
 ]);
 
 const columns = [
+  // 1st Column: 应用信息
   {
-    title: '編號ID',
-    dataIndex: 'orderNumber',
+    title: '应用信息',
+    dataIndex: 'appInfo',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.orderNumber}</div>,
+    customRender: ({ record }) => (
+      <div>
+        {record.appInfo.split('\n').map((line, index) => (
+          <span key={index}>{line}<br /></span>
+        ))}
+      </div>
+    ),
   },
+  // 2nd Column: 主播信息
   {
-    title: '用戶ID',
-    dataIndex: 'userId',
+    title: '主播信息',
+    dataIndex: 'anchorInfo',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.userId}</div>,
+    customRender: ({ record }) => (
+      <div>
+        {record.anchorInfo.split('\n').map((line, index) => (
+          <span key={index} style="display: flex; justify-content: space-between;">
+            <span>{line}</span>
+            <span 
+              style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;" 
+              onClick={() => copyText(line)}>
+              复制</span>
+          </span>
+        ))}
+      </div>
+    ),
   },
+  // 3rd Column: 黑名单信息
   {
-    title: '暱稱',
-    dataIndex: 'nickname',
+    title: '黑名单信息',
+    dataIndex: 'blacklistInfo',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.nickname}</div>,
+    customRender: ({ record }) => (
+      <div>
+        {record.blacklistInfo.split('\n').map((line, index) => (
+          <span key={index} style="display: flex; justify-content: space-between;">
+            <span>{line}</span>
+            <span v-if="index==3"
+              style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;" 
+              onClick={() => viewEvidence(line)}>
+              查看</span>
+          </span>
+        ))}
+      </div>
+    ),
   },
+  // 5th Column: 操作信息
   {
-    title: '用戶帳號',
-    dataIndex: 'userAccount',
+    title: '操作信息',
+    dataIndex: 'actionInfo',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.userAccount}</div>,
+    customRender: ({ record }) => (
+      <div>
+        {record.actionInfo.split('\n').map((line, index) => (
+          <span key={index} style="display: flex; justify-content: space-between;">{line}<br /></span>
+        ))}
+      </div>
+    ),
   },
+  // 6th Column: 解禁申请
   {
-    title: '活動名稱',
-    dataIndex: 'activityName',
+    title: '解禁申请',
+    dataIndex: 'unbanRequest',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.activityName}</div>,
+    customRender: ({ record }) => (
+      <div>
+        {record.unbanRequest.split('\n').map((line, index) => (
+          <span key={index} style="display: flex; justify-content: space-between;">{line}<br /></span>
+        ))}
+      </div>
+    ),
   },
+  // 4th Column: 解禁证据
   {
-    title: '活動ID',
-    dataIndex: 'activityId',
+    title: '解禁证据',
+    dataIndex: 'unbanEvidence',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.activityId}</div>,
+    customRender: ({ record }) => (
+      <div style="display: flex; justify-content: space-between;">
+        <span>{record.unbanEvidence}</span>
+        <span 
+              style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;" 
+              onClick={() => viewEvidence(record.unbanEvidence)}>
+              查看</span>
+      </div>
+    ),
   },
+  // 7th Column: 状态
   {
-    title: '狀態',
+    title: '状态',
     dataIndex: 'status',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.status}</div>,
+    customRender: ({ record }) => (
+      <div>
+        {record.status.split('\n').map((line, index) => (
+          <span key={index} style="display: flex; justify-content: space-between;">{line}<br /></span>
+        ))}
+      </div>
+    ),
   },
+  // 8th Column: 原因
   {
-    title: '優惠金額/比例',
-    dataIndex: 'bonusAmountOrRate',
+    title: '操作信息',
+    dataIndex: 'operation_info',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.bonusAmountOrRate}</div>,
+    customRender: ({ record }) => (
+      <div>
+        {record.operation_info.split('\n').map((line, index) => (
+          <span key={index} style="display: flex; justify-content: space-between;">{line}<br /></span>
+        ))}
+      </div>
+    ),
   },
+  // 9th Column: 操作
   {
-    title: '洗碼倍數',
-    dataIndex: 'washMultiple',
+    title: '操作',
+    dataIndex: 'action',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.washMultiple}</div>,
+    customRender: ({ record }) => (
+      <div style="text-align: center; ">
+        <span 
+              style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;" 
+              onClick={() => onProcess(record)}>
+              处理</span>
+      </div>
+    ),
   },
-  {
-    title: '創建人',
-    dataIndex: 'creator',
-    align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.creator}</div>,
-  },
-  {
-    title: '審核人',
-    dataIndex: 'reviewer',
-    align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.reviewer}</div>,
-  },
-  {
-    title: '申請時間',
-    dataIndex: 'applicationTime',
-    align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.applicationTime}</div>,
-  },
-  {
-    title: '派獎時間',
-    dataIndex: 'rewardTime',
-    align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.rewardTime}</div>,
-  },
-  {
-    title: '備註',
-    dataIndex: 'remark',
-    align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.remark}</div>,
-  },
-];
+]
 
-
-async function exportList() {
-  const formValue = ref({
-    user_id: null,
-    application_id: null,
-  })
-
-  const fApi = ref(null)
-  const exportListRule = useExportListRule(false, true, fApi)
-
-  console.log("editItem : fApi = " + fApi.value)
-
-  
-  const formModalProps = reactive({
-    request: data => anchorAddOrEditReq(null, data),
-    getData(data) {
-      const { avatar_url, ...rest } = data
-      return {
-        ...rest,
-        avatar_url: getPathFromUrlArray(avatar_url),
-      }
-    },
-    rule: exportListRule,
-  })
-
-  console.log("user_id: " + formValue.user_id)
-
-  createDialog({
-    title: '導出列表',
-    width: 600,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        v-model:fApi={fApi.value}
-        {...formModalProps}
-      >
-      </ModalForm>
-    ,
-    onConfirm() {
-      pagination.page = 1
-      pagination.total = 0
-      props.resetSearch()
-    },
-  })
+// Methods for handling copy and view actions
+const copyText = (text) => {
+  navigator.clipboard.writeText(text).then(() => {
+    message.success('复制成功');
+  }).catch(() => {
+    message.error('复制失败');
+  });
 }
 
-const option = {
-  global: {
-    '*': {
-      wrap: {
-        labelCol: { span: 6 },
-      },
-    },
-  },
-}
-
-// 添加主播，不可编辑
-async function emitAdd() {
-  const formValue = ref({
-    avatar_url: '',
-    nickname: '',
-  })
-
-  const fApi = ref(null)
-  const addRule = useAddRule(false, true, fApi)
-  const formModalProps = reactive({
-    request: data => anchorAddOrEditReq(null, data),
-    getData(data) {
-      const { avatar_url, ...rest } = data
-      return {
-        ...rest,
-        avatar_url: getPathFromUrlArray(avatar_url),
-      }
-    },
-    rule: addRule,
-    option: option,
-  })
-
+const viewEvidence = (record) => {
+  // Handle viewing the evidence here
   createDialog({
-    title: '新增優惠',
+    title: '查看证据',
     width: 500,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        v-model:fApi={fApi.value}
-        {...formModalProps}
-      >
-      </ModalForm>
-    ,
+    component: `<div>${record.unbanEvidence}</div>`,
     onConfirm() {
-      pagination.page = 1
-      pagination.total = 0
-      props.resetSearch()
+      message.success('证据查看完成');
     },
-  })
+  });
 }
-
-defineExpose({
-  exportList, emitAdd
-})
 </script>

@@ -92,6 +92,9 @@ const rule = ref([
     props: {
       placeholder: '请选择所商户名称/昵称',
     },
+    wrap: {
+      labelCol: { span: 10 },
+    },
   },
   {
     type: 'input',
@@ -100,6 +103,9 @@ const rule = ref([
     value: '',
     props: {
       placeholder: '请选择应用ID/房间号',
+    },
+    wrap: {
+      labelCol: { span: 10 },
     },
   },
   {

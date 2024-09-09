@@ -18,16 +18,6 @@
               class="ml20"
               @click="resetForm"
             ><ReloadOutlined/>重置</AButton>
-            <div class="flex1 flex_end">
-              <AButton
-                type="primary"
-                @click="emit('emit_export_list')"
-              >導出列表</AButton>
-              <AButton
-                type="primary"
-                @click="emit('emit_add')"
-              >新增優惠</AButton>
-            </div>
           </section>
         </template>
       </form-create>
@@ -42,7 +32,7 @@ const data = reactive({
   banker_name: null, // This will trigger the placeholder in the select field
   bank_name: null, // Same here for bank_name select field
   bank_card_number: null, // Same here for bank_card_number select field
-  user_id: '', // Input fields can use empty string to show placeholder
+  user_id: null, // Input fields can use empty string to show placeholder
   order_number: '', // Input fields can use empty string to show placeholder
   order_status: null, // This will trigger the placeholder in the select field
 })
@@ -66,80 +56,55 @@ const option = {
 
 const rule = ref([
   {
-    type: 'input',
-    field: 'number_id',
-    title: '编号ID',
-    value: '',
-    props: {
-      placeholder: '请输入编号ID', // Add placeholder
-    },
-  },
-  {
-    type: 'input',
+    type: 'select',
     field: 'user_id',
-    title: '用户ID',
-    value: '',
+    title: '应用',
+    value: '所有应用',
     props: {
-      placeholder: '请输入用户ID', // Add placeholder
+      placeholder: '请输入应用', // Add placeholder
     },
   },
   {
     type: 'input',
-    field: 'user_account',
-    title: '用户账号',
+    field: 'user_nickname',
+    title: '用户昵称',
     value: '',
     props: {
-      placeholder: '请输入用户账号', // Add placeholder
+      placeholder: '请输入用户昵称', // Add placeholder
     },
   },
   {
     type: 'select',
-    field: 'activity_name',
-    title: '活动名称',
+    field: 'user_id',
+    title: '应用ID/用户ID',
     props: {
-      placeholder: '请选择活动名称', // Add placeholder
+      placeholder: '请选择应用ID/用户ID', // Add placeholder
+    },
+    wrap: {
+      labelCol: { span: 10 },
     },
     //options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
-  },
-  {
-    type: 'input',
-    field: 'activity_id',
-    title: '活动ID',
-    value: '',
-    props: {
-      placeholder: '请输入活动ID', // Add placeholder
-    },
-  },
-  {
-    type: 'rangePicker',
-    field: 'application_time',
-    title: '申请时间',
-    value: '',
-    className: 'form-time-picker',
-    props: {
-      format: 'YYYY-MM-DD HH:mm:ss',
-      valueFormat: 'X',
-    },
-  },
-  {
-    type: 'rangePicker',
-    field: 'award_time',
-    title: '派奖时间',
-    value: '',
-    className: 'form-time-picker',
-    props: {
-      format: 'YYYY-MM-DD HH:mm:ss',
-      valueFormat: 'X',
-    },
   },
   {
     type: 'select',
     field: 'status',
     title: '状态',
+    value: 1,
     props: {
-      mode: 'multiple',  // Enable multi-select
-      options: Object.keys(ENUM.discount_status).map(key => ({ label: ENUM.discount_status[key], value: parseInt(key) })),
+      //mode: 'multiple',  // Enable multi-select
+      options: Object.keys(ENUM.ban_status).map(key => ({ label: ENUM.ban_status[key], value: parseInt(key) })),
       placeholder: '请选择状态',
+    },
+  },
+  {
+    type: 'rangePicker',
+    field: 'time',
+    title: '时间',
+    value: '',
+    className: 'form-time-picker',
+    props: {
+      format: 'YYYY-MM-DD HH:mm:ss',
+      valueFormat: 'X',
     },
   },
   { type: 'btns' },
