@@ -1,14 +1,14 @@
 import { type Api } from '@form-create/ant-design-vue'
 
-export default function (fApi: Ref<Api>) {
+export default function (anchor_or_user:string, fApi: Ref<Api>) {
 
   return [
     {
       type: 'input',
       field: 'block_users',
-      title: '拉黑用户',
+      title: '拉黑' + anchor_or_user,
       props: {
-         placeholder: '请输入用户ID搜索',
+         placeholder: '请输入' + anchor_or_user + 'ID搜索',
       },
     },
     {
