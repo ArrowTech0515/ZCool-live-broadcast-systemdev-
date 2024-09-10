@@ -206,6 +206,38 @@ const columns = [
   },
 ]
 
+const allUsers = [
+  { id: '1', name: '用户11' },
+  { id: '2', name: '用户22' },
+  { id: '3', name: '用户33' },
+  { id: '4', name: 'user44' },
+  { id: '5', name: 'user_abc' },
+];
+
+
+const allAnchors = [
+  { id: '1', name: '主播11' },
+  { id: '2', name: '主播22' },
+  { id: '3', name: '主播33' },
+  { id: '4', name: 'aaa44' },
+  { id: '5', name: 'anchor_111' },
+];
+
+
+const searchUsers = async (searchText, user_or_anchor) => {
+
+  console.log("searchText : " + searchText)
+
+  if(user_or_anchor === '用户') {
+  // Simulate search based on input
+    return allUsers
+      .filter(user => user.name.toLowerCase().includes(searchText.toLowerCase()) || user.id.includes(searchText))
+      .map(user => ({ value: user.name, label: `${user.name}` }))
+  }
+  return allAnchors
+  .filter(user => user.name.toLowerCase().includes(searchText.toLowerCase()) || user.id.includes(searchText))
+  .map(user => ({ value: user.name, label: `${user.name}` }))
+}
 
 // 添加
 async function onAddUser() {
@@ -214,7 +246,7 @@ async function onAddUser() {
   })
 
   const fApi = ref(null)
-  const userRule = useAnchor_UserRule('用户', fApi)
+  const userRule = useAnchor_UserRule('用户', searchUsers, fApi)
   const formModalProps = reactive({
     request: data => anchorAddOrEditReq(null, data),
     getData(data) {
@@ -246,6 +278,7 @@ async function onAddUser() {
   })
 }
 
+
 // 添加主播，不可编辑
 async function onAddAnchor() {
   const formValue = ref({
@@ -253,7 +286,7 @@ async function onAddAnchor() {
   })
 
   const fApi = ref(null)
-  const anchorRule = useAnchor_UserRule('主播', fApi)
+  const anchorRule = useAnchor_UserRule('主播', searchUsers, fApi)
   const formModalProps = reactive({
     request: data => anchorAddOrEditReq(null, data),
     getData(data) {

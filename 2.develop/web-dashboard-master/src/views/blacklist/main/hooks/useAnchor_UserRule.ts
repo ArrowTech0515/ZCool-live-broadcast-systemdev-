@@ -1,15 +1,48 @@
-import { type Api } from '@form-create/ant-design-vue'
 
-export default function (anchor_or_user:string, fApi: Ref<Api>) {
+
+export default function (anchor_or_user: string, searchUsers, fApi: Ref<Api>) {
+
+  const blockUserOptions = ref([
+    // { value: '1', label: 'John Doe (1)' },
+    // { value: '2', label: 'Jane Smith (2)' }
+  ]);
 
   return [
     {
-      type: 'input',
+      type: 'autoComplete', // Use AutoComplete to enable search functionality
       field: 'block_users',
       title: '拉黑' + anchor_or_user,
       props: {
-         placeholder: '请输入' + anchor_or_user + 'ID搜索',
+        placeholder: '请输入' + anchor_or_user + 'ID搜索',
+        allowClear: true,
+        options: blockUserOptions, // Directly bind the options here
+        filterOption: false, // Disable default filtering since we're handling it
+        notFoundContent: '无匹配结果', // To display if no match is found
       },
+      on: {
+        search: async (searchText: string) => {
+          if (searchText) {
+            try {
+              // Fetch the user options based on search text
+              const options = await searchUsers(searchText, anchor_or_user);
+              console.log('Fetched options:', options); // Log to ensure correct options are fetched
+
+              // Directly update blockUserOptions
+              blockUserOptions.value = options;
+              console.log('Updated blockUserOptions:', blockUserOptions.value); // Log updated options
+            } catch (error) {
+              console.error('Error fetching search results:', error);
+            }
+          } else {
+            // Clear the options if the search text is empty
+            blockUserOptions.value = [];
+          }
+        },
+        select: (selected: { label: string; value: string }) => {
+          selectedUser.value = selected; // Save selected user as an object with label and value
+          console.log('Selected user:', selectedUser.value);
+        }
+      }
     },
     {
       type: 'checkbox',
@@ -52,7 +85,7 @@ export default function (anchor_or_user:string, fApi: Ref<Api>) {
         valueFormat: 'X',
         placeholder: ['开始时间', '结束时间'],
       },
-      hidden: true, // Initially hidden
+      hidden: true,
       wrap: {
         labelCol: {
           span: 5,
@@ -75,8 +108,9 @@ export default function (anchor_or_user:string, fApi: Ref<Api>) {
       value: '',
       props: {
         placeholder: '请输入拉黑理由',
-        type: 'textarea'
+        type: 'textarea',
       },
     },
-  ]
+  ];
 }
+

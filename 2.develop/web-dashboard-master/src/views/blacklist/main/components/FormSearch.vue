@@ -112,10 +112,11 @@ const rule = ref([
     type: 'select',
     field: 'all_identities',
     title: '身份',
-    value: '全部身份',
+    value: 1,
     props: {
       placeholder: '请选择身份',
     },
+    options: Object.keys(ENUM.user_or_anchor).map(key => ({ label: ENUM.user_or_anchor[key], value: parseInt(key) })),
   },
   {
     type: 'rangePicker',
