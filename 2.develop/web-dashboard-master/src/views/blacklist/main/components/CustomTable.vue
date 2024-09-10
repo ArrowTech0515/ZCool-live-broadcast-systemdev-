@@ -25,8 +25,8 @@
 
 <script setup lang="jsx">
 import useAnchor_UserRule from '../hooks/useAnchor_UserRule'
+import useUnbanUserRule from '../hooks/useUnbanUserRule';
 import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/anchor'
-
 import { message } from 'ant-design-vue'
 
 const { createDialog } = useDialog()
@@ -82,9 +82,9 @@ const dataSource = ref([
     blacklistPlatform: 'XXX商户',
     reason: '发广告',
     time: '2022-03-03 12:22:21',
-    operator: 'XXX商户',
+    operator: '',
     admin: '管理员·张三',
-    action: '解除',
+    action: '申请解禁',
   },
   {
     nickname: '打扫打扫打扫',
@@ -104,7 +104,7 @@ const dataSource = ref([
   {
     nickname: '打扫打扫打扫',
     id: '32423',
-    identity: '主播',
+    identity: '用户',
     merchant: 'XXXX商户',
     application: 'XXX应用',
     blacklistType: 'IP拉黑',
@@ -112,9 +112,9 @@ const dataSource = ref([
     blacklistPlatform: 'XXX商户',
     reason: '发广告',
     time: '2022-03-03 12:22:21',
-    operator: 'XXX商户',
+    operator: '',
     admin: '管理员·张三',
-    action: '解除',
+    action: '申请解禁',
   },
 ]);
 
@@ -197,15 +197,20 @@ const columns = [
     align: 'center',
     customRender: ({ record }) => (
       <div style={centeredStyle}>
-        <span 
+        <span v-if="record.action == '解除'"
               style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;" 
               onClick={() => onRelease(record)}>
-              解除</span>
+              {record.action}</span>
+        <span v-else
+              style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;" 
+              onClick={() => onApplyUnban(record)}>
+              {record.action}</span>
       </div>
     )
   },
 ]
 
+// Junn
 const allUsers = [
   { id: '1', name: '用户11' },
   { id: '2', name: '用户22' },
@@ -360,8 +365,64 @@ const onRelease = (record) => {
   })
 }
 
+const unban_img_cnt = ref(0)
+
+// 添加主播，不可编辑
+async function onApplyUnban(record) {
+  const formValue = ref({
+    avatar_url: '',
+  });
+
+  const fApi = ref(null);
+
+  const anchorRule = useUnbanUserRule(record, unban_img_cnt, fApi);
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data;
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      };
+    },
+    rule: anchorRule,
+  });
+
+  watch(unban_img_cnt, (newVal) => {
+    if (fApi.value) {
+      fApi.value.setValue('unban_img_cnt_label', newVal);
+      console.log("watch: " + unban_img_cnt.value);
+    }
+  });
+
+  const renderImgCount = computed(() => `${unban_img_cnt.value}/${ENUM.MAX_UPLOAD_UNBAN}`);
+
+  createDialog({
+    title: '解禁' + record.identity,
+    width: 500,
+    component: (
+      <div>
+        <ModalForm
+          v-model={formValue.value}
+          v-model:fApi={fApi.value}
+          {...formModalProps}
+        />
+        {/* Dynamically bind the value */}
+
+      </div>
+    ),
+    onConfirm() {
+      pagination.page = 1;
+      pagination.total = 0;
+      props.resetSearch();
+    },
+  });
+}
+
 defineExpose({
   onAddAnchor, onAddUser
 })
-
+{/* <div field="unban_img_cnt_label" style="margin-left: 115px; margin-top: -30px; color: grey;">
+          {unban_img_cnt.value}
+        </div> */}
 </script>

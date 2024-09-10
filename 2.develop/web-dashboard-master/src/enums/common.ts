@@ -1,4 +1,5 @@
 export default {
+  MAX_UPLOAD_UNBAN : 5,
   log_type: {
     1: '注册',
     2: '登录',

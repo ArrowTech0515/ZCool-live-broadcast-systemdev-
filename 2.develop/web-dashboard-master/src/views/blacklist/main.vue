@@ -1,13 +1,13 @@
 <template>
     <a-tabs default-active-key="1">
         
-      <a-tab-pane key="1" tab="黑名单管理">
+      <a-tab-pane key="1" tab="黑名单管理_商户后台">
           <mainPage/>
       </a-tab-pane>
       <a-tab-pane key="2" tab="解禁申请">
           <application4release />
       </a-tab-pane>
-      <a-tab-pane key="3" tab="黑名单管理_P1优先级">
+      <a-tab-pane key="3" tab="黑名单管理_工会后台">
           <maincopyPage/>
       </a-tab-pane>
     </a-tabs>

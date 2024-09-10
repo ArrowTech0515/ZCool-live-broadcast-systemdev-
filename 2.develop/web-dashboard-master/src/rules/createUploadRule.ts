@@ -10,13 +10,13 @@ const beforeUpload = (file: any) => {
   return isJpgOrPng && isLt2M
 }
 
-export default function (title = '头像', field = 'avatar_url') {
+export default function (title = '头像', maxCnt = 5, field = 'avatar_url', onUploadChange: (count: number) => void ) {
   return {
     type: 'upload',
     field,
     title,
     props: {
-      maxCount: 1,
+      maxCount: maxCnt,
       listType: "picture-card",
       accept: 'image/png,image/jpeg,image/jpg',
       action: import.meta.env.VITE_API_HOST + '/api/v1/upload/resource',
@@ -32,6 +32,12 @@ export default function (title = '头像', field = 'avatar_url') {
           $message.error('上传失败')
           return null
         }
+      },
+      onChange(info) {
+        const { fileList } = info
+        // Send the current file count to the parent
+        console.log("onUploadChange : " + fileList.length)
+        onUploadChange(fileList.length)
       },
     },
     value: []
