@@ -9,18 +9,17 @@
       >
         <template #type-btns>
           <section
-            class="flex mb15"
-            style="width: 100%;"
+            class="flex mb30"  style="flex: auto;"
           >
             <AButton
+              class="ml20"
               @click="submitForm"
               type="primary"
-              class="mr10"
-            >查询</AButton>
+            ><SearchOutlined/>查询</AButton>
             <AButton
-              class="mr10"
+              class="ml20"
               @click="resetForm"
-            >重置</AButton>
+            ><ReloadOutlined/>重置</AButton>
             <div class="flex1 flex_end">
               <AButton
                 type="primary"
@@ -65,12 +64,18 @@ const rule = ref([
     field: 'merch_name',
     title: '商户名称',
     value: '',
+    props: {
+      placeholder: '请输入商户名称',
+    },
   },
   {
     type: 'input',
     field: 'account',
     title: '账号名称',
     value: '',
+    props: {
+      placeholder: '请输入账号名称',
+    },
   },
   {
     type: 'rangePicker',

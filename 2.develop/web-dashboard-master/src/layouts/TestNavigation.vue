@@ -76,7 +76,7 @@
   import messageManagement from '@/views/message/list/index.vue'
   import anchorManagement from '@/views/anchor/list/index.vue'
   import payManagement from '@/views/payment/channel/index.vue'
-  import merchantManagement from '@/views/merchant/list/index.vue'
+  import merchantManagement from '@/views/merchant/main.vue'
   import settingManagement from '@/views/setting/main.vue'
 
   // new added
@@ -184,7 +184,7 @@
         }
       }
   
-      const currentComponent = ref('blacklistManagement') // Initial component
+      const currentComponent = ref('merchantManagement') // Initial component
   
       return {
         collapse_flag,
