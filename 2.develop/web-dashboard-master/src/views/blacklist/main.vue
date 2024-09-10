@@ -7,6 +7,9 @@
       <a-tab-pane key="2" tab="解禁申请">
           <application4release />
       </a-tab-pane>
+      <a-tab-pane key="3" tab="黑名单管理_P1优先级">
+          <maincopyPage/>
+      </a-tab-pane>
     </a-tabs>
   </template>
   
@@ -14,6 +17,7 @@
   import { Tabs } from 'ant-design-vue'
 
   import mainPage from './main/index.vue'
+  import maincopyPage from './main copy/index.vue'
   import application4release from './application4release/index.vue'
 
   export default {
@@ -21,7 +25,8 @@
       'a-tabs': Tabs,
       'a-tab-pane': Tabs.TabPane,
       mainPage,
-      application4release
+      application4release,
+      maincopyPage
     }
   }
   </script>

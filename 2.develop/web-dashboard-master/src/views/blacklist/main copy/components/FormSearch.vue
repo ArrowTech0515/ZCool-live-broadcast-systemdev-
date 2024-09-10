@@ -8,8 +8,8 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb30" style="flex: auto; margin-left: 0%;">
-            <AButton style="margin-left: auto;"
+          <section class="flex mb30" style="flex: auto;">
+            <AButton
               class="ml20"
               @click="submitForm"
               type="primary"
@@ -29,15 +29,16 @@
 
 const params = defineModel()
 const data = reactive({
-  banker_name: null, // This will trigger the placeholder in the select field
-  bank_name: null, // Same here for bank_name select field
-  bank_card_number: null, // Same here for bank_card_number select field
-  user_id: null, // Input fields can use empty string to show placeholder
-  order_number: '', // Input fields can use empty string to show placeholder
-  order_status: null, // This will trigger the placeholder in the select field
+  merchant_type: '所有商户', // Select all merchants
+  application_type: '所有应用', // Select all apps
+  merchant_name: '', // Placeholder for game name
+  room_number: '', // Placeholder for platform ID/room number
+  all_identities: '全部身份', // Placeholder for identity selection
+  time: '', // Date picker (start and end time)
 })
 
-const emit = defineEmits(['emit_export_list', 'emit_add'])
+const emit = defineEmits(['emit_adduser', 'emit_addanchor'])
+
 const fApi = ref({})
 const option = {
   resetBtn: false,
@@ -56,34 +57,34 @@ const option = {
 
 const rule = ref([
   {
-    type: 'select',
-    field: 'user_id',
-    title: '应用',
-    value: '所有应用',
+    type: 'input',
+    field: 'room_number',
+    title: '房间号',
+    value: '',
     props: {
-      placeholder: '请输入应用', // Add placeholder
+      placeholder: '请输入房间号',
     },
+    // wrap: {
+    //   labelCol: { span: 10 },
+    // },
   },
   {
     type: 'input',
-    field: 'user_nickname',
-    title: '用户昵称',
+    field: 'merchant_name',
+    title: '主播昵称',
     value: '',
     props: {
-      placeholder: '请输入用户昵称', // Add placeholder
+      placeholder: '请输入主播昵称',
     },
   },
   {
-    type: 'select',
-    field: 'user_id',
-    title: '应用ID/用户ID',
+    type: 'rangePicker',
+    field: 'time',
+    title: '开始时间-结束时间',
+    value: '',
     props: {
-      placeholder: '请选择应用ID/用户ID', // Add placeholder
+      format: 'YYYY-MM-DD HH:mm:ss',
     },
-    wrap: {
-      labelCol: { span: 10 },
-    },
-    //options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
   },
   {
     type: 'select',
@@ -92,19 +93,8 @@ const rule = ref([
     value: 1,
     props: {
       //mode: 'multiple',  // Enable multi-select
-      options: Object.keys(ENUM.ban_status2).map(key => ({ label: ENUM.ban_status2[key], value: parseInt(key) })),
+      options: Object.keys(ENUM.ban_status).map(key => ({ label: ENUM.ban_status[key], value: parseInt(key) })),
       placeholder: '请选择状态',
-    },
-  },
-  {
-    type: 'rangePicker',
-    field: 'time',
-    title: '时间',
-    value: '',
-    className: 'form-time-picker',
-    props: {
-      format: 'YYYY-MM-DD HH:mm:ss',
-      valueFormat: 'X',
     },
   },
   { type: 'btns' },
@@ -124,7 +114,7 @@ function submitForm() {
 function getData(data) {
   params.value = {
     ...data,
-    join_time: data.join_time ? data.join_time?.join(',') : undefined,
+    join_time: data.time ? data.time.join(',') : undefined,
   }
 }
 
