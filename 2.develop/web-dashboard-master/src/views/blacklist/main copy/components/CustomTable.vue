@@ -24,10 +24,9 @@
 </template>
 
 <script setup lang="jsx">
-import useAnchor_UserRule from '../hooks/useAnchor_UserRule'
 import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/anchor'
-
 import { message } from 'ant-design-vue'
+import useReleaseFeedbackRule from '../hooks/useReleaseFeedbackRule'
 
 const { createDialog } = useDialog()
 
@@ -60,7 +59,7 @@ const dataSource = ref([
     anchor_nickname: '打扫打扫打扫',
     room_number: '32423',
     blacklistType: '设备拉黑',
-    blacklistEffect: '禁言7天',
+    blacklistEffect: '拉黑7天',
     reason: '发广告',
     operate_time: '2022-03-03 12:22:21',
     blacklistPlatform: '平台',
@@ -84,7 +83,7 @@ const dataSource = ref([
     anchor_nickname: '打扫打扫打扫',
     room_number: '32423',
     blacklistType: '设备拉黑',
-    blacklistEffect: '禁言7天',
+    blacklistEffect: '拉黑7天',
     reason: '发广告',
     operate_time: '2022-03-03 12:22:21',
     blacklistPlatform: '工会',
@@ -108,7 +107,7 @@ const dataSource = ref([
     anchor_nickname: '打扫打扫打扫',
     room_number: '32423',
     blacklistType: '设备拉黑',
-    blacklistEffect: '禁言23天',
+    blacklistEffect: '拉黑23天',
     reason: '发广告',
     operate_time: '2022-03-03 12:22:21',
     blacklistPlatform: '平台',
@@ -188,7 +187,7 @@ const columns = [
       <div style={centeredStyle}>
         <span v-if="record.status === '已拒绝'"
               style="text-decoration: underline; color: #1890ff; cursor: pointer;" 
-              onClick={() => onRelease(record)}>
+              onClick={() => releaseFeedback(record)}>
               已拒绝</span>
         <span v-else>{record.status}</span>
       </div>
@@ -210,7 +209,7 @@ const columns = [
               解禁</span>
         <span v-else
               style="text-decoration: underline; color: #e76f00; margin-right: 12px; cursor: pointer;" 
-              onClick={() => onRelease(record)}>
+              onClick={() => applyForBan(record)}>
               申请解禁</span>
       </div>
     ),
@@ -218,14 +217,15 @@ const columns = [
 ]
 
 
-// 添加
-async function onAddUser() {
+
+// 添加主播，不可编辑
+function applyForBan(record) {
   const formValue = ref({
     avatar_url: '',
   })
 
   const fApi = ref(null)
-  const userRule = useAnchor_UserRule('用户', fApi)
+  const anchorRule = useReleaseFeedbackRule('主播', fApi)
   const formModalProps = reactive({
     request: data => anchorAddOrEditReq(null, data),
     getData(data) {
@@ -235,11 +235,11 @@ async function onAddUser() {
         avatar_url: getPathFromUrlArray(avatar_url),
       }
     },
-    rule: userRule,
+    rule: anchorRule,
   })
 
   createDialog({
-    title: '添加用户',
+    title: '申请解禁',
     width: 500,
     component:
       <ModalForm
@@ -257,37 +257,45 @@ async function onAddUser() {
   })
 }
 
-// 添加主播，不可编辑
-async function onAddAnchor() {
+const releaseFeedback = (record) => {
+
   const formValue = ref({
     avatar_url: '',
   })
 
   const fApi = ref(null)
-  const anchorRule = useAnchor_UserRule('主播', fApi)
+  // const anchorRule = useAnchor_UserRule('主播', fApi)
   const formModalProps = reactive({
-    request: data => anchorAddOrEditReq(null, data),
-    getData(data) {
-      const { avatar_url, ...rest } = data
-      return {
-        ...rest,
-        avatar_url: getPathFromUrlArray(avatar_url),
-      }
-    },
-    rule: anchorRule,
+  //   request: data => anchorAddOrEditReq(null, data),
+  //   getData(data) {
+  //     const { avatar_url, ...rest } = data
+  //     return {
+  //       ...rest,
+  //       avatar_url: getPathFromUrlArray(avatar_url),
+  //     }
+  //   },
+  //   rule: anchorRule,
   })
 
   createDialog({
-    title: '添加主播',
+    title: '解禁反馈',
     width: 500,
+    footer: '',
     component:
-      <ModalForm
-        v-model={formValue.value}
-        v-model:fApi={fApi.value}
-        {...formModalProps}
-      >
-      </ModalForm>
-    ,
+      <div>
+        <a-form-item label="解禁状态">
+          <span style="font-size: 14px; display: block; ">
+            {record.status}
+          </span>
+        </a-form-item>
+        <a-form-item label="拒绝理由">
+          <a-textarea 
+            value="XXX理由XXX理由XXX理由XXX理由XXX理由XXX理由XXX理由XXX理由XXX理由" 
+            rows="4" 
+            disabled />
+        </a-form-item>
+      </div>
+     ,
     onConfirm() {
       pagination.page = 1
       pagination.total = 0
@@ -317,7 +325,7 @@ const onRelease = (record) => {
   })
 
   createDialog({
-    title: '解除状态',
+    title: '解除拉黑',
     width: 500,
     component:
       <ModalForm
@@ -326,7 +334,10 @@ const onRelease = (record) => {
       >
         <a-form-item>
           <span style="font-size: 14px; display: block; margin: 10px auto; text-align: center;">
-            是否解除当前禁言？
+            是否解除当前主播账号拉黑？
+          </span>
+          <span style="font-size: 11px; display: block; margin: 10px auto; text-align: center;">
+            解除后主播可正常登录账号
           </span>
         </a-form-item>
       </ModalForm>,
@@ -339,7 +350,7 @@ const onRelease = (record) => {
 }
 
 defineExpose({
-  onAddAnchor, onAddUser
+
 })
 
 </script>
