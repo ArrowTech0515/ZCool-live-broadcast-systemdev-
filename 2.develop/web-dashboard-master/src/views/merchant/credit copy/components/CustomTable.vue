@@ -162,19 +162,19 @@ const columns = [
           迁移</span>
         <span v-if={record.status === 3 && record.status2 === 1}
           style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
-          onClick={() => onActivate(record)}>
+          onClick={() => editItem(record)}>
           合并</span>         
         <span v-if={record.status === 4}
           style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
-          onClick={() => editItem(record)}>
+          onClick={() => onActivate1(record)}>
           启用</span>     
         <span v-else
           style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
-          onClick={() => editItem(record)}>
+          onClick={() => onActivate2(record)}>
           停用</span>
         <span 
           style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;" 
-          onClick={() => editItem(record)}>
+          onClick={() => onActivate(record)}>
           删除</span>
       </div>
   }
@@ -247,12 +247,11 @@ async function editItem(item = {}) {
 async function onActivate(item = {}) {
 
   createDialog({
-    title: '提示',
+    title: '删除',
     width: 500,
     component:
       <div>
-        <div style="text-align: center; font-weight:bold;">是否停用当前商户后台账号？</div>
-        <div style="text-align: center; font-size: 12px;">停用后该商户所有后台账号将禁止登录商户后台</div>
+        <div style="text-align: center; font-weight:bold;">是否删除当前应用？</div>
       </div>
     ,
     onConfirm() {
@@ -267,16 +266,38 @@ async function onActivate(item = {}) {
     },
   })
 }
+async function onActivate1(item = {}) {
 
-async function onDeactivate(item = {}) {
+  createDialog({
+    title: '启用提示',
+    width: 500,
+    component:
+      <div>
+        <div style="text-align: center; font-weight:bold;">是否启用当前应用？</div>
+        <div style="text-align: center; font-size: 12px;">启用后当前应用可正常使用</div>
+      </div>
+    ,
+    onConfirm() {
+      setStatus(item)
+      // if (isCreate) {
+      //   pagination.page = 1
+      //   pagination.total = 0
+      //   props.resetSearch()
+      // } else {
+      //   refresh()
+      // }
+    },
+  })
+}
+async function onActivate2(item = {}) {
 
 createDialog({
-  title: '提示',
+  title: '停用提示',
   width: 500,
   component:
     <div>
-      <div style="text-align: center; font-weight:bold;">是否启用当前商户？</div>
-      <div style="text-align: center; font-size: 12px;">启用后该商户所有后台账号可登录商户后台</div>
+      <div style="text-align: center; font-weight:bold;">是否停用当前应用？</div>
+      <div style="text-align: center; font-size: 12px;">停用后当前应用不可使用</div>
     </div>
   ,
   onConfirm() {
