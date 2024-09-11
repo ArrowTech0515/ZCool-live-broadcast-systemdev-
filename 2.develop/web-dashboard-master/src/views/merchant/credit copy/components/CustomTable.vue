@@ -24,7 +24,8 @@
 </template>
 
 <script setup lang="jsx">
-import { getMerchantAccountListReq, merchantAccountAddOrEditReq, setMerchantAccountStatusReq } from '@/api/merchant'
+import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant'
+import useAddorEditRule from '../hooks/useAddorEditRule'
 
 const props = defineProps({
   searchParams: {
@@ -60,32 +61,37 @@ const handleSizeChange = (current, size) => {
 
 const dataSource = ref([
   {
-    id: '1',
-    merch_name: '无忧传媒有限公司',
-    acc_name: 'admin',
+    key: 1,
+    room_name: '站酷直播',
+    room_id: '37428374',
+    __merchant: '无忧传媒有限公司',
     create_time: '2012-12-12 12:21:21',
-    acc_status: 1, // 1:启用中, 2:已停用
+    status: 3, // 1:已合并, 2:运行中, 3:已停止
+    status2: 1, // 1:未合并, 2:已合并
     oper_info: { name: '管理员-张三' },
   },
   {
-    id: '2',
-    merch_name: '东川有限公司',
-    acc_name: 'lisi32',
+    key: 2,
+    room_name: 'K播',
+    room_id: '37428374',
+    __merchant: '东川有限公司',
     create_time: '2012-12-12 12:21:21',
-    acc_status: 2, // 1:启用中, 2:已停用
-    oper_info: { name: '管理员-李四' },
+    status: 2, // 1:已合并, 2:运行中, 3:已停止
+    status2: 2, // 1:未合并, 2:已合并
+    oper_info: { name: '管理员-张三' },
   },
   {
-    id: '3',
-    merch_name: '北商有限公司',
-    acc_name: 'zhangsan12',
+    key: 3,
+    room_name: '西湾直播',
+    room_id: '37428374',
+    __merchant: '北南有限公司',
     create_time: '2012-12-12 12:21:21',
-    acc_status: 1, // 1:启用中, 2:已停用
-    oper_info: { name: '管理员-王五' },
+    status: 4, // 1:已合并, 2:运行中, 3:已停止
+    status2: 1, // 1:未合并, 2:已合并
+    oper_info: { name: '管理员-张三' },
   },
 ])
-
-const { loading, refresh } = useRequest(() => getMerchantAccountListReq({
+const { loading, refresh } = useRequest(() => getMerchantListReq({
   ...props.searchParams,
   page: pagination.page,
   limit: pagination.limit,
@@ -100,13 +106,18 @@ const { createDialog } = useDialog()
 
 const columns = [
   {
-    title: '商户名称',
-    dataIndex: 'merch_name',
+    title: '应用名称',
+    dataIndex: 'room_name',
     align: 'center',
   },
   {
-    title: '登录账号',
-    dataIndex: 'acc_name',
+    title: '应用ID',
+    dataIndex: 'room_id',
+    align: 'center',
+  },
+  {
+    title: '所属商户',
+    dataIndex: '__merchant',
     align: 'center',
   },
   {
@@ -116,11 +127,20 @@ const columns = [
   },
   {
     title: '状态',
-    dataIndex: 'acc_status',
+    dataIndex: 'status',
     align: 'center',
     customRender: ({ record }) =>
-      <a-tag color={record.acc_status === 1 ? 'green' : 'red'}>
-        {record.acc_status === 1 ? '启用中' : '已停用'}
+      <a-tag color={record.status === 4 ? 'red' : 'blue'}>
+        {ENUM.__status[record.status]}
+      </a-tag>
+  },
+  {
+    title: '',
+    dataIndex: 'status2',
+    align: 'center',
+    customRender: ({ record }) =>
+      <a-tag color={record.status2 === 1 ? '#1890ff' : 'red'}>
+        {record.status2 === 1 ? '未合并' : '已合并'}
       </a-tag>
   },
   {
@@ -137,107 +157,77 @@ const columns = [
     customRender: ({ record }) =>
       <div>
         <span 
-          style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
+          style="text-decoration: underline;color: blue; margin-right: 12px; cursor: pointer;" 
           onClick={() => editItem(record)}>
-          编辑</span>
-        <span v-if={record.acc_status === 2}
+          迁移</span>
+        <span v-if={record.status === 3 && record.status2 === 1}
           style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
           onClick={() => onActivate(record)}>
-          启用</span>
-        <span v-else-if={record.acc_status === 1}
-          style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;" 
-          onClick={() => onDeactivate(record)}>
+          合并</span>         
+        <span v-if={record.status === 4}
+          style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
+          onClick={() => editItem(record)}>
+          启用</span>     
+        <span v-else
+          style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
+          onClick={() => editItem(record)}>
           停用</span>
+        <span 
+          style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;" 
+          onClick={() => editItem(record)}>
+          删除</span>
       </div>
   }
 ]
 
+// 商户启用/停用
 function setStatus(item) {
   loading.value = true
-  setMerchantAccountStatusReq(item.merch_id, item.acc_id, { acc_status: item.acc_status === 1 ? 2 : 1 }).then(() => {
+  setMerchantStatusReq(item.merch_id, { status: item.status === 1 ? 2 : 1 }).then(() => {
     loading.value = false
-    item.acc_status = item.acc_status === 1 ? 2 : 1
+    item.status = item.status === 1 ? 2 : 1
   }).catch(() => {
     loading.value = false
   })
 }
 
-// 推荐主播/修改推荐权重
-async function editItem(Item = {}) {
+async function editItem(item = {}) {
+  const merch_id = item.id || item.merch_id || null // 兼容 id 和 merch_id
   const formValue = ref({
-    acc_id: Item.acc_id,
-    merch_id: Item.merch_id,
-    acc_name: Item.acc_name,
-    password: Item.password,
+    merch_id,
+    merch_name: item.merch_name,
   })
 
-  const isCreate = !Item.acc_id
+  const isCreate = !merch_id
+  const fApi = ref(null)
+  const addoreditRule = useAddorEditRule(false, false, fApi)
   const formModalProps = {
-    request: data => merchantAccountAddOrEditReq(isCreate ? null : Item.acc_id, data),
+    request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
     getData(data) {
       return {
         ...data,
-        acc_id: isCreate ? data.acc_id : undefined,
+        // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
+        merch_id: isCreate ? data.merch_id : undefined,
       }
     },
-    option: {
-      global: {
-        '*': {
-          wrap: {
-            labelCol: { span: 6 },
-          },
-        },
-      },
-    },
-    rule: [
-      {
-        type: 'select',
-        field: 'merch_id',
-        title: '所属商户',
-        value: '',
-        options: [],
-        effect: {
-          required: true,
-          fetch: {
-            action: '/api/v1/merchant/summary',
-            to: 'props.options',
-            method: 'get',
-            parse: res => res.items.map(item => ({ value: item.merch_id, label: item.merch_name })),
-          },
-        },
-        props: {
-          placeholder: '请选择所属商户'
-        },
-      },
-      {
-        type: 'input',
-        field: 'acc_name',
-        title: '登录账号',
-        value: '',
-        props: {
-          placeholder: '请输入 5~12 位字母、数字账号格式'
-        },
-        validate: [{ type: 'string', required: true, pattern: '^[A-Za-z][A-Za-z0-9]{4,11}$', message: '登录账号5～12位，字母开头，字母数字组合' }],
-      },
-      {
-        type: 'input',
-        field: 'password',
-        title: '登录密码',
-        value: '',
-        validate: [{ type: 'pattern', required: true, pattern: '^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{8,16}$', message: '请输入 8~16位数字和字母组合密码' }],
-        props: {
-          type: 'password',
-          placeholder: '请输入 8~16 位数字和字母组合密码',
-        },
-      },
-    ],
+    // option: {
+    //   global: {
+    //     '*': {
+    //       wrap: {
+    //         labelCol: { span: 6 },
+    //       },
+    //     },
+    //   },
+    // },
+    rule: addoreditRule,
   }
 
   createDialog({
-    title: isCreate ? '添加商户后台账号' : '编辑商户后台账号',
-    width: 500,
+    title: isCreate ? '添加商户' : '编辑商户',
+    width: 600,
     component:
       <ModalForm
+        v-fApi:value={fApi.value}
         v-model={formValue.value}
         {...formModalProps}
       />
@@ -280,7 +270,7 @@ async function onActivate(item = {}) {
 
 async function onDeactivate(item = {}) {
 
-  createDialog({
+createDialog({
   title: '提示',
   width: 500,
   component:
@@ -299,7 +289,7 @@ async function onDeactivate(item = {}) {
     //   refresh()
     // }
   },
-  })
+})
 }
 
 defineExpose({

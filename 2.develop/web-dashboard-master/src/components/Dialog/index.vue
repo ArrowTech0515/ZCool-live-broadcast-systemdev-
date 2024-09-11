@@ -46,7 +46,7 @@ function handleLoading(val = false) {
 <template>
   <AModal v-bind="localProps">
     <template #title>
-      <slot name="title" style="text-align: center; align-items: center;">{{ title }}</slot>
+      <slot name="title" style="text-align: center;">{{ title }}</slot>
     </template>
     <template #default>
       <slot>
