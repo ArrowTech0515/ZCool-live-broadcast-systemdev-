@@ -138,13 +138,13 @@ const columns = [
           style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
           onClick={() => editItem(record)}>
           编辑</span>
-        <a-popconfirm title='确定停用当前商户吗？' onConfirm={() => setStatus(record)} v-if={record.status === 1}>
+        <a-popconfirm title='是否停用当前商户后台账号？' onConfirm={() => setStatus(record)} v-if={record.status === 1}>
           <span 
           style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;">
           停用</span>
         </a-popconfirm>
 
-        <a-popconfirm title='确定启用当前商户吗？' onConfirm={() => setStatus(record)} v-if={record.status === 2}>
+        <a-popconfirm title='是否启用当前商户？' onConfirm={() => setStatus(record)} v-if={record.status === 2}>
           <span 
           style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;">
           启用</span>

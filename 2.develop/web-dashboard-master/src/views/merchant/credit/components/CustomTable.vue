@@ -27,6 +27,8 @@
 import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant'
 import useCreditRule from '../hooks/useCreditRule';
 
+const emit = defineEmits(['emit_credit_details'])
+
 const props = defineProps({
   searchParams: {
     type: Object,
@@ -60,8 +62,53 @@ const handleSizeChange = (current, size) => {
 }
 
 const dataSource = ref([
-
+  {
+    id: 1,
+    merch_name: '蒂萨传媒',
+    total_credit_amount: 5000,
+    total_income: 32423,
+    create_time: '2023-01-10 12:22:21',
+    cur_diamond_balance: 1000,
+    balance_income: 32423,
+  },
+  {
+    id: 2,
+    merch_name: '张非传媒',
+    total_credit_amount: 5000,
+    total_income: 32423,
+    create_time: '2023-01-10 12:22:21',
+    cur_diamond_balance: 1000,
+    balance_income: 32423,
+  },
+  {
+    id: 3,
+    merch_name: '蒂萨传媒',
+    total_credit_amount: 5000,
+    total_income: 32423,
+    create_time: '2023-01-10 12:22:21',
+    cur_diamond_balance: 1000,
+    balance_income: 32423,
+  },
+  {
+    id: 4,
+    merch_name: '张非传媒',
+    total_credit_amount: 5000,
+    total_income: 32423,
+    create_time: '2023-01-10 12:22:21',
+    cur_diamond_balance: 1000,
+    balance_income: 32423,
+  },
+  {
+    id: 5,
+    merch_name: '蒂萨传媒',
+    total_credit_amount: 5000,
+    total_income: 32423,
+    create_time: '2023-01-10 12:22:21',
+    cur_diamond_balance: 1000,
+    balance_income: 32423,
+  },
 ])
+
 
 const { loading, refresh } = useRequest(() => getMerchantListReq({
   ...props.searchParams,
@@ -117,15 +164,11 @@ const columns = [
       <div>
         <span 
           style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
-          onClick={() => setStatus(record)}>
+          onClick={() => emit('emit_credit_details')}>
           授信明细</span>
       </div>
   }
 ]
-
-function setStatus(item) {
-
-}
 
 // 商户启用/停用
 async function onCredit(item = {}) {
