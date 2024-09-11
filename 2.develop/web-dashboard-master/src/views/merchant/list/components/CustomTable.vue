@@ -138,17 +138,14 @@ const columns = [
           style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
           onClick={() => editItem(record)}>
           编辑</span>
-        <a-popconfirm title='是否停用当前商户后台账号？' onConfirm={() => setStatus(record)} v-if={record.status === 1}>
-          <span 
-          style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;">
-          停用</span>
-        </a-popconfirm>
-
-        <a-popconfirm title='是否启用当前商户？' onConfirm={() => setStatus(record)} v-if={record.status === 2}>
-          <span 
-          style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;">
+        <span v-if={record.status === 2}
+          style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
+          onClick={() => onActivate(record)}>
           启用</span>
-        </a-popconfirm>
+        <span v-else-if={record.status === 1}
+          style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;" 
+          onClick={() => onDeactivate(record)}>
+          停用</span>
       </div>
   }
 ]
@@ -217,6 +214,53 @@ async function editItem(item = {}) {
   })
 }
 
+async function onActivate(item = {}) {
+
+  createDialog({
+    title: '提示',
+    width: 500,
+    component:
+      <div>
+        <div style="text-align: center; font-weight:bold;">是否停用当前商户后台账号？</div>
+        <div style="text-align: center; font-size: 12px;">停用后该商户所有后台账号将禁止登录商户后台</div>
+      </div>
+    ,
+    onConfirm() {
+      setStatus(item)
+      // if (isCreate) {
+      //   pagination.page = 1
+      //   pagination.total = 0
+      //   props.resetSearch()
+      // } else {
+      //   refresh()
+      // }
+    },
+  })
+}
+
+async function onDeactivate(item = {}) {
+
+createDialog({
+  title: '提示',
+  width: 500,
+  component:
+    <div>
+      <div style="text-align: center; font-weight:bold;">是否启用当前商户？</div>
+      <div style="text-align: center; font-size: 12px;">启用后该商户所有后台账号可登录商户后台</div>
+    </div>
+  ,
+  onConfirm() {
+    setStatus(item)
+    // if (isCreate) {
+    //   pagination.page = 1
+    //   pagination.total = 0
+    //   props.resetSearch()
+    // } else {
+    //   refresh()
+    // }
+  },
+})
+}
 
 defineExpose({
   editItem,

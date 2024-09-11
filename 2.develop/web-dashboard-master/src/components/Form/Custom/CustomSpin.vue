@@ -1,5 +1,5 @@
 <template>
-  <a-row>
+  <a-row style="min-width: 110px;">
     <a-input-group compact class="input-container">
       <!-- Left Button -->
       <a-button
