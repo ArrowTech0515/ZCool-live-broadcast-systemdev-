@@ -70,19 +70,24 @@ const rule = ref([
     type: 'select',
     field: 'merchant_type',
     title: '商户',
-    value: '所有商户',
+    value: 1,
     props: {
       placeholder: '请选择商户',
     },
+    options: Object.keys(ENUM.merchant_type).map(key => ({ label: ENUM.merchant_type[key], value: parseInt(key) })),
   },
   {
     type: 'select',
     field: 'application_type',
     title: '应用',
-    value: '所有应用',
+    value: 1,
     props: {
       placeholder: '请选择应用',
     },
+    options: Object.keys(ENUM.application_type).map(key => ({
+      value: parseInt(key),
+      label: ENUM.application_type[key]
+    })),
   },
   {
     type: 'input',

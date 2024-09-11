@@ -64,10 +64,10 @@ const rule = ref([
   {
     type: 'select',
     field: 'merchant_type',
-    title: '所有商户',
+    title: '商户',
     value: 1,
     props: {
-      placeholder: '请选择商户状态',
+      placeholder: '请选择商户',
     },
     options: Object.keys(ENUM.merchant_type).map(key => ({
       value: parseInt(key),
@@ -80,10 +80,10 @@ const rule = ref([
   {
     type: 'select',
     field: 'application_type',
-    title: '所有应用',
+    title: '应用',
     value: 1,
     props: {
-      placeholder: '请选择应用状态',
+      placeholder: '请选择应用',
     },
     options: Object.keys(ENUM.application_type).map(key => ({
       value: parseInt(key),

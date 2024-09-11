@@ -25,7 +25,7 @@
 
 <script setup lang="jsx">
 import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant'
-import useAddorEditRule from '../hooks/useAddorEditRule'
+import useCreditRule from '../hooks/useCreditRule';
 
 const props = defineProps({
   searchParams: {
@@ -60,28 +60,9 @@ const handleSizeChange = (current, size) => {
 }
 
 const dataSource = ref([
-  {
-    id: '1',
-    merch_name: '无忧传媒有限公司',
-    create_time: '2012-12-12 12:21:21',
-    status: 1, // 1:启用中, 2:已停用
-    oper_info: { name: '管理员-张三' },
-  },
-  {
-    id: '2',
-    merch_name: '东川有限公司',
-    create_time: '2012-12-12 12:21:21',
-    status: 2, // 1:启用中, 2:已停用
-    oper_info: { name: '管理员-李四' },
-  },
-  {
-    id: '3',
-    merch_name: '北商有限公司',
-    create_time: '2012-12-12 12:21:21',
-    status: 1, // 1:启用中, 2:已停用
-    oper_info: { name: '管理员-王五' },
-  },
+
 ])
+
 const { loading, refresh } = useRequest(() => getMerchantListReq({
   ...props.searchParams,
   page: pagination.page,
@@ -97,13 +78,18 @@ const { createDialog } = useDialog()
 
 const columns = [
   {
-    title: '商户ID',
-    dataIndex: 'id',
+    title: '商户名称',
+    dataIndex: 'merch_name',
     align: 'center',
   },
   {
-    title: '商户名称',
-    dataIndex: 'merch_name',
+    title: '授信总额（钻石）',
+    dataIndex: 'total_credit_amount',
+    align: 'center',
+  },
+  {
+    title: '商户总收益（钻石）',
+    dataIndex: 'total_income',
     align: 'center',
   },
   {
@@ -112,19 +98,14 @@ const columns = [
     align: 'center',
   },
   {
-    title: '状态',
-    dataIndex: 'status',
+    title: '当前钻石余额',
+    dataIndex: 'cur_diamond_balance',
     align: 'center',
-    customRender: ({ record }) =>
-      <a-tag color={record.status === 1 ? 'green' : 'red'}>
-        {record.status === 1 ? '启用中' : '已停用'}
-      </a-tag>
   },
   {
-    title: '操作账号',
-    dataIndex: 'oper_info',
+    title: '结余收益（钻石）',
+    dataIndex: 'balance_income',
     align: 'center',
-    customRender: ({ record }) => <div>{ record.oper_info.name }</div>
   },
   {
     title: '操作',
@@ -136,35 +117,18 @@ const columns = [
       <div>
         <span 
           style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
-          onClick={() => editItem(record)}>
-          编辑</span>
-        <a-popconfirm title='确定停用当前商户吗？' onConfirm={() => setStatus(record)} v-if={record.status === 1}>
-          <span 
-          style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;">
-          停用</span>
-        </a-popconfirm>
-
-        <a-popconfirm title='确定启用当前商户吗？' onConfirm={() => setStatus(record)} v-if={record.status === 2}>
-          <span 
-          style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;">
-          启用</span>
-        </a-popconfirm>
+          onClick={() => setStatus(record)}>
+          授信明细</span>
       </div>
   }
 ]
 
-// 商户启用/停用
 function setStatus(item) {
-  loading.value = true
-  setMerchantStatusReq(item.merch_id, { status: item.status === 1 ? 2 : 1 }).then(() => {
-    loading.value = false
-    item.status = item.status === 1 ? 2 : 1
-  }).catch(() => {
-    loading.value = false
-  })
+
 }
 
-async function editItem(item = {}) {
+// 商户启用/停用
+async function onCredit(item = {}) {
   const merch_id = item.id || item.merch_id || null // 兼容 id 和 merch_id
   const formValue = ref({
     merch_id,
@@ -173,7 +137,7 @@ async function editItem(item = {}) {
 
   const isCreate = !merch_id
   const fApi = ref(null)
-  const addoreditRule = useAddorEditRule(false, false, fApi)
+  const creditRule = useCreditRule(false, false, fApi)
   const formModalProps = {
     request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
     getData(data) {
@@ -186,17 +150,17 @@ async function editItem(item = {}) {
     // option: {
     //   global: {
     //     '*': {
-    //       wrap: {
-    //         labelCol: { span: 6 },
+    //       style: {
+    //         paddingRight: '50px',
     //       },
     //     },
     //   },
     // },
-    rule: addoreditRule,
+    rule: creditRule,
   }
 
   createDialog({
-    title: isCreate ? '添加商户' : '编辑商户',
+    title: '充值授信',
     width: 600,
     component:
       <ModalForm
@@ -219,6 +183,6 @@ async function editItem(item = {}) {
 
 
 defineExpose({
-  editItem,
+  onCredit,
 })
 </script>

@@ -130,5 +130,6 @@ function updateValue(newVal) {
 .span_placeholder {
   color: grey;
   font-size: 12px;
+  margin-bottom: -18px;
 }
 </style>
