@@ -64,57 +64,19 @@ const handleSizeChange = (current, size) => {
 const dataSource = ref([
   {
     id: 1,
-    recharge_diamond: 32423,
-    credited_diamond: 32423,
-    actual_credit: 32423,
-    recharge_time: '2022-03-03 12:22:21',
+    original_application: '站酷直播',
+    selected_application: 'K得直播',
+    status: '合并应用',
+    time: '2021-12-12 12:21:21',
     account: '管理员-张三',
-    remark: '',
   },
   {
     id: 2,
-    recharge_diamond: 32423,
-    credited_diamond: 32423,
-    actual_credit: 32423,
-    recharge_time: '2022-03-03 12:22:21',
+    original_application: '站酷直播',
+    selected_application: 'K得直播',
+    status: '合并应用',
+    time: '2021-12-12 12:21:21',
     account: '管理员-张三',
-    remark: '',
-  },
-  {
-    id: 3,
-    recharge_diamond: 32423,
-    credited_diamond: 32423,
-    actual_credit: 32423,
-    recharge_time: '2022-03-03 12:22:21',
-    account: '管理员-张三',
-    remark: '',
-  },
-  {
-    id: 4,
-    recharge_diamond: 32423,
-    credited_diamond: 32423,
-    actual_credit: 32423,
-    recharge_time: '2022-03-03 12:22:21',
-    account: '管理员-张三',
-    remark: '',
-  },
-  {
-    id: 5,
-    recharge_diamond: 32423,
-    credited_diamond: 32423,
-    actual_credit: 32423,
-    recharge_time: '2022-03-03 12:22:21',
-    account: '管理员-张三',
-    remark: '',
-  },
-  {
-    id: 6,
-    recharge_diamond: 32423,
-    credited_diamond: 32423,
-    actual_credit: 32423,
-    recharge_time: '2022-03-03 12:22:21',
-    account: '管理员-张三',
-    remark: '',
   },
 ])
 
@@ -135,23 +97,23 @@ const { createDialog } = useDialog()
 
 const columns = [
   {
-    title: '充值钻石',
-    dataIndex: 'recharge_diamond',
+    title: '原始应用',
+    dataIndex: 'original_application',
     align: 'center',
   },
   {
-    title: '抵扣钻石',
-    dataIndex: 'credited_diamond',
+    title: '选中应用',
+    dataIndex: 'selected_application',
     align: 'center',
   },
   {
-    title: '实付钻石',
-    dataIndex: 'actual_credit',
+    title: '状态',
+    dataIndex: 'status',
     align: 'center',
   },
   {
-    title: '充值时间',
-    dataIndex: 'recharge_time',
+    title: '时间',
+    dataIndex: 'time',
     align: 'center',
   },
   {
@@ -159,59 +121,54 @@ const columns = [
     dataIndex: 'account',
     align: 'center',
   },
-  {
-    title: '备注',
-    dataIndex: 'remark',
-    align: 'center',
-  },
 ]
 
-async function exportCSV() {
-  const formValue = ref({
-    user_id: null,
-    application_id: null,
-  })
+const onMergeApplication = () => {
+  // const formValue = ref({
+  //   user_id: null,
+  //   application_id: null,
+  // })
 
-  const fApi = ref(null)
-  const exportCSVRule = useExportCSVRule(false, true, fApi)
+  // const fApi = ref(null)
+  // const exportCSVRule = useExportCSVRule(false, true, fApi)
 
-  console.log("导出CSV : fApi = " + fApi.value)
+  // console.log("导出CSV : fApi = " + fApi.value)
   
-  const formModalProps = reactive({
-    request: data => anchorAddOrEditReq(null, data),
-    getData(data) {
-      const { avatar_url, ...rest } = data
-      return {
-        ...rest,
-        avatar_url: getPathFromUrlArray(avatar_url),
-      }
-    },
-    rule: exportCSVRule,
-  })
+  // const formModalProps = reactive({
+  //   request: data => anchorAddOrEditReq(null, data),
+  //   getData(data) {
+  //     const { avatar_url, ...rest } = data
+  //     return {
+  //       ...rest,
+  //       avatar_url: getPathFromUrlArray(avatar_url),
+  //     }
+  //   },
+  //   rule: exportCSVRule,
+  // })
 
-  console.log("user_id: " + formValue.user_id)
+  // console.log("user_id: " + formValue.user_id)
 
-  createDialog({
-    title: '导出CSV',
-    width: 500,
-    component:
-      <ModalForm
-        v-model={formValue.value}
-        v-model:fApi={fApi.value}
-        {...formModalProps}
-      >
-      </ModalForm>
-    ,
-    onConfirm() {
-      pagination.page = 1
-      pagination.total = 0
-      props.resetSearch()
-    },
-  })
+  // createDialog({
+  //   title: '导出CSV',
+  //   width: 500,
+  //   component:
+  //     <ModalForm
+  //       v-model={formValue.value}
+  //       v-model:fApi={fApi.value}
+  //       {...formModalProps}
+  //     >
+  //     </ModalForm>
+  //   ,
+  //   onConfirm() {
+  //     pagination.page = 1
+  //     pagination.total = 0
+  //     props.resetSearch()
+  //   },
+  // })
 }
 
 defineExpose({
-  exportCSV
+  onMergeApplication
 })
 
 </script>

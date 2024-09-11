@@ -1,35 +1,34 @@
 <template>
-    <div class="__table_form_search_component">
-      <form-create
-        v-model:api="fApi"
-        v-model="data"
-        :option
-        :rule
-      >
-        <template #type-btns>
-          <section
-            class="flex mb30"  style="flex: auto;"
-          >
-            <AButton
-              class="ml20"
-              @click="submitForm"
-              type="primary"
-            ><SearchOutlined/>查询</AButton>
-            <AButton
-              class="ml20"
-              @click="resetForm"
-            ><ReloadOutlined/>重置</AButton>
-            <div class="flex1 flex_end">
-              <AButton
-                type="primary"
-                style="background-color:green;"
-                @click="emit('export_csv')"
-              >导出CSV</AButton>
-            </div>
-          </section>
-        </template>
-      </form-create>
-    </div>
+  <a-col type="flex" align="center">
+    <a-col :flex="auto" style="width: 40%;">
+      <a-form-item label="原始应用">
+        <a-input v-model:value="activity_id" style="text-align: center;" placeholder="请输入活动名称搜索" disabled="true"/>
+      </a-form-item>
+    </a-col>
+
+    <a-col :flex="auto" style=" width: 40%; margin-bottom: -25px">
+      <a-form-item label="合并应用">
+        <a-select v-model:value="activity_status" placeholder="选择要合并的应用" default-value='选择要合并的应用'>
+          <a-select-option value="app1">{{ ENUM.application_type[2] }}</a-select-option>
+          <a-select-option value="app2">{{ ENUM.application_type[3] }}</a-select-option>
+        </a-select>
+        
+      </a-form-item>
+    </a-col>
+    <a-col :flex="auto" style="margin-left: 180px;">
+      <span style="font-size: 12px; color: grey; ">
+          确定合并后，原始应用中的所有运营相关的配置（活动、任务等）将会被选中应用覆盖，其他数据不变
+      </span>
+    </a-col>
+
+    <a-col :flex="1" style=" width: 20%; margin-top: 30px;">
+      <a-form-item>
+        <a-button type="primary" block @click="onMergeApp">
+          保存
+        </a-button>
+      </a-form-item>
+    </a-col>
+  </a-col>
 </template>
 
 <script setup>
@@ -39,47 +38,13 @@ const data = reactive({
   recharge_time: [],
 })
 
-const emit = defineEmits(['export_csv', 'search'])
+const emit = defineEmits(['emit_merge', 'search'])
 
 const fApi = ref({})
-const option = {
-  resetBtn: false,
-  submitBtn: false,
-  global: {
-    '*': {
-      col: {
-        show: false,
-      },
-      wrap: {
-        labelCol: { span: 8 },
-      },
-    },
-  },
-}
 
-const rule = ref([
-{
-    type: 'select',
-    field: 'merchant_type',
-    title: '商户',
-    value: 1,
-    props: {
-      placeholder: '请选择商户',
-    },
-    options: Object.keys(ENUM.merchant_type).map(key => ({ label: ENUM.merchant_type[key], value: parseInt(key) })),
-  },
-  {
-    type: 'rangePicker',
-    field: 'recharge_time',
-    title: '充值时间',
-    value: '',
-    props: {
-      format: 'YYYY-MM-DD',
-      valueFormat: 'X',
-    },
-  },
-  { type: 'btns' },
-])
+const onMergeApp = () => {
+  emit('emit_merge')
+}
 
 function resetForm() {
   fApi.value.resetFields()

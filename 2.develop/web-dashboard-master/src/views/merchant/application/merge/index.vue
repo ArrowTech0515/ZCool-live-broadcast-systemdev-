@@ -18,14 +18,19 @@
     <FormSearch
       ref="formSearchRef"
       v-model="searchParams"
-      @export_csv="() => customTableRef.exportCSV()"
+      @emit_merge="() => customTableRef.onMergeApplication()"
     />
   </a-card>
+  <a-card style="margin-bottom: 1%;">
+    <div style="flex-grow: 1; text-align: left; margin-bottom: 1%">
+      <span style="font-size: 20px; font-weight: bold;">合并应用</span>
+    </div>
     <CustomTable
       ref="customTableRef"
       :searchParams="searchParams"
       :resetSearch="() => formSearchRef.resetForm()"
     />
+  </a-card>
 
 </template>
 
