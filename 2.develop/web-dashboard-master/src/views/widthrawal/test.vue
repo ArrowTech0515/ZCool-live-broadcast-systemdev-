@@ -7,6 +7,7 @@
       <a-button type="default" @click="handleQuery">查询</a-button>
     </a-input-group>
   </a-form-item>
+  <CustomSpin></CustomSpin>
 </template>
 
 <script lang="ts" setup>

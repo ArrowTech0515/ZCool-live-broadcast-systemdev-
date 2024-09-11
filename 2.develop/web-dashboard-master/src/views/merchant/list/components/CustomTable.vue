@@ -183,21 +183,21 @@ async function editItem(item = {}) {
         merch_id: isCreate ? data.merch_id : undefined,
       }
     },
-    option: {
-      global: {
-        '*': {
-          wrap: {
-            labelCol: { span: 6 },
-          },
-        },
-      },
-    },
+    // option: {
+    //   global: {
+    //     '*': {
+    //       wrap: {
+    //         labelCol: { span: 6 },
+    //       },
+    //     },
+    //   },
+    // },
     rule: addoreditRule,
   }
 
   createDialog({
     title: isCreate ? '添加商户' : '编辑商户',
-    width: 500,
+    width: 600,
     component:
       <ModalForm
         v-fApi:value={fApi.value}

@@ -44,7 +44,44 @@ const pagination = reactive({
   limit: 10,
   total: 0,
 })
-const dataSource = ref([])
+
+// Sample data for testing
+const dataSource = ref([
+  {
+    rec_id: 1,
+    avatar_url: 'https://i.pravatar.cc/40',
+    nickname: 'Anchor 1',
+    anchor_id: 1001,
+    guild_rel: { guild_name: 'Guild A' },
+    rec_weight: 85,
+    effect_time: [dayjs().subtract(1, 'month').format('YYYY-MM-DD'), dayjs().add(1, 'month').format('YYYY-MM-DD')],
+    create_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    rec_status: 1,
+  },
+  {
+    rec_id: 2,
+    avatar_url: 'https://i.pravatar.cc/41',
+    nickname: 'Anchor 2',
+    anchor_id: 1002,
+    guild_rel: { guild_name: 'Guild B' },
+    rec_weight: 75,
+    effect_time: [dayjs().subtract(2, 'weeks').format('YYYY-MM-DD'), dayjs().add(2, 'weeks').format('YYYY-MM-DD')],
+    create_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    rec_status: 0,
+  },
+  {
+    rec_id: 3,
+    avatar_url: 'https://i.pravatar.cc/42',
+    nickname: 'Anchor 3',
+    anchor_id: 1003,
+    guild_rel: { guild_name: 'Guild C' },
+    rec_weight: 65,
+    effect_time: [dayjs().subtract(3, 'days').format('YYYY-MM-DD'), dayjs().add(3, 'days').format('YYYY-MM-DD')],
+    create_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    rec_status: 1,
+  },
+])
+
 const { loading, refresh } = useRequest(() => getAnchorReweightListReq({
   ...props.searchParams,
   rec_type: props.recType,
