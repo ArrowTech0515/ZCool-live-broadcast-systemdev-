@@ -31,7 +31,6 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
       type: 'select',
       field: 'merchant_type',
       title: '绑定商户',
-      value: 1,
       props: {
         placeholder: '请选择绑定商户',
       },

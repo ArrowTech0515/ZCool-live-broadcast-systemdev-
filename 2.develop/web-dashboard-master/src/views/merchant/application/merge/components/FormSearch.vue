@@ -1,5 +1,4 @@
 <template>
-  <a-card class="mb15">
     <div class="__table_form_search_component">
       <form-create
         v-model:api="fApi"
@@ -23,24 +22,25 @@
             <div class="flex1 flex_end">
               <AButton
                 type="primary"
-                @click="emit('addItem')"
-              >添加应用</AButton>
+                style="background-color:green;"
+                @click="emit('export_csv')"
+              >导出CSV</AButton>
             </div>
           </section>
         </template>
       </form-create>
     </div>
-  </a-card>
 </template>
 
 <script setup>
 const params = defineModel()
 const data = reactive({
   merch_name: '',
-  create_time: [],
+  recharge_time: [],
 })
 
-const emit = defineEmits(['addItem', 'search'])
+const emit = defineEmits(['export_csv', 'search'])
+
 const fApi = ref({})
 const option = {
   resetBtn: false,
@@ -58,25 +58,7 @@ const option = {
 }
 
 const rule = ref([
-  {
-    type: 'input',
-    field: 'room_name',
-    title: '应用名称',
-    value: '',
-    props: {
-      placeholder: '请输入应用名称',
-    },
-  },
-  {
-    type: 'input',
-    field: 'room_id',
-    title: '应用ID',
-    value: '',
-    props: {
-      placeholder: '请输入应用ID',
-    },
-  },
-  {
+{
     type: 'select',
     field: 'merchant_type',
     title: '商户',
@@ -87,19 +69,9 @@ const rule = ref([
     options: Object.keys(ENUM.merchant_type).map(key => ({ label: ENUM.merchant_type[key], value: parseInt(key) })),
   },
   {
-    type: 'select',
-    field: 'merchant_status',
-    title: '状态',
-    value: 1,
-    props: {
-      placeholder: '请选择状态',
-    },
-    options: Object.keys(ENUM.__status).map(key => ({ label: ENUM.__status[key], value: parseInt(key) })),
-  },
-  {
     type: 'rangePicker',
-    field: 'create_time',
-    title: '时间',
+    field: 'recharge_time',
+    title: '充值时间',
     value: '',
     props: {
       format: 'YYYY-MM-DD',
@@ -123,7 +95,7 @@ function submitForm() {
 function getData(data) {
   params.value = {
     ...data,
-    create_time: data.create_time ? data.create_time?.join(',') : undefined,
+    recharge_time: data.recharge_time ? data.recharge_time?.join(',') : undefined,
   }
 }
 

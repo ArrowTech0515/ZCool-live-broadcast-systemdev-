@@ -232,7 +232,7 @@ export default {
     2: '用户',
     3: '主播',
   },
-  __status: {
+  application_status: {
     1: '全部状态',
     2: '已合并',
     3: '运行中',

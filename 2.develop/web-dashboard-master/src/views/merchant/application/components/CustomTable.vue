@@ -27,6 +27,8 @@
 import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant'
 import useAddorEditRule from '../hooks/useAddorEditRule'
 
+const emit = defineEmits(['emit_merge'])
+
 const props = defineProps({
   searchParams: {
     type: Object,
@@ -62,8 +64,8 @@ const handleSizeChange = (current, size) => {
 const dataSource = ref([
   {
     key: 1,
-    room_name: '站酷直播',
-    room_id: '37428374',
+    application_name: '站酷直播',
+    application_id: '37428374',
     __merchant: '无忧传媒有限公司',
     create_time: '2012-12-12 12:21:21',
     status: 3, // 1:已合并, 2:运行中, 3:已停止
@@ -72,8 +74,8 @@ const dataSource = ref([
   },
   {
     key: 2,
-    room_name: 'K播',
-    room_id: '37428374',
+    application_name: 'K播',
+    application_id: '37428374',
     __merchant: '东川有限公司',
     create_time: '2012-12-12 12:21:21',
     status: 2, // 1:已合并, 2:运行中, 3:已停止
@@ -82,8 +84,8 @@ const dataSource = ref([
   },
   {
     key: 3,
-    room_name: '西湾直播',
-    room_id: '37428374',
+    application_name: '西湾直播',
+    application_id: '37428374',
     __merchant: '北南有限公司',
     create_time: '2012-12-12 12:21:21',
     status: 4, // 1:已合并, 2:运行中, 3:已停止
@@ -107,12 +109,12 @@ const { createDialog } = useDialog()
 const columns = [
   {
     title: '应用名称',
-    dataIndex: 'room_name',
+    dataIndex: 'application_name',
     align: 'center',
   },
   {
     title: '应用ID',
-    dataIndex: 'room_id',
+    dataIndex: 'application_id',
     align: 'center',
   },
   {
@@ -131,7 +133,7 @@ const columns = [
     align: 'center',
     customRender: ({ record }) =>
       <a-tag color={record.status === 4 ? 'red' : 'blue'}>
-        {ENUM.__status[record.status]}
+        {ENUM.application_status[record.status]}
       </a-tag>
   },
   {
@@ -158,23 +160,23 @@ const columns = [
       <div>
         <span 
           style="text-decoration: underline;color: blue; margin-right: 12px; cursor: pointer;" 
-          onClick={() => editItem(record)}>
+          onClick={() => onMigrate(record)}>
           迁移</span>
         <span v-if={record.status === 3 && record.status2 === 1}
           style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
-          onClick={() => editItem(record)}>
+          onClick={() => emit('emit_merge')}>
           合并</span>         
         <span v-if={record.status === 4}
           style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
-          onClick={() => onActivate1(record)}>
+          onClick={() => onActivate(record)}>
           启用</span>     
         <span v-else
           style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
-          onClick={() => onActivate2(record)}>
+          onClick={() => onDeactivate(record)}>
           停用</span>
         <span 
           style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;" 
-          onClick={() => onActivate(record)}>
+          onClick={() => onDelete(record)}>
           删除</span>
       </div>
   }
@@ -223,8 +225,8 @@ async function editItem(item = {}) {
   }
 
   createDialog({
-    title: isCreate ? '添加商户' : '编辑商户',
-    width: 600,
+    title: '添加应用',
+    width: 500,
     component:
       <ModalForm
         v-fApi:value={fApi.value}
@@ -244,7 +246,7 @@ async function editItem(item = {}) {
   })
 }
 
-async function onActivate(item = {}) {
+async function onDelete(item = {}) {
 
   createDialog({
     title: '删除',
@@ -266,7 +268,7 @@ async function onActivate(item = {}) {
     },
   })
 }
-async function onActivate1(item = {}) {
+async function onActivate(item = {}) {
 
   createDialog({
     title: '启用提示',
@@ -289,7 +291,7 @@ async function onActivate1(item = {}) {
     },
   })
 }
-async function onActivate2(item = {}) {
+async function onDeactivate(item = {}) {
 
 createDialog({
   title: '停用提示',

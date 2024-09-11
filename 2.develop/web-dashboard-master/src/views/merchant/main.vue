@@ -11,7 +11,7 @@
           <creditPage />
       </a-tab-pane>
       <a-tab-pane key="4" tab="应用管理">
-          <fourthPage />
+          <applicationPage />
       </a-tab-pane>
     </a-tabs>
   </template>
@@ -22,7 +22,7 @@
   import listPage from './list/index.vue'
   import accountPage from './account/index.vue'
   import creditPage from './credit/index.vue' //junn
-  import fourthPage from './credit copy/index.vue' //junn
+  import applicationPage from './application/index.vue' //junn
   
   export default {
     components: {
@@ -31,7 +31,7 @@
       listPage,
       accountPage,
       creditPage,
-      fourthPage
+      applicationPage
     }
   }
   </script>
