@@ -64,17 +64,17 @@ const handleSizeChange = (current, size) => {
 const dataSource = ref([
   {
     id: 1,
-    original_application: '站酷直播',
-    selected_application: 'K得直播',
-    status: '合并应用',
+    original_merchant: '张三商户',
+    migrate_users: '李四商户',
+    status: '应用迁移',
     time: '2021-12-12 12:21:21',
     account: '管理员-张三',
   },
   {
     id: 2,
-    original_application: '站酷直播',
-    selected_application: 'K得直播',
-    status: '合并应用',
+    original_merchant: '张三商户',
+    migrate_users: '李四商户',
+    status: '应用迁移',
     time: '2021-12-12 12:21:21',
     account: '管理员-张三',
   },
@@ -97,13 +97,13 @@ const { createDialog } = useDialog()
 
 const columns = [
   {
-    title: '原始应用',
-    dataIndex: 'original_application',
+    title: '原始商户',
+    dataIndex: 'original_merchant',
     align: 'center',
   },
   {
-    title: '选中应用',
-    dataIndex: 'selected_application',
+    title: '迁移用户',
+    dataIndex: 'migrate_users',
     align: 'center',
   },
   {
@@ -123,7 +123,7 @@ const columns = [
   },
 ]
 
-const onMergeApplication = () => {
+const onMigrateApplication = () => {
   // const formValue = ref({
   //   user_id: null,
   //   application_id: null,
@@ -132,7 +132,7 @@ const onMergeApplication = () => {
   // const fApi = ref(null)
   // const exportCSVRule = useExportCSVRule(false, true, fApi)
 
-  console.log("onMergeApplication = ")
+   console.log("onMigrateApplication = ")
   
   // const formModalProps = reactive({
   //   request: data => anchorAddOrEditReq(null, data),
@@ -168,7 +168,7 @@ const onMergeApplication = () => {
 }
 
 defineExpose({
-  onMergeApplication
+  onMigrateApplication
 })
 
 </script>

@@ -1,6 +1,6 @@
 <template>
   <transition name="fade-slide" mode="out-in">
-    <div v-if="!showMergePage">
+    <div v-if="!showMergePage && !showMigratePage">
       <div class="page_container">
         <FormSearch
           ref="formSearchRef"
@@ -12,11 +12,15 @@
           :searchParams="searchParams"
           :resetSearch="() => formSearchRef.resetForm()"
           @emit_merge="handleOperation"
+          @emit_migrate="handleOperation2"
         />
       </div>
     </div>
-    <div v-else>
+    <div v-else-if="!showMigratePage">
       <mergePage :selected-record="selectedRecord" @back="onBackToMainPage2" @confirm="handleConfirm" @reject="handleReject" />
+    </div>
+    <div v-else>
+      <migratePage :selected-record="selectedRecord" @back="onBackToMainPage2" @confirm="handleConfirm" @reject="handleReject" />
     </div>
   </transition>
 </template>
@@ -25,12 +29,14 @@
 import CustomTable from './components/CustomTable.vue'
 import FormSearch from './components/FormSearch.vue'
 import mergePage from './merge/index.vue'
+import migratePage from './migrate/index.vue'
 
 const customTableRef = ref(null)
 const formSearchRef = ref(null)
 const searchParams = ref({})
 
 const showMergePage = ref(false)
+const showMigratePage = ref(false)
 
 const selectedRecord = ref({})  // Ref to hold the record data
 
@@ -39,9 +45,16 @@ const handleOperation = (record) => {
   console.log("handleOperation : selectedRecord = " + selectedRecord.value.application_name)
   showMergePage.value = true
 }
+const handleOperation2 = (record) => {
+  selectedRecord.value = record
+  console.log("handleOperation : selectedRecord = " + selectedRecord.value.application_name)
+  showMigratePage.value = true
+}
+
 
 const onBackToMainPage2 = () => {
   showMergePage.value = false
+  showMigratePage.value = false
 }
 
 </script>

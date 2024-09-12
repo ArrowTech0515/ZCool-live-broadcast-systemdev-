@@ -2,7 +2,7 @@
   <a-col type="flex" align="center">
     <a-col :flex="auto" style="width: 40%;">
       <a-form-item label="原始应用">
-        <a-input v-model:value="selectedRecord.application_name" style="text-align: center;" placeholder="请输入活动名称搜索" disabled="true"/>
+        <a-input v-model:value="selectedRecord.application_name" style="text-align: center;" placeholder="原始应用" disabled="true"/>
       </a-form-item>
     </a-col>
 
@@ -21,7 +21,7 @@
       </span>
     </a-col>
 
-    <a-col :flex="1" style=" width: 20%; margin-top: 30px;">
+    <a-col :flex="1" style=" width: 20%; margin-top: 30px;  margin-left: 5%;">
       <a-form-item>
         <a-button type="primary" block @click="onMergeApp">
           保存

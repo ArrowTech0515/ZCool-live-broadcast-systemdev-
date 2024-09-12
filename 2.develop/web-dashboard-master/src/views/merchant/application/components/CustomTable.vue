@@ -27,7 +27,7 @@
 import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant'
 import useAddorEditRule from '../hooks/useAddorEditRule'
 
-const emit = defineEmits(['emit_merge'])
+const emit = defineEmits(['emit_merge', 'emit_migrate'])
 
 const props = defineProps({
   searchParams: {
@@ -160,7 +160,7 @@ const columns = [
       <div>
         <span 
           style="text-decoration: underline;color: blue; margin-right: 12px; cursor: pointer;" 
-          onClick={() => onMigrate(record)}>
+          onClick={() => emit('emit_migrate', record)}>
           迁移</span>
         <span v-if={record.status === 3 && record.status2 === 1}
           style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
