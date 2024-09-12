@@ -1,9 +1,9 @@
 <template>
   <a-card style="background-color: white; margin-bottom: 1%;">
-    <a-row :gutter="16" type="flex" style="margin-bottom: -20px;">
+    <a-row type="flex" style="margin-bottom: -20px;">
 
       <!-- First Column -->
-      <a-col :flex="auto" style="margin-right: 20px; margin-left: 20px;">
+      <a-col :flex="auto" style="margin-left: 20px;">
         <a-form-item label="时间">
           <a-range-picker :placeholder="['开始日期', '结束日期']">
             <!-- options here -->
@@ -11,20 +11,20 @@
         </a-form-item>
       </a-col>
 
-      <a-col :flex="auto" style="margin-right: 20px;">
+      <a-col :flex="auto" style="margin-left: 20px;">
         <a-form-item label="中奖人ID">
           <a-input v-model:value="winnerID" placeholder="请输入中奖人ID" />
         </a-form-item>
       </a-col>
 
-      <a-col :flex="auto" style="margin-right: 20px;">
+      <a-col :flex="auto" style="margin-left: 20px;">
         <a-form-item label="中奖人昵称">
           <a-input v-model:value="winPosition" placeholder="请输入中奖人昵称" />
         </a-form-item>
       </a-col>
       
       <!-- Second Column -->
-      <a-col :flex="auto" style="margin-left: auto;">
+      <a-col :flex="auto" style="margin-left: 20px;">
         <a-form-item>
           <a-button type="primary" block @click="onSearch">
             <SearchOutlined /> 查询
@@ -32,7 +32,7 @@
         </a-form-item>
       </a-col>
 
-      <a-col :flex="auto">
+      <a-col :flex="auto" style="margin-left: 20px;">
         <a-form-item>
           <a-button block @click="onReset">
             <ReloadOutlined /> 重置

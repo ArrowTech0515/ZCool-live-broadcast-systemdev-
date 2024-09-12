@@ -1,5 +1,5 @@
 <template>
-  <a-card style="background-color: white;">
+  <a-card style="background-color: white; margin-bottom: 1%;">
     <template #title>
       <div style="display: flex; align-items: center; white-space: nowrap;">
         <a-button
@@ -15,29 +15,27 @@
       </div>
     </template>
 
-    <a-row :gutter="16" style=" align-items: center; ">
+    <a-row style="margin-bottom: -20px;">
       <!-- First Column -->
-      <a-row >
-        <a-col style="margin: 20px;">
-          <a-form-item label="用户ID">
-            <a-input v-model:value="user_id" placeholder="请输入用户ID" />
-          </a-form-item>
-        </a-col>
-        <a-col style="margin: 20px;">
-          <a-form-item label="用户昵称">
-            <a-input v-model:value="nick_name" placeholder="请输入用户昵称" />
-          </a-form-item>
-        </a-col>
+      <a-col style="margin-left: 20px;">
+        <a-form-item label="用户ID">
+          <a-input v-model:value="user_id" placeholder="请输入用户ID" />
+        </a-form-item>
+      </a-col>
+      <a-col style="margin-left: 20px;">
+        <a-form-item label="用户昵称">
+          <a-input v-model:value="nick_name" placeholder="请输入用户昵称" />
+        </a-form-item>
+      </a-col>
 
-        <a-col style="margin: 20px;">
+      <a-col style="margin-left: 20px;">
         <a-form-item label="时间">
           <a-range-picker :placeholder="['开始时间', '结束时间']">
           <!-- options here -->
           </a-range-picker>
         </a-form-item>
       </a-col>
-      </a-row>
-      <a-col :flex="auto" style="margin-left: auto;">
+      <a-col :flex="auto" style="margin-left: 20px;">
         <a-form-item>
           <a-button type="primary" block @click="onSearch">
             <SearchOutlined /> 查询
@@ -45,7 +43,7 @@
         </a-form-item>
       </a-col>
 
-      <a-col :flex="auto">
+      <a-col :flex="auto" style="margin-left: 20px;">
         <a-form-item>
           <a-button block @click="onReset">
             <ReloadOutlined /> 重置
@@ -53,6 +51,7 @@
         </a-form-item>
       </a-col>
     </a-row>
+  </a-card>
 
       <!-- Your existing layout and table setup -->
       <a-table :data-source="paginatedData" :pagination="false">
@@ -92,7 +91,6 @@
           @show-size-change="handleSizeChange"
         />
       </div>
-  </a-card>
 </template>
 
 <script lang="jsx" setup>

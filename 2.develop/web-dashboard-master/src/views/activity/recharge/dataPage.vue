@@ -1,5 +1,5 @@
 <template>
-  <a-card style="background-color: white;">
+  <a-card style="background-color: white; margin-bottom: 1%;">
     <template #title>
       <div style="display: flex; align-items: center; white-space: nowrap;">
         <a-button
@@ -15,21 +15,21 @@
       </div>
     </template>
 
-    <a-row :gutter="16" style=" align-items: center; ">
+    <a-row style="margin-bottom: -20px;">
       <!-- First Column -->
       <a-row :flex="auto">
-        <a-col style="margin: 20px;">
+        <a-col style="margin-left: 20px;">
           <a-form-item label="用户ID">
             <a-input v-model:value="user_id" placeholder="请输入用户ID" />
           </a-form-item>
         </a-col>
-        <a-col style="margin: 20px;">
+        <a-col style="margin-left: 20px;">
           <a-form-item label="用户昵称">
             <a-input v-model:value="nick_name" placeholder="请输入用户昵称" />
           </a-form-item>
         </a-col>
 
-        <a-col style="margin: 20px;">
+        <a-col style="margin-left: 20px;">
           <a-form-item label="时间">
             <a-range-picker :placeholder="['开始时间', '结束时间']">
             <!-- options here -->
@@ -37,7 +37,7 @@
           </a-form-item>
         </a-col>
       </a-row>
-      <a-col :flex="auto" style="margin-left: auto;">
+      <a-col :flex="auto" style="margin-left: 20px;">
         <a-form-item>
           <a-button type="primary" block @click="onSearch">
             <SearchOutlined /> 查询
@@ -45,42 +45,41 @@
         </a-form-item>
       </a-col>
 
-      <a-col :flex="auto">
+      <a-col :flex="auto" style="margin-left: 20px;">
         <a-form-item>
           <a-button block @click="onReset">
             <ReloadOutlined /> 重置
           </a-button>
         </a-form-item>
       </a-col>
-
     </a-row>
-
-    <!-- Your existing layout and table setup -->
-    <a-table :data-source="paginatedData" :pagination="false">
-      <a-table-column title="用户ID" dataIndex="activityName" key="activityName" align="center" />
-      <a-table-column title="用户昵称" dataIndex="activityCover" key="activityCover" align="center"/>
-      <a-table-column title="充值金额" dataIndex="activityTime" key="activityTime" align="center" />
-      <a-table-column title="赠送金额" dataIndex="activityStatus" key="activityStatus" align="center" />
-      <a-table-column title="赠送时间" dataIndex="operationAccount" key="operationAccount" align="center">
-      </a-table-column>
-
-    </a-table>
-
-    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-      <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
-      <a-pagination
-        v-model:current="currentPage"
-        :total="totalItems"
-        :page-size="pageSize"
-        show-size-changer
-        :page-size-options="['5', '10', '20', '50', '100']"
-        :simple="false"
-        size="small"
-        @change="handlePageChange"
-        @show-size-change="handleSizeChange"
-      />
-    </div>
   </a-card>
+
+  <!-- Your existing layout and table setup -->
+  <a-table :data-source="paginatedData" :pagination="false">
+    <a-table-column title="用户ID" dataIndex="activityName" key="activityName" align="center" />
+    <a-table-column title="用户昵称" dataIndex="activityCover" key="activityCover" align="center"/>
+    <a-table-column title="充值金额" dataIndex="activityTime" key="activityTime" align="center" />
+    <a-table-column title="赠送金额" dataIndex="activityStatus" key="activityStatus" align="center" />
+    <a-table-column title="赠送时间" dataIndex="operationAccount" key="operationAccount" align="center">
+    </a-table-column>
+
+  </a-table>
+
+  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+    <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
+    <a-pagination
+      v-model:current="currentPage"
+      :total="totalItems"
+      :page-size="pageSize"
+      show-size-changer
+      :page-size-options="['5', '10', '20', '50', '100']"
+      :simple="false"
+      size="small"
+      @change="handlePageChange"
+      @show-size-change="handleSizeChange"
+    />
+  </div>
 </template>
 
 <script lang="jsx" setup>
