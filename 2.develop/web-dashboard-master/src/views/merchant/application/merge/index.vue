@@ -18,12 +18,13 @@
     <FormSearch
       ref="formSearchRef"
       v-model="searchParams"
+      :selectedRecord="selectedRecord"
       @emit_merge="() => customTableRef.onMergeApplication()"
     />
   </a-card>
   <a-card style="margin-bottom: 1%;">
     <div style="flex-grow: 1; text-align: left; margin-bottom: 1%">
-      <span style="font-size: 20px; font-weight: bold;">合并应用</span>
+      <span style="font-size: 20px; font-weight: bold;">合并记录</span>
     </div>
     <CustomTable
       ref="customTableRef"
@@ -43,6 +44,13 @@ const formSearchRef = ref(null)
 const searchParams = ref({})
 
 const emit = defineEmits(['back'])
+
+const props = defineProps({
+  selectedRecord: {
+    type: Object,
+    default: () => ({}),
+  },
+})
 
 const handleBack = () => {
   // Handle the back action here

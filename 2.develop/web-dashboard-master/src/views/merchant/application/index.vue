@@ -11,12 +11,12 @@
           ref="customTableRef"
           :searchParams="searchParams"
           :resetSearch="() => formSearchRef.resetForm()"
-          @emit_merge="() => handleOperation()"
+          @emit_merge="handleOperation"
         />
       </div>
     </div>
     <div v-else>
-      <mergePage :formData="selectedActivity" @back="onBackToMainPage2" @confirm="handleConfirm" @reject="handleReject" />
+      <mergePage :selected-record="selectedRecord" @back="onBackToMainPage2" @confirm="handleConfirm" @reject="handleReject" />
     </div>
   </transition>
 </template>
@@ -32,8 +32,12 @@ const searchParams = ref({})
 
 const showMergePage = ref(false)
 
+const selectedRecord = ref({})  // Ref to hold the record data
+
 const handleOperation = (record) => {
-    showMergePage.value = true
+  selectedRecord.value = record
+  console.log("handleOperation : selectedRecord = " + selectedRecord.value.application_name)
+  showMergePage.value = true
 }
 
 const onBackToMainPage2 = () => {

@@ -164,7 +164,7 @@ const columns = [
           迁移</span>
         <span v-if={record.status === 3 && record.status2 === 1}
           style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
-          onClick={() => emit('emit_merge')}>
+          onClick={() => emit('emit_merge', record)}>
           合并</span>         
         <span v-if={record.status === 4}
           style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
