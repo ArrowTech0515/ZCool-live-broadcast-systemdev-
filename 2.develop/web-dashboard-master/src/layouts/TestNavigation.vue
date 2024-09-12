@@ -91,6 +91,7 @@
   import firstDepositManagement from '@/views/firstDeposit/main/index.vue'
   import fundManagement from '@/views/fund/main.vue'
   import blacklistManagement from '@/views/blacklist/main.vue'
+  import accountRiskControlManagement from '@/views/accountrisk/index.vue'
   
   export default {
     name: 'NavigationMenu',
@@ -118,7 +119,8 @@
       strategyManagement,
       firstDepositManagement,
       fundManagement,
-      blacklistManagement
+      blacklistManagement,
+      accountRiskControlManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
@@ -173,6 +175,9 @@
           case '5':
             currentComponent.value = 'anchorManagement'
             break
+          case '3':
+            currentComponent.value = 'accountRiskControlManagement'
+            break
           case '2':
             currentComponent.value = 'userManagement'
             break
@@ -180,11 +185,11 @@
             currentComponent.value = 'statisticsManagement'
             break
           default:
-            currentComponent.value = 'fundManagement'
+            currentComponent.value = 'accountRiskControlManagement'
         }
       }
   
-      const currentComponent = ref('merchantManagement') // Initial component
+      const currentComponent = ref('accountRiskControlManagement') // Initial component
   
       return {
         collapse_flag,
