@@ -1,6 +1,6 @@
 <template>
-  <a-card style="background-color: white;">
-    <a-row :gutter="16" type="flex">
+  <a-card style="background-color: white; margin-bottom: 1%;">
+    <a-row :gutter="16" type="flex" style="margin-bottom: -20px;">
 
       <!-- First Column -->
       <a-col :flex="auto" style="margin-right: 20px; margin-left: 20px;">
@@ -40,6 +40,7 @@
         </a-form-item>
       </a-col>
     </a-row>
+  </a-card>
 
     <!-- Your existing layout and table setup -->
     <a-table :data-source="paginatedData" :pagination="false">
@@ -67,7 +68,6 @@
       />
     </div>
 
-  </a-card>
 </template>
 
 

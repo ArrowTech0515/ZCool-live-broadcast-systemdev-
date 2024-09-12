@@ -1,16 +1,15 @@
 <template>
-  <a-card style="background-color: white;">
-    <transition name="fade-slide" mode="out-in">
-      <div v-if="!showEditPage && !showDataPage">
-        <a-row :gutter="16" type="flex" style="align-items: center;">
-          <a-row type="flex">
-            <a-col style="margin: 20px;">
+  <transition name="fade-slide" mode="out-in">
+    <div v-if="!showEditPage && !showDataPage">
+      <a-card style="background-color: white; margin-bottom: 1%;">
+        <a-row type="flex" style="align-items: center; margin-bottom: -20px;">
+            <a-col style="margin-left: 20px;">
               <a-form-item label="活动名称搜索">
                 <a-input v-model:value="activity_id" placeholder="请输入活动名称搜索" />
               </a-form-item>
             </a-col>
 
-            <a-col :flex="auto" style="margin: 20px;">
+            <a-col :flex="auto" style="margin-left: 20px;">
               <a-form-item label="状态">
                 <a-select v-model:value="activity_status" default-value="all">
                   <a-select-option value="all">{{ ENUM.activity_status[1] }}</a-select-option>
@@ -19,9 +18,8 @@
                 </a-select>
               </a-form-item>
             </a-col>
-          </a-row>
 
-          <a-col :flex="auto">
+          <a-col :flex="auto"  style="margin-left: 20px;">
             <a-form-item>
               <a-button type="primary" block @click="onSearch">
                 <SearchOutlined /> 查询
@@ -29,7 +27,7 @@
             </a-form-item>
           </a-col>
 
-          <a-col :flex="auto">
+          <a-col :flex="auto"  style="margin-left: 20px;">
             <a-form-item>
               <a-button block @click="onReset">
                 <ReloadOutlined /> 重置
@@ -37,56 +35,55 @@
             </a-form-item>
           </a-col>
         </a-row>
+      </a-card>
+      <a-table :data-source="paginatedData" :pagination="false">
+        <a-table-column title="活动名称" dataIndex="activityName" key="activityName" align="center" />
+        <a-table-column title="活动时间" dataIndex="activityTime" key="activityTime" align="center" />
+        <a-table-column title="活动类型" dataIndex="activityType" key="activityType" align="center" />
+        <a-table-column title="活动状态" dataIndex="activityStatus" key="activityStatus" align="center" />
+        <a-table-column title="更新时间" dataIndex="creationTime" key="creationTime" align="center" />
+        <a-table-column title="操作账号" dataIndex="operationAccount" key="operationAccount" align="center" />
+        <a-table-column title="操作" key="operate" align="center">
+          <template #default="{ record }">
+            <span
+              style="text-decoration: underline; color: blue; margin-right: 8px; cursor: pointer;"
+              @click="handleOperation('数据', record)"
+            >
+              数据
+            </span>
+            <span
+              style="text-decoration: underline; color: green; cursor: pointer;"
+              @click="handleOperation('编辑', record)"
+            >
+              编辑
+            </span>
+          </template>
+        </a-table-column>
+      </a-table>
 
-        <a-table :data-source="paginatedData" :pagination="false">
-          <a-table-column title="活动名称" dataIndex="activityName" key="activityName" align="center" />
-          <a-table-column title="活动时间" dataIndex="activityTime" key="activityTime" align="center" />
-          <a-table-column title="活动类型" dataIndex="activityType" key="activityType" align="center" />
-          <a-table-column title="活动状态" dataIndex="activityStatus" key="activityStatus" align="center" />
-          <a-table-column title="更新时间" dataIndex="creationTime" key="creationTime" align="center" />
-          <a-table-column title="操作账号" dataIndex="operationAccount" key="operationAccount" align="center" />
-          <a-table-column title="操作" key="operate" align="center">
-            <template #default="{ record }">
-              <span
-                style="text-decoration: underline; color: blue; margin-right: 8px; cursor: pointer;"
-                @click="handleOperation('数据', record)"
-              >
-                数据
-              </span>
-              <span
-                style="text-decoration: underline; color: green; cursor: pointer;"
-                @click="handleOperation('编辑', record)"
-              >
-                编辑
-              </span>
-            </template>
-          </a-table-column>
-        </a-table>
+      <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+        <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
+        <a-pagination
+          v-model:current="currentPage"
+          :total="totalItems"
+          :page-size="pageSize"
+          show-size-changer
+          :page-size-options="['5', '10', '20', '50', '100']"
+          :simple="false"
+          size="small"
+          @change="handlePageChange"
+          @show-size-change="handleSizeChange"
+        />
+      </div>
+    </div>
 
-        <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-          <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
-          <a-pagination
-            v-model:current="currentPage"
-            :total="totalItems"
-            :page-size="pageSize"
-            show-size-changer
-            :page-size-options="['5', '10', '20', '50', '100']"
-            :simple="false"
-            size="small"
-            @change="handlePageChange"
-            @show-size-change="handleSizeChange"
-          />
-        </div>
-      </div>
-
-      <div v-else-if="showDataPage">
-        <dataPage @back="onBackToMainPage1" @confirm="handleConfirm" @reject="handleReject" />
-      </div>
-      <div v-else>
-        <editPage :formData="selectedActivity" @back="onBackToMainPage2" @confirm="handleConfirm" @reject="handleReject" />
-      </div>
-    </transition>
-  </a-card>
+    <div v-else-if="showDataPage">
+      <dataPage @back="onBackToMainPage1" @confirm="handleConfirm" @reject="handleReject" />
+    </div>
+    <div v-else>
+      <editPage :formData="selectedActivity" @back="onBackToMainPage2" @confirm="handleConfirm" @reject="handleReject" />
+    </div>
+  </transition>
 </template>
 
 <script lant="ts" setup>

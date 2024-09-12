@@ -1,43 +1,33 @@
 <template>
-  <a-card style="background-color: white;">
-    <transition name="fade-slide" mode="out-in">
-      <div v-if="!showEditPage && !showDataPage">
-        <a-row :gutter="16" type="flex" style="align-items: center;">
-          <a-row type="flex">
-            <a-col style="margin: 20px;">
-              <a-form-item label="活动名称搜索">
-                <a-input v-model:value="activity_id" placeholder="请输入活动名称搜索" />
-              </a-form-item>
-            </a-col>
+  <transition name="fade-slide" mode="out-in">
+    <div v-if="!showEditPage && !showDataPage">
+      <a-card style="background-color: white; margin-bottom: 1%;">
+        <a-row type="flex" style="align-items: center; margin-bottom: -20px;">
+          <a-form-item label="活动名称搜索" style="margin-left: 20px;">
+            <a-input v-model:value="activity_id" placeholder="请输入活动名称搜索" />
+          </a-form-item>
 
-            <a-col :flex="auto" style="margin: 20px;">
-              <a-form-item label="状态">
-                <a-select v-model:value="activity_status" default-value="all">
-                  <a-select-option value="all">{{ ENUM.activity_status[1] }}</a-select-option>
-                  <a-select-option value="active">{{ ENUM.activity_status[2] }}</a-select-option>
-                  <a-select-option value="enabled">{{ ENUM.activity_status[3] }}</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-          </a-row>
+          <a-form-item label="状态" style="margin-left: 20px;">
+            <a-select v-model:value="activity_status" default-value="all">
+              <a-select-option value="all">{{ ENUM.activity_status[1] }}</a-select-option>
+              <a-select-option value="active">{{ ENUM.activity_status[2] }}</a-select-option>
+              <a-select-option value="enabled">{{ ENUM.activity_status[3] }}</a-select-option>
+            </a-select>
+          </a-form-item>
 
-          <a-col :flex="auto">
-            <a-form-item>
-              <a-button type="primary" block @click="onSearch">
-                <SearchOutlined /> 查询
-              </a-button>
-            </a-form-item>
-          </a-col>
+          <a-form-item style="margin-left: 20px;">
+            <a-button type="primary" block @click="onSearch">
+              <SearchOutlined /> 查询
+            </a-button>
+          </a-form-item>
 
-          <a-col :flex="auto">
-            <a-form-item>
-              <a-button block @click="onReset">
-                <ReloadOutlined /> 重置
-              </a-button>
-            </a-form-item>
-          </a-col>
+          <a-form-item style="margin-left: 20px;">
+            <a-button block @click="onReset">
+              <ReloadOutlined /> 重置
+            </a-button>
+          </a-form-item>
         </a-row>
-
+      </a-card>
         <a-table :data-source="paginatedData" :pagination="false">
           <a-table-column title="活动名称" dataIndex="activityName" key="activityName" align="center" />
           <a-table-column title="活动时间" dataIndex="activityTime" key="activityTime" align="center" />
@@ -86,7 +76,6 @@
         <editPage :formData="selectedActivity" @back="onBackToMainPage2" @confirm="handleConfirm" @reject="handleReject" />
       </div>
     </transition>
-  </a-card>
 </template>
 
 <script lant="ts" setup>

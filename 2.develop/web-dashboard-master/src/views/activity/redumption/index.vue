@@ -1,17 +1,16 @@
 <template>
-  <a-card style="background-color: white;">
-    <transition name="fade-slide" mode="out-in">
-      <div v-if="!showEditPage && !showDataPage">
-        <a-row :gutter="16" :type="flex" style="align-items: center;">
-          <!-- First Column -->
-          <a-row :type="flex">
-            <a-col style="margin: 20px;">
+  <transition name="fade-slide" mode="out-in">
+    <div v-if="!showEditPage && !showDataPage">
+      <a-card style="background-color: white; margin-bottom: 1%;">
+        <a-row type="flex" style="align-items: center; margin-bottom: -20px;">
+
+            <a-col  style="margin-left: 20px;">
               <a-form-item label="活动名称">
                 <a-input v-model:value="activity_id" placeholder="请输入活动名称" />
               </a-form-item>
             </a-col>
 
-            <a-col :flex="2" style="margin: 20px;">
+            <a-col :flex="auto"  style="margin-left: 20px;">
               <a-form-item label="状态">
                 <a-select v-model:value="activity_status" value="all">
                   <a-select-option value="all">{{ ENUM.activity_status[1] }}</a-select-option>
@@ -20,8 +19,8 @@
                 </a-select>
               </a-form-item>
             </a-col>
-          </a-row>
-          <a-col :flex="auto">
+
+          <a-col :flex="auto"  style="margin-left: 20px;">
             <a-form-item>
               <a-button type="primary" block @click="onSearch">
                 <SearchOutlined /> 查询
@@ -29,19 +28,20 @@
             </a-form-item>
           </a-col>
 
-          <a-col :flex="auto">
+          <a-col :flex="auto"  style="margin-left: 20px;">
             <a-form-item>
               <a-button block @click="onReset">
                 <ReloadOutlined /> 重置
               </a-button>
             </a-form-item>
           </a-col>
-          <a-col :flex="auto" style="margin: 20px; margin-left: auto;">
+          <a-col :flex="auto" style=" margin-left: auto;">
             <a-form-item>
               <a-button type="primary" block @click="onAdd">创建活动</a-button>
             </a-form-item>
           </a-col>
         </a-row>
+        </a-card>
 
         <!-- Your existing layout and table setup -->
         <a-table :data-source="paginatedData" :pagination="false">
@@ -93,7 +93,6 @@
         <editPage :formData="selectedActivity" @back="onBackToMainPage2" @confirm="handleConfirm" @reject="handleReject" />
       </div>
     </transition>
-  </a-card>
 </template>
 
 <script lang="jsx" setup>

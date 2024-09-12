@@ -1,14 +1,14 @@
 <template>
-  <a-card style="background-color: white;">
-
-    <a-row :gutter="16" style="display: flex; justify-content: flex-end; align-items: center;">
+  <a-card style="background-color: white; margin-bottom: 1%;">
+    <a-row :gutter="16" style="display: flex; justify-content: flex-start; align-items: center; margin-bottom: -20px;">
     <!-- First Column -->
-      <a-col :span="3" :flex="end" style="align-items: end;">
-          <a-form-item>
-            <a-button type="primary" block @click="onAdd">新增</a-button>
-          </a-form-item>
+      <a-col :span="2">
+        <a-form-item>
+          <a-button type="primary" block @click="onAdd">新增</a-button>
+        </a-form-item>
       </a-col>
     </a-row>
+  </a-card>
 
     <!-- Your existing layout and table setup -->
     <a-table :data-source="paginatedData" :pagination="false">
@@ -40,7 +40,6 @@
         @show-size-change="handleSizeChange"
       />
     </div>
-  </a-card>
 
   <AddorEditDialog 
     :isModalVisible="isModalVisible"
