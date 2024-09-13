@@ -25,8 +25,8 @@
 
 <script setup lang="jsx">
 import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant'
-import useAddorEditRule from '../hooks/useAddorEditRule'
-import useAddorEditRule2 from '../hooks/useAddorEditRule2'
+import useAddIPaddressRule from '../hooks/useAddIPaddressRule'
+import useAddIPsegmentRule from '../hooks/useAddIPsegmentRule'
 
 const props = defineProps({
   searchParams: {
@@ -63,24 +63,30 @@ const handleSizeChange = (current, size) => {
 const dataSource = ref([
   {
     id: '1',
-    merch_name: '无忧传媒有限公司',
-    create_time: '2012-12-12 12:21:21',
-    status: 1, // 1:启用中, 2:已停用
-    oper_info: { name: '管理员-张三' },
+    IP_address: '168.xx.xx.9',
+    create_time: '2023-08-22 21:51',
+    status: '2023-08-22 21:58',
+    oper_info: 'buhu90o',
+    oper_info2: 'buhu90o',
+    oper_info3: '测试服务器',
   },
   {
     id: '2',
-    merch_name: '东川有限公司',
-    create_time: '2012-12-12 12:21:21',
-    status: 2, // 1:启用中, 2:已停用
-    oper_info: { name: '管理员-李四' },
+    IP_address: '168.xx.xx.9',
+    create_time: '2023-08-22 21:51',
+    status: '2023-08-22 21:58',
+    oper_info: 'buhu90o',
+    oper_info2: 'buhu90o',
+    oper_info3: '测试服务器',
   },
   {
     id: '3',
-    merch_name: '北商有限公司',
-    create_time: '2012-12-12 12:21:21',
-    status: 1, // 1:启用中, 2:已停用
-    oper_info: { name: '管理员-王五' },
+    IP_address: '168.xx.xx.9',
+    create_time: '2023-08-22 21:51',
+    status: '2023-08-22 21:58',
+    oper_info: 'buhu90o',
+    oper_info2: 'buhu90o',
+    oper_info3: '测试服务器',
   },
 ])
 const { loading, refresh } = useRequest(() => getMerchantListReq({
@@ -98,30 +104,39 @@ const { createDialog } = useDialog()
 
 const columns = [
   {
-    title: '商户ID',
+    title: '序号',
     dataIndex: 'id',
     align: 'center',
   },
   {
-    title: '商户名称',
-    dataIndex: 'merch_name',
+    title: 'IP地址',
+    dataIndex: 'IP_address',
     align: 'center',
   },
   {
-    title: '创建时间',
+    title: '添加时间',
     dataIndex: 'create_time',
     align: 'center',
   },
   {
-    title: '状态',
+    title: '最后编辑时间',
     dataIndex: 'status',
     align: 'center',
   },
   {
-    title: '操作账号',
+    title: '添加人',
     dataIndex: 'oper_info',
     align: 'center',
-    customRender: ({ record }) => <div>{ record.oper_info.name }</div>
+  },
+  {
+    title: '最后编辑人',
+    dataIndex: 'oper_info2',
+    align: 'center',
+  },
+  {
+    title: '备注',
+    dataIndex: 'oper_info3',
+    align: 'center',
   },
   {
     title: '操作',
@@ -132,12 +147,12 @@ const columns = [
     customRender: ({ record }) =>
       <div>
         <span 
-          style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
-          onClick={() => onFunc1(record)}>
+          style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
+          onClick={() => onAddIPAddress(record)}>
           编辑</span>
         <span
-          style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
-          onClick={() => onFunc2(record)}>
+          style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;" 
+          onClick={() => onDelete(record)}>
           启用</span>
       </div>
   }
@@ -154,69 +169,16 @@ function setStatus(item) {
   })
 }
 
-async function onFunc1(item = {}) {
+async function onDelete(item = {}) {
   const merch_id = item.id || item.merch_id || null // 兼容 id 和 merch_id
   const formValue = ref({
     merch_id,
-    merch_name: item.merch_name,
+    IP_address: item.IP_address,
   })
 
   const isCreate = !merch_id
   const fApi = ref(null)
-  const addoreditRule = useAddorEditRule(false, false, fApi)
-  const formModalProps = {
-    request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
-    getData(data) {
-      return {
-        ...data,
-        // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
-        merch_id: isCreate ? data.merch_id : undefined,
-      }
-    },
-    // option: {
-    //   global: {
-    //     '*': {
-    //       wrap: {
-    //         labelCol: { span: 6 },
-    //       },
-    //     },
-    //   },
-    // },
-    rule: addoreditRule,
-  }
-
-  createDialog({
-    title: isCreate ? '添加商户' : '编辑商户',
-    width: 600,
-    component:
-      <ModalForm
-        v-fApi:value={fApi.value}
-        v-model={formValue.value}
-        {...formModalProps}
-      />
-    ,
-    onConfirm() {
-      if (isCreate) {
-        pagination.page = 1
-        pagination.total = 0
-        props.resetSearch()
-      } else {
-        refresh()
-      }
-    },
-  })
-}
-
-async function onFunc2(item = {}) {
-  const merch_id = item.id || item.merch_id || null // 兼容 id 和 merch_id
-  const formValue = ref({
-    merch_id,
-    merch_name: item.merch_name,
-  })
-
-  const isCreate = !merch_id
-  const fApi = ref(null)
-  const addoreditRule = useAddorEditRule(false, false, fApi)
+  const addoreditRule = useAddIPsegmentRule(false, false, fApi)
   const formModalProps = {
     request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
     getData(data) {
@@ -261,16 +223,16 @@ async function onFunc2(item = {}) {
 }
 
 
-async function on_emitFunc1(item = {}) {
-  const merch_id = item.id || item.merch_id || null // 兼容 id 和 merch_id
+async function onAddIPAddress(item = {}) {
+  const merch_id = item.id || null // 兼容 id 和 merch_id
   const formValue = ref({
-    merch_id,
-    merch_name: item.merch_name,
+    IP_address: item.IP_address,
+    oper_info3: item.oper_info3,
   })
 
   const isCreate = !merch_id
   const fApi = ref(null)
-  const addoreditRule = useAddorEditRule(false, false, fApi)
+  const addoreditRule = useAddIPaddressRule(false, false, fApi)
   const formModalProps = {
     request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
     getData(data) {
@@ -293,7 +255,7 @@ async function on_emitFunc1(item = {}) {
   }
 
   createDialog({
-    title: isCreate ? '添加商户' : '编辑商户',
+    title: isCreate ? '新增IP地址' : '编辑IP地址',
     width: 500,
     component:
       <ModalForm
@@ -315,16 +277,16 @@ async function on_emitFunc1(item = {}) {
 }
 
 
-async function on_emitFunc2(item = {}) {
+async function onAddIPSegment(item = {}) {
   const merch_id = item.id || item.merch_id || null // 兼容 id 和 merch_id
   const formValue = ref({
     merch_id,
-    merch_name: item.merch_name,
+    IP_address: item.IP_address,
   })
 
   const isCreate = !merch_id
   const fApi = ref(null)
-  const addoreditRule = useAddorEditRule2(false, false, fApi)
+  const addoreditRule = useAddIPsegmentRule(false, false, fApi)
   const formModalProps = {
     request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
     getData(data) {
@@ -347,7 +309,7 @@ async function on_emitFunc2(item = {}) {
   }
 
   createDialog({
-    title: isCreate ? '添加商户' : '编辑商户',
+    title: isCreate ? '新增IP段' : '编辑IP段',
     width: 500,
     component:
       <ModalForm
@@ -369,6 +331,6 @@ async function on_emitFunc2(item = {}) {
 }
 
 defineExpose({
-  on_emitFunc1, on_emitFunc2
+  onAddIPAddress, onAddIPSegment
 })
 </script>

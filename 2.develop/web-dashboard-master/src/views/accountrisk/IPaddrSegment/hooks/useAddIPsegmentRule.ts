@@ -1,15 +1,15 @@
 import formCreate, { type Api } from '@form-create/ant-design-vue'
 
-export default function (ps_ratio_disabled = false, requiredPassword = true, fApi: Ref<Api>) {
+export default function (fApi: Ref<Api>) {
 
   return [
     {
       type: 'input',
-      field: 'merch_name',
-      title: '商户名称',
+      field: 'IP',
+      title: 'IP段',
       value: '',
       props: {
-        placeholder: '请输入商户名称',
+        placeholder: '请输入IP段',
         type: 'textarea',
       },
       effect: {
@@ -24,10 +24,10 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
     {
       type: 'input',
       field: 'merch_name',
-      title: '商户名称',
+      title: '备注',
       value: '',
       props: {
-        placeholder: '请输入商户名称',
+        placeholder: '请输入备注',
         type: 'textarea',
       },
       effect: {

@@ -24,13 +24,13 @@
               <AButton
               class="ml20"
                 type="primary"
-                @click="emit('emit_func1')"
-              >添加商户</AButton>
+                @click="emit('emit_add_IP_address')"
+              >新增IP地址</AButton>
               <AButton
               class="ml20"
                 type="primary"
-                @click="emit('emit_func2')"
-              >添加商户</AButton>
+                @click="emit('emit_add_IP_segment')"
+              >新增IP段</AButton>
             </div>
           </section>
         </template>
@@ -46,7 +46,7 @@ const data = reactive({
   create_time: [],
 })
 
-const emit = defineEmits(['emit_func1', 'emit_func2', 'search'])
+const emit = defineEmits(['emit_add_IP_address', 'emit_add_IP_segment', 'search'])
 const fApi = ref({})
 const option = {
   resetBtn: false,
@@ -57,7 +57,7 @@ const option = {
         show: false,
       },
       wrap: {
-        labelCol: { span: 9 },
+        labelCol: { span: 8 },
       },
     },
   },
@@ -66,29 +66,29 @@ const option = {
 const rule = ref([
   {
     type: 'input',
-    field: 'merch_name',
-    title: '商户名称',
+    field: 'IP',
+    title: 'IP',
     value: '',
     props: {
-      placeholder: '请输入商户名称',
+      placeholder: '请输入IP',
     },
   },
   {
     type: 'input',
-    field: 'merch_name',
-    title: '商户名称',
+    field: 'add_person',
+    title: '添加人',
     value: '',
     props: {
-      placeholder: '请输入商户名称',
+      placeholder: '请输入添加人账号',
     },
   },
   {
     type: 'input',
-    field: 'merch_name',
-    title: '商户名称',
+    field: 'last_edited_person',
+    title: '最后编辑人',
     value: '',
     props: {
-      placeholder: '请输入商户名称',
+      placeholder: '请输入编辑人账号',
     },
   },
   { type: 'btns' },
