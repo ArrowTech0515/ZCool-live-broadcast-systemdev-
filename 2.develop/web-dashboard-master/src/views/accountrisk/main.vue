@@ -8,10 +8,10 @@
           <IPaddressSegmentPage />
       </a-tab-pane>
       <a-tab-pane key="3" tab="设备管理">
-          <IPaddressSegmentPage />
+          <IPaddressSegment2Page />
       </a-tab-pane>
       <a-tab-pane key="4" tab="风控标签设置">
-          <IPaddressSegmentPage />
+          <IPaddressSegment3Page />
       </a-tab-pane>
     </a-tabs>
   </template>
@@ -20,6 +20,8 @@
   import { Tabs } from 'ant-design-vue'
 
   import IPaddressSegmentPage from './IPaddrSegment/index.vue'
+  import IPaddressSegment2Page from './IPaddrSegment2/index.vue'
+  import IPaddressSegment3Page from './IPaddrSegment3/index.vue'
   import mainPage from './main/index.vue'
   
   export default {
@@ -27,6 +29,8 @@
       'a-tabs': Tabs,
       'a-tab-pane': Tabs.TabPane,
       IPaddressSegmentPage,
+      IPaddressSegment2Page,
+      IPaddressSegment3Page,
       mainPage,
     }
   }
