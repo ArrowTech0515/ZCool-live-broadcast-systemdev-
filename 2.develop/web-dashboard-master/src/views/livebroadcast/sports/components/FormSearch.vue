@@ -15,7 +15,7 @@
               type="primary"
             ><SearchOutlined/>查询</AButton>
             <AButton
-              class="ml10"
+              class="ml20"
               @click="resetForm"
             ><ReloadOutlined/>重置</AButton>
             <div class="flex1 flex_end">
@@ -34,10 +34,10 @@
 <script setup>
 const params = defineModel()
 const data = reactive({
-  team_name: '',
-  live_event: '',
-  sale_status: '',
-  live_status: '',
+  // team_name: '',
+  // live_event: null,
+  // sale_status: null,
+  // live_status: null,
 })
 
 const emit = defineEmits(['emit_cover', 'search'])
@@ -66,26 +66,38 @@ const rule = ref([
     wrap: {
       labelCol: { span: 10 },
     },
+    props: {
+      placeholder: '请输入球队名称',
+    },
   },
   {
     type: 'select',
     field: 'live_status',
     title: '直播状态',
-    value: '',
+    value: ENUM.live_broadcast_status[1],
+    props: {
+      placeholder: '请选择直播状态',
+    },
     options: Object.keys(ENUM.live_broadcast_status).map(key => ({ value: parseInt(key), label: ENUM.live_broadcast_status[key] })),
   },
   {
     type: 'select',
     field: 'live_event',
     title: '赛事',
-    value: '',
+    value: ENUM.live_event[1],
+    props: {
+      placeholder: '请选择赛事',
+    },
     options: Object.keys(ENUM.live_event).map(key => ({ value: parseInt(key), label: ENUM.live_event[key] })),
   },
   {
     type: 'select',
     field: 'sale_status',
     title: '部状态',
-    value: '',
+    value: ENUM.sale_status[1],
+    props: {
+      placeholder: '请选择部状态',
+    },
     options: Object.keys(ENUM.sale_status).map(key => ({ value: parseInt(key), label: ENUM.sale_status[key] })),
   },
   { type: 'btns' },

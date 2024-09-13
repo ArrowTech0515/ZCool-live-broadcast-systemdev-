@@ -10,17 +10,9 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
       value: '',
       props: {
         placeholder: '请输入商户名称',
+        type: 'textarea',
       },
       effect: {
-        // fetch: {
-        //   action: '/api/v1/usergroup', // Have to fix
-        //   to: 'options',
-        //   method: 'get',
-        //   parse: res => [
-        //     { value: 0, label: '分组会员' },
-        //     ...res.items.map(item => ({ value: item.groupNumber, label: item.groupName })),
-        //   ],
-        // },
         required: true,
       },
       wrap: {
@@ -47,6 +39,5 @@ export default function (ps_ratio_disabled = false, requiredPassword = true, fAp
         },
       },
     },
-    
   ]
 }

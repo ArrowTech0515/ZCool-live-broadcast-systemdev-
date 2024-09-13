@@ -59,7 +59,7 @@ const rule = ref([
     title: '用户名称',
     value: '',
     props: {
-      placeholder: '请选择用户名称',
+      placeholder: '请输入用户名称',
     },
     wrap: {
       labelCol: { span: 10 },
@@ -71,7 +71,7 @@ const rule = ref([
     title: '用户ID',
     value: '',
     props: {
-      placeholder: '请选择用户ID',
+      placeholder: '请输入用户ID',
     },
   },
   {

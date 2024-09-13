@@ -22,12 +22,14 @@
             ><ReloadOutlined/>重置</AButton>
             <div class="flex1 flex_end">
               <AButton
+              class="ml20"
                 type="primary"
-                @click="emit('addItem')"
+                @click="emit('emit_func1')"
               >添加商户</AButton>
               <AButton
+              class="ml20"
                 type="primary"
-                @click="emit('addItem')"
+                @click="emit('emit_func2')"
               >添加商户</AButton>
             </div>
           </section>
@@ -44,7 +46,7 @@ const data = reactive({
   create_time: [],
 })
 
-const emit = defineEmits(['addItem', 'search'])
+const emit = defineEmits(['emit_func1', 'emit_func2', 'search'])
 const fApi = ref({})
 const option = {
   resetBtn: false,
