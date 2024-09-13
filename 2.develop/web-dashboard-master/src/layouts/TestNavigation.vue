@@ -91,7 +91,7 @@
   import firstDepositManagement from '@/views/firstDeposit/main/index.vue'
   import fundManagement from '@/views/fund/main.vue'
   import blacklistManagement from '@/views/blacklist/main.vue'
-  import accountRiskControlManagement from '@/views/accountrisk/index.vue'
+  import accountRiskControlManagement from '@/views/accountrisk/main.vue'
   
   export default {
     name: 'NavigationMenu',
