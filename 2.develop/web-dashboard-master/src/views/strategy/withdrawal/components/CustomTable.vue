@@ -28,7 +28,7 @@
 import { getAnchorListReq } from '@/api/anchor'
 import { message } from 'ant-design-vue'
 import useStrategyRule from '../hooks/useStrategyRule'
-import ModalForm from '@/components/Form/ModalForm/ModalForm.vue';
+import ModalForm from '@/components/Form/ModalForm/ModalForm.vue'
 
 const emit = defineEmits(['emit_editData', 'emit_apply', 'emit_delete'])
 
@@ -265,7 +265,7 @@ async function on_Add_Edit(record) {
 
   createDialog({
     title: isCreate ? '新增' : '编辑',
-    width: '60%',
+    width: '600',
     component:
       <ModalForm
         v-model={formValue.value}

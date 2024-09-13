@@ -9,15 +9,15 @@
       >
         <template #type-btns>
           <!-- Main flex container with full width -->
-          <section class="flex mb30" style="flex: auto; margin-left: 0%;">
+          <section class="flex mb15" style="flex: auto; margin-left: 0%;">
             <!-- Left-aligned buttons -->
             <AButton
-              class="ml20"
+              class="ml20 mb15"
               @click="submitForm"
               type="primary"
             ><SearchOutlined/>查询</AButton>
             <AButton
-              class="ml10"
+              class="ml20 mb15"
               @click="resetForm"
             ><ReloadOutlined/>重置</AButton>
 
@@ -79,7 +79,7 @@ const rule = ref([
   },
   {
     type: 'input',
-    field: 'nickname',
+    field: 'order_number',
     title: '订单号',
     value: '',
     props: {
@@ -88,7 +88,7 @@ const rule = ref([
   },
   {
     type: 'input',
-    field: 'nickname',
+    field: 'ID',
     title: 'ID搜索',
     value: '',
     props: {
@@ -110,7 +110,7 @@ const rule = ref([
     type: 'select',
     field: 'live_status',
     title: '所有商户',
-    value: '',
+    value: ENUM.guild_status[0],
     props: {
       placeholder: '请选择商户状态',
     },
@@ -126,7 +126,7 @@ const rule = ref([
     type: 'select',
     field: 'acct_status',
     title: '所有应用',
-    value: '',
+    value: ENUM.anchor_acct_status[0],
     props: {
       placeholder: '请选择应用状态',
     },

@@ -176,8 +176,8 @@ export default {
   },
   strategy_status: {
     1: '全部',
-    2: '全部',
-    3: '全部',
+    2: '启用',
+    3: '停用',
   },
   activity_status: {
     1: '全部状态',

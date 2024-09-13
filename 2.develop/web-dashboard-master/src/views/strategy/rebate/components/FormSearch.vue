@@ -15,7 +15,7 @@
               type="primary"
             ><SearchOutlined/>查询</AButton>
             <AButton
-              class="ml10"
+              class="ml20"
               @click="resetForm"
             ><ReloadOutlined/>重置</AButton>
             <div class="flex1 flex_end">
@@ -38,7 +38,7 @@ const params = defineModel()
 const data = reactive({
   strategy_id: '', // Input field for Strategy ID
   strategy_name: '', // Input field for Strategy Name
-  strategy_status: null, // Select field for Strategy Status
+  strategy_status: 1, // Select field for Strategy Status
   created_time: '', // RangePicker for Created Time
 })
 
@@ -83,6 +83,7 @@ const rule = ref([
     type: 'select',
     field: 'strategy_status',
     title: '策略状态',
+    value: 1,
     options: Object.keys(ENUM.strategy_status).map(key => ({ value: parseInt(key), label: ENUM.strategy_status[key] })),
   },
   {

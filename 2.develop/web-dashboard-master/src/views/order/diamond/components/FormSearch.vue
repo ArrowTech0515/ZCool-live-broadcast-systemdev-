@@ -11,11 +11,11 @@
           <section class="flex mb30" style="flex: auto; margin-left: 0%;">
             <AButton
               @click="submitForm"
-              class="ml10"
+              class="ml20"
               type="primary"
             ><SearchOutlined/>查询</AButton>
             <AButton
-              class="ml10"
+              class="ml20"
               @click="resetForm"
             ><ReloadOutlined/>重置</AButton>
             <div class="flex1 flex_end">

@@ -263,10 +263,10 @@ async function on_Add_Edit(record) {
   const isCreate = !record // true: Add, false: Edit
   const formValue = ref({
     strategy_name: isCreate ? '' : record.strategy_name,
-    rebate_type: isCreate ? '' : record.rebate_type,
+    rebate_type: isCreate ? null : record.rebate_type,
     rebate_percentage: isCreate ? '' : record.rebate_percentage,
-    rebate_period: isCreate ? '' : record.rebate_period,
-    collection_method: isCreate ? '' : record.collection_method,
+    rebate_period: isCreate ? null : record.rebate_period,
+    collection_method: isCreate ? null : record.collection_method,
     remark: isCreate ? '' : record.remark,
     strategy_status: record?.strategy_status === '启用',
   })
@@ -288,6 +288,9 @@ async function on_Add_Edit(record) {
         field: 'rebate_type',
         title: '返水方式',
         value: formValue.value.rebate_type,
+        props: {
+          placeholder: '请选择返水方式',
+        },
       },
       {
         type: 'input',
@@ -303,12 +306,18 @@ async function on_Add_Edit(record) {
         field: 'rebate_period',
         title: '返水週期',
         value: formValue.value.rebate_period,
+        props: {
+          placeholder: '请选择返水週期',
+        },
       },
       {
         type: 'select',
         field: 'collection_method',
         title: '领取方式',
         value: formValue.value.collection_method,
+        props: {
+          placeholder: '请选择领取方式',
+        },
       },
       {
         type: 'input',

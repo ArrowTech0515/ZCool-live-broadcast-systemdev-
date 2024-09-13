@@ -367,14 +367,6 @@ const columns = [
   },
 ]
 
-// Junn
-const allUsers = [
-  { id: '1', name: '用户11' },
-  { id: '2', name: '用户22' },
-  { id: '3', name: '用户33' },
-  { id: '4', name: 'user44' },
-  { id: '5', name: 'user_abc' },
-]
 
 // 添加
 function onRelease(record) {

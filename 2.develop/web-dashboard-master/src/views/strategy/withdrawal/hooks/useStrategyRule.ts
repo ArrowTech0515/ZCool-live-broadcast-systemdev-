@@ -1,5 +1,4 @@
 import { type Api } from '@form-create/ant-design-vue'
-import { px2remTransformer } from 'ant-design-vue'
 
 export default function (formValue: any, fApi: Ref<Api>) {
 
@@ -11,7 +10,7 @@ export default function (formValue: any, fApi: Ref<Api>) {
       value: formValue.value.strategy_name,
 
       // Add custom labelWidth
-      labelCol: { style: { width: '300px' } },  // Set the label width explicitly
+     // labelCol: { style: { width: '300px' } },  // Set the label width explicitly
       props: {
         placeholder: '请输入策略名称',
       }

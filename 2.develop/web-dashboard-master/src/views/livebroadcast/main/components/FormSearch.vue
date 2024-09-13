@@ -1,10 +1,10 @@
 <template>
   <a-card style="background-color: white; margin-bottom: 1%; ">
-    <a-row :gutter="16" :type="flex" style=" align-items: center; ">
+    <a-row :gutter="16" :type="flex" style=" align-items: center; margin-bottom: -20px;">
 
-      <a-col :flex="auto">
+      <a-col :span="4">
         <a-form-item label="商户">
-          <a-select v-model="merchant_type" value="all">
+          <a-select v-model:value="merchant_type">
             <a-select-option value="all">所有商户</a-select-option>
             <a-select-option value="merchant1">商户1</a-select-option>
             <a-select-option value="merchant2">商户2</a-select-option>
@@ -13,9 +13,9 @@
         </a-form-item>
       </a-col>
       
-      <a-col :flex="auto">
+      <a-col :span="4">
         <a-form-item label="房间">
-          <a-select v-model="room_type" value="all">
+          <a-select v-model:value="room_type">
             <a-select-option value="all">全部类型</a-select-option>
             <a-select-option value="ordinary_room">普通房间</a-select-option>
             <a-select-option value="password_room">密码房间</a-select-option>
@@ -26,9 +26,9 @@
         </a-form-item>
       </a-col>
 
-      <a-col :flex="auto">
+      <a-col :span="4">
         <a-form-item label="工会">
-          <a-select v-model="guild_type" value="all">
+          <a-select v-model:value="guild_type">
             <a-select-option value="all">所有工会</a-select-option>
             <a-select-option value="guild1">工会1</a-select-option>
             <a-select-option value="guild2">工会2</a-select-option>
@@ -49,19 +49,17 @@
         </a-form-item>
       </a-col>
 
-      <a-col :flex="auto" style="margin-left: auto;">
+      <a-row :flex="auto" class="ml20">
         <a-form-item>
           <a-button type="primary" block @click="onSearch">
             <SearchOutlined /> 查询</a-button>
         </a-form-item>
-      </a-col>
     
-      <a-col :flex="auto">
-        <a-form-item>
+        <a-form-item class="ml20">
           <a-button block @click="onReset">
             <ReloadOutlined /> 重置</a-button>
         </a-form-item>
-      </a-col>
+      </a-row>
       
       <a-col :flex="auto" style="margin-left: auto;">
         <a-form-item>
