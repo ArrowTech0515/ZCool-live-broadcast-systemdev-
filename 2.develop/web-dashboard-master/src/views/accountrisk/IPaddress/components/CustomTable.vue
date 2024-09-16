@@ -57,13 +57,31 @@ async function getGeolocation(ip) {
   }
 }
 
+// Function to detect VPN/Proxy for each IP address
+async function detectVpnProxy(ip) {
+  try {
+    const response = await axios.get(`https://ipqualityscore.com/api/json/ip/YOUR_API_KEY/${ip}`)
+    const { fraud_score, vpn, proxy } = response.data
+    if (vpn || proxy) {
+      return { status: 'vpn_or_proxy', score: fraud_score }
+    } else {
+      return { status: 'clean', score: fraud_score }
+    }
+  } catch (error) {
+    console.error(`Error detecting VPN/Proxy for IP: ${ip}`, error)
+    return { status: 'unknown', score: null }
+  }
+}
+
 const dataSource = ref([
   {
     id: '1',
     IP_address: '203.146.170.174',
     geolocation: '正在获取...', // Placeholder for geolocation
     create_time: '2023-08-22 21:51',
-    status: '2023-08-22 21:58',
+    last_edited_time: '2023-08-25 21:51',
+    status: 'active',  // Adding the status
+    vpnProxyStatus: '正在检测...',  // Placeholder for VPN/Proxy detection
     oper_info: 'buhu90o',
     oper_info2: 'buhu90o',
     oper_info3: '测试服务器',
@@ -73,7 +91,9 @@ const dataSource = ref([
     IP_address: '222.222.222.222',
     geolocation: '正在获取...', // Placeholder for geolocation
     create_time: '2023-08-22 21:51',
-    status: '2023-08-22 21:58',
+    last_edited_time: '2023-08-25 21:51',
+    status: 'inactive',  // Adding the status
+    vpnProxyStatus: '正在检测...',  // Placeholder for VPN/Proxy detection
     oper_info: 'buhu90o',
     oper_info2: 'buhu90o',
     oper_info3: '测试服务器',
@@ -83,12 +103,40 @@ const dataSource = ref([
     IP_address: '62.251.62.70',
     geolocation: '正在获取...', // Placeholder for geolocation
     create_time: '2023-08-22 21:51',
-    status: '2023-08-22 21:58',
+    last_edited_time: '2023-08-25 21:51',
+    status: 'blocked',  // Adding the status
+    vpnProxyStatus: '正在检测...',  // Placeholder for VPN/Proxy detection
     oper_info: 'buhu90o',
     oper_info2: 'buhu90o',
     oper_info3: '测试服务器',
   },
 ])
+
+// Define a VPN/Proxy status mapping for <a-tag>
+  function renderVpnProxyTag(vpnProxyStatus) {
+  switch (vpnProxyStatus) {
+    case 'vpn_or_proxy':
+      return <a-tag color="red">VPN/代理</a-tag>  // Detected VPN/Proxy
+    case 'clean':
+      return <a-tag color="green">正常</a-tag>  // Clean IP
+    default:
+      return <a-tag color="gray">未知</a-tag>  // Unknown or not detected
+  }
+}
+
+// Define a status mapping for <a-tag>
+function renderStatusTag(status) {
+  switch (status) {
+    case 'active':
+      return <a-tag color="green">活跃</a-tag>  // Active status
+    case 'inactive':
+      return <a-tag color="lightgray">不活跃</a-tag>  // Inactive status
+    case 'blocked':
+      return <a-tag color="red">已阻止</a-tag>  // Blocked status
+    default:
+      return <a-tag color="gray">未知</a-tag>  // Default : Unknown
+  }
+}
 
 const { loading, refresh } = useRequest(() => getMerchantListReq({
   ...props.searchParams,
@@ -126,8 +174,20 @@ const columns = [
   },
   {
     title: '最后编辑时间',
+    dataIndex: 'last_edited_time',
+    align: 'center',
+  },
+  {
+    title: 'IP状态',  // New column for IP status
     dataIndex: 'status',
     align: 'center',
+    customRender: ({ record }) => renderStatusTag(record.status),  // Render the tag based on the status
+  },
+  {
+    title: 'VPN/代理状态',  // New column for VPN/Proxy detection
+    dataIndex: 'vpnProxyStatus',
+    align: 'center',
+    customRender: ({ record }) => renderVpnProxyTag(record.vpnProxyStatus),  // Render the VPN/Proxy status
   },
   {
     title: '添加人',
@@ -166,15 +226,15 @@ const columns = [
 ]
 
 // 商户启用/停用
-function setStatus(item) {
-  loading.value = true
-  setMerchantStatusReq(item.merch_id, { status: item.status === 1 ? 2 : 1 }).then(() => {
-    loading.value = false
-    item.status = item.status === 1 ? 2 : 1
-  }).catch(() => {
-    loading.value = false
-  })
-}
+// function setStatus(item) {
+//   loading.value = true
+//   setMerchantStatusReq(item.merch_id, { status: item.status === 1 ? 2 : 1 }).then(() => {
+//     loading.value = false
+//     item.status = item.status === 1 ? 2 : 1
+//   }).catch(() => {
+//     loading.value = false
+//   })
+// }
 
 async function onDelete(item = {}) {
   // loading.value = true
@@ -303,6 +363,9 @@ onMounted(() => {
   dataSource.value.forEach(async (item, index) => {
     const location = await getGeolocation(item.IP_address)
     dataSource.value[index].geolocation = location
+
+    const vpnProxyStatus = await detectVpnProxy(item.IP_address)
+    dataSource.value[index].vpnProxyStatus = vpnProxyStatus.status
   })
 })
 

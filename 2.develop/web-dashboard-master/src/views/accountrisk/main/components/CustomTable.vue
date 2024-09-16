@@ -341,7 +341,7 @@ const columns = [
     dataIndex: 'accountStatus',
     align: 'center',
     customRender: ({ record }) => (
-      <a-tag color={record.accountStatus === 1 ? '' : 'red'}>
+      <a-tag color={record.accountStatus === 1 ? 'green' : 'gray'}>
         {record.accountStatus === 1 ? '正常' : '已拉黑'}
       </a-tag>
     ),
