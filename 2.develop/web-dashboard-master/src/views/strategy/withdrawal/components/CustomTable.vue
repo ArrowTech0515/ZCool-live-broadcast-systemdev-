@@ -226,12 +226,11 @@ const columns = [
         >
           应用
         </span>
-        <span
-          style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;"
-          onClick={() => onDelete(record)}
-        >
-          删除
-        </span>
+        <a-popconfirm title='您确定要删除吗？' onConfirm={() => onDelete(record)}>
+          <span 
+          style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;" 
+          >删除</span>
+        </a-popconfirm>
       </div>
     )
   }
@@ -356,7 +355,18 @@ async function onApply(record) {
   })
 }
 
-async function onDelete(record) {
+async function onDelete(item = {}) {
+      // loading.value = true
+  // delMessageReq({
+  //   message_ids: item.msg_id,
+  // }).then(() => {
+  //   loading.value = false
+  //   pagination.page = 1
+  //   pagination.total = 0
+  //   props.resetSearch()
+  // }).catch(() => {
+  //   loading.value = false
+  // })
 }
 defineExpose({
   on_Add_Edit,

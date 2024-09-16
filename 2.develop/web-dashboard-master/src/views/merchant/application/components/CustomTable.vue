@@ -174,10 +174,11 @@ const columns = [
           style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
           onClick={() => onDeactivate(record)}>
           停用</span>
-        <span 
+        <a-popconfirm title='您确定要删除吗？' onConfirm={() => onDelete(record)}>
+          <span 
           style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;" 
-          onClick={() => onDelete(record)}>
-          删除</span>
+          >删除</span>
+        </a-popconfirm>
       </div>
   }
 ]
@@ -247,26 +248,17 @@ async function editItem(item = {}) {
 }
 
 async function onDelete(item = {}) {
-
-  createDialog({
-    title: '删除',
-    width: 500,
-    component:
-      <div>
-        <div style="text-align: center; font-weight:bold;">是否删除当前应用？</div>
-      </div>
-    ,
-    onConfirm() {
-      setStatus(item)
-      // if (isCreate) {
-      //   pagination.page = 1
-      //   pagination.total = 0
-      //   props.resetSearch()
-      // } else {
-      //   refresh()
-      // }
-    },
-  })
+    // loading.value = true
+  // delMessageReq({
+  //   message_ids: item.msg_id,
+  // }).then(() => {
+  //   loading.value = false
+  //   pagination.page = 1
+  //   pagination.total = 0
+  //   props.resetSearch()
+  // }).catch(() => {
+  //   loading.value = false
+  // })
 }
 async function onActivate(item = {}) {
 

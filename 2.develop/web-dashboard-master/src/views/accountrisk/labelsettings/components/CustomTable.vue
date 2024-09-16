@@ -117,19 +117,19 @@ const columns = [
     dataIndex: 'latest_time',
     align: 'center',
     customRender: ({ record }) =>
-      <div style="align-items: center; text-align:center;" flex="horizontal">
-          <div style="font-size:12px;">
-            出款风控审核
-            <a-switch style="margin-left: 10px; margin-right: 10px;" checked={record.latest_time.param1}/>
-          </div>
-          <div style="margin-left: 10px; font-size:12px;">
-            晋级奖励
-            <a-switch style="margin-left: 10px; margin-right: 10px;" checked={record.latest_time.param2}/>
-          </div>
-          <div style="margin-left: 10px; font-size:12px;">
-            俸禄奖励
-            <a-switch style="margin-left: 10px; margin-right: 10px;" checked={record.latest_time.param3}/>
-          </div>      
+      <div style="display: flex; justify-content: center; align-items: center; text-align:center;">
+        <div style="display: flex; align-items: center; font-size:12px; margin-right: 10px;">
+          出款风控审核
+          <a-switch style="margin-left: 10px;" checked={record.latest_time.param1} />
+        </div>
+        <div style="display: flex; align-items: center; font-size:12px; margin-right: 10px;">
+          晋级奖励
+          <a-switch style="margin-left: 10px;" checked={record.latest_time.param2} />
+        </div>
+        <div style="display: flex; align-items: center; font-size:12px;">
+          俸禄奖励
+          <a-switch style="margin-left: 10px;" checked={record.latest_time.param3} />
+        </div>      
       </div>
   },
   {

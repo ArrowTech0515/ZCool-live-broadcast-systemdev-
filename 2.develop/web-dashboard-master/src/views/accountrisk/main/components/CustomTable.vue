@@ -359,9 +359,8 @@ const columns = [
               onClick={() => onRelease(record)}>
               风控管理</span>
         <span v-else
-              style="text-decoration: underline; color: lightgrey; margin-right: 12px; cursor: pointer;" 
-              onClick={() => onRelease(record)}>
-              风控管理</span>
+              style="text-decoration: underline; color: lightgrey; margin-right: 12px;" 
+              >风控管理</span>
       </div>
     ),
   },
