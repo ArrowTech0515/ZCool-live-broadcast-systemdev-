@@ -24,8 +24,13 @@
               <AButton
               class="ml20"
                 type="primary"
-                @click="emit('emit_add_IP_address')"
-              >新增风控标签</AButton>
+                @click="emit('emit_add_device')"
+              >新增设备号</AButton>
+              <AButton
+              class="ml20"
+                type="primary"
+                @click="emit('emit_add_IP_segment')"
+              >新增IP段</AButton>
             </div>
           </section>
         </template>
@@ -41,7 +46,7 @@ const data = reactive({
   create_time: [],
 })
 
-const emit = defineEmits(['emit_add_IP_address', 'search'])
+const emit = defineEmits(['emit_add_device', 'emit_add_IP_segment', 'search'])
 const fApi = ref({})
 const option = {
   resetBtn: false,

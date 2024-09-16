@@ -150,10 +150,11 @@ const columns = [
           style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
           onClick={() => onAddIPAddress(record)}>
           编辑</span>
-        <span
+        <a-popconfirm title='您确定要删除吗？' onConfirm={() => onDelete(record)}>
+          <span 
           style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;" 
-          onClick={() => onDelete(record)}>
-          启用</span>
+          >删除</span>
+        </a-popconfirm>
       </div>
   }
 ]
@@ -170,56 +171,17 @@ function setStatus(item) {
 }
 
 async function onDelete(item = {}) {
-  const merch_id = item.id || item.merch_id || null // 兼容 id 和 merch_id
-  const formValue = ref({
-    merch_id,
-    IP_address: item.IP_address,
-  })
-
-  const isCreate = !merch_id
-  const fApi = ref(null)
-  const addoreditRule = useAddIPsegmentRule(false, false, fApi)
-  const formModalProps = {
-    request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
-    getData(data) {
-      return {
-        ...data,
-        // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
-        merch_id: isCreate ? data.merch_id : undefined,
-      }
-    },
-    // option: {
-    //   global: {
-    //     '*': {
-    //       wrap: {
-    //         labelCol: { span: 6 },
-    //       },
-    //     },
-    //   },
-    // },
-    rule: addoreditRule,
-  }
-
-  createDialog({
-    title: isCreate ? '添加商户' : '编辑商户',
-    width: 600,
-    component:
-      <ModalForm
-        v-fApi:value={fApi.value}
-        v-model={formValue.value}
-        {...formModalProps}
-      />
-    ,
-    onConfirm() {
-      if (isCreate) {
-        pagination.page = 1
-        pagination.total = 0
-        props.resetSearch()
-      } else {
-        refresh()
-      }
-    },
-  })
+  // loading.value = true
+  // delMessageReq({
+  //   message_ids: item.msg_id,
+  // }).then(() => {
+  //   loading.value = false
+  //   pagination.page = 1
+  //   pagination.total = 0
+  //   props.resetSearch()
+  // }).catch(() => {
+  //   loading.value = false
+  // })
 }
 
 
