@@ -80,7 +80,7 @@ const dataSource = ref([
     geolocation: '正在获取...', // Placeholder for geolocation
     create_time: '2023-08-22 21:51',
     last_edited_time: '2023-08-25 21:51',
-    status: 'active',  // Adding the status
+    status: '活跃',//'active',  // Adding the status
     vpnProxyStatus: '正在检测...',  // Placeholder for VPN/Proxy detection
     oper_info: 'buhu90o',
     oper_info2: 'buhu90o',
@@ -92,7 +92,7 @@ const dataSource = ref([
     geolocation: '正在获取...', // Placeholder for geolocation
     create_time: '2023-08-22 21:51',
     last_edited_time: '2023-08-25 21:51',
-    status: 'inactive',  // Adding the status
+    status: '不活跃',//'inactive',  // Adding the status
     vpnProxyStatus: '正在检测...',  // Placeholder for VPN/Proxy detection
     oper_info: 'buhu90o',
     oper_info2: 'buhu90o',
@@ -104,7 +104,7 @@ const dataSource = ref([
     geolocation: '正在获取...', // Placeholder for geolocation
     create_time: '2023-08-22 21:51',
     last_edited_time: '2023-08-25 21:51',
-    status: 'blocked',  // Adding the status
+    status: '已阻止',// 'blocked',  // Adding the status
     vpnProxyStatus: '正在检测...',  // Placeholder for VPN/Proxy detection
     oper_info: 'buhu90o',
     oper_info2: 'buhu90o',
@@ -127,11 +127,11 @@ const dataSource = ref([
 // Define a status mapping for <a-tag>
 function renderStatusTag(status) {
   switch (status) {
-    case 'active':
+    case '活跃':
       return <a-tag color="green">活跃</a-tag>  // Active status
-    case 'inactive':
+    case '不活跃':
       return <a-tag color="lightgray">不活跃</a-tag>  // Inactive status
-    case 'blocked':
+    case '已阻止':
       return <a-tag color="red">已阻止</a-tag>  // Blocked status
     default:
       return <a-tag color="gray">未知</a-tag>  // Default : Unknown
@@ -255,6 +255,7 @@ async function onAddIPAddress(item = {}) {
   const merch_id = item.id || null // 兼容 id 和 merch_id
   const formValue = ref({
     IP_address: item.IP_address,
+    IP_status: item.status,
     oper_info3: item.oper_info3,
   })
 

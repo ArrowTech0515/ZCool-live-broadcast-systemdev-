@@ -1,4 +1,3 @@
-import formCreate, { type Api } from '@form-create/ant-design-vue'
 
 export default function (fApi: Ref<Api>) {
 
@@ -12,15 +11,57 @@ export default function (fApi: Ref<Api>) {
         placeholder: '请输入设备号',
       },
       effect: {
-        // fetch: {
-        //   action: '/api/v1/usergroup', // Have to fix
-        //   to: 'options',
-        //   method: 'get',
-        //   parse: res => [
-        //     { value: 0, label: '分组会员' },
-        //     ...res.items.map(item => ({ value: item.groupNumber, label: item.groupName })),
-        //   ],
-        // },
+        required: true,
+      },
+      wrap: {
+        labelCol: {
+          span: 6,
+        },
+      },
+    },
+    {
+      type: 'input',
+      field: 'device_type',
+      title: '设备类型',
+      value: '',
+      props: {
+        placeholder: '请输入设备类型',
+      },
+      effect: {
+        required: true,
+      },
+      wrap: {
+        labelCol: {
+          span: 6,
+        },
+      },
+    },
+    {
+      type: 'input',
+      field: 'os',
+      title: '操作系统',
+      value: '',
+      props: {
+        placeholder: '请输入操作系统',
+      },
+      effect: {
+        required: true,
+      },
+      wrap: {
+        labelCol: {
+          span: 6,
+        },
+      },
+    },
+    {
+      type: 'input',
+      field: 'browser',
+      title: '浏览器',
+      value: '',
+      props: {
+        placeholder: '请输入浏览器',
+      },
+      effect: {
         required: true,
       },
       wrap: {

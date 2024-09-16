@@ -24,9 +24,9 @@
 </template>
 
 <script setup lang="jsx">
-import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant'
+//import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant'
 import useAddDeviceRule from '../hooks/useAddDeviceRule'
-import useAddIPsegmentRule from '../hooks/useAddIPsegmentRule'
+import UAParser from 'ua-parser-js'
 
 const props = defineProps({
   searchParams: {
@@ -63,32 +63,42 @@ const handleSizeChange = (current, size) => {
 const dataSource = ref([
   {
     id: '1',
-    _number: '3099829D-CDF7-487A-AC6A-41EF86',
+    device_number: '3099829D-CDF7-487A-AC6A-41EF86',
     create_time: '2023-08-22 21:51',
     latest_time: '2023-08-22 21:58',
     oper_info: 'buhu90o',
     oper_info2: 'buhu90o',
     oper_info3: '测试服务器',
+    device_type: 'Desktop', // Device Type
+    os: 'iOS 14.4',       // Operating System
+    browser: 'Safari 14',  // Browser
   },
   {
     id: '2',
-    _number: '3099829D-CDF7-487A-AC6A-41EF86',
+    device_number: '3099829D-CDF7-487A-AC6A-41EF86',
     create_time: '2023-08-22 21:51',
     latest_time: '2023-08-22 21:58',
     oper_info: 'buhu90o',
     oper_info2: 'buhu90o',
     oper_info3: '测试服务器',
+    device_type: 'Mobile', // Device Type
+    os: 'Android 30',       // Operating System
+    browser: 'Safari 14',  // Browser
   },
   {
     id: '3',
-    _number: '3099829D-CDF7-487A-AC6A-41EF86',
+    device_number: '3099829D-CDF7-487A-AC6A-41EF86',
     create_time: '2023-08-22 21:51',
     latest_time: '2023-08-22 21:58',
     oper_info: 'buhu90o',
     oper_info2: 'buhu90o',
     oper_info3: '测试服务器',
+    device_type: 'Mobile', // Device Type
+    os: 'iOS 14.4',       // Operating System
+    browser: 'Chrome',  // Browser
   },
 ])
+
 const { loading, refresh } = useRequest(() => getMerchantListReq({
   ...props.searchParams,
   page: pagination.page,
@@ -110,7 +120,22 @@ const columns = [
   },
   {
     title: '设备号',
-    dataIndex: '_number',
+    dataIndex: 'device_number',
+    align: 'center',
+  },
+  {
+    title: '设备类型',
+    dataIndex: 'device_type',  // New column for device type
+    align: 'center',
+  },
+  {
+    title: '操作系统',
+    dataIndex: 'os',  // New column for operating system
+    align: 'center',
+  },
+  {
+    title: '浏览器',
+    dataIndex: 'browser',  // New column for browser information
     align: 'center',
   },
   {
@@ -186,23 +211,30 @@ async function onDelete(item = {}) {
 
 async function onAddDevice(item = {}) {
   const merch_id = item.id || null // 兼容 id 和 merch_id
+  const deviceInfo = getDeviceInfo()  // Automatically detect device info
   const formValue = ref({
-    _number: item._number,
+    device_number: item.device_number,
     oper_info3: item.oper_info3,
+    // device_type: deviceInfo.device_type,  // Automatically fill detected values
+    // os: deviceInfo.os,
+    // browser: deviceInfo.browser,
+    device_type: item.device_type,  // Automatically fill detected values
+    os: item.os,
+    browser: item.browser,
   })
 
   const isCreate = !merch_id
   const fApi = ref(null)
   const addoreditRule = useAddDeviceRule(false, false, fApi)
   const formModalProps = {
-    request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
-    getData(data) {
-      return {
-        ...data,
-        // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
-        merch_id: isCreate ? data.merch_id : undefined,
-      }
-    },
+    // request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
+    // getData(data) {
+    //   return {
+    //     ...data,
+    //     // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
+    //     merch_id: isCreate ? data.merch_id : undefined,
+    //   }
+    // },
     // option: {
     //   global: {
     //     '*': {
@@ -237,61 +269,18 @@ async function onAddDevice(item = {}) {
   })
 }
 
+function getDeviceInfo() {
+  const parser = new UAParser()
+  const result = parser.getResult()
 
-async function onAddIPSegment(item = {}) {
-  const merch_id = item.id || item.merch_id || null // 兼容 id 和 merch_id
-  const formValue = ref({
-    merch_id,
-    _number: item._number,
-  })
-
-  const isCreate = !merch_id
-  const fApi = ref(null)
-  const addoreditRule = useAddIPsegmentRule(false, false, fApi)
-  const formModalProps = {
-    request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
-    getData(data) {
-      return {
-        ...data,
-        // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
-        merch_id: isCreate ? data.merch_id : undefined,
-      }
-    },
-    // option: {
-    //   global: {
-    //     '*': {
-    //       wrap: {
-    //         labelCol: { span: 6 },
-    //       },
-    //     },
-    //   },
-    // },
-    rule: addoreditRule,
+  return {
+    device_type: result.device.type || 'Desktop',
+    os: `${result.os.name} ${result.os.version}`,
+    browser: `${result.browser.name} ${result.browser.version}`,
   }
-
-  createDialog({
-    title: isCreate ? '新增IP段' : '编辑IP段',
-    width: 500,
-    component:
-      <ModalForm
-        v-fApi:value={fApi.value}
-        v-model={formValue.value}
-        {...formModalProps}
-      />
-    ,
-    onConfirm() {
-      if (isCreate) {
-        pagination.page = 1
-        pagination.total = 0
-        props.resetSearch()
-      } else {
-        refresh()
-      }
-    },
-  })
 }
 
 defineExpose({
-  onAddDevice, onAddIPSegment
+  onAddDevice,
 })
 </script>

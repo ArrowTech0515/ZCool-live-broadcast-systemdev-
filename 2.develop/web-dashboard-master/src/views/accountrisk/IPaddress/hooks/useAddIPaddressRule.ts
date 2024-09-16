@@ -40,6 +40,21 @@ export default function (fApi: Ref<Api>) {
       },
     },
     {
+      type: 'select',
+      field: 'IP_status',
+      title: 'IP状态',
+      value: 1,
+      options: Object.keys(ENUM.IP_status).map(key => ({ label: ENUM.IP_status[key], value: parseInt(key) })),
+      props: {
+        placeholder: '请输入IP',
+      },
+      wrap: {
+        labelCol: {
+          span: 6,
+        },
+      },
+    },   
+    {
       type: 'input',
       field: 'oper_info3',
       title: '备注',

@@ -74,6 +74,16 @@ const rule = ref([
     },
   },
   {
+    type: 'select',
+    field: 'IP_status',
+    title: 'IP状态',
+    value: 1,
+    options: Object.keys(ENUM.IP_status).map(key => ({ label: ENUM.IP_status[key], value: parseInt(key) })),
+    props: {
+      placeholder: '请输入IP',
+    },
+  },   
+  {
     type: 'input',
     field: 'add_person',
     title: '添加人',

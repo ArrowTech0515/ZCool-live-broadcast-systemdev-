@@ -26,11 +26,6 @@
                 type="primary"
                 @click="emit('emit_add_device')"
               >新增设备号</AButton>
-              <AButton
-              class="ml20"
-                type="primary"
-                @click="emit('emit_add_IP_segment')"
-              >新增IP段</AButton>
             </div>
           </section>
         </template>
@@ -66,11 +61,29 @@ const option = {
 const rule = ref([
   {
     type: 'input',
-    field: 'IP',
+    field: '_number',
     title: '设备号',
     value: '',
     props: {
       placeholder: '请输入设备号',
+    },
+  },
+  {
+    type: 'input',
+    field: 'device_type',
+    title: '设备类型',
+    value: '',
+    props: {
+      placeholder: '请输入设备类型',
+    },
+  },
+  {
+    type: 'input',
+    field: 'os',
+    title: '操作系统',
+    value: '',
+    props: {
+      placeholder: '请输入操作系统',
     },
   },
   {
