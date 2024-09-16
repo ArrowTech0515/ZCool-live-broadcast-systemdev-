@@ -27,6 +27,7 @@
 import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant'
 import useAddIPaddressRule from '../hooks/useAddIPaddressRule'
 import useAddIPsegmentRule from '../hooks/useAddIPsegmentRule'
+import axios from 'axios'
 
 const props = defineProps({
   searchParams: {
@@ -45,25 +46,22 @@ const pagination = reactive({
   total: 100,
 })
 
-const paginatedData = computed(() => {
-  const start = (pagination.page - 1) * pagination.limit
-  const end = start + pagination.limit
-  return dataSource.value.slice(start, end)
-})
-
-const handlePageChange = (page) =>  {
-  pagination.page = page
-}
-
-const handleSizeChange = (current, size) => {
-  pagination.limit = size
-  pagination.page = 1 // Reset to the first page when page size changes
+// Define a function to get geolocation data based on an IP address
+async function getGeolocation(ip) {
+  try {
+    const response = await axios.get(`https://ipapi.co/${ip}/json/`)
+    return `${response.data.city}, ${response.data.region}, ${response.data.country}`
+  } catch (error) {
+    console.error(`Error fetching geolocation for IP: ${ip}`, error)
+    return 'Unknown Location'
+  }
 }
 
 const dataSource = ref([
   {
     id: '1',
-    IP_address: '168.xx.xx.9',
+    IP_address: '203.146.170.174',
+    geolocation: '正在获取...', // Placeholder for geolocation
     create_time: '2023-08-22 21:51',
     status: '2023-08-22 21:58',
     oper_info: 'buhu90o',
@@ -72,7 +70,8 @@ const dataSource = ref([
   },
   {
     id: '2',
-    IP_address: '168.xx.xx.9',
+    IP_address: '222.222.222.222',
+    geolocation: '正在获取...', // Placeholder for geolocation
     create_time: '2023-08-22 21:51',
     status: '2023-08-22 21:58',
     oper_info: 'buhu90o',
@@ -81,7 +80,8 @@ const dataSource = ref([
   },
   {
     id: '3',
-    IP_address: '168.xx.xx.9',
+    IP_address: '62.251.62.70',
+    geolocation: '正在获取...', // Placeholder for geolocation
     create_time: '2023-08-22 21:51',
     status: '2023-08-22 21:58',
     oper_info: 'buhu90o',
@@ -89,6 +89,7 @@ const dataSource = ref([
     oper_info3: '测试服务器',
   },
 ])
+
 const { loading, refresh } = useRequest(() => getMerchantListReq({
   ...props.searchParams,
   page: pagination.page,
@@ -111,6 +112,11 @@ const columns = [
   {
     title: 'IP地址',
     dataIndex: 'IP_address',
+    align: 'center',
+  },
+  {
+    title: '地理位置',  // New column for geolocation
+    dataIndex: 'geolocation',
     align: 'center',
   },
   {
@@ -290,6 +296,29 @@ async function onAddIPSegment(item = {}) {
       }
     },
   })
+}
+
+// Fetch geolocation for each IP in the dataSource on component mount
+onMounted(() => {
+  dataSource.value.forEach(async (item, index) => {
+    const location = await getGeolocation(item.IP_address)
+    dataSource.value[index].geolocation = location
+  })
+})
+
+const paginatedData = computed(() => {
+  const start = (pagination.page - 1) * pagination.limit
+  const end = start + pagination.limit
+  return dataSource.value.slice(start, end)
+})
+
+const handlePageChange = (page) =>  {
+  pagination.page = page
+}
+
+const handleSizeChange = (current, size) => {
+  pagination.limit = size
+  pagination.page = 1 // Reset to the first page when page size changes
 }
 
 defineExpose({
