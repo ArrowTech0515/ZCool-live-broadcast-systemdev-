@@ -48,6 +48,7 @@
               <a-menu-item key="24">⾸存管理</a-menu-item>
               <a-menu-item key="25">资金管理</a-menu-item>
               <a-menu-item key="26">黑名单管理</a-menu-item>
+              <a-menu-item key="27">举报管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -92,6 +93,7 @@
   import fundManagement from '@/views/fund/main.vue'
   import blacklistManagement from '@/views/blacklist/main.vue'
   import accountRiskControlManagement from '@/views/accountrisk/main.vue'
+  import reportManagement from '@/views/report/main.vue'
   
   export default {
     name: 'NavigationMenu',
@@ -120,13 +122,17 @@
       firstDepositManagement,
       fundManagement,
       blacklistManagement,
-      accountRiskControlManagement
+      accountRiskControlManagement,
+      reportManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
+          case '27':
+            currentComponent.value = 'reportManagement'
+            break
           case '26':
             currentComponent.value = 'blacklistManagement'
             break
@@ -189,7 +195,7 @@
         }
       }
   
-      const currentComponent = ref('accountRiskControlManagement') // Initial component
+      const currentComponent = ref('reportManagement') // Initial component
   
       return {
         collapse_flag,
