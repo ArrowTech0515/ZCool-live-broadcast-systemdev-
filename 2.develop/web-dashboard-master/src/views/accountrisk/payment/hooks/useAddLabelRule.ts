@@ -4,7 +4,7 @@ export default function (fApi: Ref<Api>) {
   return [
     {
       type: 'input',
-      field: 'label',
+      field: 'user_name',
       title: '标签',
       props: {
         placeholder: '请输入标签',
