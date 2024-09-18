@@ -26,7 +26,8 @@
 <script setup lang="jsx">
 
 import { message } from 'ant-design-vue'
-import useProcessRule from '../hooks/useProcessRule'
+import useWarnRule from '../hooks/useWarnRule'
+import useMaliciousRule from '../hooks/useMaliciousRule'
 import useCheckRule from '../hooks/useCheckRule'
 const { createDialog } = useDialog()
 
@@ -206,8 +207,16 @@ const columns = [
       <div style="text-align: center;">
         <span style="color: #1890ff; margin-right: 12px; cursor: pointer;"
               onClick={() => onWarn(record)}>警告</span>
-        <span style="color: #1890ff; margin-right: 12px; cursor: pointer;"
-              onClick={() => onNoViolationHandling(record)}>无违规处理</span>
+        <a-popconfirm
+          title="无违规处理"
+          cancelButtonProps={{ style: { display: 'none' } }}
+          onConfirm={() => onNoViolation(record)} 
+          overlayStyle={{ width: '150px' }}
+        >
+          <span 
+            style="color: #1890ff; margin-right: 12px; cursor: pointer;" 
+          >无违规处理</span>
+        </a-popconfirm>
         <span style="color: #1890ff; margin-right: 12px; cursor: pointer;"
               onClick={() => onMaliciousFeedback(record)}>为恶意举报</span>
       </div>
@@ -231,9 +240,127 @@ const copyText = (text) => {
 };
 
 // View evidence method
+
 const viewEvidence = (record) => {
   // Handle viewing the evidence here
-};
+  const formValue = ref({
+    avatar_url: '',
+  })
+
+  const fApi = ref(null)
+  const checkRule = useCheckRule(record, fApi)
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
+    },
+    rule: checkRule,
+  })
+
+  createDialog({
+    title: '查看',
+    width: 500,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
+}
+
+
+const onMaliciousFeedback = (record) => {
+  const formValue = ref({
+    avatar_url: '',
+  })
+
+  const fApi = ref(null)
+  const maliciousRule = useMaliciousRule(record, fApi)
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
+    },
+    rule: maliciousRule,
+  })
+
+  createDialog({
+    title: '恶意举报反馈',
+    width: 500,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
+}
+
+
+const onNoViolation = (record) => {
+
+}
+const onWarn = (record) => {
+  const formValue = ref({
+    avatar_url: '',
+  })
+
+  const fApi = ref(null)
+  const warnRule = useWarnRule(record, fApi)
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
+    },
+    rule: warnRule,
+  })
+
+  createDialog({
+    title: '警告',
+    width: 500,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
+}
+
 </script>
 
 <style scoped>
@@ -248,8 +375,5 @@ const viewEvidence = (record) => {
 }
 .flex_end {
   gap: 10px;
-}
-.form-time-picker {
-  margin-left: -10px;
 }
 </style>
