@@ -46,7 +46,7 @@ const data = reactive({
   order_status: null,
 })
 
-const emit = defineEmits(['emit_export_list', 'emit_add'])
+const emit = defineEmits(['emit_handleReportType', 'emit_add'])
 const fApi = ref({})
 const option = {
   resetBtn: false,
