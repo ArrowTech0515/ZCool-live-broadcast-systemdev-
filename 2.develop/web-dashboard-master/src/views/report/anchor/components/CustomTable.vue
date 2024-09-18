@@ -26,7 +26,7 @@
 <script setup lang="jsx">
 
 import { message } from 'ant-design-vue'
-import useWarnRule from '../hooks/useWarnRule'
+import useProcessRule from '../hooks/useProcessRule'
 import useMaliciousRule from '../hooks/useMaliciousRule'
 import useCheckRule from '../hooks/useCheckRule'
 const { createDialog } = useDialog()
@@ -57,7 +57,7 @@ const dataSource = ref([
     id: '1',
     merchantInfo: '张三商户\n应用名称: 打赏直播\nAPPID: 324424243',
     reportedUser: '用户昵称: 张三\nID: 3435545',
-    accusedUser: '用户昵称: 李四\nID: 3435545',
+    accusedUser: '主播昵称: 李四\n房间号: 3435545',
     reportChannel: '弹幕举报',
     evidence: '证据类型: 广告推广\n证据内容: 聊天弹幕内容\n举报时间: 2022-12-12 12:22:21',
     status: 2,//'待处理',
@@ -68,7 +68,7 @@ const dataSource = ref([
     id: '2',
     merchantInfo: '张三商户\n应用名称: 打赏直播\nAPPID: 324424243',
     reportedUser: '用户昵称: 张三\nID: 3435545',
-    accusedUser: '用户昵称: 王五\nID: 123456',
+    accusedUser: '主播昵称: 王五\n房间号: 123456',
     reportChannel: '主页举报',
     evidence: '证据类型: 政治敏感\n证据内容: 图片证据\n举报时间: 2022-12-12 12:22:21',
     status: 3,//'已处理',
@@ -210,7 +210,7 @@ const columns = [
         <div v-if="record.status === 3"
             style="text-align: center;">
           <span style="color: lightgrey; margin-right: 12px; cursor: pointer;"
-                >警告</span>
+                >处理</span>
           <span 
             style="color: lightgrey; margin-right: 12px; cursor: pointer;" 
           >无违规处理</span>
@@ -220,7 +220,7 @@ const columns = [
         <div v-else
             style="text-align: center;">
           <span style="color: #1890ff; margin-right: 12px; cursor: pointer;"
-                onClick={() => onWarn(record)}>警告</span>
+                onClick={() => onProcess(record)}>处理</span>
           <a-popconfirm
             title="无违规处理"
             cancelButtonProps={{ style: { display: 'none' } }}
@@ -338,13 +338,13 @@ const onMaliciousFeedback = (record) => {
 const onNoViolation = (record) => {
 
 }
-const onWarn = (record) => {
+const onProcess = (record) => {
   const formValue = ref({
     avatar_url: '',
   })
 
   const fApi = ref(null)
-  const warnRule = useWarnRule(record, fApi)
+  const processRule = useProcessRule(record, fApi)
   const formModalProps = reactive({
     request: data => anchorAddOrEditReq(null, data),
     getData(data) {
@@ -354,11 +354,11 @@ const onWarn = (record) => {
         avatar_url: getPathFromUrlArray(avatar_url),
       }
     },
-    rule: warnRule,
+    rule: processRule,
   })
 
   createDialog({
-    title: '警告',
+    title: '处理',
     width: 500,
     component:
       <ModalForm

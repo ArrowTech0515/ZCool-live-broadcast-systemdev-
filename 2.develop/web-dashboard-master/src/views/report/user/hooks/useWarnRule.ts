@@ -28,7 +28,8 @@ export default function (record:any, fApi: Ref<Api>) {
          showCount: {
            formatter: ({ count }) => `${count}/${nMaxLength}`,
          },
-      },
+         editable: false,
+        },
     },
   ]
 }

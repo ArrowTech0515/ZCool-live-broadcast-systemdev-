@@ -41,7 +41,7 @@ const data = reactive({
   banker_name: 1,
   bank_name: 1,
   bank_card_number: '',
-  user_id: '',
+  room_number: '',
   order_number: 1,
   order_status: 1,
 })
@@ -94,10 +94,10 @@ const rule = ref([
   },
   {
     type: 'input',
-    field: 'user_id',
-    title: 'ID搜索',
+    field: 'room_number',
+    title: '房间号搜索',
     props: {
-      placeholder: '请输入ID',
+      placeholder: '请输入房间号',
     },
   },
   {
