@@ -38,15 +38,15 @@
 
 const params = defineModel()
 const data = reactive({
-  banker_name: null,
-  bank_name: null,
-  bank_card_number: null,
-  user_id: null,
-  order_number: '',
-  order_status: null,
+  banker_name: 1,
+  bank_name: 1,
+  bank_card_number: '',
+  user_id: '',
+  order_number: 1,
+  order_status: 1,
 })
 
-const emit = defineEmits(['emit_handleReportType', 'emit_add'])
+const emit = defineEmits(['emit_handleReportType'])
 const fApi = ref({})
 const option = {
   resetBtn: false,

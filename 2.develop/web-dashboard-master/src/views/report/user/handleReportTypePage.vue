@@ -35,7 +35,7 @@
 
       <!-- Center Aligned Save Button -->
     <a-row style="display: flex; justify-content: center; align-items: center; margin-top: 30px">
-      <a-button type="primary" style="width: 150px; margin-right: 50px;" @click="emit('emit_back')">取消</a-button>
+      <a-button type="default" style="width: 150px; margin-right: 50px;" @click="emit('emit_back')">取消</a-button>
       <a-button type="primary" style="width: 150px;" @click="onConfirm">确定</a-button>
     </a-row>
 

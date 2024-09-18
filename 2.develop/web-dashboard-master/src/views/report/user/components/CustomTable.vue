@@ -60,7 +60,7 @@ const dataSource = ref([
     accusedUser: '用户昵称: 李四\nID: 3435545',
     reportChannel: '弹幕举报',
     evidence: '证据类型: 广告推广\n证据内容: 聊天弹幕内容\n举报时间: 2022-12-12 12:22:21',
-    status: '待处理',
+    status: 2,//'待处理',
     processingResult: '处理时间: \n处理人: ',
     actions: true,
   },
@@ -71,7 +71,7 @@ const dataSource = ref([
     accusedUser: '用户昵称: 王五\nID: 123456',
     reportChannel: '主页举报',
     evidence: '证据类型: 政治敏感\n证据内容: 图片证据\n举报时间: 2022-12-12 12:22:21',
-    status: '已处理',
+    status: 3,//'已处理',
     processingResult: '处理时间: 2022-12-12 12:22:21\n处理人: 管理员张三',
     actions: false,
   },
@@ -172,8 +172,10 @@ const columns = [
     align: 'center',
     customRender: ({ record }) => (
       <div style="display: flex; justify-content: space-between; align-items: justify;">
-        <span style="vertical-align: top;">{record.status}</span>
-        <span 
+        <a-tag v-if="record.status === 2" color="green" style="vertical-align: top;">{ENUM.report_status[record.status]}</a-tag>
+        <a-tag v-else-if="record.status === 3" color="red" style="vertical-align: top;">{ENUM.report_status[record.status]}</a-tag>
+        <a-tag v-else color="lightgrey" style="vertical-align: top;">{ENUM.report_status[record.status]}</a-tag>
+        <span v-if="record.status === 3"
           style="color: #1890ff; cursor: pointer;vertical-align: top;" 
           onClick={() => viewProcessingResult(record)}
         >
@@ -204,21 +206,41 @@ const columns = [
     fixed: 'right',
     width: '150px',
     customRender: ({ record }) => (
-      <div style="text-align: center;">
-        <span style="color: #1890ff; margin-right: 12px; cursor: pointer;"
-              onClick={() => onWarn(record)}>警告</span>
-        <a-popconfirm
-          title="无违规处理"
-          cancelButtonProps={{ style: { display: 'none' } }}
-          onConfirm={() => onNoViolation(record)} 
-          overlayStyle={{ width: '150px' }}
-        >
-          <span 
-            style="color: #1890ff; margin-right: 12px; cursor: pointer;" 
-          >无违规处理</span>
-        </a-popconfirm>
-        <span style="color: #1890ff; margin-right: 12px; cursor: pointer;"
-              onClick={() => onMaliciousFeedback(record)}>为恶意举报</span>
+      <div>
+        <div v-if="record.status === 3"
+            style="text-align: center;">
+          <span style="color: lightgrey; margin-right: 12px; cursor: pointer;"
+                onClick={() => onWarn(record)}>警告</span>
+          <a-popconfirm
+            title="无违规处理"
+            cancelButtonProps={{ style: { display: 'none' } }}
+            onConfirm={() => onNoViolation(record)} 
+            overlayStyle={{ width: '150px' }}
+          >
+            <span 
+              style="color: lightgrey; margin-right: 12px; cursor: pointer;" 
+            >无违规处理</span>
+          </a-popconfirm>
+          <span style="color: lightgrey; margin-right: 12px; cursor: pointer;"
+                onClick={() => onMaliciousFeedback(record)}>为恶意举报</span>
+        </div>
+        <div v-else
+            style="text-align: center;">
+          <span style="color: #1890ff; margin-right: 12px; cursor: pointer;"
+                onClick={() => onWarn(record)}>警告</span>
+          <a-popconfirm
+            title="无违规处理"
+            cancelButtonProps={{ style: { display: 'none' } }}
+            onConfirm={() => onNoViolation(record)} 
+            overlayStyle={{ width: '150px' }}
+          >
+            <span 
+              style="color: #1890ff; margin-right: 12px; cursor: pointer;" 
+            >无违规处理</span>
+          </a-popconfirm>
+          <span style="color: #1890ff; margin-right: 12px; cursor: pointer;"
+                onClick={() => onMaliciousFeedback(record)}>为恶意举报</span>
+        </div>
       </div>
     ),
   },
