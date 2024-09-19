@@ -5,9 +5,9 @@
           <userlistManagement />
       </a-tab-pane>
       
-      <!-- <a-tab-pane key="2" tab="星级扫描">
+      <a-tab-pane key="2" tab="星级扫描">
           <starManagement />
-      </a-tab-pane> -->
+      </a-tab-pane>
 
       <a-tab-pane key="3" tab="层级管理">
           <hierarchyManagement />

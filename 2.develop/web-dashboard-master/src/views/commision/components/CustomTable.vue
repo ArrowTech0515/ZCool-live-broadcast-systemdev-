@@ -46,35 +46,35 @@
 
 <script setup lang="jsx">
 
-import { ref, reactive, computed } from 'vue';
-import { message } from 'ant-design-vue';
+import { ref, reactive, computed } from 'vue'
+import { message } from 'ant-design-vue'
 
-const isModalVisible = ref(false);
-const selectedRecord = ref(null);
+const isModalVisible = ref(false)
+const selectedRecord = ref(null)
 
 // Pagination settings
 const pagination = reactive({
   page: 1,
   limit: 5,
   total: 100,
-});
+})
 
 // Paginate data source
 const paginatedData = computed(() => {
-  const start = (pagination.page - 1) * pagination.limit;
-  const end = start + pagination.limit;
-  return dataSource.value.slice(start, end);
-});
+  const start = (pagination.page - 1) * pagination.limit
+  const end = start + pagination.limit
+  return dataSource.value.slice(start, end)
+})
 
 // Handle pagination change
 const handlePageChange = (page) =>  {
-  pagination.page = page;
-};
+  pagination.page = page
+}
 
 const handleSizeChange = (current, size) => {
-  pagination.limit = size;
-  pagination.page = 1;
-};
+  pagination.limit = size
+  pagination.page = 1
+}
 
 // Data for main table including invite details
 const dataSource = ref([
@@ -108,7 +108,7 @@ const dataSource = ref([
       { id: '2', inviteUser: '大石街道卡死', userId: 3432423, registerTime: '2022-12-12 12:21:21' },
     ]
   },
-]);
+])
 
 // Columns for main table
 const columns = [
@@ -147,7 +147,7 @@ const columns = [
       </a>
     ),
   },
-];
+]
 
 // Modal table columns for invite details
 const modalColumns = [
@@ -166,18 +166,18 @@ const modalColumns = [
     dataIndex: 'registerTime',
     align: 'center',
   },
-];
+]
 
 // Function to show the modal dialog
 const viewData = (record) => {
-  selectedRecord.value = record;
-  isModalVisible.value = true;
-};
+  selectedRecord.value = record
+  isModalVisible.value = true
+}
 
 // Close the modal
 const handleCancel = () => {
-  isModalVisible.value = false;
-};
+  isModalVisible.value = false
+}
 
 </script>
 

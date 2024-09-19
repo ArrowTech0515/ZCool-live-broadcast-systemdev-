@@ -9,8 +9,8 @@
         <a-form-item label="用户状态" :label-col="{ span: 24 }">
           <a-button 
             type="primary" 
-            style="color: #52c41a; background-color:rgb(227,249,233);">
-            <CheckCircleFilled  style="color: #52c41a;"/> 正常</a-button>
+            style="color: rgb(0, 180, 42); background-color:rgb(227,249,233); ">
+            <CheckCircleFilled  style="color: rgb(0, 180, 42);"/>正常</a-button>
         </a-form-item>
       </a-col>
 
@@ -78,26 +78,26 @@
         <div class="flow-line" type="flex">
 
           <div class="circle">
-            <CheckCircleFilled  style="color: #52c41a;"/>
+            <CheckCircleFilled  style="color: rgb(0, 180, 42);"/>
           </div>
 
           <div class="dashed-line"></div>
 
           <div class="circle">
-            <CheckCircleFilled  style="color: #52c41a;"/>
+            <CheckCircleFilled  style="color: rgb(0, 180, 42);"/>
           </div>
 
           <div class="dashed-line"></div>
 
           <div >
-            <CheckCircleFilled  style="color: #52c41a;"/>
+            <CheckCircleFilled  style="color: rgb(0, 180, 42);"/>
           </div>
 
         </div>   
       </div>
 
       <a-col  :flex="1">
-        <span>基本信息</span>
+        <!-- <span>基本信息</span> -->
 
         <!-- First Table -->
         <a-table 
@@ -123,7 +123,7 @@
           </template>
         </a-table>
 
-        <span>概況信息</span>
+        <!-- <span>概況信息</span> -->
 
         <!-- Second Table -->
         <a-table 
@@ -149,115 +149,109 @@
           </template>
         </a-table>
 
-        <span>星级扫描完成</span>
+        <!-- <span>星级扫描完成</span> -->
 
       </a-col>
     </a-row>
   </a-card>
 </template>
 
-<script>
-export default {
-  name: 'SummaryReport',
 
-  data() {
-    return {
-      gameId: '18800001234',
-      nickname: '爱玩比特币',
-      lastLogintime: '2024-07-01 09:58:09',
-      lastIP: '192.125.1.27',
+<script setup lang="jsx">
+import { ref, computed } from 'vue';
+import { CheckCircleFilled } from '@ant-design/icons-vue';
 
-      gaugeValue: 74,
-      center: '60%', // Center the gauge correctly
+const gameId = ref('18800001234');
+const nickname = ref('爱玩比特币');
+const lastLogintime = ref('2024-07-01 09:58:09');
+const lastIP = ref('192.125.1.27');
 
-      columns: [
-        { title: '扫描项', dataIndex: 'item', align: 'center' },
-        { title: '评价', dataIndex: 'evaluation', align: 'center' },
-        { title: '评分', dataIndex: 'score', align: 'center' },
-        { title: '说明', dataIndex: 'description', align: 'center' },
-      ],
-      data: [
-        { key: 1, item: '用户绑定的手机号注册多少账户', evaluation: '二级', score: -15, description: '同手机, 8' },
-        { key: 2, item: '用户绑定的银行卡有多少账户', evaluation: '一级', score: -10, description: '6' },
-        { key: 3, item: '绑定银行卡名称与波币实名一致', evaluation: '是', score: 0, description: '杜程龙x1' },
-        { key: 4, item: '注册/登录，手机绑定，银行卡绑定的全渠道账号登录地区是否一致', evaluation: '是', score: 0, description: '是' },
-        { key: 5, item: '绑定此手机号的其他账户被拉黑数量', evaluation: '-', score: 0, description: '1' },
-        { key: 6, item: '绑定此银行卡的其他账户被拉黑数量', evaluation: '-', score: 0, description: '0' },
-        { key: 6, item: '', evaluation: '', score: '', description: '' },
-        // Additional rows...
-      ],
+const gaugeValue = ref(74);
+const center = ref('60%');
 
-      secondColumns: [
-        { title: '扫描项', dataIndex: 'item', align: 'center' },
-        { title: '评价', dataIndex: 'evaluation', align: 'center' },
-        { title: '评分', dataIndex: 'score', align: 'center' },
-        { title: '说明', dataIndex: 'description', align: 'center' },
-      ],
-      secondData: [
-        { key: 1, item: '累计消耗钻石', evaluation: '参考项', score: 0, description: '0' },
-        { key: 2, item: '近7日游戏损益', evaluation: '参考项', score: 0, description: '¥1399 2899999982' },
-        { key: 3, item: '近7日总充值次数', evaluation: '参考项', score: 0, description: '172次1675500' },
-        { key: 4, item: '近7日有效下注金额', evaluation: '参考项', score: 0, description: '¥4298032.4¥4298032.4' },
-        { key: 5, item: '近7天提现次数', evaluation: '参考项', score: 0, description: '19次1483777' },
-        { key: 6, item: '团队总人数', evaluation: '参考项', score: 0, description: '2' },
-        { key: 7, item: '已注册天数', evaluation: '参考项', score: 0, description: '38天' },
-        { key: 8, item: '领取活动次数', evaluation: '参考项', score: 0, description: '20次' },
-        // Additional rows...
-      ],
-    };
-  },
-  computed: {
-    // gauge
-    centerStyle() {
-      return {
-        top: this.center,
-        left: this.center,
-        transform: 'translate(-50%, -50%)',
-      };
-    },
-    pointerStyle() {
-      const angle = this.gaugeValue * 270 / 100 - 135; // Correctly map gaugeValue to the angle
-      return {
-        transform: `rotate(${angle}deg)`,
-        transformOrigin: 'bottom center',
-        position: 'absolute',
-        width: '3px',
-        height: '45px',
-        backgroundColor: '#1890ff',
-        top: `calc(${this.center} - 45px)`,
-        left: this.center,
-      };
-    },
-  },
-  methods: {
-    getLabelStyle(n) {
-      const angle = (n - 1) * 270 / 10 + 135;
-      const rad = (angle * Math.PI) / 180;
-      const radius = 40;
-      return {
-        left: `calc(${this.center} + ${radius * Math.cos(rad)}px)`,
-        top: `calc(${this.center} + ${radius * Math.sin(rad)}px)`,
-      };
-    },
-    getTickStyle(n) {
-      const angle = n * 270 / 100 + 135;
-      const rad = (angle * Math.PI) / 180;
-      const outerRadius = 50;
-      const innerRadius = outerRadius - (n % 10 === 0 ? 2 : 1);
+const columns = ref([
+  { title: '扫描项', dataIndex: 'item', align: 'center' },
+  { title: '评价', dataIndex: 'evaluation', align: 'center' },
+  { title: '评分', dataIndex: 'score', align: 'center' },
+  { title: '说明', dataIndex: 'description', align: 'center' },
+]);
 
-      return {
-        left: `calc(${this.center} + ${innerRadius * Math.cos(rad)}px)`,
-        top: `calc(${this.center} + ${innerRadius * Math.sin(rad)}px)`,
-        width: `${outerRadius - innerRadius}px`,
-        height: '1px',
-        transform: `rotate(${angle}deg) translateX(-50%)`,
-      };
-    },
-    rowClassName(record, index) {
-      return index % 2 === 0 ? 'even-row' : 'odd-row'; // Alternating row colors
-    },
-  },
-};
+const data = ref([
+  { key: 1, item: '用户绑定的手机号注册多少账户', evaluation: '二级', score: -15, description: '同手机, 8' },
+  { key: 2, item: '用户绑定的银行卡有多少账户', evaluation: '一级', score: -10, description: '6' },
+  { key: 3, item: '绑定银行卡名称与波币实名一致', evaluation: '是', score: 0, description: '杜程龙x1' },
+  { key: 4, item: '注册/登录，手机绑定，银行卡绑定的全渠道账号登录地区是否一致', evaluation: '是', score: 0, description: '是' },
+  { key: 5, item: '绑定此手机号的其他账户被拉黑数量', evaluation: '-', score: 0, description: '1' },
+  { key: 6, item: '绑定此银行卡的其他账户被拉黑数量', evaluation: '-', score: 0, description: '0' },
+  { key: 7, item: '', evaluation: '', score: '', description: '' },
+]);
+
+const secondColumns = ref([
+  { title: '扫描项', dataIndex: 'item', align: 'center' },
+  { title: '评价', dataIndex: 'evaluation', align: 'center' },
+  { title: '评分', dataIndex: 'score', align: 'center' },
+  { title: '说明', dataIndex: 'description', align: 'center' },
+]);
+
+const secondData = ref([
+  { key: 1, item: '累计消耗钻石', evaluation: '参考项', score: 0, description: '0' },
+  { key: 2, item: '近7日游戏损益', evaluation: '', score: 0, description: '¥1399 2899999982' },
+  { key: 3, item: '近7日总充值次数', evaluation: '参考项', score: 0, description: '172次1675500' },
+  { key: 4, item: '近7日有效下注金额', evaluation: '参考项', score: 0, description: '¥4298032.4' },
+  { key: 5, item: '近7天提现次数', evaluation: '参考项', score: 0, description: '19次1483777' },
+  { key: 6, item: '团队总人数', evaluation: '参考项', score: 0, description: '2' },
+  { key: 7, item: '已注册天数', evaluation: '参考项', score: 0, description: '38天' },
+  { key: 8, item: '领取活动次数', evaluation: '参考项', score: 0, description: '20次' },
+]);
+
+const centerStyle = computed(() => ({
+  top: center.value,
+  left: center.value,
+  transform: 'translate(-50%, -50%)',
+}));
+
+const pointerStyle = computed(() => {
+  const angle = gaugeValue.value * 270 / 100 - 135;
+  return {
+    transform: `rotate(${angle}deg)`,
+    transformOrigin: 'bottom center',
+    position: 'absolute',
+    width: '3px',
+    height: '45px',
+    backgroundColor: '#1890ff',
+    top: `calc(${center.value} - 45px)`,
+    left: center.value,
+  };
+});
+
+function getLabelStyle(n) {
+  const angle = (n - 1) * 270 / 10 + 135;
+  const rad = (angle * Math.PI) / 180;
+  const radius = 40;
+  return {
+    left: `calc(${center.value} + ${radius * Math.cos(rad)}px)`,
+    top: `calc(${center.value} + ${radius * Math.sin(rad)}px)`,
+  };
+}
+
+function getTickStyle(n) {
+  const angle = n * 270 / 100 + 135;
+  const rad = (angle * Math.PI) / 180;
+  const outerRadius = 50;
+  const innerRadius = outerRadius - (n % 10 === 0 ? 2 : 1);
+  
+  return {
+    left: `calc(${center.value} + ${innerRadius * Math.cos(rad)}px)`,
+    top: `calc(${center.value} + ${innerRadius * Math.sin(rad)}px)`,
+    width: `${outerRadius - innerRadius}px`,
+    height: '1px',
+    transform: `rotate(${angle}deg) translateX(-50%)`,
+  };
+}
+
+function rowClassName(record, index) {
+  return index % 2 === 0 ? 'even-row' : 'odd-row';
+}
 </script>
 
 <style scoped>
@@ -420,6 +414,6 @@ export default {
   width: 2px;
   background-color: transparent;
   height: 100%;
-  border-left: 2px dashed #52c41a;
+  border-left: 2px dashed rgb(0, 180, 42);;
 }
 </style>
