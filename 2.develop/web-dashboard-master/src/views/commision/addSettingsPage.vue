@@ -8,30 +8,51 @@
       </div>
     </template>
 
-    <!-- Center Aligned Save Button -->
-    <a-row style="justify-content: center; margin-bottom: 3%;">
-      <a-input style="text-align: center; color: grey; font-size: 13px; width: 300px;" placeholder="请输入举报类型">
-      </a-input>
-      <a-button type="primary" style="width: 150px; margin-left: 50px;" @click="onSearch">确定</a-button>
-    </a-row>
-
-    <!-- Grid Layout for Cards (5 Columns per Row using CSS Grid) -->
-    <div class="card-grid">
-      <div v-for="(card, index) in coverCards" :key="index" class="card-item">
-        <a-card hoverable style="border: 1px solid lightgrey; width: 150px; display: flex; justify-content: center; align-items: center; position: relative;">
-          <!-- Close Button -->
-          <a-button 
-            type="text" 
-            @click="removeCard(index)" 
-            style="position: absolute; right: 0px; top: 0px;"
-          >
-            X
-          </a-button>
-          <!-- Centered Text -->
-          <p style="text-align: center; margin: 0;">{{ card.fileName }}</p>
-        </a-card>
+    <!-- Grid Layout for Cards (6 Columns per Row using CSS Grid) -->
+    <a-col class="grid-layout">
+      <a-button type="primary" style="width: 120px;  margin-bottom: 20px;" @click="onAddBalance">添加余额奖励</a-button>
+      <div class="card-grid">
+        <div v-for="(card, index) in coverCards_1" :key="index" class="card-item">
+          <a-card class="card-class" hoverable >
+            <span 
+              @click="removeCard_1(index)" 
+              style="position: absolute; right: 5px; top: 0px; "
+            > x </span>
+            <p style="text-align: center; margin: 0 0;">{{ card.centerText }}</p>
+          </a-card>
+        </div>
       </div>
-    </div>
+    </a-col>
+    <!-- Grid Layout for Cards (6 Columns per Row using CSS Grid) -->
+    <a-col class="grid-layout">
+      <a-button type="primary" style="width: 120px;  margin-bottom: 20px;" @click="onAddDiamondReward">添加钻石奖励</a-button>
+      <div class="card-grid">
+        <div v-for="(card, index) in coverCards_2" :key="index" class="card-item">
+          <a-card class="card-class" hoverable >
+            <span 
+              @click="removeCard_2(index)" 
+              style="position: absolute; right: 5px; top: 0px; "
+            > x </span>
+            <p style="text-align: center; margin: 0 0;">{{ card.centerText }}</p>
+          </a-card>
+        </div>
+      </div>
+    </a-col>
+    <!-- Grid Layout for Cards (6 Columns per Row using CSS Grid) -->
+    <a-col class="grid-layout">
+      <a-button type="primary" style="width: 120px;  margin-bottom: 20px;" @click="onAddThanks">添加谢谢惠顾</a-button>
+      <div class="card-grid">
+        <div v-for="(card, index) in coverCards_3" :key="index" class="card-item">
+          <a-card class="card-class" hoverable >
+            <span 
+              @click="removeCard_3(index)" 
+              style="position: absolute; right: 5px; top: 0px;"
+            > x </span>
+            <p style="text-align: center; margin: 0 0;">{{ card.centerText }}</p>
+          </a-card>
+        </div>
+      </div>
+    </a-col>
 
       <!-- Center Aligned Save Button -->
     <a-row style="display: flex; justify-content: center; align-items: center; margin-top: 30px">
@@ -46,14 +67,28 @@
 import { reactive, onMounted } from 'vue'
 
 const emit = defineEmits(['emit_back'])
-const countCards = ref(0)
+const countCards_1 = ref(0)
+const countCards_2 = ref(0)
+const countCards_3 = ref(0)
 // Reactive array to store the added cover cards
-const coverCards = reactive([])
+const coverCards_1 = reactive([])
+const coverCards_2 = reactive([])
+const coverCards_3 = reactive([])
 
 // Function to add a new cover card
-const onAddCover = (title) => {
-  coverCards.push({ fileName: title })
-  countCards.value += 1
+const onAddBalance = (event=null, title='0') => {
+  coverCards_1.push({ centerText: title })
+  countCards_1.value += 1
+}
+// Function to add a new cover card
+const onAddDiamondReward = (event=null, title='0') => {
+  coverCards_2.push({ centerText: title })
+  countCards_2.value += 1
+}
+// Function to add a new cover card
+const onAddThanks = (event=null, title='谢谢惠顾') => {
+  coverCards_3.push({ centerText: title })
+  countCards_3.value += 1
 }
 // Function to add a new cover card
 const onConfirm = () => {
@@ -63,43 +98,57 @@ const onConfirm = () => {
 
 onMounted(() => {
   // Add your initial cards
-  onAddCover('敏感内容')
-  onAddCover('政治内容')
-  onAddCover('不良信息')
-  onAddCover('敏感内容')
-  onAddCover('政治内容')
-  
-  onAddCover('敏感内容')
-  onAddCover('政治内容')
-  onAddCover('不良信息')
-  onAddCover('敏感内容')
-  onAddCover('政治内容')
-  
-  onAddCover('敏感内容')
-  onAddCover('政治内容')
-  onAddCover('不良信息')
-  onAddCover('敏感内容')
-  onAddCover('政治内容')
+  onAddBalance()
+  onAddBalance()
+  onAddBalance('0')
 
+  onAddDiamondReward('0')
+  onAddDiamondReward()
+  onAddDiamondReward('0')
+
+  onAddThanks('谢谢惠顾')
+  onAddThanks()
+  onAddThanks()
 })
 
 // Function to remove a card by index
-const removeCard = (index) => {
-  coverCards.splice(index, 1)
+const removeCard_1 = (index) => {
+  coverCards_1.splice(index, 1)
+}
+// Function to remove a card by index
+const removeCard_2 = (index) => {
+  coverCards_2.splice(index, 1)
+}
+// Function to remove a card by index
+const removeCard_3 = (index) => {
+  coverCards_3.splice(index, 1)
 }
 </script>
 
 <style scoped>
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 columns */
+  grid-template-columns: repeat(6, 1fr); /* 5 columns */
   grid-gap: 16px; /* Space between cards */
-  margin-left: 8%; /* Adjust as needed */
-  margin-right: 8%; /* Adjust as needed */
 }
 
+.grid-layout {
+  align-items: left; 
+  justify-content: left; 
+  margin-left: 5%; 
+  margin-right: 5%; 
+  margin-bottom: 20px;
+}
 .card-item {
   display: flex;
   justify-content: center;
+}
+.card-class {
+  border: 1px solid lightgrey; 
+  width: 150px; 
+  height: 40px; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
 }
 </style>
