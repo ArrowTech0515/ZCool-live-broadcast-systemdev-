@@ -42,7 +42,12 @@
           <a-table-column title="活动名称" dataIndex="activityName" key="activityName" align="center" />
           <a-table-column title="活动封面" dataIndex="activityCover" key="activityCover" align="center" />
           <a-table-column title="活动时间" dataIndex="activityTime" key="activityTime" align="center" />
-          <a-table-column title="活动状态" dataIndex="activityStatus" key="activityStatus" align="center" />
+          <a-table-column title="活动状态" dataIndex="activityStatus" key="activityStatus" align="center">
+            <template #default="{ record }"> <!-- Access each row's data with `record` -->
+              <a-tag v-if="record.activityStatus === ENUM.activity_status[2]" color='green'>{{ record.activityStatus }}</a-tag>
+              <a-tag v-else-if="record.activityStatus === ENUM.activity_status[3]" color='red'>{{ record.activityStatus }}</a-tag>
+            </template>
+          </a-table-column>
           <a-table-column title="操作账号" dataIndex="operationAccount" key="operationAccount" align="center" />
           <a-table-column title="创建时间" dataIndex="creationTime" key="creationTime" align="center" />
           <!-- Custom "操作" Column -->
@@ -120,7 +125,17 @@ const dataSource = ref([
     activityName: '充值活动',
     activityCover: '登录任务',
     activityTime: '2012-12-12  12:21——2012-12-12  12:21',
-    activityStatus: '活动中',
+    activityStatus: ENUM.activity_status[2],//'活动中',
+    operationAccount: '管理员-张三',
+    creationTime: '2012-12-12  12:21:21',
+    operate: '数据 编辑',
+  },
+  {
+    key: '2',
+    activityName: '充值活动',
+    activityCover: '登录任务',
+    activityTime: '2012-12-12  12:21——2012-12-12  12:21',
+    activityStatus: ENUM.activity_status[3],
     operationAccount: '管理员-张三',
     creationTime: '2012-12-12  12:21:21',
     operate: '数据 编辑',
