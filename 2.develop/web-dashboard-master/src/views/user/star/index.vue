@@ -1,5 +1,5 @@
 <template>
-  <a-card style="background-color: white;">
+  <a-card style="">
     <!-- Inline Layout with Texts, Select, and Buttons -->
     <a-row align="middle" type="flex" style="margin-bottom: 16px;">
       <!-- Centered Text elements and Select -->
@@ -70,7 +70,7 @@
     </a-row>
 
   </a-card>
-  <a-card style="background-color: white;">
+  <a-card style="">
     <!-- Tables in one card -->
     <a-row type="flex">
       

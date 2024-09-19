@@ -249,7 +249,7 @@ const columns = [
           style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
           onClick={() => on_Add_Edit(record)}>
           编辑</span>
-        <span style="text-decoration: underline;color: blue; margin-right: 12px; cursor: pointer;"
+        <span style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;"
           onClick={() => onApply(record)}>应用</span>
         <span style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;"
           onClick={() => onDelete(record)}>删除</span>

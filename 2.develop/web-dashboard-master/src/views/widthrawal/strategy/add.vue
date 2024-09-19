@@ -194,8 +194,8 @@ export default {
 
   data() {
     return {
-      parentValue: '0', // Example initial value
-      radioValue: 'radio1', // Initial value for the radio group
+      parentValue: ref(0), // Example initial value
+      radioValue: ref('radio1'), // Initial value for the radio group
     };
   },
 

@@ -1,5 +1,5 @@
 <template>
-  <a-card style="background-color: white; margin-bottom: 1%;">
+  <a-card style=" margin-bottom: 1%;">
     <a-row :gutter="16" :type="flex" style=" justify-content: flex-end; align-items: center; margin-bottom: -20px;">
       <a-col :flex="1">
         <a-form-item label="用户账号">

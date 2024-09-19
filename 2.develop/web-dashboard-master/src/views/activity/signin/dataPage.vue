@@ -1,5 +1,5 @@
 <template>
-  <a-card style="background-color: white; margin-bottom: 1%;">
+  <a-card style=" margin-bottom: 1%;">
     <template #title>
       <div style="display: flex; align-items: center; white-space: nowrap;">
         <a-button

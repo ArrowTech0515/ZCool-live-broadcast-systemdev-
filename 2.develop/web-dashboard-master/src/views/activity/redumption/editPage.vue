@@ -131,13 +131,13 @@
               添加赠送内容
             </a-button>
 
-            <div style="width: 100%; display: flex; flex-direction: column;">
+            <div style="width: 120%; display: flex; flex-direction: column;">
               <div 
                 v-for="(spinPair, rowIndex) in groupedCustomSpins" :key="rowIndex"
                 style="display: flex; justify-content: space-between; margin-bottom: 10px;">
 
                 <a-card class="spinCard" :bordered="true" style="background-color: rgb(242, 242, 242); 
-                      border-color: lightgrey; display: flex; align-items: center; width: 49%;">
+                      border-color: lightgrey; display: flex; align-items: center; width: 50%;">
 
                   <a-row style="flex: 1; display: flex; align-items: center;">
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
@@ -145,7 +145,7 @@
                         style="flex: 1; margin-bottom: 5px;
                               padding-left: 30%; padding-right: 30%; padding-top: 4%; padding-bottom: 4%; 
                               border: 1px solid lightgrey; border-radius: 5px; 
-                              background-color: white; color: grey; ">
+                               color: grey; ">
                             1:10</span>
                       <span style=" color: grey;text-align: center; font-size: 10px;">兑换选项</span>
                     </a-col>
@@ -170,7 +170,7 @@
                         style="flex: 1; margin-bottom: 5px;
                               padding-left: 30%; padding-right: 30%; padding-top: 4%; padding-bottom: 4%; 
                               border: 1px solid lightgrey; border-radius: 5px; 
-                              background-color: white; color: grey; ">
+                               color: grey; ">
                             1:10</span>
                       <span style=" color: grey;text-align: center; font-size: 10px;">兑换选项</span>
                     </a-col>
@@ -272,11 +272,11 @@ export default {
 
       isModalVisible : false,
 
-      parentValue: '0', // Example initial value
+      parentValue: ref(0), // Example initial value
       radioValue: 'radio1', // Initial value for the radio group
 
-      spin_value1: '0',
-      spin_value2: '0',
+      spin_value1: ref(0),
+      spin_value2: ref(0),
 
       imageUrl: '', // URL for the uploaded icon
       bannerUrl: '', // URL for the uploaded banner

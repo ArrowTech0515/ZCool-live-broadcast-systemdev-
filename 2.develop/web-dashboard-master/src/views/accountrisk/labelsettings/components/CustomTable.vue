@@ -145,7 +145,7 @@ const columns = [
           onClick={() => onAddLabel(record)}>
           编辑</span>
         <span 
-          style="text-decoration: underline;color: blue; margin-right: 12px; cursor: pointer;" 
+          style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;" 
           onClick={() => onUserTransfer(record)}>
           用户转移</span>
         <a-popconfirm title='您确定要删除吗？' onConfirm={() => onDelete(record)}>

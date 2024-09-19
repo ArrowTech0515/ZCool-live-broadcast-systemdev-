@@ -414,16 +414,16 @@ async function onOperationRecord(item = {}) {
 
 async function onFollow(item = {}) {
 
-console.log("onOperationRecord : " + item.value)
-const formValue = ref({
-  // user_id: userItem.user_id,
-})
+  console.log("onOperationRecord : " + item.value)
+  const formValue = ref({
+    // user_id: userItem.user_id,
+  })
 
-const formModalProps1 = {
-  rule: [
+  const formModalProps1 = {
+    rule: [
 
-    ],
-  };
+      ],
+    };
 
   // Generate 25 menu items
     const menuItems = Array.from({ length: cntAnchors.value }, (_, i) => (

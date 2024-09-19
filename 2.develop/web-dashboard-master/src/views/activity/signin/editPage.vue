@@ -72,7 +72,7 @@
             </div>
             <a-card 
               :bordered="true" 
-              style="width: 75%; background-color: rgb(242, 242, 242); border-color: lightgrey;">
+              style="width: 75%; background-color: lightgrey; border-color: lightgrey;">
               <a-table :dataSource="dataSource" :pagination="false">
                 <a-table-column 
                   title="签到天数" dataIndex="col_1" key="col_1" align="center"></a-table-column>
@@ -80,7 +80,7 @@
 
                 <template #bodyCell="{ column, text }">
                   <span v-if="column.dataIndex === 'col_2'">
-                    <span style="text-decoration: underline;color: blue; cursor: pointer;" @click="handleOperation(text)">{{ text }}</span>
+                    <span style="text-decoration: underline;color: #1890ff; cursor: pointer;" @click="handleOperation(text)">{{ text }}</span>
                   </span>
                   <!-- Default rendering for other columns -->
                   <span v-else>{{ text }}</span>
@@ -156,7 +156,7 @@ export default {
 
   data() {
     return {
-      parentValue: '0', // Example initial value
+      parentValue: ref(0), // Example initial value
       radioValue: 'radio1', // Initial value for the radio group
       isModalVisible : false,
 

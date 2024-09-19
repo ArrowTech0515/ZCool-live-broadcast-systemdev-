@@ -1,5 +1,5 @@
 <template>
-  <a-card style="background-color: white;">
+  <a-card style="">
     <transition name="fade-slide" mode="out-in">
       <div v-if="!showReviewPage">
       <a-row :gutter="16"  type="flex"  justify="end">
@@ -112,14 +112,14 @@
           </span>
 
           <span v-else-if="column.dataIndex === 'wStatus'">
-            <span v-if="text === '提现中'" style="color: blue;">{{ text }}</span>
+            <span v-if="text === '提现中'" style="color: #1890ff;">{{ text }}</span>
             <span v-else-if="text === '提现成功'" style="color: green;">{{ text }}</span>
             <span v-else style="color: red;">{{ text }}</span>
           </span>
 
           <span v-else-if="column.dataIndex === 'operate'">
-            <span v-if="text === '已锁定'" style="text-decoration: underline;color: blue;">
-              <span style="text-decoration: underline;color: blue; margin-right: 8px; cursor: pointer;" @click="handleOperation(text)">
+            <span v-if="text === '已锁定'" style="text-decoration: underline;color: #1890ff;">
+              <span style="text-decoration: underline;color: #1890ff; margin-right: 8px; cursor: pointer;" @click="handleOperation(text)">
                 {{ text }}
               </span>
             </span>
@@ -135,7 +135,7 @@
             </span>
             <span v-else>
               <span style="text-decoration: underline;color: green; margin-right: 8px; cursor: pointer;" @click="handleOperation('审核')">审核</span>
-              <span style="text-decoration: underline;color: blue; cursor: pointer;" @click="handleOperation('锁定')">锁定</span>
+              <span style="text-decoration: underline;color: #1890ff; cursor: pointer;" @click="handleOperation('锁定')">锁定</span>
             </span>
           </span>
 

@@ -1,5 +1,5 @@
 <template>
-  <a-card style="background-color: white;">
+  <a-card style="">
     <transition name="fade-slide" mode="out-in">
       <div v-if="!showAddStrategy">
         <a-row :gutter="16" type="flex" justify="end">
@@ -86,13 +86,13 @@
 
           <template #bodyCell="{ column, text }">
             <span v-if="column.dataIndex === 'strategyUser' || column.dataIndex === 'operation'">
-              <span style="text-decoration: underline; color: blue; cursor: pointer;" @click="handleOperation(text)">
+              <span style="text-decoration: underline; color: #1890ff; cursor: pointer;" @click="handleOperation(text)">
                 {{ text }}
               </span>
             </span>
 
             <span v-else-if="column.dataIndex === 'status'">
-              <span v-if="text === '启用'" style="text-decoration: underline; color: blue; cursor: pointer;" @click="handleOperation(text)">
+              <span v-if="text === '启用'" style="text-decoration: underline; color: #1890ff; cursor: pointer;" @click="handleOperation(text)">
                 {{ text }}
               </span>
               <span v-else style="text-decoration: underline; color: red; cursor: pointer;" @click="handleOperation(text)">

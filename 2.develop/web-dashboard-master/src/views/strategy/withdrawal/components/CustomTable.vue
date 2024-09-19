@@ -221,7 +221,7 @@ const columns = [
           编辑
         </span>
         <span
-          style="text-decoration: underline;color: blue; margin-right: 12px; cursor: pointer;"
+          style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;"
           onClick={() => onApply(record)}
         >
           应用

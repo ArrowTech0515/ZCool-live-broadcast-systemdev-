@@ -62,7 +62,7 @@ const handleRowClick = (id) => {
 
         <a-col
           v-if="selectedMessageId === message.id"
-          style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; padding: 1px; background-color: white;"
+          style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; padding: 1px; "
         >
           <a-button 
                 size="small" type="primary" style="background-color: #60c0f0; font-size: 12px;"

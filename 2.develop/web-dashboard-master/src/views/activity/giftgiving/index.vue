@@ -1,7 +1,7 @@
 <template>
   <transition name="fade-slide" mode="out-in">
     <div v-if="!showEditPage && !showDataPage">
-      <a-card style="background-color: white; margin-bottom: 1%;">
+      <a-card style=" margin-bottom: 1%;">
         <a-row type="flex" style="align-items: center; margin-bottom: -20px;">
             <a-col style="margin-left: 20px;">
               <a-form-item label="活动名称搜索">
@@ -51,7 +51,7 @@
         <a-table-column title="操作" key="operate" align="center">
           <template #default="{ record }">
             <span
-              style="text-decoration: underline; color: blue; margin-right: 8px; cursor: pointer;"
+              style="text-decoration: underline; color: #1890ff; margin-right: 8px; cursor: pointer;"
               @click="handleOperation('数据', record)"
             >
               数据

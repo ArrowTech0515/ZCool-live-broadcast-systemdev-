@@ -1,5 +1,5 @@
 <template>
-  <a-card bordered class="custom-card" :style="{background: 'rgb(242,242,242)'}">
+  <a-card bordered class="custom-card" :style="{background: 'gray'}">
     <a-row :gutter="16" type="flex" justify="space-between">
       <!-- Vertical Text -->
       <a-col :style="{ marginLeft:'5%', display: 'flex', justifyContent: 'center', alignItems: 'center' }">
@@ -27,7 +27,7 @@
           </a-col>
           <a-col :span="6" style="text-align: right;">
             <span
-              style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer;"
+              style="font-size: 12px; text-decoration: underline; color: blue; cursor: pointer;"
               @click="copyText('4353535')">
               复制
             </span>
@@ -40,7 +40,7 @@
           </a-col>
           <a-col :span="6" style="text-align: right;">
             <span
-              style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer;"
+              style="font-size: 12px; text-decoration: underline; color: blue; cursor: pointer;"
               @click="copyText('FHJ-32424')">
               详情
             </span>
@@ -69,7 +69,7 @@
           </a-col>
           <a-col :span="6" style="text-align: right;">
             <span
-              style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer;"
+              style="font-size: 12px; text-decoration: underline; color: blue; cursor: pointer;"
               @click="copyText('dem32e3')">
               复制
             </span>
@@ -88,7 +88,7 @@
           </a-col>
           <a-col :span="6" style="text-align: right;">
             <span
-              style="font-size: 12px; text-decoration: underline; color: #1890ff; cursor: pointer;"
+              style="font-size: 12px; text-decoration: underline; color: blue; cursor: pointer;"
               @click="copyText('123.321.213.231')">
               详情
             </span>

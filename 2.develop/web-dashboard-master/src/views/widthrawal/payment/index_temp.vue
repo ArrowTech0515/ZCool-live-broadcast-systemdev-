@@ -1,5 +1,5 @@
 <template>
-  <a-card style="background-color: white;">
+  <a-card style="">
   <!-- Inline Layout with Texts, Select, and Buttons -->
     <a-row align="middle" style="margin-bottom: 16px;">
       <!-- Centered Text elements and Select -->
@@ -47,18 +47,18 @@
           <div v-for="(line, index) in text.split('\n')" :key="index">
             <!-- Check for colon and split the text into label and value -->
             <span>{{ line.split(':')[0] }}:</span>
-            <span :style="{ color: 'blue' }">{{ line.split(':')[1] }}</span>
+            <span :style="{ color: '#1890ff' }">{{ line.split(':')[1] }}</span>
           </div>
         </span>
 
         <!-- Render '状态' Column with Color Styling -->
         <span v-else-if="column.dataIndex === 'status'">
-          <span :style="text === '已通过' ? 'color: blue;' : text === '失败' ? 'color: red;' : ''">
+          <span :style="text === '已通过' ? 'color: #1890ff;' : text === '失败' ? 'color: red;' : ''">
             {{ text }}
           </span>
         </span>
         <span v-else-if="column.dataIndex === 'transfer'">
-          <span :style="text === '已通过' ? 'color: blue;' : text === '失败' ? 'color: red;' : ''">
+          <span :style="text === '已通过' ? 'color: #1890ff;' : text === '失败' ? 'color: red;' : ''">
             {{ text }}
           </span>
         </span>

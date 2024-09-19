@@ -14,7 +14,7 @@
     <a-table-column title="备注" dataIndex="remark" key="remark" align="center"/>
     <a-table-column title="操作" dataIndex="operate" key="operate" align="center">
       <template #default="{ record }">
-        <span style="color: blue; margin-right: 8px; cursor: pointer;" @click="onEditItem(record)">编辑</span>
+        <span style="color: #1890ff; margin-right: 8px; cursor: pointer;" @click="onEditItem(record)">编辑</span>
         <a-popconfirm title='确定删除当前分组吗？' @confirm="() => onDelItem(record)">
           <a-button type="link" danger size="small">删除</a-button>
         </a-popconfirm>

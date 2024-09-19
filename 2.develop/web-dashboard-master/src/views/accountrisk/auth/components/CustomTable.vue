@@ -65,21 +65,21 @@ const dataSource = ref([
     real_name: '张三', // Real Name
     id_card_number: '123456789012345678', // ID Card Number
     phone_number: '13812345678', // Phone Number
-    auth_status: 'Pending', // Authentication Status
+    auth_status: '待处理', // pending
   },
   {
     id: '2',
     real_name: '李四',
     id_card_number: '987654321098765432',
     phone_number: '13798765432',
-    auth_status: 'Verified',
+    auth_status: '已验证',// verified
   },
   {
     id: '3',
     real_name: '王五',
     id_card_number: '135792468013579246',
     phone_number: '13924681357',
-    auth_status: 'Rejected',
+    auth_status: '已拒绝', // rejected
   },
 ])
 
@@ -124,7 +124,7 @@ const columns = [
     dataIndex: 'auth_status',
     align: 'center',
     customRender: ({ record }) =>
-      <a-tag color={record.auth_status === 'Pending' ? 'lightgrey' : record.auth_status === 'Verified' ? 'green' : 'red'}>
+      <a-tag color={record.auth_status === '待处理' ? 'grey' : record.auth_status === '已验证' ? 'green' : 'red'}>
         {record.auth_status}
       </a-tag>
   },

@@ -1,5 +1,5 @@
 <template>
-  <a-card style="background-color: white; margin-bottom: 1%; ">
+  <a-card style=" margin-bottom: 1%; ">
     <a-row :gutter="16" :type="flex" style=" align-items: center; margin-bottom: -20px;">
 
       <a-col :flex="auto" style="margin-left: 3%; margin-right: 15px;">

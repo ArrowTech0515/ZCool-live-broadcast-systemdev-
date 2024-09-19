@@ -148,22 +148,22 @@
               添加赠送内容
             </a-button>
 
-            <div style="width: 100%; display: flex; flex-direction: column;">
+            <div style="width: 120%; display: flex; flex-direction: column;">
               <div 
                 v-for="(spinPair, rowIndex) in groupedCustomSpins" :key="rowIndex"
                 style="display: flex; justify-content: space-between; margin-bottom: 10px;">
 
                 <a-card class="spinCard" :bordered="true" style="background-color: rgb(242, 242, 242); 
-                      border-color: lightgrey; display: flex; align-items: center; width: 49%;">
+                      border-color: lightgrey; display: flex; align-items: center; width: 50%;">
 
                   <a-row style="flex: 1; display: flex; align-items: center;">
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
                       <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; font-size: 10px;">充值金额</span>
+                      <span style="text-align: center; color:gray; font-size: 10px;">充值金额</span>
                     </a-col>
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center;">
                       <CustomSpin v-model:nValue="spin_value2" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; font-size: 10px;">赠送金额</span>
+                      <span style="text-align: center; color:gray; font-size: 10px;">赠送金额</span>
                     </a-col>
                     <a-button 
                       type="link" 
@@ -174,16 +174,16 @@
                 </a-card>
 
                 <a-card v-if="spinPair.length > 1" class="spinCard" :bordered="true" style="background-color: rgb(242, 242, 242); 
-                      border-color: lightgrey; display: flex; align-items: center; width: 49%;">
+                      border-color: lightgrey; display: flex; align-items: center; width: 50%;">
 
                   <a-row style="flex: 1; display: flex; align-items: center;">
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
                       <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; font-size: 10px;">充值金额</span>
+                      <span style="text-align: center; color:gray; font-size: 10px;">充值金额</span>
                     </a-col>
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center;">
                       <CustomSpin v-model:nValue="spin_value2" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; font-size: 10px;">赠送金额</span>
+                      <span style="text-align: center; color:gray; font-size: 10px;">赠送金额</span>
                     </a-col>
                     <a-button 
                       type="link" 
@@ -279,8 +279,8 @@ defineProps({
 const emit = defineEmits(['back'])  // Define the 'back' event
 
 const radioValue = ref('radio1') // Initial value for the radio group
-const spin_value1 = ref('0')
-const spin_value2 = ref('0')
+const spin_value1 = ref(0)
+const spin_value2 = ref(0)
 
 const imageUrl = ref('') // URL for the uploaded icon
 const bannerUrl = ref('') // URL for the uploaded banner

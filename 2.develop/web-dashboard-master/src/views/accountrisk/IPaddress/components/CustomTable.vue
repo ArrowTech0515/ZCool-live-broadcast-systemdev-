@@ -130,7 +130,7 @@ function renderStatusTag(status) {
     case '活跃':
       return <a-tag color="green">活跃</a-tag>  // Active status
     case '不活跃':
-      return <a-tag color="lightgray">不活跃</a-tag>  // Inactive status
+      return <a-tag color="gray">不活跃</a-tag>  // Inactive status
     case '已阻止':
       return <a-tag color="red">已阻止</a-tag>  // Blocked status
     default:

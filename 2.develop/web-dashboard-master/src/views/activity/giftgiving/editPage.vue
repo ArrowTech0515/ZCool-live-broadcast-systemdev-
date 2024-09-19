@@ -228,10 +228,10 @@ export default {
 
   data() {
     return {
-      parentValue: '0', // Example initial value
+      parentValue: ref(0), // Example initial value
       radioValue: 'radio1', // Initial value for the radio group
 
-      spin_value1: '0',
+      spin_value1: ref(0),
 
       imageUrl: '', // URL for the uploaded icon
       bannerUrl: '', // URL for the uploaded banner

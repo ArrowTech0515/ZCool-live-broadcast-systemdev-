@@ -1,7 +1,7 @@
 <template>
   <transition name="fade-slide" mode="out-in">
     <div v-if="!showEditPage && !showDataPage">
-      <a-card style="background-color: white; margin-bottom: 1%;">
+      <a-card style=" margin-bottom: 1%;">
         <a-row :gutter="24" :type="flex" style="margin-left: 2%; margin-bottom: -20px;">
           <!-- First Column -->
           <!-- <a-row :type="flex"> -->
@@ -84,7 +84,7 @@
         <template #bodyCell="{ column, text }">
 
           <span v-if="column.dataIndex === 'operate'">
-            <span style="text-decoration: underline;color: blue; margin-right: 8px; cursor: pointer;" @click="handleOperation('数据')">数据</span>
+            <span style="text-decoration: underline;color: #1890ff; margin-right: 8px; cursor: pointer;" @click="handleOperation('数据')">数据</span>
             <span style="text-decoration: underline;color: green; cursor: pointer;" @click="handleOperation('编辑')">编辑</span>
           </span>
 

@@ -65,7 +65,7 @@ const dataSource = ref([
     user_name: '商户1',
     last_pay_time: '2023-09-10 12:00:00', // New Field: Last Payment Time
     amount: 5000, // New Field: Amount
-    check_status: 'Completed', // New Field: Check Status
+    check_status: '已完成', // completed
     payment_create_time: '2023-09-09 14:00:00', // New Field: Payment Create Time
     payment_method: 'Alipay', // Payment Method remains
   },
@@ -74,7 +74,7 @@ const dataSource = ref([
     user_name: '商户2',
     last_pay_time: '2023-09-12 08:30:00',
     amount: 3000,
-    check_status: 'Pending',
+    check_status: '待处理', // pending
     payment_create_time: '2023-09-11 10:00:00',
     payment_method: 'WeChat Pay',
   },
@@ -83,7 +83,7 @@ const dataSource = ref([
     user_name: '商户3',
     last_pay_time: '2023-09-08 17:45:00',
     amount: 10000,
-    check_status: 'Rejected',
+    check_status: '已拒绝', // rejected
     payment_create_time: '2023-09-07 15:20:00',
     payment_method: 'Credit Card',
   },
@@ -92,7 +92,7 @@ const dataSource = ref([
     user_name: '商户3',
     last_pay_time: '2023-09-08 17:45:00',
     amount: 10000,
-    check_status: 'Pending',
+    check_status: '待处理',
     payment_create_time: '2023-09-07 15:20:00',
     payment_method: 'Credit Card',
   },
@@ -101,7 +101,7 @@ const dataSource = ref([
     user_name: '商户2',
     last_pay_time: '2023-09-08 17:45:00',
     amount: 10000,
-    check_status: 'Pending',
+    check_status: '待处理',
     payment_create_time: '2023-09-07 15:20:00',
     payment_method: 'WeChat Pay',
   },
@@ -176,7 +176,7 @@ const columns = [
     dataIndex: 'check_status',
     align: 'center',
     customRender: ({ record }) =>
-      <a-tag color={record.check_status === 'Pending' ? 'lightgrey' : record.check_status === 'Completed' ? 'green' : 'red'}>
+      <a-tag color={record.check_status === '待处理' ? 'grey' : record.check_status === '已完成' ? 'green' : 'red'}>
         {record.check_status}
       </a-tag>
   },

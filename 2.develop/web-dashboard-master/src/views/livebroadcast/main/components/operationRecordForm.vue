@@ -2,7 +2,7 @@
     <a-tabs v-model:activeKey="tab1" centered class="custom-tabs">
           <a-tab-pane key="tab1" tab="分类">
           <div>
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
+            <a-card hoverable style="width: 100%; margin-bottom: 16px; background: grey;">
               <a-row type="flex" justify="space-between" align="middle" margin="0">
                 <a-col span="18">
                   <div style="font-size: 12px;">主播昵称</div>
@@ -25,7 +25,7 @@
               </a-row>
             </a-card>
 
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
+            <a-card hoverable style="width: 100%; margin-bottom: 16px; background: grey;">
               <a-row type="flex" justify="space-between" align="middle">
                 <a-col span="18">
                   <a-dropdown placement="bottomRight" :overlay="props.menu_in_card()">
@@ -59,7 +59,7 @@
 
           <a-tab-pane key="tab2" tab="隐藏">
             <div>
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
+            <a-card hoverable style="width: 100%; margin-bottom: 16px; background: grey;">
               <a-row type="flex" justify="space-between" align="middle" margin="0">
                 <a-col span="18">
                   <a-row  justify="space-between">
@@ -81,7 +81,7 @@
               </a-row>
             </a-card>
 
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
+            <a-card hoverable style="width: 100%; margin-bottom: 16px; background: grey;">
               <a-row type="flex" justify="space-between" align="middle">
                 <a-col span="18">
                   <a-row justify="space-between">
@@ -112,7 +112,7 @@
 
           <a-tab-pane key="tab3" tab="屏蔽">
             <div>
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
+            <a-card hoverable style="width: 100%; margin-bottom: 16px; background: grey;">
               <a-row type="flex" justify="space-between" align="middle" margin="0">
                 <a-col span="18">
                   <a-row  justify="space-between">
@@ -134,7 +134,7 @@
               </a-row>
             </a-card>
 
-            <a-card hoverable style="width: 100%; margin-bottom: 16px; background:rgb(242, 242, 242);">
+            <a-card hoverable style="width: 100%; margin-bottom: 16px; background: grey;">
               <a-row type="flex" justify="space-between" align="middle">
                 <a-col span="18">
                   <a-row justify="space-between">

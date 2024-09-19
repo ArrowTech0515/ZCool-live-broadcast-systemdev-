@@ -1,5 +1,5 @@
 <template>
-  <a-card bordered class="custom-card" :style="{background: 'rgb(242,242,242)'}">
+  <a-card bordered class="custom-card" :style="{background: 'gray'}">
     <a-row :gutter="16" type="flex" justify="space-between">
       <!-- Vertical Text -->    
       <a-col :style="{ marginLeft:'5%', display: 'flex', justifyContent: 'center', alignItems: 'center' }">

@@ -173,7 +173,7 @@ defineExpose({
   gap: 10px;
 }
 .reset-btn {
-  background-color: white;
+  
   border: 1px solid #d9d9d9;
 }
 </style>
