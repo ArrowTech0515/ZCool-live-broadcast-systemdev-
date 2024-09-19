@@ -1,51 +1,47 @@
 <template>
-  <a-card style="background-color: white;">
-    <a-row :gutter="16" :type="flex" style=" justify-content: flex-end; align-items: center; ">
-    <!-- First Column -->
-    <!-- <a-row :type="flex"> -->
+  <a-card style="background-color: white; margin-bottom: 1%;">
+    <a-row :gutter="16" :type="flex" style=" justify-content: flex-end; align-items: center; margin-bottom: -20px;">
       <a-col :flex="1">
         <a-form-item label="用户账号">
-          <a-input v-model="userAccount" placeholder="" />
+          <a-input v-model:value="user_account" placeholder="请输入用户账号" />
         </a-form-item>
       </a-col>
       
       <a-col :flex="1">
         <a-form-item label="任务名称">
-          <a-input v-model="logID" placeholder="" />
+          <a-input v-model:value="task_name" placeholder="请输入任务名称" />
         </a-form-item>
       </a-col>
 
       <a-col :flex="auto">
-        <a-form-item label="日期" >
+        <a-form-item label="日期">
           <a-range-picker 
+            v-model:value="time"
             :placeholder="['开始日期', '结束日期']"
           />
         </a-form-item>
       </a-col>
 
-    <!-- </a-row> -->
-
-      <a-col :span="3">
+      <a-col :span="2" style="margin-left: 12px;">
         <a-form-item>
-          <a-button type="primary" block @click="onSearch">查询</a-button>
+          <a-button type="primary" block @click="onSearch"><SearchOutlined/>查询</a-button>
         </a-form-item>
       </a-col>
-    
-      <a-col :span="3">
+      <a-col :span="2" style="margin-left: 10px;">
         <a-form-item>
-          <a-button block @click="onReset">重置</a-button>
+          <a-button type="default" block @click="onReset"><ReloadOutlined/>重置</a-button>
         </a-form-item>
       </a-col>
     </a-row>
+  </a-card>
 
-    <!-- Your existing layout and table setup -->
     <a-table :data-source="paginatedData" :pagination="false">
       <a-table-column title="全选" key="selectAll" align="center">
         <template #default="{ record }">
           <a-checkbox :checked="selectedGifts.includes(record.key)" @change="onGiftSelect(record.key)" />
         </template>
       </a-table-column>
-      <a-table-column title="日志标识" dataIndex="logID" key="logID" align="center" />
+      <a-table-column title="日志标识" dataIndex="task_name" key="task_name" align="center" />
       <a-table-column title="用户标识" dataIndex="userID" key="userID" align="center"/>
       <a-table-column title="用户账号" dataIndex="nickName" key="nickName" align="center" />
       <a-table-column title="任务名称" dataIndex="taskName" key="taskName" align="center" />
@@ -67,86 +63,69 @@
         @show-size-change="handleSizeChange"
       />
     </div>
-  </a-card>
-  
 </template>
 
-<script>
+<script setup lang="jsx">
+import { ref, computed } from 'vue';
+import { SearchOutlined, ReloadOutlined } from '@ant-design/icons-vue';
 
-export default {
+const currentPage = ref(1);
+const pageSize = ref(5);
+const totalItems = ref(100);
+const selectedGifts = ref([]);
 
-  
-  data() {
-    
-    return {
-      currentPage: 1,
-      pageSize: 5,
-      totalItems: 100,
-      selectedGifts: [],
-      
-      dataSource: [
-        {
-          key: '1',
-          logID: '1',
-          userID: '100004',
-          nickName: '企鹅飞飞',
-          taskName: '打码限时',
-          rewardGameCoins: '1',
-          completeTime: '2024-08-20 18:07:30',
-        },
-      ],
-    };
+const user_account = ref('');
+const task_name = ref('');
+const time = ref([]);
+
+const dataSource = ref([
+  {
+    key: '1',
+    task_name: '1',
+    userID: '100004',
+    nickName: '企鹅飞飞',
+    taskName: '打码限时',
+    rewardGameCoins: '1',
+    completeTime: '2024-08-20 18:07:30',
   },
-  
-  computed: {
-    paginatedData() {
-      const start = (this.currentPage - 1) * this.pageSize;
-      const end = start + this.pageSize;
-      return this.dataSource.slice(start, end);
-    },
-  },
-  methods: {
-    onGiftSelect(key) {
-      if (this.selectedGifts.includes(key)) {
-        this.selectedGifts = this.selectedGifts.filter(k => k !== key);
-      } else {
-        this.selectedGifts.push(key);
-      }
-    },
-    onSearch() {
-      // Implement search logic
-    },
-    onReset() {
-      this.merchantId = '';
-      this.gameId = '';
-      this.platform = '';
-      this.nBetting = '';
-      this.status = '';
-      // Implement reset logic
-    },
-    handlePageChange(page) {
-      this.currentPage = page;
-    },
-    handleSizeChange(current, size) {
-      this.pageSize = size;
-      this.currentPage = 1; // Reset to the first page when page size changes
-    },
+]);
 
-    handleOperation(operation) {
-      // Add logic for handling the operation (e.g., audit, lock)
-      // if(operation === "提现明细")
-      //   this.showReviewPage = true; // Switch to the add strategy view
-    },
+const paginatedData = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return dataSource.value.slice(start, end);
+});
 
-    handleBack() {
-      // Handle the back action here
-      // For example, navigate to the previous page:
-      this.$emit('back'); // Emit the back event to the parent component
-    },
-  },
+// Methods
+const onGiftSelect = (key) => {
+  if (selectedGifts.value.includes(key)) {
+    selectedGifts.value = selectedGifts.value.filter(k => k !== key);
+  } else {
+    selectedGifts.value.push(key);
+  }
+};
+
+const onSearch = () => {
+  // Implement search logic
+};
+
+const onReset = () => {
+  user_account.value = '';
+  task_name.value = '';
+  time.value = [];
+  // Implement reset logic
+};
+
+const handlePageChange = (page) => {
+  currentPage.value = page;
+};
+
+const handleSizeChange = (current, size) => {
+  pageSize.value = size;
+  currentPage.value = 1; // Reset to the first page when page size changes
 };
 </script>
 
 <style scoped>
-
+/* Add any custom styles here */
 </style>

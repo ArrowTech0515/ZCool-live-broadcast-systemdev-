@@ -39,7 +39,7 @@
       </a-col>
 
       <!-- Gauge -->
-      <a-col :span="3">
+      <a-col :span="3" style="margin-right: 2%;">
         <div class="gauge-container">
           <a-progress
             type="dashboard"
@@ -59,7 +59,7 @@
           </div>
           <!-- <div class="gauge-center-circle" :style="centerStyle"></div> -->
           <div class="gauge-center-text" :style="centerStyle">
-            <div>综合评分</div>
+            <div style="font-size: 9px;">综合评分</div>
             <div class="gauge-score">{{ gaugeValue }}分</div>
           </div>
           <div class="gauge-pointer_div">
@@ -110,7 +110,10 @@
           <!-- Scoped Slot for Custom Column Rendering -->
           <template #bodyCell="{ column, text }">
             <span v-if="column.dataIndex === 'evaluation'">
-              <span :style="{ color: text === '二级' || text === '一级' ? 'red' : text === '是' ? 'blue' : '' }">
+              <span v-if="text === '-'" :style="{ color: 'grey' }">
+                {{ text }}
+              </span>
+              <span v-else :style="{ color: text === '二级' || text === '一级' ? 'red' : text === '是' ? 'blue' : '' }">
                 {{ text }}
               </span>
             </span>
@@ -158,23 +161,23 @@
 
 
 <script setup lang="jsx">
-import { ref, computed } from 'vue';
-import { CheckCircleFilled } from '@ant-design/icons-vue';
+import { ref, computed } from 'vue'
+import { CheckCircleFilled } from '@ant-design/icons-vue'
 
-const gameId = ref('18800001234');
-const nickname = ref('爱玩比特币');
-const lastLogintime = ref('2024-07-01 09:58:09');
-const lastIP = ref('192.125.1.27');
+const gameId = ref('18800001234')
+const nickname = ref('爱玩比特币')
+const lastLogintime = ref('2024-07-01 09:58:09')
+const lastIP = ref('192.125.1.27')
 
-const gaugeValue = ref(74);
-const center = ref('60%');
+const gaugeValue = ref(74)
+const center = ref('60%')
 
 const columns = ref([
-  { title: '扫描项', dataIndex: 'item', align: 'center' },
-  { title: '评价', dataIndex: 'evaluation', align: 'center' },
-  { title: '评分', dataIndex: 'score', align: 'center' },
-  { title: '说明', dataIndex: 'description', align: 'center' },
-]);
+  { title: '扫描项', dataIndex: 'item', align: 'center', width: '300px' },
+  { title: '评价', dataIndex: 'evaluation', align: 'center', width: '100px' },
+  { title: '评分', dataIndex: 'score', align: 'center', width: '100px' },
+  { title: '说明', dataIndex: 'description', align: 'center', width: '200px' },
+])
 
 const data = ref([
   { key: 1, item: '用户绑定的手机号注册多少账户', evaluation: '二级', score: -15, description: '同手机, 8' },
@@ -184,14 +187,14 @@ const data = ref([
   { key: 5, item: '绑定此手机号的其他账户被拉黑数量', evaluation: '-', score: 0, description: '1' },
   { key: 6, item: '绑定此银行卡的其他账户被拉黑数量', evaluation: '-', score: 0, description: '0' },
   { key: 7, item: '', evaluation: '', score: '', description: '' },
-]);
+])
 
 const secondColumns = ref([
-  { title: '扫描项', dataIndex: 'item', align: 'center' },
-  { title: '评价', dataIndex: 'evaluation', align: 'center' },
-  { title: '评分', dataIndex: 'score', align: 'center' },
-  { title: '说明', dataIndex: 'description', align: 'center' },
-]);
+  { title: '扫描项', dataIndex: 'item', align: 'center', width: '300px' },
+  { title: '评价', dataIndex: 'evaluation', align: 'center', width: '100px' },
+  { title: '评分', dataIndex: 'score', align: 'center', width: '100px' },
+  { title: '说明', dataIndex: 'description', align: 'center', width: '200px' },
+])
 
 const secondData = ref([
   { key: 1, item: '累计消耗钻石', evaluation: '参考项', score: 0, description: '0' },
@@ -202,16 +205,16 @@ const secondData = ref([
   { key: 6, item: '团队总人数', evaluation: '参考项', score: 0, description: '2' },
   { key: 7, item: '已注册天数', evaluation: '参考项', score: 0, description: '38天' },
   { key: 8, item: '领取活动次数', evaluation: '参考项', score: 0, description: '20次' },
-]);
+])
 
 const centerStyle = computed(() => ({
   top: center.value,
   left: center.value,
   transform: 'translate(-50%, -50%)',
-}));
+}))
 
 const pointerStyle = computed(() => {
-  const angle = gaugeValue.value * 270 / 100 - 135;
+  const angle = gaugeValue.value * 270 / 100 - 135
   return {
     transform: `rotate(${angle}deg)`,
     transformOrigin: 'bottom center',
@@ -221,24 +224,24 @@ const pointerStyle = computed(() => {
     backgroundColor: '#1890ff',
     top: `calc(${center.value} - 45px)`,
     left: center.value,
-  };
-});
+  }
+})
 
 function getLabelStyle(n) {
-  const angle = (n - 1) * 270 / 10 + 135;
-  const rad = (angle * Math.PI) / 180;
-  const radius = 40;
+  const angle = (n - 1) * 270 / 10 + 135
+  const rad = (angle * Math.PI) / 180
+  const radius = 40
   return {
     left: `calc(${center.value} + ${radius * Math.cos(rad)}px)`,
     top: `calc(${center.value} + ${radius * Math.sin(rad)}px)`,
-  };
+  }
 }
 
 function getTickStyle(n) {
-  const angle = n * 270 / 100 + 135;
-  const rad = (angle * Math.PI) / 180;
-  const outerRadius = 50;
-  const innerRadius = outerRadius - (n % 10 === 0 ? 2 : 1);
+  const angle = n * 270 / 100 + 135
+  const rad = (angle * Math.PI) / 180
+  const outerRadius = 50
+  const innerRadius = outerRadius - (n % 10 === 0 ? 2 : 1)
   
   return {
     left: `calc(${center.value} + ${innerRadius * Math.cos(rad)}px)`,
@@ -246,11 +249,11 @@ function getTickStyle(n) {
     width: `${outerRadius - innerRadius}px`,
     height: '1px',
     transform: `rotate(${angle}deg) translateX(-50%)`,
-  };
+  }
 }
 
 function rowClassName(record, index) {
-  return index % 2 === 0 ? 'even-row' : 'odd-row';
+  return index % 2 === 0 ? 'even-row' : 'odd-row'
 }
 </script>
 
@@ -369,12 +372,14 @@ function rowClassName(record, index) {
 .gauge-center-text {
   position: absolute;
   text-align: center;
+  margin-top: 5px;
   font-size: 10px;
   z-index: 2;
 }
 
 .gauge-score {
   font-size: 16px;
+  margin-top: 8px;
   font-weight: bold;
 }
 
@@ -415,5 +420,9 @@ function rowClassName(record, index) {
   background-color: transparent;
   height: 100%;
   border-left: 2px dashed rgb(0, 180, 42);;
+}
+
+.custom-span {
+  font-weight: bold;
 }
 </style>

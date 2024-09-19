@@ -22,7 +22,6 @@
 
     <div style="display: flex; justify-content: center;">
       <a-col layout="vertical" style="width: 100%; max-width: 800px; white-space: nowrap;">
-
         <!-- Form Items Here -->
         <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
@@ -31,12 +30,13 @@
           <div style="width: 75%;">
             <div v-if="operationType === '添加'">
               <a-input 
-                placeholder="请输入" 
+                v-model:value="taskName" 
+                placeholder="请输入任务名称" 
                 style="text-align: center; width: 75%;"
               />
             </div>
             <div v-else>
-              <a-select v-model="taskList" value="all" style="width: 75%;">
+              <a-select v-model:value="taskList" style="width: 75%;">
                 <a-select-option value="all">请选择任务</a-select-option>
                 <a-select-option value="bindPhone">绑定手机号</a-select-option>
                 <a-select-option value="bindEmail">绑定邮箱号</a-select-option>
@@ -65,14 +65,13 @@
         </div>
 
         <div style="display: flex; align-items: center; text-align: justify; width: 100%; margin-bottom: 15px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
             循环机制
           </div>
           <div style="width: 75%;">
             <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
-              <!-- Radio Group on the left -->
               <a-col :span="16">
-                <a-radio-group v-model="radioValueCycle" style="text-align: left;">
+                <a-radio-group v-model:value="radioValueCycle" style="text-align: left;">
                   <a-radio value="radio1" style="margin-right: 75px;">每日循环任务</a-radio>
                   <a-radio value="radio2">一次性任务</a-radio>
                 </a-radio-group>
@@ -82,52 +81,49 @@
         </div>
 
         <div style="display: flex; align-items: center; text-align: justify; width: 100%; margin-bottom: 15px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
             参与用户
           </div>
           <div style="width: 75%;">
             <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
-              <!-- Radio Group on the left -->
               <a-col :span="16">
-                <a-radio-group v-model="radioValueUserType" style="text-align: left;">
+                <a-radio-group v-model:value="radioValueUserType" style="text-align: left;">
                   <a-radio value="radio1">全部用户</a-radio>
                   <a-radio value="radio2">贵族用户</a-radio>
                   <a-radio value="radio3">新注册用户</a-radio>
                   <a-radio value="radio5">自定义用户</a-radio>
                 </a-radio-group>
-                <a-button type="primary" ghost style=" padding: 0%; width: 100px; text-align: center;">+ 选择用户</a-button>
+                <a-button type="primary" ghost style="padding: 0%; width: 100px; text-align: center;">+ 选择用户</a-button>
               </a-col>
             </a-row>
           </div>
         </div>
 
         <div style="display: flex; align-items: flex-start; width: 100%; margin-bottom: 15px; white-space: nowrap;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;margin-top: 10px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px; margin-top: 10px;">
             任务奖励
           </div>
-          <div :flex="auto" style="width: 75%;">
+          <div style="width: 75%;">
             <a-row style="margin-bottom: 10px;">
               <a-radio-group
-                  v-model="radioValueTaskType"
-                  style="display: flex; align-items: center; justify-content: space-between;  width: 70%;">
+                v-model:value="radioValueTaskType"
+                style="display: flex; align-items: center; justify-content: space-between; width: 70%;">
                 <a-radio value="radio1" style="margin-right: 10px;">钻石奖励</a-radio>
                 <a-radio value="radio2" style="margin-right: 10px;">礼物奖励</a-radio>
-                <!-- Conditionally displayed button -->
                 <div v-if="operationType === '编辑'" style="margin-right: 10px;">
-                    <a-button @click="onSelectGift">选择礼物</a-button>
+                  <a-button @click="onSelectGift">选择礼物</a-button>
                 </div>
                 <a-radio value="radio3">余额奖励</a-radio>
               </a-radio-group>
             </a-row>
 
             <div v-if="operationType === '编辑'">
-              <a-row gutter="[16, 16]" style="width: 100%; ">
+              <a-row gutter="[16, 16]" style="width: 100%;">
                 <a-col
                   v-for="(spinPair, index) in giftPanel"
                   :key="index"
                   :span="5" 
                   style="margin-bottom: 5px; display: flex; justify-content: center;">
-                  
                   <GiftPanel 
                     :spinValue="spinPair.spinValue" 
                     :curIndex="spinPair.curIndex" 
@@ -144,160 +140,116 @@
         </div>
 
         <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
             任务次数
           </div>
           <div style="width: 75%;">
-            <a-row >
+            <a-row>
               <CustomSpin v-model:nValue="spin_value1" style="width: 75%;"></CustomSpin>
             </a-row>
           </div>
         </div>
 
         <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
             活动时间
           </div>
           <a-row type="flex" style="width: 75%;" align="middle">
             <a-col :span="10">
-              <a-radio-group v-model="radioValueActivityTime">
+              <a-radio-group v-model:value="radioValueActivityTime">
                 <a-radio value="radio1">永久有效</a-radio>
                 <a-radio value="radio2">自定义时间</a-radio>
               </a-radio-group>
             </a-col>
-            <a-col :span="8">
+            <a-col :span="8" v-if="radioValueActivityTime === 'radio2'">
               <a-range-picker 
+                v-model:value="activityTime"
                 :placeholder="['开始日期', '结束日期']"
               />
             </a-col>
           </a-row>
         </div>
 
-        <!-- Center Aligned Save Button -->
         <a-form-item style="text-align: center; margin: 30px; white-space: nowrap;">
           <a-button style="width: 120px; margin-right: 30px;" @click="handleCancel">取消</a-button>
           <a-button style="width: 120px;" type="primary" @click="handleSave">确定</a-button>
         </a-form-item>
-
       </a-col>
     </div>
-
   </a-card>
   
   <SelectGiftDialog 
-        :isModalVisible="isModalVisible"
-      @update:is-modal-visible="val => isModalVisible = val" />
-
+    :isModalVisible="isModalVisible"
+    @update:is-modal-visible="val => isModalVisible = val" 
+  />
 </template>
 
-<script>
-import CustomSpin from '@/components/Form/Custom/CustomSpin.vue'
-// const uploadRule = createUploadRule('主播头像', 'avatar_url')
-import GiftPanel from '@/components/Form/GiftPanel.vue'
-import SelectGiftDialog from './selectGiftDialog.vue'
-
+<script setup lang="jsx">
+import { ref } from 'vue';
+import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
+import GiftPanel from '@/components/Form/GiftPanel.vue';
+import SelectGiftDialog from './selectGiftDialog.vue';
 import localImage from '@/assets/images/logo.png';
 
-export default {
-  components: {
-    CustomSpin,
-    GiftPanel,
-    SelectGiftDialog
+const emit = defineEmits(['back'])
+
+
+const props = defineProps({
+  operationType: {
+    type: String,
+    default: '新增',
   },
-  props: {
-    operationType: {
-      type: String,
-      default: '新增',
-    },
-  },
-  data() {
-    return {
-      isModalVisible : false,
+});
 
-      radioValueTaskType: 'radio1',  // For Task Type Radio Group
-      radioValueCycle: 'radio1',     // For Cycle Mechanism Radio Group
-      radioValueUserType: 'radio1',  // For Participant User Type Radio Group
-      radioValueActivityTime: 'radio1',  // For Activity Time Radio Group
+const isModalVisible = ref(false);
+const radioValueTaskType = ref('radio1');  // For Task Type Radio Group
+const radioValueCycle = ref('radio1');     // For Cycle Mechanism Radio Group
+const radioValueUserType = ref('radio1');  // For Participant User Type Radio Group
+const radioValueActivityTime = ref('radio1');  // For Activity Time Radio Group
+const spin_value1 = ref(0);
 
-      parentValue: '0', // Example initial value
+const giftPanel = ref([
+  { curIndex: 0, name: '礼物', imageUrl: localImage, spinValue: 0 },
+  { curIndex: 1, name: '礼物', imageUrl: localImage, spinValue: 20 },
+  { curIndex: 2, name: '礼物', imageUrl: localImage, spinValue: 15 },
+]);
 
-      spin_value1: '0',
+const taskName = ref('');
+const taskList = ref('all');
+const activityTime = ref([]);
 
-      giftPanel: [
-      { curIndex: 0, name: '礼物', imageUrl: localImage, spinValue: 0 },
-      { curIndex: 1, name: '礼物', imageUrl: localImage, spinValue: 20 },
-      { curIndex: 2, name: '礼物', imageUrl: localImage, spinValue: 15 },
-      // { id: 4, name: 'Gift 4', icon: '💎', spinValue: 50 },
-      // { id: 5, name: 'Gift 5', icon: '🧸', spinValue: 25 },
-      // { id: 6, name: 'Gift 6', icon: '🎮', spinValue: 30 },
-      // { id: 7, name: 'Gift 7', icon: '🏆', spinValue: 40 },
-      // { id: 8, name: 'Gift 8', icon: '📱', spinValue: 35 }
-    ],
-      giftValidity: ''
-    };
-  },
+// Methods
+const addCustomSpin = () => {
+  const newId = giftPanel.value.length;
+  giftPanel.value.push({
+    curIndex: newId,
+    name: `Gift ${newId}`,
+    imageUrl: localImage,
+    spinValue: 0
+  });
+};
 
-  computed: {
+const removeCustomSpin = (curIndex) => {
+  giftPanel.value.splice(curIndex, 1);
+};
 
-  },
+const handleSave = () => {
+  handleBack();
+};
 
-  methods: {
-    addCustomSpin() {
-      const newId = this.giftPanel.length
-      this.giftPanel.push({
-        curIndex: newId,
-        name: `Gift ${newId}`,
-        imageUrl: '@/assets/images/logo.png',//'🎁', // Default icon or change as needed
-        spinValue: 0 // Default value, can be modified
-      })
-    },
-    removeCustomSpin(curIndex) {
-      console.log("removeCustomSpin : " + curIndex)
-      console.log("removeCustomSpin1 : " + this.giftPanel[curIndex].spinValue)
-      console.log("removeCustomSpin2 : " + this.giftPanel[curIndex].curIndex)
-      this.giftPanel.splice(curIndex, 1)
-      //this.giftPanel = this.giftPanel.filter(spinPair => spinPair.id !== id);
-    },
+const handleCancel = () => {
+  handleBack();
+};
 
-    handleSave() {
-    //  emit('save', props.formData)
-      this.handleBack()
-    },
+const handleBack = () => {
+  emit('back'); // Emit the back event to the parent component
+};
 
-    handleCancel() {
-    //  updateVisible(false)
-      this.handleBack()
-    },
-
-    handleBack() {
-      // Handle the back action here
-      // For example, navigate to the previous page:
-      this.$emit('back'); // Emit the back event to the parent component
-    },
-    handleOperation(text) {
-      // Handle the operation related to "区块链汇率"
-      console.log(text);
-    },
-    handleAllusers() {
-      // Handle All users selection
-    },
-    handleNobleusers() {
-      // Handle Noble users selection
-    },
-    handleRechargeusers() {
-      // Handle Recharge users selection
-    },
-    handleCustomusers() {
-      // Handle Custom users selection
-    },
-    onSelectGift() {
-      //this.editItem()
-      console.log("handleOperation : " + this.isModalVisible.value)
-      this.isModalVisible  = true
-    }
-  },
+const onSelectGift = () => {
+  isModalVisible.value = true;
 };
 </script>
 
 <style scoped>
+/* Add any custom styles here */
 </style>
