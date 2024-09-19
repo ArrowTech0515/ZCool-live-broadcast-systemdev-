@@ -5,11 +5,11 @@ export default function (record: any, fApi: Ref<Api>) {
   return [
     {
       type: 'input',
-      field: 'evidence_content',
-      title: '证据内容',
+      field: 'reason',
+      title: '解禁理由',
       value: '',
       props: {
-        placeholder: '证据内容',
+        placeholder: '解禁理由',
         type: 'textarea',
         editable: false,
       },
