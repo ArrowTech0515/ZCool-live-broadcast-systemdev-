@@ -21,33 +21,62 @@
       @show-size-change="handleSizeChange"
     />
   </div>
+
+  <a-modal
+    v-model:visible="isModalVisible"
+    title="查看数据"
+    :width="700"
+    @cancel="handleCancel"
+    :footer="null"
+  >
+    <div style="display: flex; justify-content: space-between; margin: 32px;">
+      <span>钻石奖励: {{ selectedRecord?.diamondReward }}</span>
+      <span>余额奖励: {{ selectedRecord?.balanceReward }}</span>
+    </div>
+    
+    <a-table
+      :dataSource="selectedRecord?.inviteDetails"
+      :columns="modalColumns"
+      rowKey="id"
+      :pagination="false"
+      style="margin-top: 16px;"
+    />
+  </a-modal>
 </template>
 
 <script setup lang="jsx">
 
-import { message } from 'ant-design-vue'
+import { ref, reactive, computed } from 'vue';
+import { message } from 'ant-design-vue';
 
+const isModalVisible = ref(false);
+const selectedRecord = ref(null);
+
+// Pagination settings
 const pagination = reactive({
   page: 1,
   limit: 5,
   total: 100,
-})
+});
 
+// Paginate data source
 const paginatedData = computed(() => {
-  const start = (pagination.page - 1) * pagination.limit
-  const end = start + pagination.limit
-  return dataSource.value.slice(start, end)
-})
+  const start = (pagination.page - 1) * pagination.limit;
+  const end = start + pagination.limit;
+  return dataSource.value.slice(start, end);
+});
 
+// Handle pagination change
 const handlePageChange = (page) =>  {
-  pagination.page = page
-}
+  pagination.page = page;
+};
 
 const handleSizeChange = (current, size) => {
-  pagination.limit = size
-  pagination.page = 1
-}
+  pagination.limit = size;
+  pagination.page = 1;
+};
 
+// Data for main table including invite details
 const dataSource = ref([
   {
     id: '1',
@@ -57,6 +86,14 @@ const dataSource = ref([
     diamondReward: 3424324,
     balanceReward: 4354,
     actions: '查看数据',
+    inviteDetails: [
+      { id: '1', inviteUser: '大石街道卡死', userId: 3432423, registerTime: '2022-12-12 12:21:21' },
+      { id: '2', inviteUser: '大师大师大', userId: 434234, registerTime: '2022-12-12 12:21:21' },
+      { id: '1', inviteUser: '大石街道卡死', userId: 3432423, registerTime: '2022-12-12 12:21:21' },
+      { id: '2', inviteUser: '大师大师大', userId: 434234, registerTime: '2022-12-12 12:21:21' },
+      { id: '1', inviteUser: '大石街道卡死', userId: 3432423, registerTime: '2022-12-12 12:21:21' },
+      { id: '2', inviteUser: '大师大师大', userId: 434234, registerTime: '2022-12-12 12:21:21' },
+    ]
   },
   {
     id: '2',
@@ -66,9 +103,14 @@ const dataSource = ref([
     diamondReward: 3424324,
     balanceReward: 5453,
     actions: '查看数据',
+    inviteDetails: [
+      { id: '1', inviteUser: '大师大师大', userId: 434234, registerTime: '2022-12-12 12:21:21' },
+      { id: '2', inviteUser: '大石街道卡死', userId: 3432423, registerTime: '2022-12-12 12:21:21' },
+    ]
   },
 ]);
 
+// Columns for main table
 const columns = [
   {
     title: '用户昵称',
@@ -107,12 +149,37 @@ const columns = [
   },
 ];
 
+// Modal table columns for invite details
+const modalColumns = [
+  {
+    title: '邀请用户',
+    dataIndex: 'inviteUser',
+    align: 'center',
+  },
+  {
+    title: '用户ID',
+    dataIndex: 'userId',
+    align: 'center',
+  },
+  {
+    title: '注册时间',
+    dataIndex: 'registerTime',
+    align: 'center',
+  },
+];
+
+// Function to show the modal dialog
 const viewData = (record) => {
-  message.info(`查看数据 for 用户昵称: ${record.userNickname}`)
-}
+  selectedRecord.value = record;
+  isModalVisible.value = true;
+};
+
+// Close the modal
+const handleCancel = () => {
+  isModalVisible.value = false;
+};
 
 </script>
 
 <style scoped>
-
 </style>

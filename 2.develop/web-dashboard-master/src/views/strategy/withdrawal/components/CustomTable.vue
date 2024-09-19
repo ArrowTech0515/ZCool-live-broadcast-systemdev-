@@ -260,11 +260,19 @@ async function on_Add_Edit(record) {
 
   const formModalProps = reactive({
     rule: useStrategyRule(formValue, fApi),
+    option: {
+      global: {
+        '*': {
+          wrap: {
+            labelCol: { span: 8 },
+          },
+        },
+      },
+    },
   })
 
   createDialog({
     title: isCreate ? '新增' : '编辑',
-    width: '600',
     component:
       <ModalForm
         v-model={formValue.value}
@@ -272,7 +280,7 @@ async function on_Add_Edit(record) {
         {...formModalProps}
       >
         <div v-if="!isCreate" >
-          <a-form-item class="ml95" label="策略ID">
+          <a-form-item class="ml100" label="策略ID">
             <span>{ record?.strategy_id }</span>
           </a-form-item>
         </div>

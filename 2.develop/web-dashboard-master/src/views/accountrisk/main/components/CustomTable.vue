@@ -29,20 +29,20 @@
     @cancel="handleCancel"
     :footer="null"
   >
-  <div style="margin-top: 30px;" v-if="isModalVisible1 === 1">
-    <div v-for="device in loginDevices" :key="device.device">
-      <div style="border: 1px solid #d9d9d9; padding: 8px; margin-bottom: 8px; border-radius: 4px;">
-        登录设备: {{ device.device }} | {{ device.time }}
+    <div style="margin-top: 30px;" v-if="isModalVisible1 === 1">
+      <div v-for="device in loginDevices" :key="device.device">
+        <div style="border: 1px solid #d9d9d9; padding: 8px; margin-bottom: 8px; border-radius: 4px;">
+          登录设备: {{ device.device }} | {{ device.time }}
+        </div>
       </div>
     </div>
-  </div>
-  <div style="margin-top: 30px;" v-else-if="isModalVisible1 === 2">
-    <div v-for="IP in loginIPs" :key="IP.IP">
-      <div style="border: 1px solid #d9d9d9; padding: 8px; margin-bottom: 8px; border-radius: 4px;">
-        登录IP: {{ IP.IP }} | {{ IP.time }}
+    <div style="margin-top: 30px;" v-else-if="isModalVisible1 === 2">
+      <div v-for="IP in loginIPs" :key="IP.IP">
+        <div style="border: 1px solid #d9d9d9; padding: 8px; margin-bottom: 8px; border-radius: 4px;">
+          登录IP: {{ IP.IP }} | {{ IP.time }}
+        </div>
       </div>
     </div>
-  </div>
   </a-modal>
 </template>
 
