@@ -43,7 +43,7 @@
         </a-form-item>
       </a-col>
 
-      <a-row :span="6">
+      <a-row :span="6" style="margin-left: 20px;">
         <a-col style="margin-right: 20px;">
           <a-form-item>
             <a-button type="primary" block @click="onSearch"><SearchOutlined/>查询</a-button>

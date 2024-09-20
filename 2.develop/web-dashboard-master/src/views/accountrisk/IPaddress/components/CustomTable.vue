@@ -1,26 +1,29 @@
 <template>
-  <a-table
-    rowKey="id"
-    :pagination="false"
-    :dataSource="paginatedData"
-    :columns="columns"
-    :loading="loading"
-  />
+    <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
+      <a-table
+        rowKey="id"
+        :pagination="false"
+        :dataSource="paginatedData"
+        :columns="columns"
+        :loading="loading"
+        :scroll="{ x: 'max-content' }"
+      />
+    </div>
 
-  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-    <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
-    <a-pagination
-      v-model:current="pagination.page"
-      :total="pagination.total"
-      :page-size="pagination.limit"
-      show-size-changer
-      :page-size-options="['5', '10', '20', '50', '100']"
-      :simple="false"
-      size="small"
-      @change="handlePageChange"
-      @show-size-change="handleSizeChange"
-    />
-  </div>
+    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+      <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
+      <a-pagination
+        v-model:current="pagination.page"
+        :total="pagination.total"
+        :page-size="pagination.limit"
+        show-size-changer
+        :page-size-options="['5', '10', '20', '50', '100']"
+        :simple="false"
+        size="small"
+        @change="handlePageChange"
+        @show-size-change="handleSizeChange"
+      />
+    </div>
 </template>
 
 <script setup lang="jsx">
@@ -120,7 +123,7 @@ const dataSource = ref([
     case 'clean':
       return <a-tag color="green">正常</a-tag>  // Clean IP
     default:
-      return <a-tag color="gray">未知</a-tag>  // Unknown or not detected
+      return <a-tag color="orange">未知</a-tag>  // Unknown or not detected
   }
 }
 
@@ -128,13 +131,13 @@ const dataSource = ref([
 function renderStatusTag(status) {
   switch (status) {
     case '活跃':
-      return <a-tag color="green">活跃</a-tag>  // Active status
+      return <a-tag color="blue">活跃</a-tag>  // Active status
     case '不活跃':
-      return <a-tag color="gray">不活跃</a-tag>  // Inactive status
+      return <a-tag color="orange">不活跃</a-tag>  // Inactive status
     case '已阻止':
       return <a-tag color="red">已阻止</a-tag>  // Blocked status
     default:
-      return <a-tag color="gray">未知</a-tag>  // Default : Unknown
+      return <a-tag color="green">未知</a-tag>  // Default : Unknown
   }
 }
 

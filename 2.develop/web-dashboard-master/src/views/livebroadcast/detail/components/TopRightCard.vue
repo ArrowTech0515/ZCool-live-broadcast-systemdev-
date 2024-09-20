@@ -45,16 +45,16 @@ const handleRowClick = (id) => {
         style="margin-bottom: 10px; margin-top: 10px; position: relative; padding: 0px; cursor: pointer;"
       >
         <a-card
-          style="background-color: #c0c0c0; display: flex; align-items: center; 
+          style="background-color: rgb(113, 41, 248); display: flex; align-items: center; 
           padding-right: 1px; padding-left: 1px;" bodyStyle="padding: 0;"
           @click="handleRowClick(message.id)"
         >
           <a-row flex="auto" style="align-items: center; padding-top: 2%; padding-bottom: 2%; width: 100%;">
             <a-avatar icon="user" size="small" style="margin-right: 5px;" />
-            <span style="color: #1890ff; font-weight: bold; font-size: 10px;">{{ message.user }}:</span>
+            <span style="color: lightblue; font-weight: bold; font-size: 10px;">{{ message.user }}:</span>
             <span 
                 :style="{ marginLeft: '5px', fontSize: '10px', 
-                        color: message.type === 'notification' ? '#1890ff' : 'rgb(252,252,252)' }">
+                        color: message.type === 'notification' ? 'lightblue' : 'rgb(252,252,252)' }">
                 {{ message.content }}
             </span>
           </a-row>
@@ -62,19 +62,19 @@ const handleRowClick = (id) => {
 
         <a-col
           v-if="selectedMessageId === message.id"
-          style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; padding: 1px; "
+          style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; padding: 1px;"
         >
           <a-button 
-                size="small" type="primary" style="background-color: #60c0f0; font-size: 12px;"
+                size="small" type="primary" style="background-color: #60c0f0; font-size: 10px;"
                 @click="emit('emit_mute')">禁言</a-button>
           <a-button 
-                size="small" type="primary" style="background-color: green; font-size: 12px;"
+                size="small" type="primary" style="background-color: green; font-size: 10px;"
                 @click="emit('emit_withdraw')">撤回</a-button>
           <a-button 
-                size="small" type="primary" style="background-color: #cc6600; font-size: 12px;"
+                size="small" type="primary" style="background-color: #cc6600; font-size: 10px;"
                 @click="emit('emit_blacklist')">拉黑</a-button>
           <a-button 
-                size="small" type="primary" style="background-color: blue; font-size: 12px;"
+                size="small" type="primary" style="background-color: blue; font-size: 10px;"
                 @click="emit('emit_out')">踢出房间</a-button>
         </a-col>
       </a-row>

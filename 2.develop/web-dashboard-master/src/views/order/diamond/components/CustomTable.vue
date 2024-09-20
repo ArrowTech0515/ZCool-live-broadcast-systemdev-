@@ -1,25 +1,29 @@
 <template>
-  <a-table
-    rowKey="anchor_id"
-    :pagination="false"
-    :dataSource="paginatedData"
-    :columns="columns"
-    :loading="loading"
-  />
-  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-    <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
-    <a-pagination
-      v-model:current="pagination.page"
-      :total="pagination.total"
-      :page-size="pagination.limit"
-      show-size-changer
-      :page-size-options="['5', '10', '20', '50', '100']"
-      :simple="false"
-      size="small"
-      @change="handlePageChange"
-      @show-size-change="handleSizeChange"
-    />
-  </div>
+    <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
+      <a-table
+        rowKey="id"
+        :pagination="false"
+        :dataSource="paginatedData"
+        :columns="columns"
+        :loading="loading"
+        :scroll="{ x: 'max-content' }"
+      />
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+      <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
+      <a-pagination
+        v-model:current="pagination.page"
+        :total="pagination.total"
+        :page-size="pagination.limit"
+        show-size-changer
+        :page-size-options="['5', '10', '20', '50', '100']"
+        :simple="false"
+        size="small"
+        @change="handlePageChange"
+        @show-size-change="handleSizeChange"
+      />
+    </div>
 </template>
 
 <script setup lang="jsx">
@@ -272,6 +276,7 @@ const columns = [
     title: '操作',
     dataIndex: 'action',
     align: 'center',
+    fixed: 'right',
     customRender: ({ record }) => 
     <div style="color: #1890ff; text-decoration: underline; cursor: pointer;" onClick={() => onRefund(record)}>{record.action}</div>,
   }

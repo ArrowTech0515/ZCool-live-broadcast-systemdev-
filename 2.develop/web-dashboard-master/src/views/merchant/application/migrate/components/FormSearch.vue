@@ -2,7 +2,7 @@
   <a-col type="flex" align="center">
 
     <a-col :flex="auto" style="width: 40%;">
-      <a-form-item label="当前应用" :label-col="{ span: 4 }">
+      <a-form-item label="当前应用" :label-col="{ span: 6 }">
         <div style="text-align: center;">
           <img
             :src="iconImg"
@@ -19,13 +19,13 @@
     </a-col>
 
     <a-col :flex="auto" style="width: 40%;">
-      <a-form-item label="当前所属商户" :label-col="{ span: 4 }" >
+      <a-form-item label="当前所属商户" :label-col="{ span: 6 }" >
         <a-input v-model:value="selectedRecord.__merchant" style="text-align: center;" placeholder="当前所属商户" disabled="true"/>
       </a-form-item>
     </a-col>
 
     <a-col :flex="auto" style=" width: 40%; margin-bottom: -25px">
-      <a-form-item label="迁移商户" :label-col="{ span: 4 }" >
+      <a-form-item label="迁移商户" :label-col="{ span: 6 }" >
         <a-select v-model:value="migrate_application" placeholder="请选择迁移商户" default-value='请选择迁移商户'>
           <a-select-option value="app1">{{ ENUM.merchant_type[2] }}</a-select-option>
           <a-select-option value="app2">{{ ENUM.merchant_type[3] }}</a-select-option>

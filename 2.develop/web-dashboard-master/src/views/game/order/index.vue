@@ -65,7 +65,7 @@
         </a-col>
 
         <!-- Second Column -->
-        <a-col :span="2" :style="{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }">
+        <a-col :flex="auto" :style="{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }">
           <a-form-item>
             <a-button type="primary" block @click="onSearch">
               <SearchOutlined /> 查询
@@ -91,24 +91,29 @@
     </a-col>
   </a-card>
 
-  <!-- Your existing layout and table setup -->
-  <a-table :data-source="paginatedData" :pagination="false">
-    <a-table-column title="ID" dataIndex="id" key="id" align="center" />
-    <a-table-column title="游戏ID" dataIndex="game_id" key="game_id" align="center" />
-    <a-table-column title="游戏名称" dataIndex="game_name" key="game_name" align="center" />
-    <a-table-column title="订单号" dataIndex="order_number" key="order_number" align="center" />
-    <a-table-column title="用户ID" dataIndex="user_id" key="user_id" align="center" />
-    <a-table-column title="用户昵称" dataIndex="user_nickname" key="user_nickname" align="center" />
-    <a-table-column title="房间号" dataIndex="room_number" key="room_number" align="center" />
-    <a-table-column title="下注金额" dataIndex="bet_amount" key="bet_amount" align="center" />
-    <a-table-column title="派彩金额" dataIndex="payout_amount" key="payout_amount" align="center" />
-    <a-table-column title="创建时间" dataIndex="create_time" key="create_time" align="center" />
-    <a-table-column title="结束时间" dataIndex="end_time" key="end_time" align="center" />
-    <a-table-column title="状态" dataIndex="status" key="status" align="center" />
-    <a-table-column title="金额" dataIndex="amount1" key="amount1" align="center" />
-    <a-table-column title="余额" dataIndex="amount2" key="amount2" align="center" />
-    <a-table-column title="盈亏" dataIndex="profit_loss" key="profit_loss" align="center" />
-  </a-table>
+  <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
+    <a-table 
+        :data-source="paginatedData" 
+        :pagination="false"
+        :scroll="{ x: 'max-content' }"
+        >
+      <a-table-column title="ID" dataIndex="id" key="id" align="center" />
+      <a-table-column title="游戏ID" dataIndex="game_id" key="game_id" align="center" />
+      <a-table-column title="游戏名称" dataIndex="game_name" key="game_name" align="center" />
+      <a-table-column title="订单号" dataIndex="order_number" key="order_number" align="center" />
+      <a-table-column title="用户ID" dataIndex="user_id" key="user_id" align="center" />
+      <a-table-column title="用户昵称" dataIndex="user_nickname" key="user_nickname" align="center" />
+      <a-table-column title="房间号" dataIndex="room_number" key="room_number" align="center" />
+      <a-table-column title="下注金额" dataIndex="bet_amount" key="bet_amount" align="center" />
+      <a-table-column title="派彩金额" dataIndex="payout_amount" key="payout_amount" align="center" />
+      <a-table-column title="创建时间" dataIndex="create_time" key="create_time" align="center" />
+      <a-table-column title="结束时间" dataIndex="end_time" key="end_time" align="center" />
+      <a-table-column title="状态" dataIndex="status" key="status" align="center" />
+      <a-table-column title="金额" dataIndex="amount1" key="amount1" align="center" />
+      <a-table-column title="余额" dataIndex="amount2" key="amount2" align="center" />
+      <a-table-column title="盈亏" dataIndex="profit_loss" key="profit_loss" align="center" />
+    </a-table>
+  </div>
 
   <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
     <span style="margin-right: 8px;">共 {{ totalItems }} 条</span>

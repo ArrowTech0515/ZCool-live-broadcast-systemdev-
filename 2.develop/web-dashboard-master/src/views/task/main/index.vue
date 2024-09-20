@@ -68,37 +68,38 @@
       </a-card>
 
         <!-- Your existing layout and table setup -->
-      <a-table :data-source="paginatedData" :pagination="false">
-        <a-table-column title="任务ID" dataIndex="taskID" key="taskID" align="center" />
-        <a-table-column title="任务名称" dataIndex="taskName" key="taskName" align="center" />
-        <a-table-column title="循环机制" dataIndex="circular" key="circular" align="center"/>
-        <a-table-column title="参与用户" dataIndex="participating" key="participating" align="center" />
-        <a-table-column title="任务奖励" dataIndex="taskReward" key="taskReward" align="center" />
-        <a-table-column title="任务状态" dataIndex="taskStatus" key="taskStatus" align="center" />
-        <a-table-column title="任务次数" dataIndex="taskTimes" key="taskTimes" align="center"/>
-        <a-table-column title="任务时间" dataIndex="taskTime" key="taskTime" align="center"/>
-        <a-table-column title="更新时间" dataIndex="updateTime" key="updateTime" align="center"/>
-        <a-table-column title="操作账号" dataIndex="operationAccount" key="operationAccount" align="center"/>
-        <a-table-column title="操作" dataIndex="operate" key="operate" align="center"/>
+      <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
+        <a-table 
+          :data-source="paginatedData" 
+          :pagination="false"
+          :scroll="{ x: 'max-content' }"
+          >
+          <a-table-column title="任务ID" dataIndex="taskID" key="taskID" align="center" />
+          <a-table-column title="任务名称" dataIndex="taskName" key="taskName" align="center" />
+          <a-table-column title="循环机制" dataIndex="circular" key="circular" align="center"/>
+          <a-table-column title="参与用户" dataIndex="participating" key="participating" align="center" />
+          <a-table-column title="任务奖励" dataIndex="taskReward" key="taskReward" align="center" />
+          <a-table-column title="任务状态" dataIndex="taskStatus" key="taskStatus" align="center" />
+          <a-table-column title="任务次数" dataIndex="taskTimes" key="taskTimes" align="center"/>
+          <a-table-column title="任务时间" dataIndex="taskTime" key="taskTime" align="center"/>
+          <a-table-column title="更新时间" dataIndex="updateTime" key="updateTime" align="center"/>
+          <a-table-column title="操作账号" dataIndex="operationAccount" key="operationAccount" align="center"/>
+          <a-table-column title="操作" dataIndex="operate" key="operate" align="center"/>
 
-        <template #bodyCell="{ column, text }">
-
-          <span v-if="column.dataIndex === 'operate'">
-            <span style="text-decoration: underline;color: #1890ff; margin-right: 8px; cursor: pointer;" @click="handleOperation('数据')">数据</span>
-            <span style="text-decoration: underline;color: green; cursor: pointer;" @click="handleOperation('编辑')">编辑</span>
-          </span>
-
-          <span v-else-if="column.dataIndex === 'taskStatus'">
-            <a-tag v-if="text === '进行中'" color='green'>{{ text }}</a-tag>
-            <a-tag v-else-if="text === '已结束'" color='red'>{{ text }}</a-tag>
-          </span>
-
-          <!-- Default rendering for other columns -->
-          <span v-else>{{ text }}</span>
-        </template>
-
-
-      </a-table>
+          <template #bodyCell="{ column, text }">
+            <span v-if="column.dataIndex === 'operate'">
+              <span style="text-decoration: underline;color: #1890ff; margin-right: 8px; cursor: pointer;" @click="handleOperation('数据')">数据</span>
+              <span style="text-decoration: underline;color: green; cursor: pointer;" @click="handleOperation('编辑')">编辑</span>
+            </span>
+            <span v-else-if="column.dataIndex === 'taskStatus'">
+              <a-tag v-if="text === '进行中'" color='green'>{{ text }}</a-tag>
+              <a-tag v-else-if="text === '已结束'" color='red'>{{ text }}</a-tag>
+            </span>
+            <!-- Default rendering for other columns -->
+            <span v-else>{{ text }}</span>
+          </template>
+        </a-table>
+      </div>
 
       <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
         <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
@@ -253,6 +254,10 @@ const onBackToMainPage2 = () => {
 </script>
 
 <style scoped>
+
+.scroll-container {
+  overflow-x: auto; /* Enable horizontal scrolling */
+}
 
 .row {
   display: contents;

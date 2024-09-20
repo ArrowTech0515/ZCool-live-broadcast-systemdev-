@@ -124,7 +124,7 @@ const columns = [
     dataIndex: 'auth_status',
     align: 'center',
     customRender: ({ record }) =>
-      <a-tag color={record.auth_status === '待处理' ? 'grey' : record.auth_status === '已验证' ? 'green' : 'red'}>
+      <a-tag color={record.auth_status === '待处理' ? 'orange' : record.auth_status === '已验证' ? 'green' : 'red'}>
         {record.auth_status}
       </a-tag>
   },

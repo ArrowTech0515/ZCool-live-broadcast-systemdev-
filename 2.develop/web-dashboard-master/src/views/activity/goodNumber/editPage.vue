@@ -154,7 +154,7 @@
           <div style="width: 75%;">
             <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
               <a-col :span="16">
-                <a-radio-group v-model="radioValue" style="text-align: left;">
+                <a-radio-group v-model:value="radioValue" style="text-align: left;">
                   <a-radio value="radio1">全部用户</a-radio>
                   <a-radio value="radio2">贵族用户</a-radio>
                   <a-radio value="radio3">注册用户</a-radio>

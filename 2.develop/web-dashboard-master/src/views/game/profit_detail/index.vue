@@ -47,7 +47,7 @@
       </a-col>
 
       <!-- Second Column -->
-      <a-col :span="2">
+      <a-col :flex="auto">
         <a-form-item>
           <a-button type="primary" block @click="onSearch">
             <SearchOutlined /> 查询

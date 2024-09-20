@@ -1,26 +1,29 @@
 <template>
-  <a-table
-    rowKey="id"
-    :pagination="false"
-    :dataSource="paginatedData"
-    :columns="columns"
-    :loading="loading"
-  />
+    <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
+      <a-table
+        rowKey="id"
+        :pagination="false"
+        :dataSource="paginatedData"
+        :columns="columns"
+        :loading="loading"
+        :scroll="{ x: 'max-content' }"
+      />
+    </div>
 
-  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-    <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
-    <a-pagination
-      v-model:current="pagination.page"
-      :total="pagination.total"
-      :page-size="pagination.limit"
-      show-size-changer
-      :page-size-options="['5', '10', '20', '50', '100']"
-      :simple="false"
-      size="small"
-      @change="handlePageChange"
-      @show-size-change="handleSizeChange"
-    />
-  </div>
+    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+      <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
+      <a-pagination
+        v-model:current="pagination.page"
+        :total="pagination.total"
+        :page-size="pagination.limit"
+        show-size-changer
+        :page-size-options="['5', '10', '20', '50', '100']"
+        :simple="false"
+        size="small"
+        @change="handlePageChange"
+        @show-size-change="handleSizeChange"
+      />
+    </div>
 </template>
 
 <script setup lang="jsx">
@@ -132,7 +135,7 @@ const columns = [
     dataIndex: 'status',
     align: 'center',
     customRender: ({ record }) =>
-      <a-tag color={record.status === 4 ? 'red' : 'blue'}>
+      <a-tag color={record.status === 4 ? 'red' : (record.status === 3 ? 'orange' : 'blue')}>
         {ENUM.application_status[record.status]}
       </a-tag>
   },
@@ -141,7 +144,7 @@ const columns = [
     dataIndex: 'status2',
     align: 'center',
     customRender: ({ record }) =>
-      <a-tag color={record.status2 === 1 ? '#1890ff' : 'red'}>
+      <a-tag color={record.status2 === 1 ? 'red' : 'blue'}>
         {record.status2 === 1 ? '未合并' : '已合并'}
       </a-tag>
   },

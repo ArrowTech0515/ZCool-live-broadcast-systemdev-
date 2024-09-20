@@ -41,7 +41,7 @@
       </a-col>
 
       <!-- Second Column -->
-      <a-col :span="2">
+      <a-col :flex="auto">
         <a-form-item>
           <a-button type="primary" block @click="onSearch">
             <SearchOutlined /> 查询
@@ -59,36 +59,42 @@
   </a-card>
 
     <!-- Table Setup -->
-    <a-table :data-source="paginatedData" :pagination="false">
-      <!-- Table columns -->
-      <a-table-column title="游戏ID" dataIndex="gameId" key="gameId" align="center" />
-      <a-table-column title="游戏类型" dataIndex="gameType" key="gameType" align="center" />
-      <a-table-column title="游戏名" dataIndex="gameName" key="gameName" align="center" />
-      <a-table-column title="游戏平台" dataIndex="platform" key="platform" align="center" />
-      <a-table-column title="是否球横屏" dataIndex="isLandscape" key="isLandscape" align="center" />
-      <a-table-column title="是否条横屏" dataIndex="isBarLandscape" key="isBarLandscape" align="center">
-        <template #default="{ text }">
-          <a-switch :checked="text" />
-        </template>
-      </a-table-column>
-      <a-table-column title="是否显示" dataIndex="isVisible" key="isVisible" align="center">
-        <template #default="{ text }">
-          <a-switch :checked="text" />
-        </template>
-      </a-table-column>
-      <a-table-column title="是否只显示在二级页" dataIndex="isSecondaryPage" key="isSecondaryPage" align="center">
-        <template #default="{ text }">
-          <a-switch :checked="text" />
-        </template>
-      </a-table-column>
-      <a-table-column title="单游戏维护状态" dataIndex="maintenanceStatus" key="maintenanceStatus" align="center">
-        <template #default="{ text }">
-          <a-switch :checked="text" />
-        </template>
-      </a-table-column>
-      <a-table-column title="排序" dataIndex="order" key="order" align="center" />
-      <a-table-column title="平台维护时间" dataIndex="maintenanceTime" key="maintenanceTime" align="center" />
-    </a-table>
+    <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
+        <a-table 
+          :data-source="paginatedData" 
+          :pagination="false"
+          :scroll="{ x: 'max-content' }"
+          >
+        <!-- Table columns -->
+        <a-table-column title="游戏ID" dataIndex="gameId" key="gameId" align="center" />
+        <a-table-column title="游戏类型" dataIndex="gameType" key="gameType" align="center" />
+        <a-table-column title="游戏名" dataIndex="gameName" key="gameName" align="center" />
+        <a-table-column title="游戏平台" dataIndex="platform" key="platform" align="center" />
+        <a-table-column title="是否球横屏" dataIndex="isLandscape" key="isLandscape" align="center" />
+        <a-table-column title="是否条横屏" dataIndex="isBarLandscape" key="isBarLandscape" align="center">
+          <template #default="{ text }">
+            <a-switch :checked="text" />
+          </template>
+        </a-table-column>
+        <a-table-column title="是否显示" dataIndex="isVisible" key="isVisible" align="center">
+          <template #default="{ text }">
+            <a-switch :checked="text" />
+          </template>
+        </a-table-column>
+        <a-table-column title="是否只显示在二级页" dataIndex="isSecondaryPage" key="isSecondaryPage" align="center">
+          <template #default="{ text }">
+            <a-switch :checked="text" />
+          </template>
+        </a-table-column>
+        <a-table-column title="单游戏维护状态" dataIndex="maintenanceStatus" key="maintenanceStatus" align="center">
+          <template #default="{ text }">
+            <a-switch :checked="text" />
+          </template>
+        </a-table-column>
+        <a-table-column title="排序" dataIndex="order" key="order" align="center" />
+        <a-table-column title="平台维护时间" dataIndex="maintenanceTime" key="maintenanceTime" align="center" />
+      </a-table>
+    </div>
 
     <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
       <span style="margin-right: 8px;">共 {{ totalItems }}条</span>

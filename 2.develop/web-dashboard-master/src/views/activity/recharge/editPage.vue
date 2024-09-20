@@ -206,7 +206,7 @@
             <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
               <!-- Radio Group on the left -->
               <a-col :span="16">
-                <a-radio-group v-model="radioValue" style="text-align: left;">
+                <a-radio-group v-model:value="radioValue" style="text-align: left;">
                   <a-radio value="radio1">首次充值有效</a-radio>
                   <a-radio value="radio2">多次充值有效</a-radio>
                 </a-radio-group>
@@ -223,7 +223,7 @@
             <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
               <!-- Radio Group on the left -->
               <a-col :span="16">
-                <a-radio-group v-model="radioValue" style="text-align: left;">
+                <a-radio-group v-model:value="radioValue2" style="text-align: left;">
                   <a-radio value="radio1">全部用户</a-radio>
                   <a-radio value="radio2">贵族用户</a-radio>
                   <a-radio value="radio3">注册用户</a-radio>
@@ -279,6 +279,7 @@ defineProps({
 const emit = defineEmits(['back'])  // Define the 'back' event
 
 const radioValue = ref('radio1') // Initial value for the radio group
+const radioValue2 = ref('radio1') // Initial value for the radio group
 const spin_value1 = ref(0)
 const spin_value2 = ref(0)
 

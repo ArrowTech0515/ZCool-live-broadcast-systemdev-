@@ -1,25 +1,30 @@
 <template>
-  <a-table
-    rowKey="id"
-    :pagination="false"
-    :dataSource="paginatedData"
-    :columns="columns"
-    :loading="loading"
-  />
+  <div>
+    <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
+      <a-table
+        rowKey="id"
+        :pagination="false"
+        :dataSource="paginatedData"
+        :columns="columns"
+        :loading="loading"
+        :scroll="{ x: 'max-content' }"
+      />
+    </div>
 
-  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-    <span style="margin-right: 8px;">共 {{ pagination.total }} 条</span>
-    <a-pagination
-      v-model:current="pagination.page"
-      :total="pagination.total"
-      :page-size="pagination.limit"
-      show-size-changer
-      :page-size-options="['5', '10', '20', '50', '100']"
-      :simple="false"
-      size="small"
-      @change="handlePageChange"
-      @show-size-change="handleSizeChange"
-    />
+    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+      <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
+      <a-pagination
+        v-model:current="pagination.page"
+        :total="pagination.total"
+        :page-size="pagination.limit"
+        show-size-changer
+        :page-size-options="['5', '10', '20', '50', '100']"
+        :simple="false"
+        size="small"
+        @change="handlePageChange"
+        @show-size-change="handleSizeChange"
+      />
+    </div>
   </div>
 </template>
 
@@ -105,7 +110,7 @@ const columns = [
           <span key={index} style="display: flex; justify-content: space-between;">
             <span>{line}</span>
               <span
-                style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;"
+                style="text-decoration: underline; color: #1890ff; margin-left: 12px; cursor: pointer;"
                 onClick={() => copyText(line)}
               >
                 复制
@@ -126,7 +131,7 @@ const columns = [
           <span key={index} style="display: flex; justify-content: space-between;">
             <span>{line}</span>
               <span
-                style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;"
+                style="text-decoration: underline; color: #1890ff; margin-left: 12px; cursor: pointer;"
                 onClick={() => copyText(line)}
               >
                 复制
@@ -154,7 +159,7 @@ const columns = [
             <span>{line}</span>
             {index === 1 ? (
               <span
-                style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;"
+                style="text-decoration: underline; color: #1890ff; margin-left: 12px; cursor: pointer;"
                 onClick={() => viewEvidence(line)}
               >
                 查看
@@ -176,7 +181,7 @@ const columns = [
         <a-tag v-else-if="record.status === 3" color="red" style="vertical-align: top;">{ENUM.report_status[record.status]}</a-tag>
         <a-tag v-else color="lightgrey" style="vertical-align: top;">{ENUM.report_status[record.status]}</a-tag>
         <span v-if="record.status === 3"
-          style="color: #1890ff; cursor: pointer;vertical-align: top;" 
+          style="color: #1890ff; cursor: pointer; margin-left: 12px; vertical-align: top;" 
           onClick={() => viewProcessingResult(record)}
         >
           处理结果
@@ -379,6 +384,11 @@ const onWarn = (record) => {
 </script>
 
 <style scoped>
+
+.scroll-container {
+  overflow-x: auto; /* Enable horizontal scrolling */
+}
+
 .same-width-button {
   width: 100px;
   text-align: center;
