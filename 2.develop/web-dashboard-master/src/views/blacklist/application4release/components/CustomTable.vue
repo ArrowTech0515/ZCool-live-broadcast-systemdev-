@@ -1,11 +1,14 @@
 <template>
-  <a-table
-    rowKey="id"
-    :pagination="false"
-    :dataSource="paginatedData"
-    :columns="columns"
-    :loading="loading"
-  />
+    <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
+      <a-table
+        rowKey="id"
+        :pagination="false"
+        :dataSource="paginatedData"
+        :columns="columns"
+        :loading="loading"
+        :scroll="{ x: 'max-content' }" 
+      />
+    </div>
 
   <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
     <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
@@ -95,10 +98,11 @@ const columns = [
     title: '应用信息',
     dataIndex: 'appInfo',
     align: 'center',
+    width: '160px',
     customRender: ({ record }) => (
       <div>
         {record.appInfo.split('\n').map((line, index) => (
-          <span key={index}>{line}<br /></span>
+          <span key={index} style="display: flex; justify-content: space-between;">{line}<br /></span>
         ))}
       </div>
     ),
@@ -108,6 +112,7 @@ const columns = [
     title: '主播信息',
     dataIndex: 'anchorInfo',
     align: 'center',
+    width: '180px',
     customRender: ({ record }) => (
       <div>
         {record.anchorInfo.split('\n').map((line, index) => (
@@ -127,6 +132,7 @@ const columns = [
     title: '黑名单信息',
     dataIndex: 'blacklistInfo',
     align: 'center',
+    width: '200px',
     customRender: ({ record }) => (
       <div>
         {record.blacklistInfo.split('\n').map((line, index) => (
@@ -146,6 +152,7 @@ const columns = [
     title: '操作信息',
     dataIndex: 'actionInfo',
     align: 'center',
+    width: '180px',
     customRender: ({ record }) => (
       <div>
         {record.actionInfo.split('\n').map((line, index) => (
@@ -159,6 +166,7 @@ const columns = [
     title: '解禁申请',
     dataIndex: 'unbanRequest',
     align: 'center',
+    width: '200px',
     customRender: ({ record }) => (
       <div>
         {record.unbanRequest.split('\n').map((line, index) => (
@@ -172,6 +180,7 @@ const columns = [
     title: '解禁证据',
     dataIndex: 'unbanEvidence',
     align: 'center',
+    width: '200px',
     customRender: ({ record }) => (
       <div style="display: flex; justify-content: space-between;">
         <span>{record.unbanEvidence}</span>
@@ -187,6 +196,7 @@ const columns = [
     title: '状态',
     dataIndex: 'status',
     align: 'center',
+    width: '160px',
     customRender: ({ record }) => (
       <div>
         {record.status.split('\n').map((line, index) => (
@@ -200,6 +210,7 @@ const columns = [
     title: '操作信息',
     dataIndex: 'operation_info',
     align: 'center',
+    width: '220px',
     customRender: ({ record }) => (
       <div>
         {record.operation_info.split('\n').map((line, index) => (
@@ -213,6 +224,8 @@ const columns = [
     title: '操作',
     dataIndex: 'action',
     align: 'center',
+    fixed: 'right',
+    width: '80px',
     customRender: ({ record }) => (
       <div style="text-align: center; ">
         <span v-if="record.action"
@@ -320,3 +333,30 @@ const onProcess = (record) => {
 }
 
 </script>
+
+<style scoped>
+
+.scroll-container {
+  overflow-x: auto; /* Enable horizontal scrolling */
+}
+
+/* Custom scrollbar styles */
+.scroll-container::-webkit-scrollbar {
+  height: 4px; /* Height of horizontal scrollbar */
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: #1890ff; /* Color of the scrollbar thumb */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: #40a9ff; /* Color of the scrollbar thumb on hover */
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Color of the scrollbar track */
+  border-radius: 4px; /* Rounded corners */
+}
+
+</style>

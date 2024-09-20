@@ -8,8 +8,8 @@
       <a-col :flex="auto" style="margin-left: 5%">
         <a-form-item label="用户状态" :label-col="{ span: 24 }">
           <a-button 
-            type="primary" 
-            style="color: rgb(0, 180, 42); background-color:rgb(227,249,233); ">
+            type="default" 
+            style="color: rgb(0, 180, 42); ">
             <CheckCircleFilled  style="color: rgb(0, 180, 42);"/>正常</a-button>
         </a-form-item>
       </a-col>

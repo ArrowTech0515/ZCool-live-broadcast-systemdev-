@@ -26,9 +26,8 @@
 <script setup lang="jsx">
 import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/anchor'
 import ENUMS from '@/enums/common'
-import blockUserRule from '@/rules/blockUserRule'
 import MerchCell from '@/components/Business/MerchCell.jsx'
-import useAnchorRule from '../hooks/useOrderRule'
+import useOrderRule from '../hooks/useOrderRule'
 import { getPathFromUrlArray } from '@/utils/index'
 import { message } from 'ant-design-vue';
 
@@ -89,24 +88,24 @@ const dataSource = ref([
   {
     created_time: '2023-07-05 16:59:18',
     order_number: '202307052009007',
-    merchant_name: '银商01',
+    banker_name: '银商01',
     bank_name: '东南银行',
     bank_card_number: '2051****4976',
     user_id: '400023497',
     amount: '2,000.00',
-    order_status: '成功',
+    order_status: 2,//'成功', 3: 失败
     payee: '王一',
     action: { edit: true }
   },
   {
     created_time: '2023-07-04 16:59:18',
     order_number: '202307052009007',
-    merchant_name: '银商02',
+    banker_name: '银商02',
     bank_name: '美丽银行',
     bank_card_number: '4008****2634',
     user_id: '400025791',
     amount: '20,000.00',
-    order_status: '成功',
+    order_status: 2,//'成功',
     payee: '马二',
     action: { edit: true }
   }
@@ -127,9 +126,9 @@ const columns = [
   },
   {
     title: '银商名称',
-    dataIndex: 'merchant_name',
+    dataIndex: 'banker_name',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.merchant_name}</div>
+    customRender: ({ record }) => <div style={centeredStyle}>{record.banker_name}</div>
   },
   {
     title: '银行名称',
@@ -159,7 +158,10 @@ const columns = [
     title: '订单状态',
     dataIndex: 'order_status',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.order_status}</div>
+    customRender: ({ record }) =>
+      <a-tag color={record.order_status === 2 ? 'blue' : 'red'}>
+        {record.order_status === 2 ? '成功' : '失败'}
+      </a-tag>
   },
   {
     title: '出款人',
@@ -175,80 +177,30 @@ const columns = [
       <div style={centeredStyle}>
         <span 
           style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
-          onClick={() => emit('emit_editData', record)}>
+          onClick={() => onEdit(record)}>
           编辑</span>
       </div>
     )
   }
 ];
 
-// 上架
-function onSaleStatus(option) {
-
-  if(option === '上架') {
-    createDialog({
-      title: '上架',
-      width: 400,
-      component:
-      <div style="padding: 20px; text-align: center;">
-              是否上架当前赛事直播？
-            </div>,
-      onConfirm(status) {
-        this.$emit('confirm')
-          
-          message.success({
-            content: `上架成功`,
-            duration: 2, // Duration in seconds
-          })
-      },
-      onReject() {
-        // Logic to handle reject action
-        this.$emit('reject')
-      },
-    })
-  }
-  else {
-    createDialog({
-      title: '下架',
-      width: 400,
-      component:
-        <div style="padding: 20px; text-align: center;">
-          是否下架当前赛事主播？
-        </div>,
-      onConfirm(status) {
-
-        this.$emit('confirm')
-        
-        message.success({
-          content: `下架成功`,
-          duration: 2, // Duration in seconds
-        })
-      },
-      onReject() {
-        // Logic to handle reject action
-        this.$emit('reject')
-      },
-    })
-  }
-}
 
 // 添加主播，不可编辑
-async function editItem() {
+async function onEdit(record) {
   const formValue = ref({
-    avatar_url: '',
-    nickname: '',
-    phone: '',
-    email: '',
-    guild_id: '',
-    ps_ratio: '',
-    hourly_rate: '',
-    hourly_rate_ulimit: '',
-    password: '',
-    merch_id: [],
+    created_time: record.created_time,
+    order_number: record.order_number,
+    banker_name: record.banker_name,
+    bank_name: record.bank_name,
+    bank_card_number: record.bank_card_number,
+    user_id: record.user_id,
+    amount: record.amount,
+    order_status: record.order_status,
+    payee: record.payee,
   })
 
   const fApi = ref(null)
-  const anchorRule = useAnchorRule(false, true, fApi)
+  const orderRule = useOrderRule(record, fApi)
   const formModalProps = reactive({
     request: data => anchorAddOrEditReq(null, data),
     getData(data) {
@@ -258,11 +210,11 @@ async function editItem() {
         avatar_url: getPathFromUrlArray(avatar_url),
       }
     },
-    rule: anchorRule,
+    rule: orderRule,
   })
 
   createDialog({
-    title: '添加主播',
+    title: '编辑人工存款',
     width: 500,
     component:
       <ModalForm
@@ -281,6 +233,6 @@ async function editItem() {
 }
 
 defineExpose({
-  editItem,
+  onEdit,
 })
 </script>

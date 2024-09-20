@@ -176,8 +176,8 @@ export default {
   },
   order_status: {
     1: '全部',
-    2: '全部',
-    3: '全部',
+    2: '成功',
+    3: '失败',
   },
   strategy_status: {
     1: '全部',

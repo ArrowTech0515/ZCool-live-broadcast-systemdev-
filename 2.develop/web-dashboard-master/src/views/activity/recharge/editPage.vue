@@ -153,8 +153,8 @@
                 v-for="(spinPair, rowIndex) in groupedCustomSpins" :key="rowIndex"
                 style="display: flex; justify-content: space-between; margin-bottom: 10px;">
 
-                <a-card class="spinCard" :bordered="true" style="background-color: rgb(242, 242, 242); 
-                      border-color: lightgrey; display: flex; align-items: center; width: 50%;">
+                <a-card class="spinCard" :bordered="true" style="
+                      border-color: grey; display: flex; align-items: center; width: 50%;">
 
                   <a-row style="flex: 1; display: flex; align-items: center;">
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
@@ -173,8 +173,8 @@
 
                 </a-card>
 
-                <a-card v-if="spinPair.length > 1" class="spinCard" :bordered="true" style="background-color: rgb(242, 242, 242); 
-                      border-color: lightgrey; display: flex; align-items: center; width: 50%;">
+                <a-card v-if="spinPair.length > 1" class="spinCard" :bordered="true" style="
+                      border-color: grey; display: flex; align-items: center; width: 50%;">
 
                   <a-row style="flex: 1; display: flex; align-items: center;">
                     <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">

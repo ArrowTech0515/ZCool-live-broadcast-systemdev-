@@ -3,7 +3,7 @@ import { type Api } from '@form-create/ant-design-vue'
 // import createUploadRule from '@/rules/createUploadRule'
 
 //const uploadRule = createUploadRule('主播头像', 'avatar_url')
- export default function (ps_ratio_disabled = false, requiredPassword = true, fApi: Ref<Api>) {
+ export default function (record:any, fApi: Ref<Api>) {
 
   let guildList = []
   getGuildListReq().then(res => {
@@ -12,105 +12,102 @@ import { type Api } from '@form-create/ant-design-vue'
   })
 
   return [
-    //uploadRule,
     {
       type: 'select',
-      field: 'guild_id',
-      title: '导出对象',
+      field: 'banker_name',
+      title: '银商名称',
+      props: {
+        placeholder: '请选择银商名称', // Add placeholder
+      },
+      effect: {
+        fetch: {
+          action: '/api/v1/source/banker_name',
+          to: 'options',
+          method: 'get',
+          parse: res => [
+            { value: 0, label: '所有来源' },
+            ...res.items.map(item => ({ value: item.source_id, label: item.source_name })),
+          ],
+        },
+      },
+    },
+    {
+      type: 'select',
+      field: 'bank_name',
+      title: '银行名称',
+      props: {
+        placeholder: '请选择银行名称', // Add placeholder
+      },
+      effect: {
+        fetch: {
+          action: '/api/v1/source/bank_name',
+          to: 'options',
+          method: 'get',
+          parse: res => [
+            { value: 0, label: '所有来源' },
+            ...res.items.map(item => ({ value: item.source_id, label: item.source_name })),
+          ],
+        },
+      },
+    },
+    {
+      type: 'select',
+      field: 'bank_card_number',
+      title: '银行卡号',
+      props: {
+        placeholder: '请选择银行卡号', // Add placeholder
+      },
+      effect: {
+        fetch: {
+          action: '/api/v1/source/bank_card_number',
+          to: 'options',
+          method: 'get',
+          parse: res => [
+            { value: 0, label: '所有来源' },
+            ...res.items.map(item => ({ value: item.source_id, label: item.source_name })),
+          ],
+        },
+      },
+    },
+    {
+      type: 'input',
+      field: 'user_id',
+      title: '用户ID',
       value: '',
-      options: [],
       props: {
-        placeholder: '所有商户',
+        placeholder: '请输入用户ID', // Add placeholder
       },
-      effect: {
-        loadData: {
-          attr: 'labelOptions',
-          to: 'options'
-        },
-      },
-      on: {
-        // change(val) {
-          // const ps_ratio = guildList.find(item => item.value === val)?.ps_ratio
-          // if (ps_ratio) {
-          //   nextTick(() => {
-          //     fApi.value.setValue({
-          //       ps_ratio,
-          //     })
-          //     fApi.value.mergeRules({
-          //       'ps_ratio': { props: { disabled: true } }
-          //     })
-          //   })
-          // } else {
-          //   nextTick(() => {
-          //     fApi.value.updateRule({
-          //       'ps_ratio': { props: { disabled: ps_ratio_disabled || false } }
-          //     })
-          //   })
-          // }
-        // }
+    },
+    {
+      type: 'input',
+      field: 'order_number',
+      title: '订单号',
+      value: '',
+      props: {
+        placeholder: '请输入订单号', // Add placeholder
       },
     },
     {
       type: 'select',
-      field: 'guild_id',
-      title: '导出应用',
-      value: '请选择导出类型',
-      options: [],
-      props: {
-        placeholder: '所有应用',
-      },
-      effect: {
-        loadData: {
-          attr: 'labelOptions',
-          to: 'options'
-        },
-      },
-      on: {
-        // change(val) {
-        //   const ps_ratio = guildList.find(item => item.value === val)?.ps_ratio
-        //   if (ps_ratio) {
-        //     nextTick(() => {
-        //       fApi.value.setValue({
-        //         ps_ratio,
-        //       })
-        //       fApi.value.mergeRules({
-        //         'ps_ratio': { props: { disabled: true } }
-        //       })
-        //     })
-        //   } else {
-        //     nextTick(() => {
-        //       fApi.value.updateRule({
-        //         'ps_ratio': { props: { disabled: ps_ratio_disabled || false } }
-        //       })
-        //     })
-        //   }
-        // }
-      },
-    },
-    {
-      type: 'radio',
-      field: 'export_time',
-      title: '导出时间',
+      field: 'order_status',
+      title: '订单状态',
       value: 1,
-      options: Object.keys(ENUM.export_time).map(key => ({ label: ENUM.export_time[key], value: parseInt(key) })),
-      effect: {
-        required: true
-      }
+      props: {
+        placeholder: '请选择订单状态', // Add placeholder
+      },
+      options: Object.keys(ENUM.order_status).map(key => ({ value: parseInt(key), label: ENUM.order_status[key] })),
     },
     {
       type: 'rangePicker',
-      field: 'join_time',
-      title: '',
+      field: 'created_time',
+      title: '时间',
       value: '',
+      className: 'form-time-picker',
       props: {
-        format: 'YYYY-MM-DD',
+        format: 'YYYY-MM-DD HH:mm:ss',
         valueFormat: 'X',
       },
-      wrap: {
-        class: 'range-picker-right' // Add this class to the wrapper
-      },
     },
-    //merchRelRule,
   ]
 }
 

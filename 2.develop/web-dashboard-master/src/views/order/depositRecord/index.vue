@@ -3,7 +3,6 @@
     <FormSearch
       ref="formSearchRef"
       v-model="searchParams"
-      @addItem="() => customTableRef.editItem()"
     />
     <CustomTable
       ref="customTableRef"
