@@ -23,7 +23,8 @@
     </a-tabs>
 </template>
   
-<script>
+<script setup lang="ts">
+
 import { Tabs } from 'ant-design-vue'
 
 import rechargePage from './recharge/index.vue';
@@ -33,8 +34,7 @@ import signinPage from './signin/index.vue'; // junn
 import giftGiving from './giftgiving/index.vue'; // junn
 import wheelPage from './wheel/main.vue'; // junn
 
-export default {
-components: {
+const components = {
     'a-tabs': Tabs,
     'a-tab-pane': Tabs.TabPane,
     rechargePage,
@@ -44,7 +44,7 @@ components: {
     giftGiving,
     wheelPage
 }
-}
+
 </script>
 
 <style scoped>

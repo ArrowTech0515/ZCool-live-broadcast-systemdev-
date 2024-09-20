@@ -68,18 +68,16 @@
               :show-upload-list="true"
             >
               <div class="upload-box">
-                <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="width: 200px; height: 100px;" />
+                <img v-if="bannerUrl" :src="bannerUrl" alt="avatar" style="width: 200px; height: 100px;" />
                 <div v-else>
                   <PlusCircleOutlined />
                   <div style="margin-top: 8px; font-size: 10px;">上传</div>
                 </div>
               </div>
             </a-upload>
-            
             <div style="color: darkgray; font-size: 10px; text-align: left;">
               用户端活动中心展示封面
             </div>
-
           </a-col>
         </div>
 
@@ -88,10 +86,7 @@
             活动名称
           </div>
           <div style="width: 75%;">
-            <a-input 
-              placeholder="请输入活动名称" 
-              style="text-align: center; width: 75%;"
-            />
+            <a-input placeholder="请输入活动名称" style="text-align: center; width: 75%;" />
             <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
               用户不可见，仅后台用户可见
             </div>
@@ -103,10 +98,7 @@
             活动类型
           </div>
           <div style="width: 75%;">
-            <a-input 
-              placeholder="请输入活动类型" 
-              style="text-align: center; width: 75%;"
-            />
+            <a-input placeholder="请输入活动类型" style="text-align: center; width: 75%;" />
           </div>
         </div>
 
@@ -114,7 +106,7 @@
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
             展示位置
           </div>
-          <div style="width: 75%; ">
+          <div style="width: 75%;">
             <a-space style="flex-grow: 1;">
               <a-checkbox value="All" @change="handleAllusers">首页右下角</a-checkbox>
               <a-checkbox value="Noble" @change="handleNobleusers">直播间右下角</a-checkbox>
@@ -128,18 +120,15 @@
             活动时间
           </div>
           <div style="width: 75%;">
-            <a-range-picker 
-              :placeholder="['开始日期', '结束日期']"
-              style="width: 75%; text-align: center;"
-            />
+            <a-range-picker :placeholder="['开始日期', '结束日期']" style="width: 75%; text-align: center;" />
           </div>
         </div>
-      
+
         <div style="display: flex; align-items: center; margin-bottom: 20px; width: 100%;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
             展示位置
           </div>
-          <div style="width: 75%; ">
+          <div style="width: 75%;">
             <a-space style="flex-grow: 1;">
               <a-checkbox value="leopard" @change="handleAllusers">豹子号</a-checkbox>
               <a-checkbox value="continuous" @change="handleNobleusers">连号</a-checkbox>
@@ -150,7 +139,7 @@
         </div>
 
         <div style="display: flex; align-items: center; justify-content: center; width: 100%; margin-bottom: 15px; white-space: nowrap;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px; margin-top: 10px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px; ">
             充值赠送
           </div>
           <div :flex="auto" style="width: 75%;">
@@ -164,7 +153,6 @@
           </div>
           <div style="width: 75%;">
             <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
-              <!-- Radio Group on the left -->
               <a-col :span="16">
                 <a-radio-group v-model="radioValue" style="text-align: left;">
                   <a-radio value="radio1">全部用户</a-radio>
@@ -173,7 +161,7 @@
                   <a-radio value="radio4">贵族用户</a-radio>
                   <a-radio value="radio5">自定义用户</a-radio>
                 </a-radio-group>
-                <a-button type="primary" ghost style=" padding: 0%; width: 100px; text-align: center;">+ 选择用户</a-button>
+                <a-button type="primary" ghost style="padding: 0; width: 100px; text-align: center;">+ 选择用户</a-button>
               </a-col>
             </a-row>
           </div>
@@ -202,124 +190,64 @@
   </a-card>
 </template>
 
-<script>
+<script setup lang="jsx">
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
-// const uploadRule = createUploadRule('主播头像', 'avatar_url')
 
-export default {
-  components: {
-    CustomSpin,
-  },
+const emit = defineEmits(['back'])  // Define the 'back' event
 
-  data() {
-    return {
-      parentValue: '0', // Example initial value
-      radioValue: 'radio1', // Initial value for the radio group
+const spin_value1 = ref(0);
+const radioValue = ref('radio1'); // Initial value for the radio group
+const imageUrl = ref(''); // URL for the uploaded icon
+const bannerUrl = ref(''); // URL for the uploaded banner
+const uploadUrl = import.meta.env.VITE_API_HOST + '/api/v1/upload/resource';
+const uploadHeaders = {
+  Authorization: 'Bearer ' + localStorage.getItem('token'),
+};
 
-      spin_value1: '0',
-      spin_value2: '0',
+const handleBack = () => {
+  emit('back'); // Emit the back event to the parent component
+};
 
-      imageUrl: '', // URL for the uploaded icon
-      bannerUrl: '', // URL for the uploaded banner
-      uploadUrl: import.meta.env.VITE_API_HOST + '/api/v1/upload/resource',
-      uploadHeaders: {
-        Authorization: 'Bearer ' + localStorage.getItem('token'),
-      },
-      customSpins: [
-        { value1: '', value2: '' } // Initial CustomSpin
-      ]
-    };
-  },
+const handleAllusers = () => {
+  // Handle All users selection
+};
 
-  computed: {
-    groupedCustomSpins() {
-      // Group the custom spins in pairs
-      return this.customSpins.reduce((result, value, index) => {
-        if (index % 2 === 0) {
-          result.push([value]);
-        } else {
-          result[result.length - 1].push(value);
-        }
-        return result;
-      }, []);
-    }
-  },
+const handleNobleusers = () => {
+  // Handle Noble users selection
+};
 
-  methods: {
-    addCustomSpin() {
-      this.customSpins.push({ value1: '', value2: '' });
-    },
-    removeCustomSpin(index) {
-      this.customSpins.splice(index, 1);
-    },
+const handleRechargeusers = () => {
+  // Handle Recharge users selection
+};
 
-    handleBack() {
-      // Handle the back action here
-      // For example, navigate to the previous page:
-      this.$emit('back'); // Emit the back event to the parent component
-    },
-    handleOperation(text) {
-      // Handle the operation related to "区块链汇率"
-      console.log(text);
-    },
-    handleAllusers() {
-      // Handle All users selection
-    },
-    handleNobleusers() {
-      // Handle Noble users selection
-    },
-    handleRechargeusers() {
-      // Handle Recharge users selection
-    },
-    handleCustomusers() {
-      // Handle Custom users selection
-    },
+const beforeUpload = (file) => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error({ content: 'You can only upload JPG/PNG file!', duration: 2 });
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error({ content: 'Image must smaller than 2MB!', duration: 2 });
+  }
+  return isJpgOrPng && isLt2M;
+};
 
-    beforeUpload(file) {
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJpgOrPng) {
-        //this.$message.error('You can only upload JPG/PNG file!');
-        message.error({
-          content: 'You can only upload JPG/PNG file!',
-          duration: 2, // Duration in seconds
-        });
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        //this.$message.error('Image must smaller than 2MB!');
-        message.error({
-          content: 'Image must smaller than 2MB!',
-          duration: 2, // Duration in seconds
-        });
-      }
-      return isJpgOrPng && isLt2M;
-    },
-    handleChange(info) {
-      if (info.file.status === 'done') {
-        this.imageUrl = URL.createObjectURL(info.file.originFileObj);
-      }
-    },
-    handleChangeBanner(info) {
-      if (info.file.status === 'done') {
-        this.bannerUrl = URL.createObjectURL(info.file.originFileObj);
-      }
-    },
-    handleSuccess(response, file) {
-      if (response?.status === 200) {
-        file.url = response.data.link;
-      } else {
-        //this.$message.error('上传失败');
-        message.error({
-          content: '上传失败。',
-          duration: 2, // Duration in seconds
-        });
-      }
-    },
-    uploadData() {
-      return { type: 1 };
-    },
+const handleChangeBanner = (info) => {
+  if (info.file.status === 'done') {
+    bannerUrl.value = URL.createObjectURL(info.file.originFileObj);
+  }
+};
 
-  },
+const handleSuccess = (response, file) => {
+  if (response?.status === 200) {
+    file.url = response.data.link;
+  } else {
+    message.error({ content: '上传失败。', duration: 2 });
+  }
+};
+
+const uploadData = () => {
+  return { type: 1 };
 };
 </script>
 
@@ -345,5 +273,4 @@ export default {
   align-items: center;
   cursor: pointer;
 }
-
 </style>

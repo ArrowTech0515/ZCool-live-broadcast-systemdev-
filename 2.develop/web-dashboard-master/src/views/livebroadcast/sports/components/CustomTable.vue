@@ -212,7 +212,7 @@ const columns = [
               下架</span>
         <span v-else
               style="text-decoration: underline;color: #1890ff; cursor: pointer;" 
-              onClick={() => onSaleStatus('', record)}>
+              onClick={() => onSaleStatus('上架', record)}>
               上架</span>
       </div>
     )

@@ -30,7 +30,7 @@
                 <a-col span="18">
                   <a-dropdown placement="bottomRight" :overlay="props.menu_in_card()">
                     <span
-                      style="font-size: 12px; cursor: pointer; color: #1890ff;"
+                      style="font-size: 12px; cursor: pointer; color: blue;"
                     >
                       25位主播
                     </span>
@@ -88,7 +88,7 @@
                     <a-dropdown placement="bottomRight" :overlay="props.menu_in_card()">
                       <a
                         href="javascript:void(0);"
-                        style="font-size: 12px; cursor: pointer; color: #1890ff;"
+                        style="font-size: 12px; cursor: pointer; color: blue;"
                       >
                         24位主播
                       </a>

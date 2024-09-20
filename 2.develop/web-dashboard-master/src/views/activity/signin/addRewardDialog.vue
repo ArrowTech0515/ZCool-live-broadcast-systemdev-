@@ -1,7 +1,7 @@
 <template>
   <a-modal
     title="添加奖励"
-    v-model:visible="isModalVisible"
+    :visible="isModalVisible"
     maskClosable="false"
     keyboard="false"
     :footer="null"
@@ -24,7 +24,7 @@
       </div>
     </a-form-item>
 
-    <!-- Conditionally render the CustomSpin component if '钻石奖励' is selected -->
+    <!-- Conditionally render the CustomSpin component if '余额奖励' is selected -->
     <a-form-item v-else-if="rewardType === 'balance'" label="奖励余额">
       <CustomSpin v-model:nValue="balanceCount" style="width: 100%;" />
       <div>
@@ -36,11 +36,7 @@
     <a-form-item v-else-if="rewardType === 'mount'">
       <a-table :dataSource="mountOptions" :pagination="false" bordered>
         <a-table-column title="选择坐骑" dataIndex="name" key="name" align="center" />
-        <a-table-column
-          title="状态"
-          key="status"  
-          align="center"
-        >
+        <a-table-column title="状态" key="status" align="center">
           <template #default="{ record }">
             <a-radio :checked="selectedMount === record.key" @change="onMountSelect(record.key)" />
           </template>
@@ -48,10 +44,9 @@
       </a-table>
     </a-form-item>
 
-    
-    <!-- Conditionally render the table if '坐骑奖励' is selected -->
+    <!-- Conditionally render the gift options if '礼物奖励' is selected -->
     <a-form-item v-else>
-      <a-input style="text-align: center; margin-bottom: 10px; " placeholder="请输入礼物名称搜索"></a-input>
+      <a-input style="text-align: center; margin-bottom: 10px;" placeholder="请输入礼物名称搜索"></a-input>
       <a-table :dataSource="giftOptions" :pagination="false" bordered>
         <a-table-column title="礼物名称" dataIndex="name" key="name" align="center" />
         <a-table-column title="礼物价值" dataIndex="value" key="value" align="center" />
@@ -61,7 +56,7 @@
           </template>
         </a-table-column>
       </a-table>
-      <span style=" color: gray;">已选择 {{ selectedGifts.length }} 个礼物</span>
+      <span style="color: gray;">已选择 {{ selectedGifts.length }} 个礼物</span>
     </a-form-item>
 
     <!-- Custom Footer -->
@@ -72,97 +67,69 @@
   </a-modal>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue';
+<script setup lang="jsx">
+import { ref, defineProps, defineEmits } from 'vue';
 import { Modal, Radio, Button, Table } from 'ant-design-vue';
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
 
-export default defineComponent({
-  components: {
-    'a-modal': Modal,
-    'a-radio-group': Radio.Group,
-    'a-radio': Radio,
-    'a-button': Button,
-    'a-table': Table,
-    'a-table-column': Table.Column,
-    CustomSpin,
-  },
-  props: {
-    isModalVisible: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
-  emits: ['update:isModalVisible'],
-
-  setup(props, { emit }) {
-    const updateVisible = (visible) => {
-      if (typeof visible === 'boolean') {
-        emit('update:isModalVisible', visible);
-      } else {
-        console.error('Invalid value for isModalVisible:', visible);
-      }
-    }
-    
-    const rewardType = ref('diamond');
-    const diamondCount = ref(0);
-    const balanceCount = ref(0);
-    const mountOptions = ref([
-      { name: '绚丽机车', key: '1' },
-      { name: '跑车', key: '2' },
-      { name: '飞机', key: '3' },
-      { name: '神兽麒麟', key: '4' },
-    ]);
-    const giftOptions = ref([
-      { name: '鲜花', value: 1, key: '1' },
-      { name: '灯牌', value: 1, key: '2' },
-      { name: '爱心', value: 1, key: '3' },
-      { name: '城堡', value: 10000, key: '4' },
-      { name: '蓝色妖姬', value: 666, key: '5' },
-    ]);
-
-    const selectedMount = ref(null);
-    const selectedGifts = ref([]);
-
-    const handleOk = () => {
-      console.log('OK Clicked', rewardType.value);
-      updateVisible(false);
-    };
-
-    const handleCancel = () => {
-      console.log('Cancel Clicked');
-      updateVisible(false);
-    };
-
-    const onMountSelect = (key) => {
-      selectedMount.value = key;
-    };
-
-    const onGiftSelect = (key) => {
-      if (selectedGifts.value.includes(key)) {
-        selectedGifts.value = selectedGifts.value.filter(k => k !== key);
-      } else {
-        selectedGifts.value.push(key);
-      }
-    };
-
-    return {
-      updateVisible,
-      rewardType,
-      diamondCount,
-      balanceCount,
-      mountOptions,
-      giftOptions,
-      selectedMount,
-      selectedGifts,
-      handleOk,
-      handleCancel,
-      onMountSelect,
-      onGiftSelect,
-    };
+const props = defineProps({
+  isModalVisible: {
+    type: Boolean,
+    default: false,
   },
 });
+
+const emit = defineEmits(['update:isModalVisible']);
+
+const updateVisible = (visible) => {
+  if (typeof visible === 'boolean') {
+    emit('update:isModalVisible', visible);
+  } else {
+    console.error('Invalid value for isModalVisible:', visible);
+  }
+};
+
+const rewardType = ref('diamond');
+const diamondCount = ref(0);
+const balanceCount = ref(0);
+const mountOptions = ref([
+  { name: '绚丽机车', key: '1' },
+  { name: '跑车', key: '2' },
+  { name: '飞机', key: '3' },
+  { name: '神兽麒麟', key: '4' },
+]);
+const giftOptions = ref([
+  { name: '鲜花', value: 1, key: '1' },
+  { name: '灯牌', value: 1, key: '2' },
+  { name: '爱心', value: 1, key: '3' },
+  { name: '城堡', value: 10000, key: '4' },
+  { name: '蓝色妖姬', value: 666, key: '5' },
+]);
+
+const selectedMount = ref(null);
+const selectedGifts = ref([]);
+
+const handleOk = () => {
+  console.log('OK Clicked', rewardType.value);
+  updateVisible(false);
+};
+
+const handleCancel = () => {
+  console.log('Cancel Clicked');
+  updateVisible(false);
+};
+
+const onMountSelect = (key) => {
+  selectedMount.value = key;
+};
+
+const onGiftSelect = (key) => {
+  if (selectedGifts.value.includes(key)) {
+    selectedGifts.value = selectedGifts.value.filter(k => k !== key);
+  } else {
+    selectedGifts.value.push(key);
+  }
+};
 </script>
 
 <style scoped>

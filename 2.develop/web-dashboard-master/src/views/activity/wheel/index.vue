@@ -86,10 +86,8 @@
   </a-card>
 </template>
 
-<script>
-export default {
-  name: "BonusCard",
-};
+<script setup>
+
 </script>
 
 <style scoped>

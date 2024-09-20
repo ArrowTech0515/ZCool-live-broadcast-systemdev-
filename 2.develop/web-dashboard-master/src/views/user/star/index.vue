@@ -76,23 +76,17 @@
       
       <div :span="2" class="report-container">
         <div class="flow-line" type="flex">
-
           <div class="circle">
             <CheckCircleFilled  style="color: rgb(0, 180, 42);"/>
           </div>
-
           <div class="dashed-line"></div>
-
           <div class="circle">
             <CheckCircleFilled  style="color: rgb(0, 180, 42);"/>
           </div>
-
           <div class="dashed-line"></div>
-
           <div >
             <CheckCircleFilled  style="color: rgb(0, 180, 42);"/>
           </div>
-
         </div>   
       </div>
 
@@ -280,7 +274,7 @@ function rowClassName(record, index) {
 }
 /* Table Header Styling */
 :deep(.ant-table-thead) > tr > th {
-  background-color:rgb(227,249,233); /* Light background for the header */
+ /* background-color:rgb(227,249,233);  Light background for the header */
   text-align: center;
   height: 11px; /* Set a smaller fixed height for rows */
   line-height: 11px; /* Set line height equal to row height for vertical centering */
@@ -365,7 +359,7 @@ function rowClassName(record, index) {
 
 .gauge-tick {
   position: absolute;
-  background-color: #000;
+  background-color: #1890ff;
   transform-origin: left center;
 }
 

@@ -1,13 +1,12 @@
 <template>
   <a-modal
     title="选择兑换选项"
-    v-model:visible="isModalVisible"
+    :visible="isModalVisible"
     maskClosable="false"
     keyboard="false"
     :footer="null"
     @update:visible="updateVisible"
   >
-    <!-- Conditionally render the table if '坐骑奖励' is selected -->
     <a-form-item style="margin: 5%;">
       <a-table :dataSource="giftOptions" :pagination="false" bordered>
         <a-table-column title="账户余额" dataIndex="accountBalance" key="accountBalance" align="center" />
@@ -18,10 +17,9 @@
           </template>
         </a-table-column>
       </a-table>
-      <span style=" color: gray;">已选择 {{ selectedGifts.length }} 个礼物</span>
+      <span style="color: gray;">已选择 {{ selectedGifts.length }} 个礼物</span>
     </a-form-item>
 
-    <!-- Custom Footer -->
     <div class="custom-footer">
       <a-button style="width: 120px; margin-right: 30px;" @click="handleCancel">取消</a-button>
       <a-button style="width: 120px;" type="primary" @click="handleOk">确定</a-button>
@@ -29,88 +27,53 @@
   </a-modal>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue';
-import { Modal, Radio, Button, Table } from 'ant-design-vue';
-import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
+<script setup lang="jsx">
+import { ref, defineProps, defineEmits } from 'vue';
 
-export default defineComponent({
-  components: {
-    'a-modal': Modal,
-    'a-button': Button,
-    'a-table': Table,
-    'a-table-column': Table.Column,
-  },
-  props: {
-    isModalVisible: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
-  emits: ['update:isModalVisible'],
-
-  setup(props, { emit }) {
-    const updateVisible = (visible) => {
-      if (typeof visible === 'boolean') {
-        emit('update:isModalVisible', visible);
-      } else {
-        console.error('Invalid value for isModalVisible:', visible);
-      }
-    }
-    
-    const rewardType = ref('diamond');
-    const diamondCount = ref(0);
-    const balanceCount = ref(0);
-
-    const giftOptions = ref([
-      { accountBalance: '10', redemption: 100, key: '1' },
-      { accountBalance: '20', redemption: 200, key: '2' },
-      { accountBalance: '30', redemption: 300, key: '3' },
-      { accountBalance: '40', redemption: 400, key: '4' },
-      { accountBalance: '50', redemption: 500, key: '5' },
-    ])
-
-    const selectedMount = ref(null);
-    const selectedGifts = ref([]);
-
-    const handleOk = () => {
-      console.log('OK Clicked', rewardType.value);
-      updateVisible(false);
-    };
-
-    const handleCancel = () => {
-      console.log('Cancel Clicked');
-      updateVisible(false);
-    };
-
-    const onMountSelect = (key) => {
-      selectedMount.value = key;
-    };
-
-    const onGiftSelect = (key) => {
-      if (selectedGifts.value.includes(key)) {
-        selectedGifts.value = selectedGifts.value.filter(k => k !== key)
-      } else {
-        selectedGifts.value.push(key);
-      }
-    };
-
-    return {
-      updateVisible,
-      rewardType,
-      diamondCount,
-      balanceCount,
-      giftOptions,
-      selectedMount,
-      selectedGifts,
-      handleOk,
-      handleCancel,
-      onMountSelect,
-      onGiftSelect,
-    };
+const props = defineProps({
+  isModalVisible: {
+    type: Boolean,
+    default: false,
   },
 });
+
+const emit = defineEmits(['update:isModalVisible']);
+
+const updateVisible = (visible) => {
+  if (typeof visible === 'boolean') {
+    emit('update:isModalVisible', visible);
+  } else {
+    console.error('Invalid value for isModalVisible:', visible);
+  }
+};
+
+const giftOptions = ref([
+  { accountBalance: '10', redemption: 100, key: '1' },
+  { accountBalance: '20', redemption: 200, key: '2' },
+  { accountBalance: '30', redemption: 300, key: '3' },
+  { accountBalance: '40', redemption: 400, key: '4' },
+  { accountBalance: '50', redemption: 500, key: '5' },
+]);
+
+const selectedGifts = ref([]);
+
+const handleOk = () => {
+  console.log('OK Clicked');
+  updateVisible(false);
+};
+
+const handleCancel = () => {
+  console.log('Cancel Clicked');
+  updateVisible(false);
+};
+
+const onGiftSelect = (key) => {
+  if (selectedGifts.value.includes(key)) {
+    selectedGifts.value = selectedGifts.value.filter(k => k !== key);
+  } else {
+    selectedGifts.value.push(key);
+  }
+};
 </script>
 
 <style scoped>
@@ -121,11 +84,6 @@ export default defineComponent({
 .ant-modal-title {
   font-weight: bold;
   color: #FFD700; /* Yellow color */
-}
-
-.ant-radio-group {
-  display: flex;
-  justify-content: space-around;
 }
 
 .custom-footer {
