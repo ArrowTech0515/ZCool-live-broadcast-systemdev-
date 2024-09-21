@@ -88,7 +88,7 @@ const dataSource = ref([
   {
     rebateModeId: '100104',
     modeName: '(一般)赔率差代理模式A',
-    mode: '（一般）赔率差代理模式',
+    agentMode: 2, //'（一般）赔率差代理模式',
     agentCount: 20,
     creationTime: '2024-01-23 12:12:12',
     createdBy: 'Admin',
@@ -98,7 +98,7 @@ const dataSource = ref([
   {
     rebateModeId: '100103',
     modeName: '平行代理模式A',
-    mode: '平行代理模式',
+    agentMode: 3, //'平行代理模式',
     agentCount: 10,
     creationTime: '2024-01-12 13:12:12',
     createdBy: 'Admin',
@@ -108,7 +108,7 @@ const dataSource = ref([
   {
     rebateModeId: '100102',
     modeName: '全民代理模式A',
-    mode: '全民代理模式',
+    agentMode: 4, //'全民代理模式',
     agentCount: 13321,
     creationTime: '2024-01-02 12:12:12',
     createdBy: 'Admin',
@@ -132,9 +132,13 @@ const columns = [
   },
   {
     title: '模式',
-    dataIndex: 'mode',
+    dataIndex: 'agentMode',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.mode}</div>,
+    customRender: ({ record }) => 
+    <div 
+      style={centeredStyle}>{record.agentMode === 2 ? '(一般)' : ''}
+      {ENUM.agent_rebate_mode[record.agentMode]}
+    </div>,
   },
   {
     title: '代理人数',
@@ -180,7 +184,7 @@ const columns = [
     customRender: ({ record }) => (
       <span 
         style="text-decoration: underline;color: green; cursor: pointer;" 
-        onClick={() => onAddorEdit(record)}>
+        onClick={() => onAddorEdit(record.agentMode, record)}>
         编辑
       </span>
     ),
@@ -201,47 +205,73 @@ const modalColumns = [
   },
 ]
 
-async function onAddorEdit(item = {}) {
+async function onAddorEdit(agent_mode = 2, item = {}) {
   const merch_id = item.agentId || null // 兼容 id 和 merch_id
   const isCreate = !merch_id
 
-  const formValue = ref({
-    agentAccount: item.agentAccount,
-    rebateSetting: item.rebateSetting,
-    yes_no: item.yes_no,
-    superiorAgent: 'john',//item.agentAccount,
-  })
-
   const fApi = ref(null)
-  const addagentRule = useAddAgentRule(fApi)
-  const formModalProps = {
-    request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
-    getData(data) {
-      return {
-        ...data,
-        // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
-        merch_id: isCreate ? data.merch_id : undefined,
-      }
-    },
-    // option: {
-    //   global: {
-    //     '*': {
-    //       wrap: {
-    //         labelCol: { span: 6 },
-    //       },
-    //     },
-    //   },
-    // },
-    rule: addagentRule,
-  }
+  const formModalProps = ref(null)
 
+  switch(agent_mode) {
+    case 2: //赔率差代理模式
+      formModalProps.value = {
+        request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
+        getData(data) {
+          return {
+            ...data,
+            // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
+            merch_id: isCreate ? data.merch_id : undefined,
+          }
+        },
+        // option: {
+        //   global: {
+        //     '*': {
+        //       wrap: {
+        //         labelCol: { span: 6 },
+        //       },
+        //     },
+        //   },
+        // },
+        rule: useAddAgentRule(item, fApi),
+      }
+      break
+    case 3: //平行代理模式
+      formModalProps.value = {
+        request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
+        getData(data) {
+          return {
+            ...data,
+            // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
+            merch_id: isCreate ? data.merch_id : undefined,
+          }
+        },
+        rule: useAddAgentRule(item, fApi),
+      }
+      break
+    case 4: //全民代理模式
+      formModalProps.value = {
+        request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
+        getData(data) {
+          return {
+            ...data,
+            // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
+            merch_id: isCreate ? data.merch_id : undefined,
+          }
+        },
+        rule: useAddAgentRule(item, fApi),
+      }
+      break
+    default:
+      return
+  }
+  
   createDialog({
     title: isCreate ? '新增' : '编辑',
     width: 600,
     component:
       <ModalForm
         v-fApi:value={fApi.value}
-        v-model={formValue.value}
+    //    v-model={formValue.value}
         {...formModalProps}
       />
     ,

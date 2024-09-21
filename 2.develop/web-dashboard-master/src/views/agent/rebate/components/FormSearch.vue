@@ -19,11 +19,18 @@
               @click="resetForm"
             ><ReloadOutlined/>重置</AButton>
             <div class="flex1 flex_end">
-              <AButton
-                class="ml20"
-                type="primary"
-                @click="emit('emit_add')"
-              >新增返点模式</AButton>
+              <a-dropdown>
+                <a-button type="primary">
+                  新增返点 <DownOutlined />
+                </a-button>
+                <template #overlay>
+                  <a-menu >
+                    <a-menu-item key="1" @click="emit('emit_add', 1)">{{ ENUM.agent_rebate_mode[2] }}</a-menu-item>
+                    <a-menu-item key="2" @click="emit('emit_add', 2)">{{ ENUM.agent_rebate_mode[3] }}</a-menu-item>
+                    <a-menu-item key="3" @click="emit('emit_add', 3)">{{ ENUM.agent_rebate_mode[4] }}</a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
             </div>
           </section>
         </template>
