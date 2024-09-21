@@ -26,74 +26,60 @@
   </div>
 
   <!-- Modal for showing login devices -->
-<a-modal
-  v-model:visible="isModalVisible1"
-  :title="null"
-  @cancel="handleCancel"
-  :footer="null"
->
-  <div style="margin-top: 30px;" v-if="isModalVisible1 === 1">
-    <div v-for="device in loginDevices" :key="device.device">
-      <div style="border: 1px solid #d9d9d9; padding: 8px; margin-bottom: 8px; border-radius: 4px;">
-        登录设备: {{ device.device }} | {{ device.time }}
-      </div>
-    </div>
-  </div>
-  <div style="margin-top: 30px;" v-else-if="isModalVisible1 === 2">
-    <div v-for="IP in loginIPs" :key="IP.IP">
-      <div style="border: 1px solid #d9d9d9; padding: 8px; margin-bottom: 8px; border-radius: 4px;">
-        登录IP: {{ IP.IP }} | {{ IP.time }}
-      </div>
-    </div>
-  </div>
-</a-modal>
+  <a-modal
+    v-model:visible="isModalVisible"
+    title="查看数据"
+    :width="500"
+    @cancel="handleCancel"
+    :footer="null"
+  >
+     <a-table
+      :dataSource="selectedRecord?.inviteDetails"
+      :columns="modalColumns"
+      rowKey="id"
+      :pagination="false"
+      style="margin-top: 10px;"
+    />
+  </a-modal>
 </template>
 
 <script setup lang="jsx">
-import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/anchor'
 import { message } from 'ant-design-vue'
 import useAddAgentRule from '../hooks/useAddAgentRule'
 
-const isModalVisible1 = ref(0) // 0:hide, 1:device, 2:IP
+const isModalVisible = ref(false)
+const selectedRecord = ref(null)
 
-const loginDevices = ref([]) // Stores the list of devices for the modal
-const loginIPs = ref([]) // Stores the list of devices for the modal
-
-const showLoginDevices = (devices) => {
-loginDevices.value = devices // Set the devices to be shown
-isModalVisible1.value = 1 // Open the modal
+const showHistoryofRebate = (record) => {
+  selectedRecord.value = record
+  isModalVisible.value = true
 }
 
 const handleCancel = () => {
-isModalVisible1.value = 0  // Close the modal
-}
-
-const showLoginIPs = (IPs) => {
-loginIPs.value = IPs // Set the devices to be shown
-isModalVisible1.value = 2 // Open the modal
+  isModalVisible.value = 0  // Close the modal 
 }
 
 const { createDialog } = useDialog()
 
 const pagination = reactive({
-page: 1,
-limit: 5,
-total: 100,
+  page: 1,
+  limit: 5,
+  total: 100,
 })
 
 const paginatedData = computed(() => {
-const start = (pagination.page - 1) * pagination.limit
-const end = start + pagination.limit
-return dataSource.value.slice(start, end)
+  const start = (pagination.page - 1) * pagination.limit
+  const end = start + pagination.limit
+  return dataSource.value.slice(start, end)
 })
 
 const handlePageChange = (page) =>  {
-pagination.page = page
+  pagination.page = page
 }
 
 const handleSizeChange = (current, size) => {
-pagination.limit = size
-pagination.page = 1 // Reset to the first page when page size changes
+  pagination.limit = size
+  pagination.page = 1 // Reset to the first page when page size changes
 }
 
 const centeredStyle = { textAlign: 'center' }
@@ -108,7 +94,13 @@ const dataSource = ref([
   subAgents: 2,
   invitationCode: 'tiktok999',
   rebateSetting: '一般代理模式A',
-  settlementStatus: '是',
+  inviteDetails: [
+      { id: '1', rebateSettings: '一般代理模式A', effectiveTime: '2023-03-01 12:12:12' },
+      { id: '2', rebateSettings: '全民代理模式', effectiveTime: '2022-12-12 12:21:21' },
+      { id: '3', rebateSettings: '一般代理模式A', effectiveTime: '2023-03-01 12:12:12' },
+      { id: '4', rebateSettings: '全民代理模式', effectiveTime: '2022-12-12 12:21:21' },
+    ],
+  yes_no: true,//'是',
 },
 {
   agentId: '100103',
@@ -119,7 +111,11 @@ const dataSource = ref([
   subAgents: 3,
   invitationCode: 'facebookjohn01',
   rebateSetting: '一般代理模式A',
-  settlementStatus: '否',
+  inviteDetails: [
+      { id: '1', rebateSettings: '一般代理模式A', effectiveTime: '2023-03-01 12:12:12' },
+      { id: '2', rebateSettings: '全民代理模式', effectiveTime: '2022-12-12 12:21:21' },
+    ],
+  yes_no: false,//'否',
 },
 {
   agentId: '100102',
@@ -130,7 +126,12 @@ const dataSource = ref([
   subAgents: 1,
   invitationCode: 'kevin001',
   rebateSetting: '一般代理模式B',
-  settlementStatus: '是',
+  inviteDetails: [
+      { id: '1', rebateSettings: '一般代理模式A', effectiveTime: '2023-03-01 12:12:12' },
+      { id: '2', rebateSettings: '全民代理模式', effectiveTime: '2022-12-12 12:21:21' },
+      { id: '3', rebateSettings: '一般代理模式A', effectiveTime: '2023-03-01 12:12:12' },
+    ],
+  yes_no: true,//'是',
 },
 {
   agentId: '100101',
@@ -141,7 +142,10 @@ const dataSource = ref([
   subAgents: 4,
   invitationCode: 'agnet002',
   rebateSetting: '平行代理模式',
-  settlementStatus: '是',
+  inviteDetails: [
+      { id: '1', rebateSettings: '一般代理模式A', effectiveTime: '2023-03-01 12:12:12' },
+    ],
+  yes_no: true,//'是',
 },
 {
   agentId: '100101',
@@ -152,9 +156,15 @@ const dataSource = ref([
   subAgents: 2,
   invitationCode: 'agnet001',
   rebateSetting: '全民代理模式',
-  settlementStatus: '是',
+  inviteDetails: [
+      { id: '1', rebateSettings: '一般代理模式A', effectiveTime: '2023-03-01 12:12:12' },
+      { id: '2', rebateSettings: '全民代理模式', effectiveTime: '2022-12-12 12:21:21' },
+      { id: '3', rebateSettings: '一般代理模式A', effectiveTime: '2023-03-01 12:12:12' },
+      { id: '4', rebateSettings: '全民代理模式', effectiveTime: '2022-12-12 12:21:21' },
+    ],
+  yes_no: false,//'是',
 },
-]);
+])
 
 const columns = [
 {
@@ -164,25 +174,25 @@ const columns = [
   customRender: ({ record }) => <div style={centeredStyle}>{record.agentId}</div>,
 },
 {
-  title: '代理帳號',
+  title: '代理帐号',
   dataIndex: 'agentAccount',
   align: 'center',
   customRender: ({ record }) => <div style={centeredStyle}>{record.agentAccount}</div>,
 },
 {
-  title: '代理級別',
+  title: '代理级别',
   dataIndex: 'agentLevel',
   align: 'center',
   customRender: ({ record }) => <div style={centeredStyle}>{record.agentLevel}</div>,
 },
 {
-  title: '開通時間',
+  title: '开通时间',
   dataIndex: 'registrationTime',
   align: 'center',
   customRender: ({ record }) => <div style={centeredStyle}>{record.registrationTime}</div>,
 },
 {
-  title: '下線會員數量',
+  title: '下线会员数量',
   dataIndex: 'members',
   align: 'center',
   customRender: ({ record }) => 
@@ -193,7 +203,7 @@ const columns = [
     </span>,
 },
 {
-  title: '下線代理數量',
+  title: '下线代理数量',
   dataIndex: 'subAgents',
   align: 'center',
   customRender: ({ record }) => 
@@ -204,30 +214,33 @@ const columns = [
     </span>,
 },
 {
-  title: '邀請碼',
+  title: '邀请码',
   dataIndex: 'invitationCode',
   align: 'center',
   customRender: ({ record }) => <div style={centeredStyle}>{record.invitationCode}</div>,
 },
 {
-  title: '返點設置',
+  title: '返点设置',
   dataIndex: 'rebateSetting',
   align: 'center',
   customRender: ({ record }) => 
-    <span 
-      style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;" 
-      onClick={() => onNumberofMembers(record.rebateSetting)}>
+  <div style={centeredStyle}>
+    <a
+      style="color: #1890ff; text-decoration: underline; cursor: pointer;"
+      onClick={() => showHistoryofRebate(record)}
+    >
       {record.rebateSetting}
-    </span>,
+    </a>
+  </div>,
 },
 {
-  title: '是否結算',
-  dataIndex: 'settlementStatus',
+  title: '是否结算',
+  dataIndex: 'yes_no',
   align: 'center',
   customRender: ({ record }) => 
     <div>
-      <div v-if="record.settlementStatus == '是'" style="color: #1890ff">{record.settlementStatus}</div>
-      <div v-else style="color: red">{record.settlementStatus}</div>
+      <div v-if="record.yes_no" style="color: #1890ff">是</div>
+      <div v-else style="color: red">否</div>
     </div>,
 },
 {
@@ -243,20 +256,34 @@ const columns = [
 },
 ]
 
-async function onAddorEdit(item = {}) {
-  const merch_id = item.id || null // 兼容 id 和 merch_id
 
+// Modal table columns for invite details
+const modalColumns = [
+  {
+    title: '返点设置',
+    dataIndex: 'rebateSettings',
+    align: 'center',
+  },
+  {
+    title: '生效时间',
+    dataIndex: 'effectiveTime',
+    align: 'center',
+  },
+]
+
+async function onAddorEdit(item = {}) {
+  const merch_id = item.agentId || null // 兼容 id 和 merch_id
   const isCreate = !merch_id
 
   const formValue = ref({
-    label: item.label,
-    param1: !isCreate ? item.function_config.param1 : false,
-    param2: !isCreate ? item.function_config.param2 : false,
-    param3: !isCreate ? item.function_config.param3 : false,
+    agentAccount: item.agentAccount,
+    rebateSetting: item.rebateSetting,
+    yes_no: item.yes_no,
+    superiorAgent: 'john',//item.agentAccount,
   })
 
   const fApi = ref(null)
-  const addagentRule = useAddAgentRule(false, false, fApi)
+  const addagentRule = useAddAgentRule(fApi)
   const formModalProps = {
     request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
     getData(data) {
@@ -280,7 +307,7 @@ async function onAddorEdit(item = {}) {
 
   createDialog({
     title: isCreate ? '新增' : '编辑',
-    width: 500,
+    width: 600,
     component:
       <ModalForm
         v-fApi:value={fApi.value}

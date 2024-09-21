@@ -64,7 +64,7 @@ const option = {
 const rule = ref([
   {
     type: 'input',
-    field: 'agent_id',
+    field: 'agentId',
     title: '代理ID',
     value: '',
     props: {
@@ -73,7 +73,7 @@ const rule = ref([
   },
   {
     type: 'input',
-    field: 'agent_account',
+    field: 'agentAccount',
     title: '代理帐号',
     value: '',
     props: {
@@ -82,7 +82,7 @@ const rule = ref([
   },
   {
     type: 'input',
-    field: 'agent_level',
+    field: 'agentLevel',
     title: '代理级别',
     value: '',
     props: {
@@ -91,7 +91,7 @@ const rule = ref([
   },
   {
     type: 'rangePicker',
-    field: 'open_time',
+    field: 'registrationTime',
     title: '开通时间',
     value: '',
     props: {
