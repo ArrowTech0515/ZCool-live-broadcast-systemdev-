@@ -1,22 +1,22 @@
 <template>
   <transition name="fade-slide" mode="out-in">
-    <div v-if="!showReportTypePage">
+    <div v-if="!showAddorEditRebatePage">
       <div class="page_container">
         <FormSearch
           ref="formSearchRef"
           v-model="searchParams"
-          @emit_add="() => onHandleReportType()"
+          @emit_add="() => onAddRebate()"
         />
         <CustomTable
           ref="customTableRef"
           :searchParams="searchParams"
-          @emit_edit="() => onHandleReportType()"
+          @emit_edit="() => onAddRebate()"
           :resetSearch="() => formSearchRef.resetForm()"
         />
       </div>
     </div>
-    <div v-else-if="showReportTypePage">
-      <handleReportTypePage
+    <div v-else-if="showAddorEditRebatePage">
+      <AddorEditRebate
         @emit_back="onBackToMainPage2"
         :mode="agent_mode"
         :item="agent_item"
@@ -29,26 +29,26 @@
 <script setup lang="jsx">
 import CustomTable from './components/CustomTable.vue'
 import FormSearch from './components/FormSearch.vue'
-import handleReportTypePage from './handleReportTypePage.vue'
+import AddorEditRebate from './AddorEditRebate.vue'
 
 const customTableRef = ref(null)
 const formSearchRef = ref(null)
 const searchParams = ref({})
 
-const showReportTypePage = ref(false) // New state to manage which view to show
+const showAddorEditRebatePage = ref(false) // New state to manage which view to show
 const agent_mode = ref(2) // New state to manage which view to show
 const agent_item = ref({}) // New state to manage which view to show
 
 const onBackToMainPage2 = () => {
-  showReportTypePage.value = false // Switch back to the main table view
+  showAddorEditRebatePage.value = false // Switch back to the main table view
 }
 
-const onHandleReportType = (mode = 2, item = {}) => {
-  console.log("onHandleReportType : " + mode)
-  console.log("onHandleReportType2 : " + item)
+const onAddRebate = (mode = 2, item = {}) => {
+  console.log("onAddRebate : " + mode)
+  console.log("onAddRebate2 : " + item)
   agent_mode.value = mode  // Use .value to update ref value
   agent_item.value = item  // Use .value to update ref value
-  showReportTypePage.value = true // Switch to the add strategy view
+  showAddorEditRebatePage.value = true // Switch to the add strategy view
 }
 
 </script>

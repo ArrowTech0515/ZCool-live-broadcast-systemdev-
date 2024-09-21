@@ -7,8 +7,8 @@
           <a-input v-model="name" placeholder="请输入名称" style="width: 300px; " />
         </a-form-item>
         
-        <span style="margin-left: 16px;">- 上级代理获得返点 = 下级有效总投注 ÷ (代理返点 – 下级返点) × 100%</span>
-        <span style="margin-left: 16px; margin-bottom: 16px;">- 代理返点 = 最低赔率 ÷ 1.8 × (1.8 + 0.02 ÷ 当前返点)</span>
+        <span style="margin-left: 16px; color: grey;">- 上级代理获得返点 = 下级有效总投注 ÷ (代理返点 – 下级返点) × 100%</span>
+        <span style="margin-left: 16px; margin-bottom: 16px; color: grey;">- 代理返点 = 最低赔率 ÷ 1.8 × (1.8 + 0.02 ÷ 当前返点)</span>
         
         <!-- Base Settings Section -->
         <a-col style="margin-bottom: 10px; display: flex; flex-direction: column;">
@@ -65,7 +65,7 @@
         <!-- Settlement Period Radio Buttons -->
         <a-form-item label="结算周期" :label-col="{ span: 6 }" style="margin-bottom: 10px;">
           <a-radio-group v-model:value="settlementPeriod">
-            <a-radio value="monthly" style="margin-right: 8px;">每月</a-radio>
+            <a-radio value="monthly" style="margin-right: 20px;">每月</a-radio>
             <a-radio value="weekly">每周</a-radio>
           </a-radio-group>
         </a-form-item>
