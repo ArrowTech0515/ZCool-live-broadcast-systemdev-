@@ -50,6 +50,7 @@
               <a-menu-item key="26">黑名单管理</a-menu-item>
               <a-menu-item key="27">举报管理</a-menu-item>
               <a-menu-item key="28">分佣管理</a-menu-item>
+              <a-menu-item key="29">代理管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -80,6 +81,7 @@
   import payManagement from '@/views/payment/channel/index.vue'
   import merchantManagement from '@/views/merchant/main.vue'
   import settingManagement from '@/views/setting/main.vue'
+  import giftManagement from '@/views/gift/list/index.vue'
 
   // new added
   import orderManagement from '@/views/order/main.vue'
@@ -96,6 +98,7 @@
   import accountRiskControlManagement from '@/views/accountrisk/main.vue'
   import reportManagement from '@/views/report/main.vue'
   import commisionManagement from '@/views/commision/index.vue'
+  import agentManagement from '@/views/agent/main.vue'
   
   export default {
     name: 'NavigationMenu',
@@ -109,7 +112,7 @@
       messageManagement,
       anchorManagement,
       merchantManagement,
-
+      giftManagement,
       payManagement,
       settingManagement,
       userManagement,
@@ -126,13 +129,17 @@
       blacklistManagement,
       accountRiskControlManagement,
       reportManagement,
-      commisionManagement
+      commisionManagement,
+      agentManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
+          case '29':
+            currentComponent.value = 'agentManagement'
+            break
           case '28':
             currentComponent.value = 'commisionManagement'
             break
@@ -181,6 +188,9 @@
           case '11':
             currentComponent.value = 'orderManagement'
             break
+          case '9':
+            currentComponent.value = 'giftManagement'
+            break
           case '7':
             currentComponent.value = 'livebroadcastManagement'
             break
@@ -201,7 +211,7 @@
         }
       }
   
-      const currentComponent = ref('commisionManagement') // Initial component
+      const currentComponent = ref('agentManagement') // Initial component
   
       return {
         collapse_flag,
