@@ -1,6 +1,6 @@
 <template>
   <transition name="fade-slide" mode="out-in">
-    <div v-if="!showAddorEditRebatePage">
+    <div v-if="!showAddorEdit_OddsPage && !showAddorEdit_ParallelPage">
       <div class="page_container">
         <FormSearch
           ref="formSearchRef"
@@ -15,9 +15,17 @@
         />
       </div>
     </div>
-    <div v-else-if="showAddorEditRebatePage">
-      <AddorEditRebate
+    <div v-else-if="showAddorEdit_OddsPage">
+      <AddorEdit_Odds
         @emit_back="onBackToMainPage2"
+        :mode="agent_mode"
+        :item="agent_item"
+        @confirm="handleConfirm"
+        @reject="handleReject" />
+    </div>
+    <div v-else-if="showAddorEdit_ParallelPage">
+      <AddorEdit_Parallel
+        @emit_back="onBackToMainPage3"
         :mode="agent_mode"
         :item="agent_item"
         @confirm="handleConfirm"
@@ -29,20 +37,26 @@
 <script setup lang="jsx">
 import CustomTable from './components/CustomTable.vue'
 import FormSearch from './components/FormSearch.vue'
-import AddorEditRebate from './AddorEditRebate.vue'
+import AddorEdit_Odds from './AddorEdit_Odds.vue'
+import AddorEdit_Parallel from './AddorEdit_Parallel.vue'
 
 const customTableRef = ref(null)
 const formSearchRef = ref(null)
 const searchParams = ref({})
 
-const showAddorEditRebatePage = ref(false) // New state to manage which view to show
+const showAddorEdit_OddsPage = ref(false) // New state to manage which view to show
+const showAddorEdit_ParallelPage = ref(false) // New state to manage which view to show
+
 const agent_mode = ref(2) // New state to manage which view to show
 const agent_item = ref({}) // New state to manage which view to show
 
 const onBackToMainPage2 = () => {
-  showAddorEditRebatePage.value = false // Switch back to the main table view
+  showAddorEdit_OddsPage.value = false // Switch back to the main table view
 }
 
+const onBackToMainPage3 = () => {
+  showAddorEdit_ParallelPage.value = false // Switch back to the main table view
+}
 const onAddRebate = (mode = 2, item = {}) => {
   agent_mode.value = mode  // Use .value to update ref value
   agent_item.value = item  // Use .value to update ref value
@@ -50,7 +64,19 @@ const onAddRebate = (mode = 2, item = {}) => {
   console.log("onAddRebate : " + agent_mode.value)
   console.log("onAddRebate2 : " + agent_item.value)
   
-  showAddorEditRebatePage.value = true // Switch to the add strategy view
+  switch(agent_mode.value) {
+    case 2:
+      showAddorEdit_OddsPage.value = true // Switch to the add strategy view
+      break
+    case 3:
+      showAddorEdit_ParallelPage.value = true // Switch to the add strategy view
+      break
+    case 4:
+      showAddorEdit_ParallelPage.value = true // Switch to the add strategy view
+      break
+    default:
+      break
+  }
 }
 
 </script>
