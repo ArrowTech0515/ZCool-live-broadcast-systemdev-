@@ -3,10 +3,10 @@
     <a-row>
       <a-col  style="display: flex; flex-direction: column; max-width: 900px; margin: 0 auto;">
         <!-- First line of text -->
-        <div style="margin-bottom: 20px; font-size: large; font-weight: bold; text-align: center;">{{modeDisplay}}</div>
-        
+        <div class="title">{{(!bCreate ? '编辑' : '新增') + modeDisplay}} </div>
+
         <a-form-item label="名称" :label-col="{ span: 4 }">
-          <a-input v-model="name" placeholder="请输入名称" style="width: 340px; " />
+          <a-input v-model:value= "modeName" placeholder="请输入名称" style="width: 80%;" />
         </a-form-item>
         
         <span style="margin-left: 16px; color: grey;">- 上级代理获得返点 = 下级有效总投注 ÷ (代理返点 – 下级返点) × 100%</span>
@@ -85,7 +85,8 @@
 </template>
 
 <script lang="jsx" setup>
-import { reactive, ref, computed, defineEmits } from 'vue'
+import useAddRebateLevelRule from './hooks/useAddRebateLevelRule'
+import useAddAgentTierRule from './hooks/useAddAgentTierRule'
 
 // Define the emit function
 const emit = defineEmits(['emit_back'])
@@ -101,10 +102,12 @@ const props = defineProps({
   },
 })
 
+const { createDialog } = useDialog()
+
 // Computed property to reactively display the mode value from ENUM
 const modeDisplay = computed(() => ENUM.agent_rebate_mode[props.mode])
-
-const name = ref('')
+const modeName = computed(() => props.item !== null ? props.item.modeName : '')
+const bCreate = computed(() => props.item === null)
 
 const baseSettings = reactive({
   lowestOdds: '',
@@ -118,16 +121,23 @@ const rebateData = reactive([
 ])
 
 const rebateColumns = [
-  { title: '返点等级', dataIndex: 'level', key: 'level' },
-  { title: '返点%', dataIndex: 'rebate', key: 'rebate' },
-  { title: '对应赔率', dataIndex: 'odds', key: 'odds' },
+  { title: '返点等级', dataIndex: 'level', key: 'level',
+  align: 'center',
+   },
+  { title: '返点%', dataIndex: 'rebate', key: 'rebate',
+  align: 'center',
+   },
+  { title: '对应赔率', dataIndex: 'odds', key: 'odds',
+  align: 'center',
+   },
   {
     title: '操作',
     dataIndex: 'action',
     key: 'action',
+    align: 'center',
     customRender: ({ index }) => {
       return (
-        <a onClick={() => removeRebateLevel(index)} style="color: red; cursor: pointer;">
+        <a onClick={() => removeRebateLevel(index)} style="text-decoration: underline; color: red; cursor: pointer;">
           删除
         </a>
       )
@@ -135,8 +145,48 @@ const rebateColumns = [
   }
 ]
 
-const addRebateLevel = () => {
-  rebateData.push({ id: rebateData.length + 1, level: rebateData.length + 1, rebate: '', odds: '' })
+async function addRebateLevel() {
+  //rebateData.push({ id: rebateData.length + 1, level: rebateData.length + 1, rebate: '', odds: '' })
+
+  const fApi = ref(null)
+  const formValue = ref({ // Initialize formValue with rowData if editing
+    level: '',
+    rebate: '',
+    odds: '',
+  })
+
+  const formModalProps = {
+    // request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
+    // getData(data) {
+    //   return {
+    //     ...data,
+    //     // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
+    //     merch_id: isCreate ? data.merch_id : undefined,
+    //   }
+    // },
+    rule: useAddRebateLevelRule(fApi),
+  }
+      
+  createDialog({
+    title: '新增等级',
+    width: 500,
+    component:
+      <ModalForm
+        v-fApi:value={fApi.value}
+        v-model={formValue.value}
+        {...formModalProps}
+      />
+    ,
+    onConfirm() {
+      // if (isCreate) {
+      //   pagination.page = 1
+      //   pagination.total = 0
+      //   props.resetSearch()
+      // } else {
+      //   refresh()
+      // }
+    },
+  })
 }
 
 const removeRebateLevel = (index) => {
@@ -152,16 +202,23 @@ const tierData = reactive([
 ])
 
 const tierColumns = [
-  { title: '层级', dataIndex: 'level', key: 'level' },
-  { title: '层级名称', dataIndex: 'name', key: 'name' },
-  { title: '默认返点%', dataIndex: 'rebate', key: 'rebate' },
+  { title: '层级', dataIndex: 'level', key: 'level',
+  align: 'center',
+   },
+  { title: '层级名称', dataIndex: 'name', key: 'name',
+  align: 'center',
+   },
+  { title: '默认返点%', dataIndex: 'rebate', key: 'rebate',
+  align: 'center',
+   },
   {
     title: '操作',
     dataIndex: 'action',
     key: 'action',
+    align: 'center',
     customRender: ({ index }) => {
       return (
-        <a onClick={() => removeTierLevel(index)} style="color: red; cursor: pointer;">
+        <a onClick={() => removeTierLevel(index)} style="text-decoration: underline; color: red; cursor: pointer;">
           删除
         </a>
       )
@@ -169,9 +226,50 @@ const tierColumns = [
   }
 ]
 
-const addAgentTier = () => {
-  tierData.push({ id: tierData.length + 1, level: tierData.length + 1, name: '', rebate: '' })
+async function addAgentTier() {
+//  tierData.push({ id: tierData.length + 1, level: tierData.length + 1, name: '', rebate: '' })
+
+  const fApi = ref(null)
+  const formValue = ref({ // Initialize formValue with rowData if editing
+    level: '',
+    name: '',
+    rebate: '',
+  })
+
+  const formModalProps = {
+    // request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
+    // getData(data) {
+    //   return {
+    //     ...data,
+    //     // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
+    //     merch_id: isCreate ? data.merch_id : undefined,
+    //   }
+    // },
+    rule: useAddAgentTierRule(fApi),
+  }
+      
+  createDialog({
+    title: '新增等级',
+    width: 500,
+    component:
+      <ModalForm
+        v-fApi:value={fApi.value}
+        v-model={formValue.value}
+        {...formModalProps}
+      />
+    ,
+    onConfirm() {
+      // if (isCreate) {
+      //   pagination.page = 1
+      //   pagination.total = 0
+      //   props.resetSearch()
+      // } else {
+      //   refresh()
+      // }
+    },
+  })
 }
+
 
 const removeTierLevel = (index) => {
   tierData.splice(index, 1)
@@ -206,5 +304,12 @@ a-card {
 }
 .ant-form-item-label > label {
   font-weight: bold;
+}
+
+.title {
+  margin-bottom: 20px;
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
 }
 </style>

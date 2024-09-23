@@ -1,7 +1,7 @@
 <template>
   <a-modal
     title="添加奖励"
-    v-model:visible="isModalVisible"
+    v-model:open="isModalVisible"
     maskClosable="false"
     keyboard="false"
     :footer="null"

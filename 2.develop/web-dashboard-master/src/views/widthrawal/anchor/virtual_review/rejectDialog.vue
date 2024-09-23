@@ -1,7 +1,7 @@
 <template>
   <a-modal
     title="拒绝提现"
-    v-model:visible="isModalVisible"
+    v-model:open="isModalVisible"
     maskClosable="false"
     keyboard="false"
     :footer="null"

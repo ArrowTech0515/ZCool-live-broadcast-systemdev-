@@ -3,10 +3,10 @@
     <a-row>
       <a-col class="column-center">
         <!-- Display Mode -->
-        <div class="title">{{ modeDisplay }}</div>
+        <div class="title">{{(!bCreate ? '编辑' : '新增') + modeDisplay}} </div>
 
         <a-form-item label="名称" :label-col="{ span: 4 }">
-          <a-input v-model="name" placeholder="请输入名称" style="width: 80%;" />
+          <a-input v-model:value= "modeName" placeholder="请输入名称" style="width: 80%;" />
         </a-form-item>
 
         <div class="description-text">
@@ -44,7 +44,7 @@
 </template>
 
 <script lang="jsx" setup>
-import { reactive, ref, computed, defineEmits, defineProps } from 'vue';
+import { reactive, ref, computed, defineEmits, defineProps } from 'vue'
 
 // Define the emit function
 const emit = defineEmits(['emit_back']);
@@ -57,12 +57,12 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-});
+})
 
 // Computed property to reactively display the mode value from ENUM
-const modeDisplay = computed(() => ENUM.agent_rebate_mode[props.mode]);
-
-const name = ref('');
+const modeDisplay = computed(() => ENUM.agent_rebate_mode[props.mode])
+const modeName = computed(() => props.item !== null ? props.item.modeName : '')
+const bCreate = computed(() => props.item === null)
 
 // Rebate Level Data aligned with the image structure
 const rebateData = reactive([
@@ -71,37 +71,53 @@ const rebateData = reactive([
   { id: 3, plan: 'C', lottery: '', sports: '', electronic: '', chess: '', fishing: '', vision: '', save: '' },
   { id: 4, plan: 'D', lottery: '', sports: '', electronic: '', chess: '', fishing: '', vision: '', save: '' },
   { id: 5, plan: 'E', lottery: '', sports: '', electronic: '', chess: '', fishing: '', vision: '', save: '' },
-]);
+])
 
 const rebateColumns = [
-  { title: '返点方案', dataIndex: 'plan', key: 'plan' },
-  { title: '彩票', dataIndex: 'lottery', key: 'lottery', editable: true },
-  { title: '体育', dataIndex: 'sports', key: 'sports', editable: true },
-  { title: '电子', dataIndex: 'electronic', key: 'electronic', editable: true },
-  { title: '棋牌', dataIndex: 'chess', key: 'chess', editable: true },
-  { title: '捕鱼', dataIndex: 'fishing', key: 'fishing', editable: true },
-  { title: '视讯', dataIndex: 'vision', key: 'vision', editable: true },
-  { title: '存款', dataIndex: 'save', key: 'save', editable: true },
-];
+  { title: '返点方案', dataIndex: 'plan', key: 'plan',
+  align: 'center',
+   },
+  { title: '彩票', dataIndex: 'lottery', key: 'lottery', editable: true,
+  align: 'center',
+   },
+  { title: '体育', dataIndex: 'sports', key: 'sports', editable: true,
+  align: 'center',
+   },
+  { title: '电子', dataIndex: 'electronic', key: 'electronic', editable: true,
+  align: 'center',
+   },
+  { title: '棋牌', dataIndex: 'chess', key: 'chess', editable: true,
+  align: 'center',
+   },
+  { title: '捕鱼', dataIndex: 'fishing', key: 'fishing', editable: true,
+  align: 'center',
+   },
+  { title: '视讯', dataIndex: 'vision', key: 'vision', editable: true,
+  align: 'center',
+   },
+  { title: '存款', dataIndex: 'save', key: 'save', editable: true,
+  align: 'center',
+   },
+]
 
 // Select options for '关系层数' from 1 to 10
-const relationOptions = Array.from({ length: 5 }, (_, index) => index + 1);
-const selectedRelationLevel = ref(5); // Default selected value
+const relationOptions = Array.from({ length: 5 }, (_, index) => index + 1)
+const selectedRelationLevel = ref(5) // Default selected value
 
 // Emit the 'emit_back' event on confirmation
 const onConfirm = () => {
-  emit('emit_back');
-};
+  emit('emit_back')
+}
 
 // Emit function for the cancel button
 const emitBack = () => {
-  emit('emit_back');
-};
+  emit('emit_back')
+}
 </script>
 
 <style scoped>
 .container-card {
-  max-width: 900px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   display: flex;

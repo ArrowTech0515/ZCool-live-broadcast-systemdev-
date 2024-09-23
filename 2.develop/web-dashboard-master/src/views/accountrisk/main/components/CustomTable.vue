@@ -27,7 +27,7 @@
 
     <!-- Modal for showing login devices -->
   <a-modal
-    v-model:visible="isModalVisible1"
+    v-model:open="isModalVisible1"
     :title="null"
     @cancel="handleCancel"
     :footer="null"

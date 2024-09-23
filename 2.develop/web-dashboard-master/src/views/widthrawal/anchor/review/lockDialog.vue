@@ -1,7 +1,7 @@
 <template>
   <a-modal
     title="锁定提示"
-    v-model:visible="isModalVisible"
+    v-model:open="isModalVisible"
     maskClosable="false"
     keyboard="false"
     :footer="null"

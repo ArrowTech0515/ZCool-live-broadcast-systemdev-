@@ -1,7 +1,7 @@
 <template>
   <a-modal
     title="导出CSV"
-    v-model:visible="isModalVisible"
+    v-model:open="isModalVisible"
     maskClosable="false"
     keyboard="false"
     :footer="null"

@@ -23,7 +23,7 @@
   </div>
 
   <a-modal
-    v-model:visible="isModalVisible"
+    v-model:open="isModalVisible"
     title="查看数据"
     :width="700"
     @cancel="handleCancel"

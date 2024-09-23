@@ -27,7 +27,7 @@
 
   <!-- Modal for showing login devices -->
   <a-modal
-    v-model:visible="isModalVisible"
+    v-model:open="isModalVisible"
     title="查看数据"
     :width="500"
     @cancel="handleCancel"

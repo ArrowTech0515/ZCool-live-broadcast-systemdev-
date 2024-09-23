@@ -27,7 +27,7 @@
 
   <!-- Modal for showing login devices -->
   <a-modal
-    v-model:visible="isModalVisible"
+    v-model:open="isModalVisible"
     title="查看数据"
     :width="500"
     @cancel="handleCancel"
@@ -44,8 +44,6 @@
 </template>
 
 <script setup lang="jsx">
-import { message } from 'ant-design-vue'
-import useAddAgentRule from '../hooks/useAddAgentRule'
 
 const emit = defineEmits(['emit_edit'])
 
@@ -61,7 +59,6 @@ const handleCancel = () => {
   isModalVisible.value = 0  // Close the modal 
 }
 
-const { createDialog } = useDialog()
 
 const pagination = reactive({
   page: 1,
@@ -207,91 +204,6 @@ const modalColumns = [
   },
 ]
 
-// async function onAddorEdit(agent_mode = 2, item = {}) {
-//   const merch_id = item.agentId || null // 兼容 id 和 merch_id
-//   const isCreate = !merch_id
-
-//   const fApi = ref(null)
-//   const formModalProps = ref(null)
-
-//   switch(agent_mode) {
-//     case 2: //赔率差代理模式
-//       formModalProps.value = {
-//         request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
-//         getData(data) {
-//           return {
-//             ...data,
-//             // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
-//             merch_id: isCreate ? data.merch_id : undefined,
-//           }
-//         },
-//         // option: {
-//         //   global: {
-//         //     '*': {
-//         //       wrap: {
-//         //         labelCol: { span: 6 },
-//         //       },
-//         //     },
-//         //   },
-//         // },
-//         rule: useAddAgentRule(item, fApi),
-//       }
-//       break
-//     case 3: //平行代理模式
-//       formModalProps.value = {
-//         request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
-//         getData(data) {
-//           return {
-//             ...data,
-//             // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
-//             merch_id: isCreate ? data.merch_id : undefined,
-//           }
-//         },
-//         rule: useAddAgentRule(item, fApi),
-//       }
-//       break
-//     case 4: //全民代理模式
-//       formModalProps.value = {
-//         request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
-//         getData(data) {
-//           return {
-//             ...data,
-//             // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
-//             merch_id: isCreate ? data.merch_id : undefined,
-//           }
-//         },
-//         rule: useAddAgentRule(item, fApi),
-//       }
-//       break
-//     default:
-//       return
-//   }
-  
-//   createDialog({
-//     title: isCreate ? '新增返点模式' : '编辑返点模式',
-//     width: 600,
-//     component:
-//       <ModalForm
-//         v-fApi:value={fApi.value}
-//     //    v-model={formValue.value}
-//         {...formModalProps}
-//       />
-//     ,
-//     onConfirm() {
-//       if (isCreate) {
-//         pagination.page = 1
-//         pagination.total = 0
-//         props.resetSearch()
-//       } else {
-//         refresh()
-//       }
-//     },
-//   })
-// }
-
-// defineExpose({
-//   onAddorEdit,
-// })
 </script>
 
 <style scoped>
