@@ -186,7 +186,7 @@ const columns = [
     customRender: ({ record }) => (
       <span 
         style="text-decoration: underline;color: green; cursor: pointer;" 
-        onClick={() => emit('emit_edit', 'record.agentMode', 'record')}>
+        onClick={() => emit('emit_edit', record.agentMode, record)}>
         编辑
       </span>
     ),

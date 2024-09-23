@@ -25,9 +25,9 @@
                 </a-button>
                 <template #overlay>
                   <a-menu >
-                    <a-menu-item key="1" @click="emit('emit_add', 2)">{{ ENUM.agent_rebate_mode[2] }}</a-menu-item>
-                    <a-menu-item key="2" @click="emit('emit_add', 3)">{{ ENUM.agent_rebate_mode[3] }}</a-menu-item>
-                    <a-menu-item key="3" @click="emit('emit_add', 4)">{{ ENUM.agent_rebate_mode[4] }}</a-menu-item>
+                    <a-menu-item key="1" @click="emit('emit_add', 2, null)">{{ ENUM.agent_rebate_mode[2] }}</a-menu-item>
+                    <a-menu-item key="2" @click="emit('emit_add', 3, null)">{{ ENUM.agent_rebate_mode[3] }}</a-menu-item>
+                    <a-menu-item key="3" @click="emit('emit_add', 4, null)">{{ ENUM.agent_rebate_mode[4] }}</a-menu-item>
                   </a-menu>
                 </template>
               </a-dropdown>

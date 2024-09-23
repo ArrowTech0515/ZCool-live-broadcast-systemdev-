@@ -5,12 +5,12 @@
         <FormSearch
           ref="formSearchRef"
           v-model="searchParams"
-          @emit_add="() => onAddRebate()"
+          @emit_add="onAddRebate"
         />
         <CustomTable
           ref="customTableRef"
           :searchParams="searchParams"
-          @emit_edit="() => onAddRebate()"
+          @emit_edit="onAddRebate"
           :resetSearch="() => formSearchRef.resetForm()"
         />
       </div>
@@ -44,10 +44,12 @@ const onBackToMainPage2 = () => {
 }
 
 const onAddRebate = (mode = 2, item = {}) => {
-  console.log("onAddRebate : " + mode)
-  console.log("onAddRebate2 : " + item)
   agent_mode.value = mode  // Use .value to update ref value
   agent_item.value = item  // Use .value to update ref value
+
+  console.log("onAddRebate : " + agent_mode.value)
+  console.log("onAddRebate2 : " + agent_item.value)
+  
   showAddorEditRebatePage.value = true // Switch to the add strategy view
 }
 

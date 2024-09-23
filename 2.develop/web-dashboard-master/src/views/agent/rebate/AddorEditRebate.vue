@@ -1,10 +1,12 @@
 <template>
   <a-card style="min-height: 700px; padding: 20px; display: flex; justify-content: center; align-items: center;">
     <a-row>
-      <a-col  style="display: flex; flex-direction: column; max-width: 800px; margin: 0 auto;">
+      <a-col  style="display: flex; flex-direction: column; max-width: 900px; margin: 0 auto;">
         <!-- First line of text -->
+        <div style="margin-bottom: 20px; font-size: large; font-weight: bold; text-align: center;">{{modeDisplay}}</div>
+        
         <a-form-item label="名称" :label-col="{ span: 4 }">
-          <a-input v-model="name" placeholder="请输入名称" style="width: 300px; " />
+          <a-input v-model="name" placeholder="请输入名称" style="width: 340px; " />
         </a-form-item>
         
         <span style="margin-left: 16px; color: grey;">- 上级代理获得返点 = 下级有效总投注 ÷ (代理返点 – 下级返点) × 100%</span>
@@ -25,50 +27,52 @@
         </a-col>
         
         <!-- First Table: Rebate Level Settings -->
-        <div style="margin-bottom: 10px;">
-          <h3 style="margin-bottom: 16px; font-size: 16px; font-weight: bold;">返点等级设置</h3>
+        <div style="margin-bottom: 24px;">
+          <h3 style="margin-bottom: 10px; font-size: 16px; font-weight: bold;">返点等级设置</h3>
           <a-table
             :columns="rebateColumns"
             :dataSource="rebateData"
             rowKey="id"
             :pagination="false"
             bordered
-            style="margin-bottom: 10px;"
+            style="margin-bottom: 8px; margin-left: 16px;"
           />
-          <a-button type="primary" @click="addRebateLevel">新增等级</a-button>
+          <a-button type="primary" style="margin-left: 32px;" @click="addRebateLevel">新增等级</a-button>
         </div>
 
         <!-- Second line of text -->
-        <a-form-item label="适用游戏类型" :label-col="{ span: 6 }" style="margin-bottom: 10px;">
+        <a-row style="margin-bottom: 24px;">
+          <h3 style="margin-right: 16px; font-size: 16px; font-weight: bold;">适用游戏类型</h3>
           <div>
             <a-checkbox v-model:checked="gameTypes.lottery" style="margin-right: 8px;">彩票(默认)</a-checkbox>
             <a-checkbox v-model:checked="gameTypes.sports" style="margin-right: 8px;">体育</a-checkbox>
             <a-checkbox v-model:checked="gameTypes.live" style="margin-right: 8px;">真人</a-checkbox>
             <a-checkbox v-model:checked="gameTypes.electronic">电子游戏</a-checkbox>
           </div>
-        </a-form-item>
+        </a-row>
         
         <!-- Second Table: Agent Tier Settings -->
-        <div style="margin-bottom: 10px;">
-          <h3 style="margin-bottom: 16px; font-size: 16px; font-weight: bold;">代理层级设置</h3>
+        <div style="margin-bottom: 24px;">
+          <h3 style="margin-bottom: 10px; font-size: 16px; font-weight: bold;">代理层级设置</h3>
           <a-table
             :columns="tierColumns"
             :dataSource="tierData"
             rowKey="id"
             :pagination="false"
             bordered
-            style="margin-bottom: 16px;"
+            style="margin-bottom: 8px; margin-left: 16px;"
           />
-          <a-button type="primary" @click="addAgentTier">新增层级</a-button>
+          <a-button type="primary" style="margin-left: 32px;" @click="addAgentTier">新增层级</a-button>
         </div>
 
         <!-- Settlement Period Radio Buttons -->
-        <a-form-item label="结算周期" :label-col="{ span: 6 }" style="margin-bottom: 10px;">
+        <a-row style="margin-bottom: 10px;">
+          <h3 style="margin-right: 16px; font-size: 16px; font-weight: bold;">结算周期</h3>
           <a-radio-group v-model:value="settlementPeriod">
             <a-radio value="monthly" style="margin-right: 20px;">每月</a-radio>
             <a-radio value="weekly">每周</a-radio>
           </a-radio-group>
-        </a-form-item>
+        </a-row>
 
         <!-- Save Buttons -->
         <div style="text-align: center; margin-top: 20px;">
@@ -81,23 +85,37 @@
 </template>
 
 <script lang="jsx" setup>
-import { reactive, ref, defineEmits } from 'vue';
+import { reactive, ref, computed, defineEmits } from 'vue'
 
 // Define the emit function
-const emit = defineEmits(['emit_back']);
+const emit = defineEmits(['emit_back'])
 
-const name = ref('');
+const props = defineProps({
+  mode: {
+    type: Number,
+    default: 2,
+  },
+  item: {
+    type: Object,
+    default: () => ({}),
+  },
+})
+
+// Computed property to reactively display the mode value from ENUM
+const modeDisplay = computed(() => ENUM.agent_rebate_mode[props.mode])
+
+const name = ref('')
 
 const baseSettings = reactive({
   lowestOdds: '',
   standardOdds: '',
   rebateInfluence: ''
-});
+})
 
 // Rebate Level Data
 const rebateData = reactive([
   { id: 1, level: 1, rebate: 3, odds: 1.2 }
-]);
+])
 
 const rebateColumns = [
   { title: '返点等级', dataIndex: 'level', key: 'level' },
@@ -112,24 +130,26 @@ const rebateColumns = [
         <a onClick={() => removeRebateLevel(index)} style="color: red; cursor: pointer;">
           删除
         </a>
-      );
+      )
     }
   }
-];
+]
 
 const addRebateLevel = () => {
-  rebateData.push({ id: rebateData.length + 1, level: rebateData.length + 1, rebate: '', odds: '' });
-};
+  rebateData.push({ id: rebateData.length + 1, level: rebateData.length + 1, rebate: '', odds: '' })
+}
 
 const removeRebateLevel = (index) => {
-  rebateData.splice(index, 1);
-};
+
+  // We have to add API function
+  rebateData.splice(index, 1)
+}
 
 // Agent Tier Data
 const tierData = reactive([
   { id: 1, level: 1, name: '第一层代理', rebate: 0.1 },
   { id: 2, level: 2, name: '第二层代理', rebate: 0.05 }
-]);
+])
 
 const tierColumns = [
   { title: '层级', dataIndex: 'level', key: 'level' },
@@ -144,18 +164,18 @@ const tierColumns = [
         <a onClick={() => removeTierLevel(index)} style="color: red; cursor: pointer;">
           删除
         </a>
-      );
+      )
     }
   }
-];
+]
 
 const addAgentTier = () => {
-  tierData.push({ id: tierData.length + 1, level: tierData.length + 1, name: '', rebate: '' });
-};
+  tierData.push({ id: tierData.length + 1, level: tierData.length + 1, name: '', rebate: '' })
+}
 
 const removeTierLevel = (index) => {
-  tierData.splice(index, 1);
-};
+  tierData.splice(index, 1)
+}
 
 // Game Types Checkboxes
 const gameTypes = reactive({
@@ -163,25 +183,28 @@ const gameTypes = reactive({
   sports: false,
   live: false,
   electronic: false,
-});
+})
 
 // Settlement Period Radios
-const settlementPeriod = ref('monthly');
+const settlementPeriod = ref('monthly')
 
 // Emit the 'emit_back' event on confirmation
 const onConfirm = () => {
-  emit('emit_back');
-};
+  emit('emit_back')
+}
 
 // Emit function for the cancel button
 const emitBack = () => {
-  emit('emit_back');
-};
+  emit('emit_back')
+}
 </script>
 
 <style scoped>
 a-card {
   max-width: 800px;
   margin: 0 auto;
+}
+.ant-form-item-label > label {
+  font-weight: bold;
 }
 </style>
