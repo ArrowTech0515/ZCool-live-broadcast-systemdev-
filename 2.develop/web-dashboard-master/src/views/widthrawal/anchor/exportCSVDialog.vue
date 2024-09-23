@@ -6,7 +6,7 @@
     keyboard="false"
     :footer="null"
     style="align-items: center"
-    @update:visible="updateVisible"
+    @update:open="updateVisible"
   >
     <a-form-item label="导出对象">
       <a-row>

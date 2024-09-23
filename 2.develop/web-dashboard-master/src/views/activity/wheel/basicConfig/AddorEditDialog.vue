@@ -1,11 +1,11 @@
 <template>
   <a-modal
     :title="operationType === '新增' ? '转盘新增' : '转盘编辑'"
-    :visible="isModalVisible"
-    maskClosable="false"
-    keyboard="false"
+    :open="isModalVisible"
+    :maskClosable="false"
+    :keyboard="false"
     :footer="null"
-    @update:visible="updateVisible"
+    @update:open="updateVisible"
   >
     <a-form-item label="转盘名称" :label-col="{ span: 6 }">
       <a-input v-model:value="formData.name" style="margin-bottom: 10px;" placeholder="请输入转盘名称"/>

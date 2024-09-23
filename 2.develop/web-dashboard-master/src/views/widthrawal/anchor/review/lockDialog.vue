@@ -5,7 +5,7 @@
     maskClosable="false"
     keyboard="false"
     :footer="null"
-    @update:visible="updateVisible"
+    @update:open="updateVisible"
   >
 
   <a-col style="text-align: center">

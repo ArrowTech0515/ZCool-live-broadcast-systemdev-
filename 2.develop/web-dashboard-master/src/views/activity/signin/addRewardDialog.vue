@@ -1,11 +1,11 @@
 <template>
   <a-modal
     title="添加奖励"
-    :visible="isModalVisible"
+    :open="isModalVisible"
     maskClosable="false"
     keyboard="false"
     :footer="null"
-    @update:visible="updateVisible"
+    @update:open="updateVisible"
   >
     <a-form-item label="奖励类型">
       <a-radio-group v-model:value="rewardType">

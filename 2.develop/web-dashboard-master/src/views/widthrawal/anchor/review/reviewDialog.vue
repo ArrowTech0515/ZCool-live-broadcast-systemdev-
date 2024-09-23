@@ -5,7 +5,7 @@
     maskClosable="false"
     keyboard="false"
     :footer="null"
-    @update:visible="updateVisible"
+    @update:open="updateVisible"
   >
 
   <span style="font-size: 14px; font-weight: bold; color: red; margin-bottom: 15px;">

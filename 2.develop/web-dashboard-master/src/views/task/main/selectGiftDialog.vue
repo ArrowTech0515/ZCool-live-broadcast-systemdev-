@@ -1,11 +1,11 @@
 <template>
   <a-modal
     title="选择礼物"
-    :visible="isModalVisible"
+    :open="isModalVisible"
     maskClosable="false"
     keyboard="false"
     :footer="null"
-    @update:visible="updateVisible"
+    @update:open="updateVisible"
   >
     <a-form-item style="margin: 5%;">
       <a-input style="text-align: center; margin-bottom: 20px;" placeholder="请输入礼物名称搜索"></a-input>

@@ -110,7 +110,7 @@ const rebateColumns = [
     key: 'action',
     fixed: 'right',
     align: 'center',
-    width: 60,
+    width: '80px',
     customRender: ({ index }) => {
       return (
         <a onClick={() => removeRebateRange(index)} style="text-decoration: underline; color: red; cursor: pointer;">
@@ -203,7 +203,6 @@ async function addRebateRange() {
 
 <style scoped>
 .container-card {
-  max-width: 850px;
   margin: 0 auto;
   padding: 20px;
   display: flex;
@@ -226,8 +225,6 @@ async function addRebateRange() {
 
 .section {
   margin-bottom: 24px;
-  padding-left: 20px;
-  padding-right: 20px;
   overflow-x: auto; /* Enable horizontal scrolling */
 }
 

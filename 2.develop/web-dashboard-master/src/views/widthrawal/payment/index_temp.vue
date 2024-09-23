@@ -1,24 +1,24 @@
 <template>
-  <a-card style="">
-  <!-- Inline Layout with Texts, Select, and Buttons -->
-    <a-row align="middle" style="margin-bottom: 16px;">
+  <a-card style="margin-bottom: 1%">
+    <!-- Inline Layout with Texts, Select, and Buttons -->
+    <a-row align="middle">
       <!-- Centered Text elements and Select -->
       <a-col style="flex: auto; display: flex; justify-content: space-around; align-items: center;">
         <a-col style="text-align: center;">
-          <span>成功金额: 514469</span>
+          <span>成功金额: {{ successAmount }}</span>
         </a-col>
         <a-col style="text-align: center;">
-          <span>失败金额: 1947</span>
+          <span>失败金额: {{ failedAmount }}</span>
         </a-col>
         <a-col style="text-align: center;">
-          <span>拒绝金额: 68317</span>
+          <span>拒绝金额: {{ rejectedAmount }}</span>
         </a-col>
         <a-col style="text-align: center;">
-          <span>待审核金额: 0</span>
+          <span>待审核金额: {{ pendingAmount }}</span>
         </a-col>
-        <a-col >
+        <a-col>
           <span>数据刷新: </span>
-          <a-select defaultValue="30s" style="width: 120px;">
+          <a-select v-model:value="refreshInterval" style="width: 120px;">
             <a-select-option value="30s">30s</a-select-option>
             <a-select-option value="1m">1m</a-select-option>
             <a-select-option value="5m">5m</a-select-option>
@@ -28,61 +28,66 @@
 
       <!-- Buttons on the right -->
       <a-col style="flex: auto; text-align: right;">
-        <a-button :flex="1" type="primary" style="margin-right: 8px;">导出失败数据</a-button>
-        <a-button :flex="1" type="primary" style="margin-right: 8px;">导出付款方式</a-button>
-        <a-button :flex="1">免验证设置</a-button>
+        <a-button type="primary" style="margin-right: 8px;" @click="exportFailedData">导出失败数据</a-button>
+        <a-button type="primary" style="margin-right: 8px;" @click="exportPaymentMethods">导出付款方式</a-button>
+        <a-button @click="toggleVerification">免验证设置</a-button>
       </a-col>
     </a-row>
-    <!-- Your existing layout and table setup -->
+  </a-card>
+
+  <!-- Main Data Table -->
     <a-table 
-    :columns="columns" 
-    :data-source="paginatedData"
-    :expandable="{ expandedRowRender }"
-    :pagination="false">
+      :columns="columns" 
+      :data-source="paginatedData"
+      :expandable="{ expandedRowRender }"
+      :pagination="false">
+      
       <!-- Scoped Slot for Custom Column Rendering -->
-    
-      <template #bodyCell="{ column, text }" >
-        <!-- Render Multiline Text for '游戏ID' Column with Color Styling -->
+      <template #bodyCell="{ column, text, record }">
+        <!-- Render Multiline Text for '游戏ID' Column using sub-items -->
         <span v-if="column.dataIndex === 'gameId'">
-          <div v-for="(line, index) in text.split('\n')" :key="index">
-            <!-- Check for colon and split the text into label and value -->
-            <span>{{ line.split(':')[0] }}:</span>
-            <span :style="{ color: '#1890ff' }">{{ line.split(':')[1] }}</span>
-          </div>
+          <span v-if="record.gameData">
+            <div>
+              <span>APP:</span> <span style="color: #1890ff;">{{ record.gameData.appId }}</span>
+            </div>
+            <div>
+              <span>游戏:</span> <span style="color: #1890ff;">{{ record.gameData.gameId }}</span>
+            </div>
+          </span>
         </span>
 
-        <!-- Render '状态' Column with Color Styling -->
-        <span v-else-if="column.dataIndex === 'status'">
-          <span :style="text === '已通过' ? 'color: #1890ff;' : text === '失败' ? 'color: red;' : ''">
-            {{ text }}
-          </span>
-        </span>
+        <a-tag v-else-if="column.dataIndex === 'status'" 
+               :color="text === '已通过' ? 'blue' : 'red'">
+          {{ text }}
+        </a-tag>
+        
         <span v-else-if="column.dataIndex === 'transfer'">
-          <span :style="text === '已通过' ? 'color: #1890ff;' : text === '失败' ? 'color: red;' : ''">
+          <span :style="text === '完成' ? 'color: #1890ff;' : 'color: red;'">
             {{ text }}
           </span>
         </span>
+        
         <!-- Default Rendering for Other Columns -->
         <span v-else>{{ text }}</span>
       </template>
 
-      <!-- Expanded Row Render Template -->
+      <!-- Expanded Row Render Template with Left Alignment -->
       <template #expandedRowRender="{ record }">
         <div class="expanded-row-content">
           <div class="row">
-            <div class="cell">支付渠道: {{ record.expandedData.channel }}</div>
-            <div class="cell">实名: {{ record.expandedData.realName }}</div>
-            <div class="cell">账号/卡号: {{ record.expandedData.accountNumber }}</div>
+            <div class="cell">支付渠道: <span style="text-align: left;">{{ record.expandedData.channel }}</span></div>
+            <div class="cell">实名: <span style="text-align: left;">{{ record.expandedData.realName }}</span></div>
+            <div class="cell">账号/卡号: <span style="text-align: left;">{{ record.expandedData.accountNumber }}</span></div>
           </div>
           <div class="row">
-            <div class="cell">手续费: {{ record.expandedData.fee }}</div>
-            <div class="cell">实际到账金额: {{ record.expandedData.actualArrival }}</div>
-            <div class="cell">转账订单号: {{ record.expandedData.transferOrder }}</div>
+            <div class="cell">手续费: <span style="text-align: left;">{{ record.expandedData.fee }}</span></div>
+            <div class="cell">实际到账金额: <span style="text-align: left;">{{ record.expandedData.actualArrival }}</span></div>
+            <div class="cell">转账订单号: <span style="text-align: left;">{{ record.expandedData.transferOrder }}</span></div>
           </div>
           <div class="row">
-            <div class="cell">拒绝理由: {{ record.expandedData.refuseReason }}</div>
-            <div class="cell">请求银行信息: {{ record.expandedData.bankInfo }}</div>
-            <div class="cell">用户显示结果: {{ record.expandedData.userDisplayResult }}</div>
+            <div class="cell">拒绝理由: <span style="text-align: left;">{{ record.expandedData.refuseReason }}</span></div>
+            <div class="cell">请求银行信息: <span style="text-align: left;">{{ record.expandedData.bankInfo }}</span></div>
+            <div class="cell">用户显示结果: <span style="text-align: left;">{{ record.expandedData.userDisplayResult }}</span></div>
           </div>
         </div>
       </template>
@@ -102,200 +107,121 @@
         @show-size-change="handleSizeChange"
       />
     </div>
-
-  </a-card>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      currentPage: 1,
-      pageSize: 5,
-      totalItems: 100, // total number of data items
-      columns: [
-        { title: '订单号', dataIndex: 'orderNumber', align: 'center' },
-        { title: '发起时间', dataIndex: 'startTime', align: 'center' },
-        { title: '到账时间', dataIndex: 'arrivalTime', align: 'center' },
-        { title: '游戏ID', dataIndex: 'gameId', align: 'center' },
-        { title: '用户昵称', dataIndex: 'userName', align: 'center' },
-        { title: '提现金额', dataIndex: 'withdrawAmount', align: 'center' },
-        { title: '实际到账', dataIndex: 'actualArrival', align: 'center' },
-        { title: '通道', dataIndex: 'channel', align: 'center' },
-        { title: '状态', dataIndex: 'status', align: 'center' },
-        { title: '转账', dataIndex: 'transfer', align: 'center' },
-        { title: '操作类型', dataIndex: 'operationType', align: 'center' },
-      ],
-      data: [
-        {
-          key: 1,
-          orderNumber: 'CA88982520842',
-          startTime: '07-10 17:08:40',
-          arrivalTime: '07-10 17:52:40',
-          gameId: 'APP: 3515409\n游戏: 7878797',
-          userName: '比特币_09',
-          withdrawAmount: 505,
-          actualArrival: 501,
-          channel: '银行卡-中国银行',
-          status: '已通过',
-          transfer: '失败',
-          operationType: 'API/大额转账支付',
-          expandedData: {
-            channel: '银行卡-中国银行',
-            realName: '张三',
-            accountNumber: '6172898736510092',
-            fee: 5,
-            actualArrival: 501,
-            transferOrder: '-',
-            refuseReason: '-',
-            bankInfo: '支付信息核实失败',
-            userDisplayResult: '-',
-          },
-        },
-        {
-          key: 2,
-          orderNumber: 'CA88982520842',
-          startTime: '07-10 17:08:40',
-          arrivalTime: '07-10 17:52:40',
-          gameId: 'APP: 3515409\n游戏: 7878797',
-          userName: '比特币_09',
-          withdrawAmount: 505,
-          actualArrival: 501,
-          channel: '银行卡-中国银行',
-          status: '已通过',
-          transfer: '失败',
-          operationType: 'API/大额转账支付',
-          expandedData: {
-            channel: '银行卡-中国银行',
-            realName: '张三',
-            accountNumber: '6172898736510092',
-            fee: 5,
-            actualArrival: 501,
-            transferOrder: '-',
-            refuseReason: '-',
-            bankInfo: '支付信息核实失败',
-            userDisplayResult: '-',
-          },
-        },
-        {
-          key: 3,
-          orderNumber: 'CA88982520842',
-          startTime: '07-10 17:08:40',
-          arrivalTime: '07-10 17:52:40',
-          gameId: 'APP: 3515409\n游戏: 7878797',
-          userName: '比特币_09',
-          withdrawAmount: 505,
-          actualArrival: 501,
-          channel: '银行卡-中国银行',
-          status: '已通过',
-          transfer: '失败',
-          operationType: 'API/大额转账支付',
-          expandedData: {
-            channel: '银行卡-中国银行',
-            realName: '张三',
-            accountNumber: '6172898736510092',
-            fee: 5,
-            actualArrival: 501,
-            transferOrder: '-',
-            refuseReason: '-',
-            bankInfo: '支付信息核实失败',
-            userDisplayResult: '-',
-          },
-        },
-        {
-          key: 4,
-          orderNumber: 'CA88982520842',
-          startTime: '07-10 17:08:40',
-          arrivalTime: '07-10 17:52:40',
-          gameId: 'APP: 3515409\n游戏: 7878797',
-          userName: '比特币_09',
-          withdrawAmount: 505,
-          actualArrival: 501,
-          channel: '银行卡-中国银行',
-          status: '已通过',
-          transfer: '失败',
-          operationType: 'API/大额转账支付',
-          expandedData: {
-            channel: '银行卡-中国银行',
-            realName: '张三',
-            accountNumber: '6172898736510092',
-            fee: 5,
-            actualArrival: 501,
-            transferOrder: '-',
-            refuseReason: '-',
-            bankInfo: '支付信息核实失败',
-            userDisplayResult: '-',
-          },
-        },
-        {
-          key: 5,
-          orderNumber: 'CA88982520842',
-          startTime: '07-10 17:08:40',
-          arrivalTime: '07-10 17:52:40',
-          gameId: 'APP: 3515409\n游戏: 7878797',
-          userName: '比特币_09',
-          withdrawAmount: 505,
-          actualArrival: 501,
-          channel: '银行卡-中国银行',
-          status: '已通过',
-          transfer: '失败',
-          operationType: 'API/大额转账支付',
-          expandedData: {
-            channel: '银行卡-中国银行',
-            realName: '张三',
-            accountNumber: '6172898736510092',
-            fee: 5,
-            actualArrival: 501,
-            transferOrder: '-',
-            refuseReason: '-',
-            bankInfo: '支付信息核实失败',
-            userDisplayResult: '-',
-          },
-        },
-        {
-          key: 6,
-          orderNumber: 'CA88982520851',
-          startTime: '07-10 17:06:40',
-          arrivalTime: '07-10 17:32:40',
-          gameId: 'APP: 3515409\n游戏: 7878797',
-          userName: '比特币_09',
-          withdrawAmount: 600,
-          actualArrival: 600,
-          channel: '银行卡-中国银行',
-          status: '已通过',
-          transfer: '失败',
-          operationType: 'API/秒付转账',
-          expandedData: {
-            channel: '银行卡-中国银行',
-            realName: '李四',
-            accountNumber: '6172898736510092',
-            fee: 5,
-            actualArrival: 600,
-            transferOrder: '-',
-            refuseReason: '-',
-            bankInfo: '支付信息核实失败',
-            userDisplayResult: '-',
-          },
-        },
-      ],
-    };
-  },
-  computed: {
-    paginatedData() {
-      const start = (this.currentPage - 1) * this.pageSize;
-      const end = start + this.pageSize;
-      return this.data.slice(start, end);
+<script setup lang="jsx">
+import { ref, computed } from 'vue'
+
+// Success, failed, rejected, and pending amounts
+const successAmount = ref(514469)
+const failedAmount = ref(1947)
+const rejectedAmount = ref(68317)
+const pendingAmount = ref(0)
+
+const refreshInterval = ref('30s') // Bind variable for data refresh interval
+const currentPage = ref(1)
+const pageSize = ref(5)
+const totalItems = ref(100)
+
+const columns = [
+  { title: '订单号', dataIndex: 'orderNumber', align: 'center' },
+  { title: '发起时间', dataIndex: 'startTime', align: 'center' },
+  { title: '到账时间', dataIndex: 'arrivalTime', align: 'center' },
+  { title: '游戏ID', dataIndex: 'gameId', align: 'center' },
+  { title: '用户昵称', dataIndex: 'userName', align: 'center' },
+  { title: '提现金额', dataIndex: 'withdrawAmount', align: 'center' },
+  { title: '实际到账', dataIndex: 'actualArrival', align: 'center' },
+  { title: '通道', dataIndex: 'channel', align: 'center' },
+  { title: '状态', dataIndex: 'status', align: 'center' },
+  { title: '转账', dataIndex: 'transfer', align: 'center' },
+  { title: '操作类型', dataIndex: 'operationType', align: 'center' },
+];
+
+const data = ref([
+  {
+    key: 1,
+    orderNumber: 'CA88982520842',
+    startTime: '07-10 17:08:40',
+    arrivalTime: '07-10 17:52:40',
+    gameData: {
+      appId: '3515409',
+      gameId: '7878797',
+    },
+    userName: '比特币_09',
+    withdrawAmount: 505,
+    actualArrival: 501,
+    channel: '银行卡-中国银行',
+    status: '已通过',
+    transfer: '失败',
+    operationType: 'API/大额转账支付',
+    expandedData: {
+      channel: '银行卡-中国银行',
+      realName: '张三',
+      accountNumber: '6172898736510092',
+      fee: 5,
+      actualArrival: 501,
+      transferOrder: '-',
+      refuseReason: '-',
+      bankInfo: '支付信息核实失败',
+      userDisplayResult: '-',
     },
   },
-  methods: {
-    handlePageChange(page) {
-      this.currentPage = page;
+  {
+    key: 2,
+    orderNumber: 'CA88982520842',
+    startTime: '07-10 17:08:40',
+    arrivalTime: '07-10 17:52:40',
+    gameData: {
+      appId: '3515409',
+      gameId: '7878797',
     },
-    handleSizeChange(current, size) {
-      this.pageSize = size;
-      this.currentPage = 1; // Reset to the first page when page size changes
+    userName: '比特币_09',
+    withdrawAmount: 505,
+    actualArrival: 501,
+    channel: '银行卡-中国银行',
+    status: '已通过',
+    transfer: '完成',
+    operationType: 'API/大额转账支付',
+    expandedData: {
+      channel: '银行卡-中国银行',
+      realName: '张三',
+      accountNumber: '6172898736510092',
+      fee: 5,
+      actualArrival: 501,
+      transferOrder: '-',
+      refuseReason: '-',
+      bankInfo: '支付信息核实失败',
+      userDisplayResult: '-',
     },
   },
+]);
+
+const paginatedData = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return data.value.slice(start, end);
+});
+
+// Handlers and bound functions
+const handlePageChange = (page) => {
+  currentPage.value = page;
+};
+
+const handleSizeChange = (current, size) => {
+  pageSize.value = size;
+  currentPage.value = 1; // Reset to the first page when page size changes
+};
+
+const exportFailedData = () => {
+  console.log('Exporting failed data...');
+};
+
+const exportPaymentMethods = () => {
+  console.log('Exporting payment methods...');
+};
+
+const toggleVerification = () => {
+  console.log('Toggling verification settings...');
 };
 </script>
 
@@ -304,7 +230,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-left: 40px;  /* Add margin to the whole sub-row */
+  margin-left: 40px; /* Add margin to the whole sub-row */
 }
 
 .row {
@@ -314,5 +240,6 @@ export default {
 .cell {
   padding: 8px;
   white-space: pre-line; /* Ensure text wraps in each cell */
+  text-align: left; /* Align text to the left */
 }
 </style>

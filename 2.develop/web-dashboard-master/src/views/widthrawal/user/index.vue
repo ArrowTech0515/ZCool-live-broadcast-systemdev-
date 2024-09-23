@@ -2,7 +2,7 @@
   <a-card style="">
     <transition name="fade-slide" mode="out-in">
       <div v-if="!showReviewPage">
-      <a-row :gutter="16"  type="flex"  justify="end">
+        <a-row :gutter="16"  type="flex"  justify="end">
         <!-- First Column -->
 
         <a-col :flex="auto">
@@ -68,28 +68,20 @@
 
       </a-row>
 
-      <!-- Your existing layout and table setup -->
       <a-table :data-source="paginatedData" :pagination="false">
         <a-table-column title="提现订单号" dataIndex="wOrderID" key="wOrderID" align="center" />
         <a-table-column title="商户名称" dataIndex="merchName" key="merchName" align="center" />
         <a-table-column title="应用名称" dataIndex="appName" key="appName" align="center" />
-        <a-table-column title="用户昵称" dataIndex="userNickname" key="userNickname" align="center"/>
+        <a-table-column title="用户昵称" dataIndex="userNickname" key="userNickname" align="center" />
         <a-table-column title="用户ID" dataIndex="userID" key="userID" align="center" />
         <a-table-column title="提现信息" dataIndex="wInfo" key="wInfo" align="center" />
-        <a-table-column title="收款信息" dataIndex="rInfo" key="rInfo" align="center">
-        </a-table-column>
-        <a-table-column title="时间" dataIndex="time" key="time" align="center">
-        </a-table-column>
-        <a-table-column title="提现状态" dataIndex="wStatus" key="wStatus" align="center">
-        </a-table-column>
-        <a-table-column title="操作账号" dataIndex="account" key="account" align="center">
-        </a-table-column>
-        <a-table-column title="操作" dataIndex="operate" key="operate" align="center">
-        </a-table-column>
-
+        <a-table-column title="收款信息" dataIndex="rInfo" key="rInfo" align="center" />
+        <a-table-column title="时间" dataIndex="time" key="time" align="center" />
+        <a-table-column title="提现状态" dataIndex="wStatus" key="wStatus" align="center" />
+        <a-table-column title="操作账号" dataIndex="account" key="account" align="center" />
+        <a-table-column title="操作" dataIndex="operate" key="operate" align="center" />
         <template #bodyCell="{ column, text }">
-
-            <!-- Wrap wOrderID text by 9 characters -->
+               <!-- Wrap wOrderID text by 9 characters -->
           <span v-if="column.dataIndex === 'wOrderID'">
             <div v-for="(line, index) in chunkText(text, 9)" :key="index" style="text-align: left;">
               {{ line }}
@@ -142,10 +134,9 @@
           <!-- Default rendering for other columns -->
           <span v-else>{{ text }}</span>
         </template>
-
-
       </a-table>
 
+      <!-- Pagination controls -->
       <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
         <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
         <a-pagination
@@ -160,182 +151,149 @@
           @show-size-change="handleSizeChange"
         />
       </div>
-
     </div>
-
     <div v-else>
-      
       <review-page
         :basicData="basicData"
         :currentWithdraw="currentWithdraw"
         :historyWithdraw="historyWithdraw"
         :paymentInfo="paymentInfo"
         withdrawStatus="提现中"
-        
         @back="onBackToMainPage"
         @confirm="handleConfirm"
         @reject="handleReject" />
-    </div>
-
+      </div>
     </transition>
-
   </a-card>
 </template>
 
-<script>
-
+<script setup lang="jsx">
+import { ref, computed } from 'vue';
 import { message } from 'ant-design-vue';
 import reviewPage from './review/index.vue';
 
-export default {
-  components: {
-    reviewPage,
+const showReviewPage = ref(false);
+const currentPage = ref(1);
+const pageSize = ref(5);
+const totalItems = ref(100);
+const dataSource = ref([
+  // Example data as before
+  {
+    key: '1',
+    wOrderID: '230721092345500001',
+    merchName: '桃之夭夭',
+    appName: '应用1',
+    userNickname: '桃之夭夭',
+    userId: '32423',
+    wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
+    rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：张三',
+    time: '申请时间：2012-12-12  12:21:21\n操作时间：',
+    wStatus: '提现中',
+    account: '',
+    operate: '审核   锁定',
   },
-  data() {
-    return {
-      showReviewPage: false, // New state to manage which view to show
-
-      currentPage: 1,
-      pageSize: 5,
-      totalItems: 100,
-
-      dataSource: [
-        {
-          key: '1',
-          wOrderID: '230721092345500001',
-          merchName: '桃之夭夭',
-          appName: '应用1',
-          userNickname: '桃之夭夭',
-          userId: '32423',
-          wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
-          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：张三',
-          time: '申请时间：2012-12-12  12:21:21\n操作时间：',
-          wStatus: '提现中',
-          account: '',
-          operate: '审核   锁定',
-        },
-        {
-          key: '2',
-          wOrderID: '230721092345500001',
-          merchName: '桃之夭夭',
-          appName: '应用1',
-          userNickname: '桃之夭夭',
-          userId: '32423',
-          wInfo: '收款货币：USTD\n手续费：10%\n提现金额：1000',
-          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：张三',
-          time: '申请时间：2012-12-12  12:21:21\n操作时间：2012-12-12  12:21:21',
-          wStatus: '提现成功',
-          account: '管理员 - 张三',
-          operate: '提现明细',
-        },
-        {
-          key: '3',
-          wOrderID: '230721092345500001',
-          merchName: '桃之夭夭',
-          appName: '应用1',
-          userNickname: '桃之夭夭',
-          userId: '32423',
-          wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
-          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
-          time: '申请时间：2012-12-12  12:21:21\n操作时间：',
-          wStatus: '提现失败',
-          account: '管理员 - 张三',
-          operate: '已拒绝',
-        },
-        {
-          key: '4',
-          wOrderID: '230721092345500001',
-          merchName: '桃之夭夭',
-          appName: '应用1',
-          userNickname: '桃之夭夭',
-          userId: '32423',
-          wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
-          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
-          time: '申请时间：2012-12-12  12:21:21\n操作时间：',
-          wStatus: '提现中',
-          account: '管理员 - 张三',
-          operate: '已锁定',
-        },
-        {
-          key: '5',
-          wOrderID: '230721092345500001',
-          merchName: '桃之夭夭',
-          appName: '应用1',
-          userNickname: '桃之夭夭',
-          userId: '32423',
-          wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
-          rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
-          time: '申请时间：2012-12-12  12:21:21\n操作时间：',
-          wStatus: '提现成功',
-          account: '管理员 - 张三',
-          operate: '提现明细',
-        },
-        
-      ],
-    };
+  {
+    key: '2',
+    wOrderID: '230721092345500001',
+    merchName: '桃之夭夭',
+    appName: '应用1',
+    userNickname: '桃之夭夭',
+    userId: '32423',
+    wInfo: '收款货币：USTD\n手续费：10%\n提现金额：1000',
+    rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：张三',
+    time: '申请时间：2012-12-12  12:21:21\n操作时间：2012-12-12  12:21:21',
+    wStatus: '提现成功',
+    account: '管理员 - 张三',
+    operate: '提现明细',
   },
-  
-  computed: {
-    paginatedData() {
-      const start = (this.currentPage - 1) * this.pageSize;
-      const end = start + this.pageSize;
-      return this.dataSource.slice(start, end);
-    },
+  {
+    key: '3',
+    wOrderID: '230721092345500001',
+    merchName: '桃之夭夭',
+    appName: '应用1',
+    userNickname: '桃之夭夭',
+    userId: '32423',
+    wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
+    rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
+    time: '申请时间：2012-12-12  12:21:21\n操作时间：',
+    wStatus: '提现失败',
+    account: '管理员 - 张三',
+    operate: '已拒绝',
   },
-  methods: {
-    chunkText(text, chunkSize) {
-      const regex = new RegExp(`.{1,${chunkSize}}`, 'g');
-      return text.match(regex) || [];
-    },
+  {
+    key: '4',
+    wOrderID: '230721092345500001',
+    merchName: '桃之夭夭',
+    appName: '应用1',
+    userNickname: '桃之夭夭',
+    userId: '32423',
+    wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
+    rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
+    time: '申请时间：2012-12-12  12:21:21\n操作时间：',
+    wStatus: '提现中',
+    account: '管理员 - 张三',
+    operate: '已锁定',
+  },
+  {
+    key: '5',
+    wOrderID: '230721092345500001',
+    merchName: '桃之夭夭',
+    appName: '应用1',
+    userNickname: '桃之夭夭',
+    userId: '32423',
+    wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
+    rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
+    time: '申请时间：2012-12-12  12:21:21\n操作时间：',
+    wStatus: '提现成功',
+    account: '管理员 - 张三',
+    operate: '提现明细',
+  },
+]);
 
-    copyText(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        message.success({
-          content: `已成功复制到剪贴板。`,
-          duration: 1, // Duration in seconds
-        });
-      }).catch(() => {
-        message.error({
-          content: '复制到剪贴板失败，请重试。',
-          duration: 1, // Duration in seconds
-        });
+const paginatedData = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return dataSource.value.slice(start, end);
+});
+
+const chunkText = (text, chunkSize) => {
+  const regex = new RegExp(`.{1,${chunkSize}}`, 'g');
+  return text.match(regex) || [];
+};
+
+const copyText = (text) => {
+  navigator.clipboard.writeText(text)
+    .then(() => {
+      message.success({
+        content: `已成功复制到剪贴板。`,
+        duration: 1,
       });
-    },
+    })
+    .catch(() => {
+      message.error({
+        content: '复制到剪贴板失败，请重试。',
+        duration: 1,
+      });
+    });
+};
 
-    onSearch() {
-      // Implement search logic
-    },
-    onReset() {
-      this.merchantId = '';
-      this.gameId = '';
-      this.platform = '';
-      this.nBetting = '';
-      this.status = '';
-      // Implement reset logic
-    },
-    exportCSV() {
+const handlePageChange = (page) => {
+  currentPage.value = page;
+};
 
-    },
-    
-    handlePageChange(page) {
-      this.currentPage = page;
-    },
-    handleSizeChange(current, size) {
-      this.pageSize = size;
-      this.currentPage = 1; // Reset to the first page when page size changes
-    },
+const handleSizeChange = (current, size) => {
+  pageSize.value = size;
+  currentPage.value = 1;
+};
 
-    handleOperation(operation) {
-      // Add logic for handling the operation (e.g., audit, lock)
-      if(operation === "提现明细")
-        this.showReviewPage = true; // Switch to the add strategy view
-    },
+const handleOperation = (operation) => {
+  if (operation === "提现明细") {
+    showReviewPage.value = true;
+  }
+};
 
-    onBackToMainPage() {
-      this.showReviewPage = false; // Switch back to the main table view
-    },
-
-  },
+const onBackToMainPage = () => {
+  showReviewPage.value = false;
 };
 </script>
 
@@ -344,7 +302,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-left: 40px;  /* Add margin to the whole sub-row */
+  margin-left: 40px; /* Add margin to the whole sub-row */
 }
 
 .row {
@@ -360,7 +318,7 @@ export default {
 .fade-slide-enter-active, .fade-slide-leave-active {
   transition: opacity 0.5s, transform 0.5s;
 }
-.fade-slide-enter, .fade-slide-leave-to /* .fade-slide-leave-active in <2.1.8 */ {
+.fade-slide-enter, .fade-slide-leave-to {
   opacity: 0;
   transform: translateX(10px);
 }

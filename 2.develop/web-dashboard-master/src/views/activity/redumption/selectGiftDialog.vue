@@ -1,11 +1,11 @@
 <template>
   <a-modal
     title="选择兑换选项"
-    :visible="isModalVisible"
+    :open="isModalVisible"
     maskClosable="false"
     keyboard="false"
     :footer="null"
-    @update:visible="updateVisible"
+    @update:open="updateVisible"
   >
     <a-form-item style="margin: 5%;">
       <a-table :dataSource="giftOptions" :pagination="false" bordered>

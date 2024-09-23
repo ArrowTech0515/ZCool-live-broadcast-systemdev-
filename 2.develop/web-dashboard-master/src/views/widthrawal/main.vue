@@ -21,9 +21,7 @@
       <a-tab-pane key="6" tab="1">
           <test />
       </a-tab-pane>
-      <a-tab-pane key="7" tab="2">
-          <testTableManagement />
-      </a-tab-pane>
+
       <a-tab-pane key="8" tab="3">
           <testNewComponent />
       </a-tab-pane>
@@ -42,17 +40,16 @@
   <script>
   import { Tabs } from 'ant-design-vue'
 
-  import paymentWithdrawal from './payment/index.vue';
-  import paymentWithdrawal2 from './payment/index_temp.vue'; // junn
-  import anchorWithdrawal from './anchor/index.vue'; // junn
-  import userWithdrawal from './user/index.vue'; // junn
-  import unionWithdrawal from './union/index.vue'; // junn
-  import strategyWithdrawal from './strategy/index.vue'; // junn
-  import testTableManagement from './testTable.vue'; // junn
-  import test from './test.vue'; // junn
-  import testNewComponent from './test_newComponent.vue'; // junn
-  import virtual_review from './user/virtual_review/index.vue'; // junn
-  import anchor_review from './anchor/virtual_review/index.vue'; // junn
+  import paymentWithdrawal from './payment/index.vue'
+  import paymentWithdrawal2 from './payment/index_temp.vue' // junn
+  import anchorWithdrawal from './anchor/index.vue' // junn
+  import userWithdrawal from './user/index.vue' // junn
+  import unionWithdrawal from './union/index.vue' // junn
+  import strategyWithdrawal from './strategy/index.vue' // junn
+  import test from './test.vue' // junn
+  import testNewComponent from './test_newComponent.vue' // junn
+  import virtual_review from './user/virtual_review/index.vue' // junn
+  import anchor_review from './anchor/virtual_review/index.vue' // junn
   
   export default {
     components: {
@@ -65,7 +62,6 @@
       anchorWithdrawal,
       strategyWithdrawal,
       test,
-      testTableManagement,
       testNewComponent,
       virtual_review,
       anchor_review

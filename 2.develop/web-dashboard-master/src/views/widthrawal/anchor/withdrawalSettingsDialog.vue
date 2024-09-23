@@ -5,7 +5,7 @@
     maskClosable="false"
     keyboard="false"
     :footer="null"
-    @update:visible="updateVisible"
+    @update:open="updateVisible"
   >
 
     <!-- Conditionally render the CustomSpin component if '钻石奖励' is selected -->
