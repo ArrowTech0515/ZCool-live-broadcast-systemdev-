@@ -2,8 +2,8 @@
   <a-modal
     :title="operationType === '新增' ? '奖励新增' : '奖励编辑'"
     :open="isModalVisible"
-    maskClosable="false"
-    keyboard="false"
+    :maskClosable="false"
+    :keyboard="false"
     :footer="null"
     @update:open="updateVisible"
   >
