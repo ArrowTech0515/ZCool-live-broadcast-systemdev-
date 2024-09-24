@@ -9,9 +9,9 @@
         <rebatePage />
       </a-tab-pane>
         
-      <!-- <a-tab-pane key="3" tab="代理報表">
+      <a-tab-pane key="3" tab="代理報表">
         <reportPage />
-      </a-tab-pane> -->
+      </a-tab-pane>
 
     </a-tabs>
   </template>

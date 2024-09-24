@@ -14,7 +14,7 @@
           <a-radio value="diamond">全部</a-radio>
           <a-radio value="balance">自定义主播</a-radio>
         </a-radio-group>
-        <a-input placeholder="请选择主播" style="text-align: center; width:150px;"></a-input>
+        <a-select v-if="rewardType === 'balance'" placeholder="请选择主播" style="text-align: center; width:150px;"></a-select>
       </a-row>
     </a-form-item>
     <a-form-item label="提现类型">
@@ -32,11 +32,12 @@
           <a-radio value="all">全部时间</a-radio>
           <a-radio value="custom">自定义时间</a-radio>
         </a-radio-group>
-        <a-range-picker 
-              :placeholder="['开始日期', '结束日期']"
-              style="width:200px; text-align: center;"
-        />
       </a-row>
+        <a-range-picker
+          v-if="exportTime === 'custom'"
+          :placeholder="['开始日期', '结束日期']"
+          style="margin-top: 20px;"
+        />
     </a-form-item>
 
     <!-- Custom Footer -->

@@ -3,23 +3,23 @@
     <transition name="fade-slide" mode="out-in">
       <div v-if="!showReviewPage">
         <a-row :gutter="16" type="flex" justify="end">
-          <a-col :flex="auto">
-            <a-form-item label="提现订单号" :label-col="{ span: 8 }">
+          <a-col :flex="1">
+            <a-form-item label="提现订单号">
               <a-input v-model:value="searchParams.orderID" placeholder="请输入提现订单号" />
             </a-form-item>
           </a-col>
           <a-col :flex="1">
-            <a-form-item label="主播昵称" :label-col="{ span: 8 }">
+            <a-form-item label="主播昵称">
               <a-input v-model:value="searchParams.nickName" placeholder="请输入主播昵称" />
             </a-form-item>
           </a-col>
           <a-col :flex="1">
-            <a-form-item label="房间号" :label-col="{ span: 8 }">
+            <a-form-item label="房间号">
               <a-input v-model:value="searchParams.roomID" placeholder="请输入房间号" />
             </a-form-item>
           </a-col>
           <a-col :flex="1">
-            <a-form-item label="状态" :label-col="{ span: 8 }">
+            <a-form-item label="状态" >
               <a-select v-model:value="searchParams.status" placeholder="请选择状态">
                 <a-select-option value="0">全部</a-select-option>
                 <a-select-option value="1">提现中</a-select-option>
@@ -28,8 +28,8 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :flex="1">
-            <a-form-item label="时间" :label-col="{ span: 8 }">
+          <a-col>
+            <a-form-item label="时间">
               <a-range-picker v-model:value="searchParams.dateRange" :placeholder="['开始日期', '结束日期']" />
             </a-form-item>
           </a-col>
@@ -50,16 +50,17 @@
             </a-form-item>
           </a-col>
 
-          <a-col :flex="auto">
-            <a-form-item>
-              <a-button type="primary" block @click="onSettings">提现设置</a-button>
-            </a-form-item>
-          </a-col>
-          <a-col :flex="auto">
-            <a-form-item>
-              <a-button type="primary" block @click="exportCSV">导出CSV</a-button>
-            </a-form-item>
-          </a-col>
+            <a-col :flex="auto">
+              <a-form-item>
+                <a-button type="primary" block @click="onSettings">提现设置</a-button>
+              </a-form-item>
+            </a-col>
+            <a-col :flex="auto">
+              <a-form-item>
+                <a-button type="primary" block @click="exportCSV">导出CSV</a-button>
+              </a-form-item>
+            </a-col>
+          
         </a-row>
 
         <a-table
@@ -109,7 +110,7 @@
           </a-table-column>
           <a-table-column title="提现状态" dataIndex="wStatus" key="wStatus" align="center">
             <template #default="{ text }">
-              <a :href="`/status/${text}`" :style="{ color: statusColors[text] }">{{ statusText[text] }}</a>
+              <a-tag :color="statusColors[text]">{{ statusText[text] }}</a-tag>
             </template>
           </a-table-column>
           <a-table-column title="操作账号" dataIndex="account" key="account" align="center" />
@@ -168,27 +169,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { message } from 'ant-design-vue';
-import reviewPage from './review/index.vue';
-import ExportCSVDialog from './exportCSVDialog.vue';
-import SettingsDialog from './withdrawalSettingsDialog.vue';
+import { ref, computed } from 'vue'
+import { message } from 'ant-design-vue'
+import reviewPage from './review/index.vue'
+import ExportCSVDialog from './exportCSVDialog.vue'
+import SettingsDialog from './withdrawalSettingsDialog.vue'
 
-const showReviewPage = ref(false);
-const isModalVisible = ref(false);
-const isModalVisible2 = ref(false);
+const showReviewPage = ref(false)
+const isModalVisible = ref(false)
+const isModalVisible2 = ref(false)
 
-const currentPage = ref(1);
-const pageSize = ref(5);
-const totalItems = ref(100);
+const currentPage = ref(1)
+const pageSize = ref(5)
+const totalItems = ref(100)
 
 const searchParams = ref({
   orderID: '',
   nickName: '',
   roomID: '',
-  status: 0,
+  status: '0',
   dateRange: null,
-});
+})
 
 const dataSource = ref([
   {
@@ -283,7 +284,7 @@ const dataSource = ref([
       applyTime: '2024-06-01 18:00:00',
       operationTime: '2024-06-02 18:00:00',
     },
-    wStatus: 5, // Updated to "已锁定"
+    wStatus: 2, // Updated to "已锁定"
     account: '管理员 - 赵六',
     operate: 5, // Reflecting "已锁定" status
   },
@@ -311,22 +312,20 @@ const dataSource = ref([
     account: '',
     operate: 1,
   },
-]);
-
-
+])
 
 const statusText = {
   0: '全部',
   1: '提现中',
   2: '提现成功',
   3: '提现失败',
-};
+}
 
 const statusColors = {
-  1: '#1890ff',
+  1: 'blue',
   2: 'green',
   3: 'red',
-};
+}
 
 const operationText = {
   1: '审核',
@@ -334,7 +333,7 @@ const operationText = {
   3: '提现明细',
   4: '已拒绝',
   5: '已锁定',
-};
+}
 
 const operationColors = {
   1: 'green',
@@ -342,35 +341,37 @@ const operationColors = {
   3: 'green',
   4: 'red',
   5: '#1890ff',
-};
+}
 
 const paginatedData = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value;
-  const end = start + pageSize.value;
-  return dataSource.value.slice(start, end);
-});
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return dataSource.value.slice(start, end)
+})
 
-const onSearch = () => console.log("Search initiated with", searchParams.value);
-const onSettings = () => (isModalVisible.value = true);
-const exportCSV = () => (isModalVisible2.value = true);
-const handlePageChange = (page) => (currentPage.value = page);
+const onSearch = () => console.log("Search initiated with", searchParams.value)
+const onSettings = () => (isModalVisible.value = true)
+const exportCSV = () => (isModalVisible2.value = true)
+const handlePageChange = (page) => (currentPage.value = page)
 const handleSizeChange = (current, size) => {
-  pageSize.value = size;
-  currentPage.value = 1;
-};
+  pageSize.value = size
+  currentPage.value = 1
+}
+
 const handleOperation = (operation) => {
-  if (operation === 3) showReviewPage.value = true;
-};
-const onBackToMainPage = () => (showReviewPage.value = false);
-const handleConfirm = () => console.log('Confirmed');
-const handleReject = () => console.log('Rejected');
+  if (operation === 3) showReviewPage.value = true
+}
+
+const onBackToMainPage = () => (showReviewPage.value = false)
+const handleConfirm = () => console.log('Confirmed')
+const handleReject = () => console.log('Rejected')
 
 const copyText = (text) => {
   navigator.clipboard
     .writeText(text)
     .then(() => message.success({ content: '已成功复制到剪贴板。', duration: 1 }))
-    .catch(() => message.error({ content: '复制到剪贴板失败，请重试。', duration: 1 }));
-};
+    .catch(() => message.error({ content: '复制到剪贴板失败，请重试。', duration: 1 }))
+}
 
 </script>
 
