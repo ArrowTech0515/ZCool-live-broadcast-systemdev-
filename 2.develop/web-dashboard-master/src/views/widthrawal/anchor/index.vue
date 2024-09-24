@@ -1,127 +1,147 @@
 <template>
-  <a-card style="">
+  <a-card>
     <transition name="fade-slide" mode="out-in">
       <div v-if="!showReviewPage">
         <a-row :gutter="16" type="flex" justify="end">
-          <!-- First Column -->
           <a-col :flex="auto">
-            <a-form-item label="提现订单号">
+            <a-form-item label="提现订单号" :label-col="{ span: 8 }">
               <a-input v-model:value="searchParams.orderID" placeholder="请输入提现订单号" />
             </a-form-item>
           </a-col>
-
           <a-col :flex="1">
-            <a-form-item label="主播昵称">
+            <a-form-item label="主播昵称" :label-col="{ span: 8 }">
               <a-input v-model:value="searchParams.nickName" placeholder="请输入主播昵称" />
             </a-form-item>
           </a-col>
-
           <a-col :flex="1">
-            <a-form-item label="房间号">
+            <a-form-item label="房间号" :label-col="{ span: 8 }">
               <a-input v-model:value="searchParams.roomID" placeholder="请输入房间号" />
             </a-form-item>
           </a-col>
-
           <a-col :flex="1">
-            <a-form-item label="状态">
+            <a-form-item label="状态" :label-col="{ span: 8 }">
               <a-select v-model:value="searchParams.status" placeholder="请选择状态">
-                <a-select-option value="all">全部</a-select-option>
-                <a-select-option value="processing">提现中</a-select-option>
-                <a-select-option value="success">提现成功</a-select-option>
-                <a-select-option value="failed">提现失败</a-select-option>
+                <a-select-option value="0">全部</a-select-option>
+                <a-select-option value="1">提现中</a-select-option>
+                <a-select-option value="2">提现成功</a-select-option>
+                <a-select-option value="3">提现失败</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
-
           <a-col :flex="1">
-            <a-form-item label="时间">
+            <a-form-item label="时间" :label-col="{ span: 8 }">
               <a-range-picker v-model:value="searchParams.dateRange" :placeholder="['开始日期', '结束日期']" />
             </a-form-item>
           </a-col>
 
-          <a-col :span="2">
+          <a-col :flex="auto" style="margin-left: 20px;">
             <a-form-item>
-              <a-button type="primary" block @click="onSearch">查询</a-button>
+              <a-button type="primary" block @click="onSearch">
+                <SearchOutlined /> 查询
+              </a-button>
             </a-form-item>
           </a-col>
 
-          <a-col :span="2">
+          <a-col :flex="auto">
+            <a-form-item>
+              <a-button block @click="onReset">
+                <ReloadOutlined /> 重置
+              </a-button>
+            </a-form-item>
+          </a-col>
+
+          <a-col :flex="auto">
             <a-form-item>
               <a-button type="primary" block @click="onSettings">提现设置</a-button>
             </a-form-item>
           </a-col>
-
-          <a-col :span="2">
+          <a-col :flex="auto">
             <a-form-item>
               <a-button type="primary" block @click="exportCSV">导出CSV</a-button>
             </a-form-item>
           </a-col>
         </a-row>
 
-        <!-- Your existing layout and table setup -->
-        <a-table :data-source="paginatedData" :pagination="false">
+        <a-table
+          :data-source="paginatedData"
+          :pagination="false"
+          :scroll="{ x: 'max-content' }"
+        >
           <a-table-column title="提现订单号" dataIndex="wOrderID" key="wOrderID" align="center" />
           <a-table-column title="主播昵称" dataIndex="nickName" key="nickName" align="center" />
           <a-table-column title="房间号" dataIndex="roomID" key="roomID" align="center" />
           <a-table-column title="所属工会" dataIndex="union" key="union" align="center" />
-          <a-table-column title="提现信息" dataIndex="wInfo" key="wInfo" align="center" />
-          <a-table-column title="收款信息" dataIndex="rInfo" key="rInfo" align="center" />
-          <a-table-column title="时间" dataIndex="time" key="time" align="center" />
-          <a-table-column title="提现状态" dataIndex="wStatus" key="wStatus" align="center" />
+          <a-table-column title="提现信息" dataIndex="wInfo" key="wInfo" align="center">
+            <template #default="{ record }">
+              <div style="text-align: left;">
+                <div>收款货币：{{ record.wInfo.currency }}</div>
+                <div>手续费：{{ record.wInfo.fee }}</div>
+                <div>提现金额：{{ record.wInfo.amount }}</div>
+              </div>
+            </template>
+          </a-table-column>
+          <a-table-column title="收款信息" dataIndex="rInfo" key="rInfo" align="center">
+            <template #default="{ record }">
+              <div style="text-align: left;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>提现银行：{{ record.rInfo.bank }}</span>
+                  <a-button style="font-size: 9px;" type="link" size="small" @click="copyText(record.rInfo.bank)">复制</a-button>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>银行卡号：{{ record.rInfo.bankCard }}</span>
+                  <a-button style="font-size: 9px;" type="link" size="small" @click="copyText(record.rInfo.bankCard)">复制</a-button>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>姓名：{{ record.rInfo.name }}</span>
+                  <a-button style="font-size: 9px;" type="link" size="small" @click="copyText(record.rInfo.name)">复制</a-button>
+                </div>
+              </div>
+            </template>
+          </a-table-column>
+
+          <a-table-column title="时间" dataIndex="time" key="time" align="center">
+            <template #default="{ record }">
+              <div style="text-align: left;">
+                <div>申请时间：{{ record.time.applyTime }}</div>
+                <div>操作时间：{{ record.time.operationTime }}</div>
+              </div>
+            </template>
+          </a-table-column>
+          <a-table-column title="提现状态" dataIndex="wStatus" key="wStatus" align="center">
+            <template #default="{ text }">
+              <a :href="`/status/${text}`" :style="{ color: statusColors[text] }">{{ statusText[text] }}</a>
+            </template>
+          </a-table-column>
           <a-table-column title="操作账号" dataIndex="account" key="account" align="center" />
-          <a-table-column title="操作" dataIndex="operate" key="operate" align="center" />
-          <template #bodyCell="{ column, text }">
-            <!-- Wrap wOrderID text by 9 characters -->
-            <span v-if="column.dataIndex === 'wOrderID'">
-              <div v-for="(line, index) in chunkText(text, 9)" :key="index" style="text-align: left;">
-                {{ line }}
-              </div>
-            </span>
-            <!-- add copy link text -->
-            <span v-else-if="column.dataIndex === 'rInfo'">
-              <div v-for="(line, index) in text.split('\n')" :key="index" style="display: flex; justify-content: space-between;">
-                <span style="text-align: left;">{{ line }}</span>
-                <a-button style="font-size: 9px" type="link" size="small" @click="copyText(line)">复制</a-button>
-              </div>
-            </span>
-            <!-- Left align specific columns: wInfo, rInfo, time -->
-            <span v-else-if="['wInfo', 'time'].includes(column.dataIndex)">
-              <div v-for="(line, index) in text.split('\n')" :key="index" style="text-align: left;">
-                {{ line }}
-              </div>
-            </span>
-            <span v-else-if="column.dataIndex === 'wStatus'">
-              <span :style="{ color: text === '提现中' ? '#1890ff' : text === '提现成功' ? 'green' : 'red' }">{{ text }}</span>
-            </span>
-            <span v-else-if="column.dataIndex === 'operate'">
-              <span v-if="text === '已锁定'" style="text-decoration: underline;color: #1890ff; cursor: pointer;" @click="handleOperation(text)">
-                {{ text }}
-              </span>
-              <span v-else-if="text === '提现明细'" style="text-decoration: underline;color: green; cursor: pointer;" @click="handleOperation(text)">
-                {{ text }}
-              </span>
-              <span v-else-if="text === '已拒绝'" style="text-decoration: underline;color: red; cursor: pointer;" @click="handleOperation(text)">
-                {{ text }}
+          <a-table-column title="操作" dataIndex="operate" key="operate" align="center" fixed="right" width="150">
+            <template #default="{ record }">
+              <span v-if="Array.isArray(record.operate)">
+                <span v-for="(operation, index) in record.operate" :key="index">
+                  <a :style="{ textDecoration: 'underline', cursor: 'pointer', color: operationColors[operation] }"
+                    @click="handleOperation(operation)">
+                    {{ operationText[operation] }}
+                  </a>
+                  <span v-if="index < record.operate.length - 1" style="margin-right: 10px;"></span> <!-- Separator between multiple operations -->
+                </span>
               </span>
               <span v-else>
-                <span style="text-decoration: underline;color: green; margin-right: 8px; cursor: pointer;" @click="handleOperation('审核')">审核</span>
-                <span style="text-decoration: underline;color: #1890ff; cursor: pointer;" @click="handleOperation('锁定')">锁定</span>
+                <a :style="{ textDecoration: 'underline', cursor: 'pointer', color: operationColors[record.operate] }"
+                  @click="handleOperation(record.operate)">
+                  {{ operationText[record.operate] }}
+                </a>
               </span>
-            </span>
-            <!-- Default rendering for other columns -->
-            <span v-else>{{ text }}</span>
-          </template>
+            </template>
+          </a-table-column>
         </a-table>
 
         <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-          <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
+          <span style="margin-right: 8px;">共 {{ totalItems }} 条</span>
           <a-pagination
             v-model:current="currentPage"
             :total="totalItems"
             :page-size="pageSize"
             show-size-changer
             :page-size-options="['5', '10', '20', '50', '100']"
-            :simple="false"
             size="small"
             @change="handlePageChange"
             @show-size-change="handleSizeChange"
@@ -154,22 +174,19 @@ import reviewPage from './review/index.vue';
 import ExportCSVDialog from './exportCSVDialog.vue';
 import SettingsDialog from './withdrawalSettingsDialog.vue';
 
-// Component State
 const showReviewPage = ref(false);
 const isModalVisible = ref(false);
 const isModalVisible2 = ref(false);
 
-// Pagination Data
 const currentPage = ref(1);
 const pageSize = ref(5);
 const totalItems = ref(100);
 
-// Search form data
 const searchParams = ref({
   orderID: '',
   nickName: '',
   roomID: '',
-  status: 'all',
+  status: 0,
   dateRange: null,
 });
 
@@ -180,114 +197,188 @@ const dataSource = ref([
     nickName: '桃之夭夭',
     roomID: '32423',
     union: '蒂萨传媒',
-    wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
-    rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：张三',
-    time: '申请时间：2012-12-12  12:21:21\n操作时间：',
-    wStatus: '提现中',
+    wInfo: {
+      currency: '印尼盾',
+      fee: '10%',
+      amount: '1000',
+    },
+    rInfo: {
+      bank: '中国建设银行',
+      bankCard: '3423423432',
+      name: '张三',
+    },
+    time: {
+      applyTime: '2012-12-12 12:21:21',
+      operationTime: '',
+    },
+    wStatus: 1,
     account: '',
-    operate: '审核   锁定',
+    operate: [1, 2], // Now using an array to reflect multiple operations (审核 and 锁定)
   },
   {
     key: '2',
-    wOrderID: '230721092345500001',
-    nickName: '桃之夭夭',
-    roomID: '32423',
-    union: '蒂萨传媒',
-    wInfo: '收款货币：USTD\n手续费：10%\n提现金额：1000',
-    rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：张三',
-    time: '申请时间：2012-12-12  12:21:21\n操作时间：2012-12-12  12:21:21',
-    wStatus: '提现成功',
-    account: '管理员 - 张三',
-    operate: '提现明细',
+    wOrderID: '230721092345500002',
+    nickName: '小红',
+    roomID: '10001',
+    union: '红星传媒',
+    wInfo: {
+      currency: 'USTD',
+      fee: '5%',
+      amount: '5000',
+    },
+    rInfo: {
+      bank: '工商银行',
+      bankCard: '1234567890',
+      name: '李四',
+    },
+    time: {
+      applyTime: '2022-01-01 10:00:00',
+      operationTime: '2022-01-02 10:00:00',
+    },
+    wStatus: 2,
+    account: '管理员 - 李四',
+    operate: 3,
   },
   {
     key: '3',
-    wOrderID: '230721092345500001',
-    nickName: '桃之夭夭',
-    roomID: '32423',
-    union: '蒂萨传媒',
-    wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
-    rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
-    time: '申请时间：2012-12-12  12:21:21\n操作时间：',
-    wStatus: '提现失败',
-    account: '管理员 - 张三',
-    operate: '已拒绝',
+    wOrderID: '230721092345500003',
+    nickName: '小蓝',
+    roomID: '10002',
+    union: '蓝天传媒',
+    wInfo: {
+      currency: '美元',
+      fee: '2%',
+      amount: '2000',
+    },
+    rInfo: {
+      bank: '中国银行',
+      bankCard: '9876543210',
+      name: '王五',
+    },
+    time: {
+      applyTime: '2023-05-05 15:30:00',
+      operationTime: '',
+    },
+    wStatus: 3,
+    account: '管理员 - 王五',
+    operate: 4,
   },
   {
     key: '4',
-    wOrderID: '230721092345500001',
-    nickName: '桃之夭夭',
-    roomID: '32423',
-    union: '蒂萨传媒',
-    wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
-    rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
-    time: '申请时间：2012-12-12  12:21:21\n操作时间：',
-    wStatus: '提现中',
-    account: '管理员 - 张三',
-    operate: '已锁定',
+    wOrderID: '230721092345500004',
+    nickName: '小黄',
+    roomID: '10003',
+    union: '黄河传媒',
+    wInfo: {
+      currency: '人民币',
+      fee: '1%',
+      amount: '10000',
+    },
+    rInfo: {
+      bank: '农业银行',
+      bankCard: '5678901234',
+      name: '赵六',
+    },
+    time: {
+      applyTime: '2024-06-01 18:00:00',
+      operationTime: '2024-06-02 18:00:00',
+    },
+    wStatus: 5, // Updated to "已锁定"
+    account: '管理员 - 赵六',
+    operate: 5, // Reflecting "已锁定" status
   },
   {
     key: '5',
-    wOrderID: '230721092345500001',
-    nickName: '桃之夭夭',
-    roomID: '32423',
-    union: '蒂萨传媒',
-    wInfo: '收款货币：印尼盾\n手续费：10%\n提现金额：1000',
-    rInfo: '提现银行：中国建设银行\n银行卡号：3423423432\n姓名：云南建设银行',
-    time: '申请时间：2012-12-12  12:21:21\n操作时间：',
-    wStatus: '提现成功',
-    account: '管理员 - 张三',
-    operate: '提现明细',
+    wOrderID: '230721092345500005',
+    nickName: '小紫',
+    roomID: '10004',
+    union: '紫光传媒',
+    wInfo: {
+      currency: '欧元',
+      fee: '3%',
+      amount: '3000',
+    },
+    rInfo: {
+      bank: '交通银行',
+      bankCard: '1122334455',
+      name: '陈七',
+    },
+    time: {
+      applyTime: '2025-07-07 20:00:00',
+      operationTime: '',
+    },
+    wStatus: 1,
+    account: '',
+    operate: 1,
   },
-])
+]);
 
-// Pagination computed data
+
+
+const statusText = {
+  0: '全部',
+  1: '提现中',
+  2: '提现成功',
+  3: '提现失败',
+};
+
+const statusColors = {
+  1: '#1890ff',
+  2: 'green',
+  3: 'red',
+};
+
+const operationText = {
+  1: '审核',
+  2: '锁定',
+  3: '提现明细',
+  4: '已拒绝',
+  5: '已锁定',
+};
+
+const operationColors = {
+  1: 'green',
+  2: '#1890ff',
+  3: 'green',
+  4: 'red',
+  5: '#1890ff',
+};
+
 const paginatedData = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value;
   const end = start + pageSize.value;
   return dataSource.value.slice(start, end);
 });
 
-// Methods
-const chunkText = (text, chunkSize) => text.match(new RegExp(`.{1,${chunkSize}}`, 'g')) || [];
-const copyText = (text) => navigator.clipboard.writeText(text).then(() => message.success({ content: '已成功复制到剪贴板。', duration: 1 })).catch(() => message.error({ content: '复制到剪贴板失败，请重试。', duration: 1 }));
-
 const onSearch = () => console.log("Search initiated with", searchParams.value);
-const onSettings = () => isModalVisible.value = true;
-const exportCSV = () => isModalVisible2.value = true;
-const handlePageChange = (page) => currentPage.value = page;
+const onSettings = () => (isModalVisible.value = true);
+const exportCSV = () => (isModalVisible2.value = true);
+const handlePageChange = (page) => (currentPage.value = page);
 const handleSizeChange = (current, size) => {
   pageSize.value = size;
   currentPage.value = 1;
 };
-const handleOperation = (operation) => { if (operation === "提现明细") showReviewPage.value = true };
-const onBackToMainPage = () => showReviewPage.value = false;
+const handleOperation = (operation) => {
+  if (operation === 3) showReviewPage.value = true;
+};
+const onBackToMainPage = () => (showReviewPage.value = false);
 const handleConfirm = () => console.log('Confirmed');
 const handleReject = () => console.log('Rejected');
+
+const copyText = (text) => {
+  navigator.clipboard
+    .writeText(text)
+    .then(() => message.success({ content: '已成功复制到剪贴板。', duration: 1 }))
+    .catch(() => message.error({ content: '复制到剪贴板失败，请重试。', duration: 1 }));
+};
+
 </script>
 
 <style scoped>
-.expanded-row-content {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-left: 40px;
-}
-
-.row {
-  display: contents;
-}
-
-.cell {
-  padding: 8px;
-  white-space: pre-line;
-}
-
 .fade-slide-enter-active,
 .fade-slide-leave-active {
   transition: opacity 0.5s, transform 0.5s;
 }
-
 .fade-slide-enter,
 .fade-slide-leave-to {
   opacity: 0;
