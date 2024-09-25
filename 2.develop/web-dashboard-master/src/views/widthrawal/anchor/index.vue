@@ -1,8 +1,8 @@
 <template>
-  <a-card>
-    <transition name="fade-slide" mode="out-in">
-      <div v-if="!showReviewPage">
-        <a-row :gutter="16" type="flex" justify="end">
+  <transition name="fade-slide" mode="out-in">
+    <div v-if="!showReviewPage">
+      <a-card style="margin-bottom: 1%">
+        <a-row :gutter="16" type="flex" justify="end"  style="margin-bottom: -20px;">
           <a-col :flex="1">
             <a-form-item label="提现订单号">
               <a-input v-model:value="searchParams.orderID" placeholder="请输入提现订单号" />
@@ -21,10 +21,10 @@
           <a-col :flex="1">
             <a-form-item label="状态" >
               <a-select v-model:value="searchParams.status" placeholder="请选择状态">
-                <a-select-option value="0">全部</a-select-option>
-                <a-select-option value="1">提现中</a-select-option>
-                <a-select-option value="2">提现成功</a-select-option>
-                <a-select-option value="3">提现失败</a-select-option>
+                <a-select-option value="0">{{ENUM.withdrawal_status[0]}}</a-select-option>
+                <a-select-option value="1">{{ENUM.withdrawal_status[1]}}</a-select-option>
+                <a-select-option value="2">{{ENUM.withdrawal_status[2]}}</a-select-option>
+                <a-select-option value="3">{{ENUM.withdrawal_status[3]}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -50,119 +50,119 @@
             </a-form-item>
           </a-col>
 
-            <a-col :flex="auto">
-              <a-form-item>
-                <a-button type="primary" block @click="onSettings">提现设置</a-button>
-              </a-form-item>
-            </a-col>
-            <a-col :flex="auto">
-              <a-form-item>
-                <a-button type="primary" block @click="exportCSV">导出CSV</a-button>
-              </a-form-item>
-            </a-col>
+          <a-col :flex="auto">
+            <a-form-item>
+              <a-button type="primary" block @click="onSettings">提现设置</a-button>
+            </a-form-item>
+          </a-col>
+          <a-col :flex="auto">
+            <a-form-item>
+              <a-button type="primary" block @click="exportCSV">导出CSV</a-button>
+            </a-form-item>
+          </a-col>
           
         </a-row>
+      </a-card>
 
-        <a-table
-          :data-source="paginatedData"
-          :pagination="false"
-          :scroll="{ x: 'max-content' }"
-        >
-          <a-table-column title="提现订单号" dataIndex="wOrderID" key="wOrderID" align="center" />
-          <a-table-column title="主播昵称" dataIndex="nickName" key="nickName" align="center" />
-          <a-table-column title="房间号" dataIndex="roomID" key="roomID" align="center" />
-          <a-table-column title="所属工会" dataIndex="union" key="union" align="center" />
-          <a-table-column title="提现信息" dataIndex="wInfo" key="wInfo" align="center">
-            <template #default="{ record }">
-              <div style="text-align: left;">
-                <div>收款货币：{{ record.wInfo.currency }}</div>
-                <div>手续费：{{ record.wInfo.fee }}</div>
-                <div>提现金额：{{ record.wInfo.amount }}</div>
+      <a-table
+        :data-source="paginatedData"
+        :pagination="false"
+        :scroll="{ x: 'max-content' }"
+      >
+        <a-table-column title="提现订单号" dataIndex="wOrderID" key="wOrderID" align="center" />
+        <a-table-column title="主播昵称" dataIndex="nickName" key="nickName" align="center" />
+        <a-table-column title="房间号" dataIndex="roomID" key="roomID" align="center" />
+        <a-table-column title="所属工会" dataIndex="union" key="union" align="center" />
+        <a-table-column title="提现信息" dataIndex="wInfo" key="wInfo" align="center">
+          <template #default="{ record }">
+            <div style="text-align: left;">
+              <div>收款货币：{{ record.wInfo.currency }}</div>
+              <div>手续费：{{ record.wInfo.fee }}</div>
+              <div>提现金额：{{ record.wInfo.amount }}</div>
+            </div>
+          </template>
+        </a-table-column>
+        <a-table-column title="收款信息" dataIndex="rInfo" key="rInfo" align="center">
+          <template #default="{ record }">
+            <div style="text-align: left;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>提现银行：{{ record.rInfo.bank }}</span>
+                <a-button style="font-size: 9px;" type="link" size="small" @click="copyText(record.rInfo.bank)">复制</a-button>
               </div>
-            </template>
-          </a-table-column>
-          <a-table-column title="收款信息" dataIndex="rInfo" key="rInfo" align="center">
-            <template #default="{ record }">
-              <div style="text-align: left;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span>提现银行：{{ record.rInfo.bank }}</span>
-                  <a-button style="font-size: 9px;" type="link" size="small" @click="copyText(record.rInfo.bank)">复制</a-button>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span>银行卡号：{{ record.rInfo.bankCard }}</span>
-                  <a-button style="font-size: 9px;" type="link" size="small" @click="copyText(record.rInfo.bankCard)">复制</a-button>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span>姓名：{{ record.rInfo.name }}</span>
-                  <a-button style="font-size: 9px;" type="link" size="small" @click="copyText(record.rInfo.name)">复制</a-button>
-                </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>银行卡号：{{ record.rInfo.bankCard }}</span>
+                <a-button style="font-size: 9px;" type="link" size="small" @click="copyText(record.rInfo.bankCard)">复制</a-button>
               </div>
-            </template>
-          </a-table-column>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>姓名：{{ record.rInfo.name }}</span>
+                <a-button style="font-size: 9px;" type="link" size="small" @click="copyText(record.rInfo.name)">复制</a-button>
+              </div>
+            </div>
+          </template>
+        </a-table-column>
 
-          <a-table-column title="时间" dataIndex="time" key="time" align="center">
-            <template #default="{ record }">
-              <div style="text-align: left;">
-                <div>申请时间：{{ record.time.applyTime }}</div>
-                <div>操作时间：{{ record.time.operationTime }}</div>
-              </div>
-            </template>
-          </a-table-column>
-          <a-table-column title="提现状态" dataIndex="wStatus" key="wStatus" align="center">
-            <template #default="{ text }">
-              <a-tag :color="statusColors[text]">{{ statusText[text] }}</a-tag>
-            </template>
-          </a-table-column>
-          <a-table-column title="操作账号" dataIndex="account" key="account" align="center" />
-          <a-table-column title="操作" dataIndex="operate" key="operate" align="center" fixed="right" width="150">
-            <template #default="{ record }">
-              <span v-if="Array.isArray(record.operate)">
-                <span v-for="(operation, index) in record.operate" :key="index">
-                  <a :style="{ textDecoration: 'underline', cursor: 'pointer', color: operationColors[operation] }"
-                    @click="handleOperation(operation)">
-                    {{ operationText[operation] }}
-                  </a>
-                  <span v-if="index < record.operate.length - 1" style="margin-right: 10px;"></span> <!-- Separator between multiple operations -->
-                </span>
-              </span>
-              <span v-else>
-                <a :style="{ textDecoration: 'underline', cursor: 'pointer', color: operationColors[record.operate] }"
-                  @click="handleOperation(record.operate)">
-                  {{ operationText[record.operate] }}
+        <a-table-column title="时间" dataIndex="time" key="time" align="center">
+          <template #default="{ record }">
+            <div style="text-align: left;">
+              <div>申请时间：{{ record.time.applyTime }}</div>
+              <div>操作时间：{{ record.time.operationTime }}</div>
+            </div>
+          </template>
+        </a-table-column>
+        <a-table-column title="提现状态" dataIndex="wStatus" key="wStatus" align="center">
+          <template #default="{ text }">
+            <a-tag :color="statusColors[text]">{{ ENUM.withdrawal_status[text] }}</a-tag>
+          </template>
+        </a-table-column>
+        <a-table-column title="操作账号" dataIndex="account" key="account" align="center" />
+        <a-table-column title="操作" dataIndex="operate" key="operate" align="center" fixed="right" width="150">
+          <template #default="{ record }">
+            <span v-if="Array.isArray(record.operate)">
+              <span v-for="(operation, index) in record.operate" :key="index">
+                <a :style="{ textDecoration: 'underline', cursor: 'pointer', color: operationColors[operation] }"
+                  @click="handleOperation(operation)">
+                  {{ ENUM.withdrawal_operate_type[operation] }}
                 </a>
+                <span v-if="index < record.operate.length - 1" style="margin-right: 10px;"></span> <!-- Separator between multiple operations -->
               </span>
-            </template>
-          </a-table-column>
-        </a-table>
+            </span>
+            <span v-else>
+              <a :style="{ textDecoration: 'underline', cursor: 'pointer', color: operationColors[record.operate] }"
+                @click="handleOperation(record.operate)">
+                {{ ENUM.withdrawal_operate_type[record.operate] }}
+              </a>
+            </span>
+          </template>
+        </a-table-column>
+      </a-table>
 
-        <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-          <span style="margin-right: 8px;">共 {{ totalItems }} 条</span>
-          <a-pagination
-            v-model:current="currentPage"
-            :total="totalItems"
-            :page-size="pageSize"
-            show-size-changer
-            :page-size-options="['5', '10', '20', '50', '100']"
-            size="small"
-            @change="handlePageChange"
-            @show-size-change="handleSizeChange"
-          />
-        </div>
-      </div>
-      <div v-else>
-        <review-page
-          :basicData="basicData"
-          :currentWithdraw="currentWithdraw"
-          :historyWithdraw="historyWithdraw"
-          :paymentInfo="paymentInfo"
-          withdrawStatus="提现中"
-          @back="onBackToMainPage"
-          @confirm="handleConfirm"
-          @reject="handleReject"
+      <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+        <span style="margin-right: 8px;">共 {{ totalItems }} 条</span>
+        <a-pagination
+          v-model:current="currentPage"
+          :total="totalItems"
+          :page-size="pageSize"
+          show-size-changer
+          :page-size-options="['5', '10', '20', '50', '100']"
+          size="small"
+          @change="handlePageChange"
+          @show-size-change="handleSizeChange"
         />
       </div>
-    </transition>
-  </a-card>
+    </div>
+    <div v-else>
+      <review-page
+        :basicData="basicData"
+        :currentWithdraw="currentWithdraw"
+        :historyWithdraw="historyWithdraw"
+        :paymentInfo="paymentInfo"
+        withdrawStatus="提现中"
+        @back="onBackToMainPage"
+        @confirm="handleConfirm"
+        @reject="handleReject"
+      />
+    </div>
+  </transition>
 
   <ExportCSVDialog :isModalVisible="isModalVisible2" @update:isModalVisible="val => (isModalVisible2 = val)" />
   <SettingsDialog :isModalVisible="isModalVisible" @update:isModalVisible="val => (isModalVisible = val)" />
@@ -314,25 +314,10 @@ const dataSource = ref([
   },
 ])
 
-const statusText = {
-  0: '全部',
-  1: '提现中',
-  2: '提现成功',
-  3: '提现失败',
-}
-
 const statusColors = {
   1: 'blue',
   2: 'green',
   3: 'red',
-}
-
-const operationText = {
-  1: '审核',
-  2: '锁定',
-  3: '提现明细',
-  4: '已拒绝',
-  5: '已锁定',
 }
 
 const operationColors = {
@@ -350,6 +335,14 @@ const paginatedData = computed(() => {
 })
 
 const onSearch = () => console.log("Search initiated with", searchParams.value)
+
+const onReset = () => {
+  searchParams.value.orderID = ''
+  searchParams.value.nickName = ''
+  searchParams.value.roomID = ''
+  searchParams.value.status = '0'
+  searchParams.value.dateRange = null
+}
 const onSettings = () => (isModalVisible.value = true)
 const exportCSV = () => (isModalVisible2.value = true)
 const handlePageChange = (page) => (currentPage.value = page)
