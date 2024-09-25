@@ -217,7 +217,7 @@
         }
       }
   
-      const currentComponent = ref('onlinecustomerserviceManagement') // Initial component
+      const currentComponent = ref('activityManagement') // Initial component
   
       return {
         collapse_flag,

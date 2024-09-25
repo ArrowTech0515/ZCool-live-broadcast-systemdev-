@@ -3,22 +3,29 @@
     <div v-if="!showEditPage && !showDataPage">
       <a-card style=" margin-bottom: 1%;">
         <a-row type="flex" style="align-items: center; margin-bottom: -20px;">
+          <a-col  style="margin-left: 20px;">
+            <a-form-item label="活动名称">
+              <a-input v-model:value="activity_id" placeholder="请输入活动名称" />
+            </a-form-item>
+          </a-col>
 
-            <a-col  style="margin-left: 20px;">
-              <a-form-item label="活动名称">
-                <a-input v-model:value="activity_id" placeholder="请输入活动名称" />
-              </a-form-item>
-            </a-col>
-
-            <a-col :flex="auto"  style="margin-left: 20px;">
-              <a-form-item label="状态">
-                <a-select v-model:value="activity_status" value="all">
-                  <a-select-option value="all">{{ ENUM.activity_status[1] }}</a-select-option>
-                  <a-select-option value="active">{{ ENUM.activity_status[2] }}</a-select-option>
-                  <a-select-option value="enabled">{{ ENUM.activity_status[3] }}</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
+          <a-col :flex="auto"  style="margin-left: 20px;">
+            <a-form-item label="状态">
+              <a-select v-model:value="activity_status" value="all">
+                <a-select-option value="all">{{ ENUM.activity_status[1] }}</a-select-option>
+                <a-select-option value="active">{{ ENUM.activity_status[2] }}</a-select-option>
+                <a-select-option value="enabled">{{ ENUM.activity_status[3] }}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :flex="auto"  style="margin-left: 20px;">
+            <a-form-item label="活动时间">
+              <a-range-picker 
+                :placeholder="['开始日期', '结束日期']"
+                v-model:value="activity_time" 
+              />
+            </a-form-item>
+          </a-col>   
 
           <a-col :flex="auto"  style="margin-left: 20px;">
             <a-form-item>
@@ -27,7 +34,6 @@
               </a-button>
             </a-form-item>
           </a-col>
-
           <a-col :flex="auto"  style="margin-left: 20px;">
             <a-form-item>
               <a-button block @click="onReset">
@@ -101,13 +107,14 @@
 </template>
 
 <script lang="jsx" setup>
-import { ref, computed } from 'vue';
-import editPage from './editPage.vue';
-import dataPage from './dataPage.vue';
+import { ref, computed } from 'vue'
+import editPage from './editPage.vue'
+import dataPage from './dataPage.vue'
 
 // States for inputs
 const activity_id = ref('') // Initialize as an empty string
 const activity_status = ref('all') // Initialize the activity status to 'all'
+const activity_time = ref(null)
 
 // States for pagination and data
 const currentPage = ref(1)
@@ -131,62 +138,63 @@ const dataSource = ref([
     creationTime: '2012-12-12 12:21:21',
     operate: '数据 编辑',
   },
-]);
+])
 
 const paginatedData = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value;
-  const end = start + pageSize.value;
-  return dataSource.value.slice(start, end);
-});
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return dataSource.value.slice(start, end)
+})
 
 const onAdd = () => {
-  showEditPage.value = true; // Switch to the add strategy view
-};
+  showEditPage.value = true // Switch to the add strategy view
+}
 
 const onSearch = () => {
-  console.log('Search clicked with Activity ID:', activity_id.value);
+  console.log('Search clicked with Activity ID:', activity_id.value)
   // Implement search logic
-};
+}
 
 const onReset = () => {
-  console.log('Reset2 clicked');
-  activity_id.value = ''; // Reset the activity_id input
-  activity_status.value = 'all'; // Reset the activity_status select
+  console.log('Reset2 clicked')
+  activity_id.value = '' // Reset the activity_id input
+  activity_status.value = 'all' // Reset the activity_status select
+  activity_time.value = null
   // Implement reset logic
-};
+}
 
 const handlePageChange = (page) => {
-  currentPage.value = page;
-};
+  currentPage.value = page
+}
 
 const handleSizeChange = (current, size) => {
-  pageSize.value = size;
-  currentPage.value = 1; // Reset to the first page when page size changes
-};
+  pageSize.value = size
+  currentPage.value = 1 // Reset to the first page when page size changes
+}
 
 const handleOperation = (operation) => {
   if (operation === "编辑") {
-    showEditPage.value = true; // Switch to the edit page view
+    showEditPage.value = true // Switch to the edit page view
   } else if (operation === "数据") {
-    showDataPage.value = true; // Switch to the data page view
+    showDataPage.value = true // Switch to the data page view
   }
-};
+}
 
 const onBackToMainPage1 = () => {
-  showDataPage.value = false; // Switch back to the main table view
-};
+  showDataPage.value = false // Switch back to the main table view
+}
 
 const onBackToMainPage2 = () => {
-  showEditPage.value = false; // Switch back to the main table view
-};
+  showEditPage.value = false // Switch back to the main table view
+}
 
 const handleConfirm = () => {
   // Implement confirm logic
-};
+}
 
 const handleReject = () => {
   // Implement reject logic
-};
+}
 </script>
 
 

@@ -7,7 +7,7 @@ export default {
   os_type: {
     0: '全部',
     1: 'iOS',
-    2: 'Android',
+    2: '安卓',
     3: 'PC',
     99: '未知',
   },

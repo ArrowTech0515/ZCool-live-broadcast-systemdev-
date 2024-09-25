@@ -115,6 +115,7 @@
             <a-range-picker 
               :placeholder="['开始日期', '结束日期']"
               style="width: 75%; text-align: center;"
+              v-model:range="activityTime" 
             />
           </div>
         </div>
@@ -260,6 +261,7 @@ const emit = defineEmits(['back'])  // Define the 'back' event
 const isModalVisible = ref(false);
 const radioValue = ref('radio1');
 const radioValue2 = ref('radio1');
+const activityTime = ref(null)
 const spin_value1 = ref(0);
 const spin_value2 = ref(0);
 const imageUrl = ref('');

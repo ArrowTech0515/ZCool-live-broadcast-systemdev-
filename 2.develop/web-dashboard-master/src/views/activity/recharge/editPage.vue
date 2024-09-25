@@ -133,7 +133,6 @@
               :placeholder="['开始日期', '结束日期']"
               style="width: 75%; text-align: center;"
               v-model:range="formData.activityTime" 
-              show-time
             />
           </div>
         </div>

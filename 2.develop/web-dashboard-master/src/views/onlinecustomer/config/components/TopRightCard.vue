@@ -10,6 +10,13 @@ const lineConfig = ref('');
 const VIPlineAddress = ref('');
 const userRatio = ref('');
 const pageTitle = ref('');
+// Bound variable for a-select
+const supportLevel = ref('all_levels') // Default value
+
+// Bound variable for radio group and checkbox selection
+const supportDevice = ref('supportDevice1')
+const supportLang = ref([])
+
 </script>
 
 <template>
@@ -39,23 +46,24 @@ const pageTitle = ref('');
         <a-input v-model="pageTitle" placeholder="请输入网页标题" />
       </a-form-item>
       <a-form-item label="支持设备" :label-col="{ span: 5 }" >
-        <a-radio-group v-model:value="supportDeivce" placeholder="请输入支持设备">
+        <a-radio-group v-model:value="supportDevice" placeholder="请选择支持设备">
           <a-radio value="supportDevice1">{{ENUM.os_type[0]}}</a-radio>
           <a-radio value="supportDevice2">{{ENUM.os_type[1]}}</a-radio>
           <a-radio value="supportDevice3">{{ENUM.os_type[2]}}</a-radio>
         </a-radio-group>
       </a-form-item>
       <a-form-item label="支持层级" :label-col="{ span: 5 }" >
-        <a-select v-model:value="supportDeivce" default-value="all_levels" placeholder="请输入支持层级">
+        <a-select v-model:value="supportLevel" default-value="all_levels" placeholder="请选择支持层级">
           <a-select-option value="all_levels">所有层级</a-select-option>
         </a-select>
       </a-form-item>
       <a-form-item label="支持语言" :label-col="{ span: 5 }" >
-        <a-checkbox value="supportLang1" >{{ENUM.lang_type['zh']}}</a-checkbox>
-        <a-checkbox value="supportLang2" >{{ENUM.lang_type['yue']}}</a-checkbox>
-        <a-checkbox value="supportLang3" >{{ENUM.lang_type['id']}}</a-checkbox>
-        <a-checkbox value="supportLang4" >{{ENUM.lang_type['vi']}}</a-checkbox>
-        <a-checkbox value="supportLang5" >{{ENUM.lang_type['en']}}</a-checkbox>
+        <a-checkbox-group v-model="supportLang">
+          <a-checkbox value="zh">{{ENUM.lang_type['zh']}}</a-checkbox>
+          <a-checkbox value="id">{{ENUM.lang_type['id']}}</a-checkbox>
+          <a-checkbox value="vi">{{ENUM.lang_type['vi']}}</a-checkbox>
+          <a-checkbox value="en">{{ENUM.lang_type['en']}}</a-checkbox>
+        </a-checkbox-group>
       </a-form-item>
     </a-form>
   </a-card>

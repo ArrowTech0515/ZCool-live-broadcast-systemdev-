@@ -31,7 +31,9 @@
 
         <a-col style="margin-left: 20px;">
           <a-form-item label="时间">
-            <a-range-picker :placeholder="['开始时间', '结束时间']">
+            <a-range-picker 
+              v-model:value="activity_time" 
+              :placeholder="['开始时间', '结束时间']">
             <!-- options here -->
             </a-range-picker>
           </a-form-item>
@@ -94,7 +96,7 @@ const totalItems = ref(100)
 
 const user_id = ref('') // Initialize as an empty string
 const nick_name = ref('') // Initialize the activity status to 'all'
-const time = ref('') // Initialize the activity status to 'all'
+const activity_time = ref('') // Initialize the activity status to 'all'
 
 // Data source array
 const dataSource = ref([
@@ -140,7 +142,7 @@ const onReset = () => {
   console.log('Reset clicked')
   user_id.value = '' // Reset the user_id input
   nick_name.value = '' // Reset the nickName input
-  time.value = ''
+  activity_time.value = ''
   // Implement reset logic
 }
 

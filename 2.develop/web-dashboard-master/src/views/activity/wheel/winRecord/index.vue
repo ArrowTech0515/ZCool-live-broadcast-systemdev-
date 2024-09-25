@@ -5,7 +5,9 @@
       <!-- First Column -->
       <a-col :flex="auto" style="margin-left: 20px;">
         <a-form-item label="时间">
-          <a-range-picker :placeholder="['开始日期', '结束日期']">
+          <a-range-picker
+            v-model:value="activity_time"
+            :placeholder="['开始日期', '结束日期']">
             <!-- options here -->
           </a-range-picker>
         </a-form-item>
@@ -79,6 +81,7 @@ import { SearchOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 const currentPage = ref(1)
 const pageSize = ref(15)
 const totalItems = 100
+const activity_time = ref('')
 
 const winnerID = ref('')
 const winPosition = ref('')
@@ -135,6 +138,7 @@ const onReset = () => {
   winnerID.value = ''
   winPosition.value = ''
   winType.value = ''
+  activity_time.value = ''
 }
 
 const handlePageChange = (page: number) => {

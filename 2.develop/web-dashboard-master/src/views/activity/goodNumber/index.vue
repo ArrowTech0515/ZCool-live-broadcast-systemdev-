@@ -14,13 +14,18 @@
               <a-select-option value="enabled">{{ ENUM.activity_status[3] }}</a-select-option>
             </a-select>
           </a-form-item>
+          <a-form-item label="活动时间" style="margin-left: 20px;">
+            <a-range-picker 
+              :placeholder="['开始日期', '结束日期']"
+              v-model:value="activity_time" 
+            />
+          </a-form-item>
 
           <a-form-item style="margin-left: 20px;">
             <a-button type="primary" block @click="onSearch">
               <SearchOutlined /> 查询
             </a-button>
           </a-form-item>
-
           <a-form-item style="margin-left: 20px;">
             <a-button block @click="onReset">
               <ReloadOutlined /> 重置
@@ -91,6 +96,7 @@ import dataPage from './dataPage.vue'
 // States for inputs
 const activity_id = ref('')
 const activity_status = ref('all')
+const activity_time = ref('')
 
 // Component references
 const showEditPage = ref(false)
@@ -140,6 +146,7 @@ const onSearch = () => {
 const onReset = () => {
   activity_id.value = ''
   activity_status.value = 'all'
+  activity_time.value = ''
 }
 
 const handlePageChange = (page) => {

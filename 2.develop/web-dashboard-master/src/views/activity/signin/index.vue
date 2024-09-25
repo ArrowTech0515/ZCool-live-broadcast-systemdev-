@@ -3,21 +3,28 @@
     <div v-if="!showEditPage && !showDataPage">
       <a-card style=" margin-bottom: 1%;">
         <a-row type="flex" style="align-items: center; margin-bottom: -20px;">
-            <a-col style="margin-left: 20px;">
-              <a-form-item label="活动名称搜索">
-                <a-input v-model:value="activity_id" placeholder="请输入活动名称搜索" />
-              </a-form-item>
-            </a-col>
-
-            <a-col :flex="auto" style="margin-left: 20px;">
-              <a-form-item label="状态">
-                <a-select v-model:value="activity_status" default-value="all">
-                  <a-select-option value="all">{{ ENUM.activity_status[1] }}</a-select-option>
-                  <a-select-option value="active">{{ ENUM.activity_status[2] }}</a-select-option>
-                  <a-select-option value="enabled">{{ ENUM.activity_status[3] }}</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
+          <a-col style="margin-left: 20px;">
+            <a-form-item label="活动名称搜索">
+              <a-input v-model:value="activity_id" placeholder="请输入活动名称搜索" />
+            </a-form-item>
+          </a-col>
+          <a-col :flex="auto" style="margin-left: 20px;">
+            <a-form-item label="状态">
+              <a-select v-model:value="activity_status" default-value="all">
+                <a-select-option value="all">{{ ENUM.activity_status[1] }}</a-select-option>
+                <a-select-option value="active">{{ ENUM.activity_status[2] }}</a-select-option>
+                <a-select-option value="enabled">{{ ENUM.activity_status[3] }}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :flex="auto"  style="margin-left: 20px;">
+            <a-form-item label="活动时间">
+              <a-range-picker 
+                :placeholder="['开始日期', '结束日期']"
+                v-model:value="activity_time" 
+              />
+            </a-form-item>
+          </a-col>   
 
           <a-col :flex="auto" style="margin-left: 20px;">
             <a-form-item>
@@ -100,6 +107,7 @@ import dataPage from './dataPage.vue'
 // States for inputs
 const activity_id = ref('')
 const activity_status = ref('all')
+const activity_time = ref('')
 
 // Component references
 const showEditPage = ref(false)
@@ -149,6 +157,7 @@ const onSearch = () => {
 const onReset = () => {
   activity_id.value = ''
   activity_status.value = 'all'
+  activity_time.value = ''
 }
 
 const handlePageChange = (page) => {

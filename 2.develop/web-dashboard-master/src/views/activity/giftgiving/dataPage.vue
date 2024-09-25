@@ -30,7 +30,9 @@
 
       <a-col style="margin-left: 20px;">
         <a-form-item label="时间">
-          <a-range-picker :placeholder="['开始时间', '结束时间']">
+          <a-range-picker 
+            v-model:value="activity_time"
+            :placeholder="['开始时间', '结束时间']">
           <!-- options here -->
           </a-range-picker>
         </a-form-item>
@@ -54,31 +56,31 @@
     </a-row>
   </a-card>
 
-      <!-- Your existing layout and table setup -->
-      <a-table :data-source="paginatedData" :pagination="false">
-        <a-table-column title="用户ID" dataIndex="activityName" key="activityName" align="center" />
-        <a-table-column title="用户昵称" dataIndex="activityCover" key="activityCover" align="center"/>
-        <a-table-column title="赠送机制" dataIndex="activityTime" key="activityTime" align="center" />
-        <a-table-column title="赠送类型" dataIndex="activityStatus" key="activityStatus" align="center" />
-        <a-table-column title="赠送时间" dataIndex="operationAccount" key="operationAccount" align="center">
-        </a-table-column>
+  <!-- Your existing layout and table setup -->
+  <a-table :data-source="paginatedData" :pagination="false">
+    <a-table-column title="用户ID" dataIndex="activityName" key="activityName" align="center" />
+    <a-table-column title="用户昵称" dataIndex="activityCover" key="activityCover" align="center"/>
+    <a-table-column title="赠送机制" dataIndex="activityTime" key="activityTime" align="center" />
+    <a-table-column title="赠送类型" dataIndex="activityStatus" key="activityStatus" align="center" />
+    <a-table-column title="赠送时间" dataIndex="operationAccount" key="operationAccount" align="center">
+    </a-table-column>
 
-      </a-table>
+  </a-table>
 
-      <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-        <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
-        <a-pagination
-          v-model:current="currentPage"
-          :total="totalItems"
-          :page-size="pageSize"
-          show-size-changer
-          :page-size-options="['5', '10', '20', '50', '100']"
-          :simple="false"
-          size="small"
-          @change="handlePageChange"
-          @show-size-change="handleSizeChange"
-        />
-      </div>
+  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+    <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
+    <a-pagination
+      v-model:current="currentPage"
+      :total="totalItems"
+      :page-size="pageSize"
+      show-size-changer
+      :page-size-options="['5', '10', '20', '50', '100']"
+      :simple="false"
+      size="small"
+      @change="handlePageChange"
+      @show-size-change="handleSizeChange"
+    />
+  </div>
 </template>
 
 
@@ -94,7 +96,7 @@ const totalItems = ref(100)
 
 const user_id = ref('') // Initialize as an empty string
 const nick_name = ref('') // Initialize the activity status to 'all'
-const time = ref('') // Initialize the activity status to 'all'
+const activity_time = ref('') // Initialize the activity status to 'all'
 
 // Data source array
 const dataSource = ref([
@@ -140,7 +142,7 @@ const onReset = () => {
   console.log('Reset clicked')
   user_id.value = '' // Reset the user_id input
   nick_name.value = '' // Reset the nickName input
-  time.value = ''
+  activity_time.value = ''
 }
 
 const handlePageChange = (page) => {
