@@ -83,7 +83,7 @@
           <div style="width: 75%;">
             <a-input 
               placeholder="请输入活动名称" 
-              style="text-align: center; width: 75%;"
+              style="text-align: center; width: 75%;" v-model:value="formData.activityName"
             />
             <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
               用户不可见，仅后台用户可见
@@ -92,7 +92,7 @@
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 20px; width: 100%;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
             展示位置
           </div>
           <div style="width: 75%;">
@@ -108,15 +108,21 @@
         </div>
 
         <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
             活动时间
           </div>
           <div style="width: 75%;">
             <a-range-picker 
-              :placeholder="['开始日期', '结束日期']"
-              style="width: 75%; text-align: center;"
-              v-model:range="activityTime" 
-            />
+                :placeholder="['开始日期', '结束日期']"
+                v-model:range="formData.activityTime" 
+                :disabled="isPermanent" 
+              />
+              <a-switch
+                v-model:checked="isPermanent"
+                checked-children="永久"
+                un-checked-children="时间范围"
+                style="margin-left: 20px;"
+              />
           </div>
         </div>
 
@@ -256,12 +262,24 @@
 import { ref, computed } from 'vue';
 import SelectGiftDialog from './selectGiftDialog.vue';
 
+defineProps({
+  formData: {
+      type: Object,
+      default: () => ({
+        activityName: '',
+        activityType: '',
+        activityTime: [null, null],
+      }),
+    },
+})
+
 const emit = defineEmits(['back'])  // Define the 'back' event
 
 const isModalVisible = ref(false);
 const radioValue = ref('radio1');
 const radioValue2 = ref('radio1');
-const activityTime = ref(null)
+const isPermanent = ref(false)
+
 const spin_value1 = ref(0);
 const spin_value2 = ref(0);
 const imageUrl = ref('');

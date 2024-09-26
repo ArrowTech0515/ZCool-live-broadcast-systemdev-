@@ -120,7 +120,17 @@
             活动时间
           </div>
           <div style="width: 75%;">
-            <a-range-picker :placeholder="['开始日期', '结束日期']" style="width: 75%; text-align: center;" />
+            <a-range-picker 
+                :placeholder="['开始日期', '结束日期']"
+                v-model:range="formData.activityTime" 
+                :disabled="isPermanent" 
+              />
+              <a-switch
+                v-model:checked="isPermanent"
+                checked-children="永久"
+                un-checked-children="时间范围"
+                style="margin-left: 20px;"
+              />
           </div>
         </div>
 
@@ -193,9 +203,22 @@
 <script setup lang="jsx">
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
 
+defineProps({
+  formData: {
+      type: Object,
+      default: () => ({
+        activityName: '',
+        activityType: '',
+        activityTime: [null, null],
+      }),
+    },
+})
+
 const emit = defineEmits(['back'])  // Define the 'back' event
 
-const spin_value1 = ref(0);
+const spin_value1 = ref(0)
+const isPermanent = ref(false)
+
 const radioValue = ref('radio1'); // Initial value for the radio group
 const imageUrl = ref(''); // URL for the uploaded icon
 const bannerUrl = ref(''); // URL for the uploaded banner

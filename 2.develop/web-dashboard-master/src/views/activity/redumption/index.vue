@@ -172,8 +172,9 @@ const handleSizeChange = (current, size) => {
   currentPage.value = 1 // Reset to the first page when page size changes
 }
 
-const handleOperation = (operation) => {
+const handleOperation = (operation, record) => {
   if (operation === "编辑") {
+    selectedActivity.value = record // Set the selected record data
     showEditPage.value = true // Switch to the edit page view
   } else if (operation === "数据") {
     showDataPage.value = true // Switch to the data page view

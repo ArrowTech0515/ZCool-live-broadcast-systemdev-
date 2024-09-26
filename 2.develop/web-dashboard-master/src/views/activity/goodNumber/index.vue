@@ -107,6 +107,8 @@ const currentPage = ref(1)
 const pageSize = ref(5)
 const totalItems = ref(100)
 
+const selectedActivity = ref(null) // Ref to store the selected activity
+
 // Data source array
 const dataSource = ref([
   {
@@ -160,6 +162,7 @@ const handleSizeChange = (current, size) => {
 
 const handleOperation = (operation, record) => {
   if (operation === '编辑') {
+    selectedActivity.value = record // Set the selected record data
     showEditPage.value = true
   } else if (operation === '数据') {
     showDataPage.value = true
