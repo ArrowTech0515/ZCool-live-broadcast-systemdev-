@@ -83,10 +83,22 @@
           </div>
         </div>
 
-        <div class="form-item">
-          <div class="label">活动时间</div>
-          <div class="input-container">
-            <a-range-picker :placeholder="['开始日期', '结束日期']" class="input-field" />
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+            活动时间
+          </div>
+          <div style="width: 75%;">
+            <a-range-picker 
+                :placeholder="['开始日期', '结束日期']"
+                v-model:range="formData.activityTime" 
+                :disabled="isPermanent" 
+              />
+              <a-switch
+                v-model:checked="isPermanent"
+                checked-children="永久"
+                un-checked-children="时间范围"
+                style="margin-left: 20px;"
+              />
           </div>
         </div>
 
@@ -151,7 +163,7 @@
 
         <!-- Center Aligned Save Button -->
         <a-form-item class="save-button">
-          <a-button type="primary" class="save-btn">保存</a-button>
+          <a-button type="primary" class="save-btn" @click="handleConfirm">保存</a-button>
         </a-form-item>
       </a-col>
     </div>
@@ -163,7 +175,20 @@ import { ref } from 'vue';
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
 import GiftPanel from '@/components/Form/GiftPanel.vue';
 
+defineProps({
+  formData: {
+      type: Object,
+      default: () => ({
+        activityName: '',
+        activityType: '',
+        activityTime: [null, null],
+      }),
+    },
+})
+
 const emit = defineEmits(['back'])  // Define the 'back' event
+
+const isPermanent = ref(false)
 
 const spin_value1 = ref(0);
 const imageUrl = ref('');
@@ -188,6 +213,10 @@ const addCustomSpin = () => {
 
 const removeCustomSpin = (curIndex) => {
   spinCards.value.splice(curIndex, 1);
+};
+
+const handleConfirm = () => {
+  emit('back'); // Emit the back event to the parent component
 };
 
 const handleBack = () => {

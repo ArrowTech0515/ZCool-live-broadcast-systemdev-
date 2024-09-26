@@ -1,23 +1,17 @@
 <template>
     <a-tabs default-active-key="1">
     
-        <a-tab-pane key="1" tab="充值活动">
-            <rechargePage />
+        <a-tab-pane key="1" tab="活动管理">
+            <mainPage />
         </a-tab-pane>
         <a-tab-pane key="2" tab="兑换活动">
             <redumptionPage />
         </a-tab-pane>
-        <a-tab-pane key="3" tab="靓号活动">
-            <goodNumberPage />
-        </a-tab-pane>
-        <a-tab-pane key="4" tab="签到活动">
-            <signinPage />
-        </a-tab-pane>
-        <a-tab-pane key="5" tab="送礼活动">
-            <giftGiving />
-        </a-tab-pane>
-        <a-tab-pane key="6" tab="转盘活动">
+        <a-tab-pane key="3" tab="转盘活动">
             <wheelPage />
+        </a-tab-pane>
+        <a-tab-pane key="4" tab="新注册会员彩金">
+            <newMemberBonusPage />
         </a-tab-pane>
 
     </a-tabs>
@@ -27,22 +21,18 @@
 
 import { Tabs } from 'ant-design-vue'
 
-import rechargePage from './recharge/index.vue';
-import redumptionPage from './redumption/index.vue'; // junn
-import goodNumberPage from './goodNumber/index.vue'; // junn
-import signinPage from './signin/index.vue'; // junn
-import giftGiving from './giftgiving/index.vue'; // junn
-import wheelPage from './wheel/main.vue'; // junn
+import mainPage from './main/index.vue';
+import redumptionPage from './redumption/index.vue';
+import wheelPage from './wheel/main.vue';
+import newMemberBonusPage from './newRegisteredMemberBonus/index.vue';
 
 const components = {
     'a-tabs': Tabs,
     'a-tab-pane': Tabs.TabPane,
-    rechargePage,
+    mainPage,
     redumptionPage,
-    goodNumberPage,
-    signinPage,
-    giftGiving,
-    wheelPage
+    wheelPage,
+    newMemberBonusPage
 }
 
 </script>

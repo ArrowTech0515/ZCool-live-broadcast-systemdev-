@@ -245,7 +245,7 @@
         </div>
 
         <a-form-item style="text-align: center; margin: 30px; white-space: nowrap;">
-          <a-button type="primary" style="width: 200px;">保存</a-button>
+          <a-button type="primary" style="width: 200px;" @click="handleConfirm">保存</a-button>
         </a-form-item>
 
       </a-col>
@@ -300,6 +300,10 @@ const groupedCustomSpins = computed(() => {
     return result;
   }, []);
 });
+
+const handleConfirm = () => {
+  emit('back'); // Emit the back event to the parent component
+};
 
 function handleBack() {
   // Handle the back action here

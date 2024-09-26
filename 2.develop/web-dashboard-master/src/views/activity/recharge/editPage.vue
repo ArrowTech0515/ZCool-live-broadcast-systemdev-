@@ -255,7 +255,7 @@
 
         <!-- Center Aligned Save Button -->
         <a-form-item style="text-align: center; margin: 30px; white-space: nowrap;">
-          <a-button type="primary" style="width: 200px;">保存</a-button>
+          <a-button type="primary" style="width: 200px;" @click="handleConfirm">保存</a-button>
         </a-form-item>
 
       </a-col>
@@ -317,6 +317,10 @@ const addCustomSpin = () => {
 const removeCustomSpin = (index) => {
   customSpins.value.splice(index, 1)
 }
+
+const handleConfirm = () => {
+  emit('back'); // Emit the back event to the parent component
+};
 
 const handleBack = () => {
   // Emit the back event to the parent component

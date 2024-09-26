@@ -49,14 +49,21 @@
         </div>
 
         <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
             活动时间
           </div>
           <div style="width: 75%;">
             <a-range-picker 
-              :placeholder="['开始日期', '结束日期']"
-              style="width: 75%; text-align: center;"
-            />
+                :placeholder="['开始日期', '结束日期']"
+                v-model:range="formData.activityTime" 
+                :disabled="isPermanent" 
+              />
+              <a-switch
+                v-model:checked="isPermanent"
+                checked-children="永久"
+                un-checked-children="时间范围"
+                style="margin-left: 20px;"
+              />
           </div>
         </div>
 
@@ -120,7 +127,7 @@
         </div>
 
         <a-form-item style="text-align: center; margin: 30px; white-space: nowrap;">
-          <a-button type="primary" style="width: 200px;">保存</a-button>
+          <a-button type="primary" style="width: 200px;" @click="handleConfirm">保存</a-button>
         </a-form-item>
 
       </a-col>
@@ -137,10 +144,22 @@
 import { ref } from 'vue';
 import AddRewardDialog from './addRewardDialog.vue';
 
+defineProps({
+  formData: {
+      type: Object,
+      default: () => ({
+        activityName: '',
+        activityType: '',
+        activityTime: [null, null],
+      }),
+    },
+})
+
 const emit = defineEmits(['back'])  // Define the 'back' event
 
 const isModalVisible = ref(false);
 const radioValue = ref('radio1');
+const isPermanent = ref(false)
 
 const dataSource = ref([
   { key: '1', col_1: '1', col_2: 'XXXX礼物' },
@@ -151,6 +170,10 @@ const dataSource = ref([
   { key: '6', col_1: '6', col_2: '添加奖励' },
   { key: '7', col_1: '7', col_2: '添加奖励' },
 ]);
+
+const handleConfirm = () => {
+  emit('back'); // Emit the back event to the parent component
+};
 
 const handleBack = () => {
   // Handle the back action here
