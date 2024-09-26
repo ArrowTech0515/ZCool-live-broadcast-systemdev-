@@ -217,7 +217,7 @@
         }
       }
   
-      const currentComponent = ref('activityManagement') // Initial component
+      const currentComponent = ref('fundManagement') // Initial component
   
       return {
         collapse_flag,
