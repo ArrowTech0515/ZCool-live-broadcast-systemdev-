@@ -80,8 +80,6 @@ const { loading, refresh } = useRequest(() => getAnchorListReq({
 
 const { createDialog } = useDialog()
 
-const { customRender } = MerchCell(loading)
-
 const dataSource = ref([
   {
     anchor_id: '1',
