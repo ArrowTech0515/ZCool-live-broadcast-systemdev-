@@ -10,7 +10,7 @@
           <span style="font-size: 20px; font-weight: bold; margin-left: 8px;">&lt;</span>
         </a-button>
         <div style="flex-grow: 1; text-align: center;">
-          <span style="font-size: 20px; font-weight: bold;">充值活动数据</span>
+          <span style="font-size: 20px; font-weight: bold;">新注册会员彩金数据</span>
         </div>
       </div>
     </template>
@@ -38,6 +38,7 @@
             </a-range-picker>
           </a-form-item>
         </a-col>
+
       </a-row>
       <a-col :flex="auto" style="margin-left: 20px;">
         <a-form-item>
@@ -59,11 +60,12 @@
 
   <!-- Your existing layout and table setup -->
   <a-table :data-source="paginatedData" :pagination="false">
-    <a-table-column title="用户ID" dataIndex="activityName" key="activityName" align="center" />
-    <a-table-column title="用户昵称" dataIndex="activityCover" key="activityCover" align="center"/>
-    <a-table-column title="充值金额" dataIndex="activityTime" key="activityTime" align="center" />
-    <a-table-column title="赠送金额" dataIndex="activityStatus" key="activityStatus" align="center" />
-    <a-table-column title="赠送时间" dataIndex="operationAccount" key="operationAccount" align="center">
+    <a-table-column title="用户ID" dataIndex="userID" key="userID" align="center" />
+    <a-table-column title="用户昵称" dataIndex="userNickname" key="userNickname" align="center"/>
+    <!-- <a-table-column title="活动内容" dataIndex="activityContent" key="activityContent" align="center" /> -->
+    <a-table-column title="注册彩金打码倍数" dataIndex="activityBonus" key="activityBonus" align="center" />
+    <a-table-column title="金额" dataIndex="activityAmount" key="activityAmount" align="center" />
+    <a-table-column title="赠送时间" dataIndex="updateTime" key="updateTime" align="center">
     </a-table-column>
 
   </a-table>
@@ -102,27 +104,30 @@ const activity_time = ref('') // Initialize the activity status to 'all'
 const dataSource = ref([
   {
     key: '1',
-    activityName: '232312',
-    activityCover: '大大',
-    activityTime: '4324234',
-    activityStatus: '4324234',
-    operationAccount: '2012-12-12 12:21',
+    userID: '232312',
+    userNickname: '大大',
+    activityContent: '活动内容',
+    activityBonus: '4324',
+    activityAmount: '43',
+    updateTime: '2012-12-12 12:21',
   },
   {
     key: '2',
-    activityName: '232312',
-    activityCover: '发生发顺丰',
-    activityTime: '4324234',
-    activityStatus: '4324234',
-    operationAccount: '2012-12-12 12:21',
+    userID: '232312',
+    userNickname: '发生发顺丰',
+    activityContent: '活动内容',
+    activityBonus: '4324',
+    activityAmount: '4324234',
+    updateTime: '2012-12-12 12:21',
   },
   {
     key: '3',
-    activityName: '232312',
-    activityCover: '大大',
-    activityTime: '43242',
-    activityStatus: '43242',
-    operationAccount: '2012-12-12 12:21',
+    userID: '232312',
+    userNickname: '大大',
+    activityContent: '活动内容活动内容',
+    activityBonus: '4',
+    activityAmount: '4324',
+    updateTime: '2012-12-12 12:21',
   },
 ])
 

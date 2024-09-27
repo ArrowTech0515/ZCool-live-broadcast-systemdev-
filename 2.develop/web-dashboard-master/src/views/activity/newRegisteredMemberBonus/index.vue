@@ -6,42 +6,13 @@
           
           <a-col  style="margin-left: 20px;">
             <a-form-item label="活动名称">
-              <a-input v-model:value="activity_id" placeholder="请输入活动名称" />
+              <a-input v-model:value="activityName" placeholder="请输入活动名称" />
             </a-form-item>
           </a-col>  
-          
-          <a-col  style="margin-left: 20px;">
-            <a-form-item label="活动内容">
-              <a-input v-model:value="activity_id" placeholder="请输入活动内容" />
-            </a-form-item>
-          </a-col>  
-
-          <a-col :flex="auto"  style="margin-left: 20px;">
-            <a-form-item label="时间范围">
-              <a-range-picker 
-                :placeholder="['开始日期', '结束日期']"
-                v-model:range="formData.activityTime" 
-                :disabled="isPermanent" 
-              />
-              <a-switch
-                v-model:checked="isPermanent"
-                checked-children="永久"
-                un-checked-children="时间范围"
-                style="margin-left: 20px;"
-              />
-            </a-form-item>
-          </a-col>     
           
           <a-col  style="margin-left: 20px;">
             <a-form-item label="金额">
-              <a-input-number v-model:value="activity_id" placeholder="请输入金额" />
-            </a-form-item>
-          </a-col>  
-
-
-          <a-col  style="margin-left: 20px;">
-            <a-form-item label="注册彩金打码倍数">
-              <a-input v-model:value="activity_id" placeholder="请输入注册彩金打码倍数" />
+              <a-input-number v-model:value="activityAmount" placeholder="请输入金额" />
             </a-form-item>
           </a-col>  
 

@@ -10,7 +10,7 @@
           <span style="font-size: 20px; font-weight: bold; margin-left: 8px;">&lt;</span>
         </a-button>
         <div style="flex-grow: 1; text-align: center;">
-          <span style="font-size: 20px; font-weight: bold;">充值活动</span>
+          <span style="font-size: 20px; font-weight: bold;">新注册会员彩金</span>
         </div>
       </div>
     </template>
@@ -143,80 +143,48 @@
           </div>
         </div>
         
-        <div style="display: flex; align-items: flex-start; width: 100%; margin-bottom: 15px; white-space: nowrap;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;margin-top: 10px;">
-            充值赠送
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
+            活动内容
           </div>
-          <div :flex="auto" style="width: 75%;">
-            <a-button @click="addCustomSpin" 
-              style="color: grey; font-size: 10px; margin-bottom: 10px; width: 100px; text-align: center;">
-              添加赠送内容
-            </a-button>
-
-            <div style="width: 120%; display: flex; flex-direction: column;">
-              <div 
-                v-for="(spinPair, rowIndex) in groupedCustomSpins" :key="rowIndex"
-                style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-
-                <a-card class="spinCard" :bordered="true" style="
-                      border-color: grey; display: flex; align-items: center; width: 50%;">
-
-                  <a-row style="flex: 1; display: flex; align-items: center;">
-                    <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
-                      <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; color:gray; font-size: 10px;">充值金额</span>
-                    </a-col>
-                    <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center;">
-                      <CustomSpin v-model:nValue="spin_value2" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; color:gray; font-size: 10px;">赠送金额</span>
-                    </a-col>
-                    <a-button 
-                      type="link" 
-                      @click="removeCustomSpin(rowIndex * 2)"
-                      style="margin-left: 10px; color: grey;"><MinusCircleOutlined/></a-button>
-                  </a-row>
-
-                </a-card>
-
-                <a-card v-if="spinPair.length > 1" class="spinCard" :bordered="true" style="
-                      border-color: grey; display: flex; align-items: center; width: 50%;">
-
-                  <a-row style="flex: 1; display: flex; align-items: center;">
-                    <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 10px">
-                      <CustomSpin v-model:nValue="spin_value1" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; color:gray; font-size: 10px;">充值金额</span>
-                    </a-col>
-                    <a-col style="flex: 1; display: flex; flex-direction: column; align-items: center;">
-                      <CustomSpin v-model:nValue="spin_value2" style="flex: 1; margin-bottom: 5px;"></CustomSpin>
-                      <span style="text-align: center; color:gray; font-size: 10px;">赠送金额</span>
-                    </a-col>
-                    <a-button 
-                      type="link" 
-                      @click="removeCustomSpin(rowIndex * 2 + 1)"
-                      style="margin-left: 10px; color: grey;"><MinusCircleOutlined/></a-button>
-                  </a-row>
-
-                </a-card>
-
-              </div>
+          <div style="width: 75%;">
+            <a-input 
+              placeholder="请输入活动内容" 
+              style="text-align: center; width: 75%;" v-model:value="formData.activityType"
+            />
+            <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
+              用户不可见，仅后台用户可见
             </div>
           </div>
         </div>
-        
-        <div style="display: flex; align-items: center; text-align: justify; width: 100%; margin-bottom: 15px;">
-          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px;margin-right: 15px;">
-            赠送规则
+                
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
+            金额
           </div>
           <div style="width: 75%;">
-            <a-row type="flex" align="middle" justify="space-between" style="width: 75%; white-space: nowrap;">
-              <!-- Radio Group on the left -->
-              <a-col :span="16">
-                <a-radio-group v-model:value="radioValue" style="text-align: left;">
-                  <a-radio value="radio1">首次充值有效</a-radio>
-                  <a-radio value="radio2">多次充值有效</a-radio>
-                </a-radio-group>
-              </a-col>
-            </a-row>
+            <a-input 
+              placeholder="请输入金额" 
+              style="text-align: center; width: 75%;" v-model:value="formData.activityType"
+            />
+            <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
+              用户不可见，仅后台用户可见
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
+            注册彩金打码倍数
+          </div>
+          <div style="width: 75%;">
+            <a-input 
+              placeholder="请输入注册彩金打码倍数" 
+              style="text-align: center; width: 75%;" v-model:value="formData.activityType"
+            />
+            <div style="color: darkgray; font-size: 10px; text-align: left; margin-top: 5px;">
+              用户不可见，仅后台用户可见
+            </div>
           </div>
         </div>
         

@@ -124,6 +124,7 @@ import goodNumberEditPage from '../goodNumber/editPage.vue'
 import signinEditPage from '../signin/editPage.vue'
 import giftGivingEditPage from '../giftGiving/editPage.vue'
 import wheelEditPage from '../wheel/main.vue'
+import bonusEditPage from '../newRegisteredMemberBonus/editPage.vue'
 
 import rechargeDataPage from '../recharge/dataPage.vue'
 import redumptionDataPage from '../redumption/dataPage.vue'
@@ -131,6 +132,7 @@ import goodNumberDataPage from '../goodNumber/dataPage.vue'
 import signinDataPage from '../signin/dataPage.vue'
 import giftGivingDataPage from '../giftGiving/dataPage.vue'
 import wheelDataPage from '../wheel/main.vue'
+import bonusDataPage from '../newRegisteredMemberBonus/dataPage.vue'
 
 const editPagelist = {
   '充值活动': rechargeEditPage,
@@ -139,6 +141,7 @@ const editPagelist = {
   '签到活动': signinEditPage,
   '送礼活动': giftGivingEditPage,
   '转盘活动': wheelEditPage,
+  '新注册会员彩金': bonusEditPage,
 }
 const dataPagelist = {
   '充值活动': rechargeDataPage,
@@ -147,6 +150,7 @@ const dataPagelist = {
   '签到活动': signinDataPage,
   '送礼活动': giftGivingDataPage,
   '转盘活动': wheelDataPage,
+  '新注册会员彩金': bonusDataPage,
 }
 
 // States for inputs
@@ -225,7 +229,17 @@ const dataSource = ref([
     activityCover: '登录任务',
     activityTime: '2012-12-12  12:21——2012-12-12  12:21',
     activityStatus: ENUM.activity_status[3],
-    operationAccount: '管理员-张三',
+    operationAccount: '管理员-张',
+    updateTime: '2012-12-12  12:21:21',
+    operate: '数据 编辑',
+  },
+  {
+    key: '7',
+    activityName: '新注册会员彩金',
+    activityCover: '登录任务',
+    activityTime: '2012-12-12  12:21——2012-12-12  12:21',
+    activityStatus: ENUM.activity_status[2],
+    operationAccount: '管理员-张',
     updateTime: '2012-12-12  12:21:21',
     operate: '数据 编辑',
   },

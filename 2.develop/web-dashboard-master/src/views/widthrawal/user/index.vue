@@ -1,8 +1,8 @@
 <template>
-  <a-card>
-    <transition name="fade-slide" mode="out-in">
-      <div v-if="!showReviewPage">
-        <a-row :gutter="16" type="flex" justify="end">
+  <transition name="fade-slide" mode="out-in">
+    <div v-if="!showReviewPage">
+      <a-card style="margin-bottom: 1%">
+        <a-row :gutter="16" type="flex" justify="end"  style="margin-bottom: -20px;">
           <!-- First Column -->
           <a-col :flex="auto">
             <a-form-item label="提现订单号">
@@ -73,6 +73,7 @@
             </a-form-item>
           </a-col>
         </a-row>
+      </a-card>
 
         <!-- Updated table -->
         <a-table :data-source="paginatedData" :pagination="false" :scroll="{ x: 'max-content' }">
@@ -179,8 +180,6 @@
       </div>
     </transition>
   <ExportCSVDialog :isModalVisible="isModalVisible2" @update:isModalVisible="val => (isModalVisible2 = val)" />
-
-  </a-card>
 </template>
 
 <script setup>
