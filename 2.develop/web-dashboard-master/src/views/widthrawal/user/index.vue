@@ -67,7 +67,7 @@
             </a-form-item>
           </a-col>
 
-          <a-col :span="2">
+          <a-col :flex="auto">
             <a-form-item>
               <a-button type="primary" block @click="exportCSV">导出CSV</a-button>
             </a-form-item>
@@ -182,8 +182,7 @@
   <ExportCSVDialog :isModalVisible="isModalVisible2" @update:isModalVisible="val => (isModalVisible2 = val)" />
 </template>
 
-<script setup>
-import { ref, computed } from 'vue'
+<script setup lang="jsx">
 import { message } from 'ant-design-vue'
 import reviewPage from './review/index.vue'
 import ExportCSVDialog from './exportCSVDialog.vue'

@@ -1,8 +1,8 @@
 <template>
-  <a-card>
-    <transition name="fade-slide" mode="out-in">
-      <div v-if="!showAddStrategy">
-        <a-row :gutter="16" type="flex" justify="end">
+  <transition name="fade-slide" mode="out-in">
+    <div v-if="!showAddStrategy">
+      <a-card style="margin-bottom: 1%">
+        <a-row :gutter="16" type="flex" justify="end"  style="margin-bottom: -20px;">
           <a-col :flex="1" v-for="(field, index) in inputFields" :key="index">
             <a-form-item :label="field.label">
               <component
@@ -45,6 +45,7 @@
             </a-form-item>
           </a-col>
         </a-row>
+      </a-card>
 
         <a-table :data-source="paginatedData" :pagination="false" :scroll="{ x: 'max-content' }">
           <template v-for="column in tableColumns" :key="column.key">
@@ -112,13 +113,16 @@
           :formData="recordData" />
       </div>
     </transition>
-  </a-card>
+  <ExportCSVDialog :isModalVisible="isModalVisible2" @update:isModalVisible="val => (isModalVisible2 = val)" />
+
 </template>
 
 <script setup lang="jsx">
 
 import AddorEditPage from './AddorEdit.vue';
-import { ref, computed } from 'vue';
+import ExportCSVDialog from './exportCSVDialog.vue'
+
+const isModalVisible2 = ref(false)
 
 const showAddStrategy = ref(false);
 const currentPage = ref(1);
@@ -280,8 +284,6 @@ const onReset = () => {
   pageSize.value = 5;
 };
 
-const exportCSV = () => {};
-
 const handlePageChange = (page) => (currentPage.value = page);
 
 const handleSizeChange = (current, size) => {
@@ -326,6 +328,9 @@ const handleEdit = (record = {}) => {
 };
 
 const onBackToMainPage = () => (showAddStrategy.value = false);
+
+const exportCSV = () => (isModalVisible2.value = true)
+
 </script>
 
 <style scoped>

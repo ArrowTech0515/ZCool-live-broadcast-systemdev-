@@ -147,6 +147,12 @@ const paginatedData = computed(() => {
 })
 
 const onAdd = () => {
+  selectedActivity.value = {
+    activityName : '',
+    activityType : '',
+    activityTime : '',
+  } // Set the selected record data
+
   showEditPage.value = true // Switch to the add strategy view
 }
 
