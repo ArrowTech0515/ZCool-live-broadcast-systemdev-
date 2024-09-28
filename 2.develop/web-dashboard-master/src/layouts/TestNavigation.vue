@@ -52,6 +52,7 @@
               <a-menu-item key="28">分佣管理</a-menu-item>
               <a-menu-item key="29">代理管理</a-menu-item>
               <a-menu-item key="30">在线客服</a-menu-item>
+              <a-menu-item key="31">系统管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -101,6 +102,7 @@
   import commisionManagement from '@/views/commision/index.vue'
   import agentManagement from '@/views/agent/main.vue'
   import onlinecustomerserviceManagement from '@/views/onlinecustomer/main.vue'
+  import systemManagement from '@/views/system/main.vue'
   
   export default {
     name: 'NavigationMenu',
@@ -133,13 +135,17 @@
       reportManagement,
       commisionManagement,
       agentManagement,
-      onlinecustomerserviceManagement
+      onlinecustomerserviceManagement,
+      systemManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
+          case '31':
+            currentComponent.value = 'systemManagement'
+            break
           case '30':
             currentComponent.value = 'onlinecustomerserviceManagement'
             break
@@ -217,7 +223,7 @@
         }
       }
   
-      const currentComponent = ref('activityManagement') // Initial component
+      const currentComponent = ref('systemManagement') // Initial component
   
       return {
         collapse_flag,

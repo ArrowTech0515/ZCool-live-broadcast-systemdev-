@@ -24,13 +24,13 @@
               <AButton
               class="ml20"
                 type="primary"
-                @click="emit('emit_add_IP')"
-              >新增IP地址</AButton>
+                @click="emit('emit_add')"
+              >添加</AButton>
               <AButton
               class="ml20"
                 type="primary"
-                @click="emit('emit_add_IP_segment')"
-              >新增IP段</AButton>
+                @click="emit('emit_export')"
+              >导出</AButton>
             </div>
           </section>
         </template>
@@ -46,7 +46,7 @@ const data = reactive({
   create_time: [],
 })
 
-const emit = defineEmits(['emit_add_IP', 'emit_add_IP_segment', 'search'])
+const emit = defineEmits(['emit_add', 'emit_export', 'search'])
 const fApi = ref({})
 const option = {
   resetBtn: false,
@@ -66,39 +66,30 @@ const option = {
 const rule = ref([
   {
     type: 'input',
-    field: 'IP',
-    title: 'IP',
+    field: 'role_name',
+    title: '角色名称',
     value: '',
     props: {
-      placeholder: '请输入IP',
+      placeholder: '请输入角色名称',
+    },
+  },
+  {
+    type: 'input',
+    field: 'role_id',
+    title: '角色标识',
+    value: '',
+    props: {
+      placeholder: '请输入角色标识',
     },
   },
   {
     type: 'select',
-    field: 'IP_status',
-    title: 'IP状态',
+    field: 'data_permission',
+    title: '数据权限',
     value: 1,
-    options: Object.keys(ENUM.IP_status).map(key => ({ label: ENUM.IP_status[key], value: parseInt(key) })),
-    props: {
-      placeholder: '请输入IP',
-    },
-  },   
-  {
-    type: 'input',
-    field: 'add_person',
-    title: '添加人',
-    value: '',
-    props: {
-      placeholder: '请输入添加人账号',
-    },
-  },
-  {
-    type: 'input',
-    field: 'last_edited_person',
-    title: '最后编辑人',
-    value: '',
-    props: {
-      placeholder: '请输入编辑人账号',
+    options: Object.keys(ENUM.data_permission).map(key => ({ value: parseInt(key), label: ENUM.data_permission[key] })),
+    wrap: {
+      labelCol: { span: 9 },
     },
   },
   { type: 'btns' },

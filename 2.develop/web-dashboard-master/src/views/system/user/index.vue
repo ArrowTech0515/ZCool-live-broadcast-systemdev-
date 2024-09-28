@@ -3,8 +3,8 @@
     <FormSearch
       ref="formSearchRef"
       v-model="searchParams"
-      @emit_add_IP="() => customTableRef.onAddIPAddress()"
-      @emit_add_IP_segment="() => customTableRef.onAddIPSegment()"
+      @emit_add="() => customTableRef.onAddUser()"
+      @emit_export="() => customTableRef.onExport()"
     />
     <CustomTable
       ref="customTableRef"

@@ -3,8 +3,8 @@
     <FormSearch
       ref="formSearchRef"
       v-model="searchParams"
-      @emit_add_IP="() => customTableRef.onAddIPAddress()"
-      @emit_add_IP_segment="() => customTableRef.onAddIPSegment()"
+      @emit_add_whitelist_IP="() => customTableRef.onAddIPAddress()"
+      @emit_add_batch_modify_effective_period="() => customTableRef.onAddBatch()"
     />
     <CustomTable
       ref="customTableRef"
