@@ -130,7 +130,7 @@ import rechargeDataPage from '../recharge/dataPage.vue'
 import redumptionDataPage from '../redumption/dataPage.vue'
 import goodNumberDataPage from '../goodNumber/dataPage.vue'
 import signinDataPage from '../signin/dataPage.vue'
-import giftGivingDataPage from '../giftGiving/dataPage.vue'
+import giftGivingDataPage from '../giftgiving/dataPage.vue'
 import wheelDataPage from '../wheel/main.vue'
 import bonusDataPage from '../newRegisteredMemberBonus/dataPage.vue'
 

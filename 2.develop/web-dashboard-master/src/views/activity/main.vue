@@ -17,7 +17,7 @@
     </a-tabs>
 </template>
   
-<script setup lang="ts">
+<script setup lang="jsx">
 
 import { Tabs } from 'ant-design-vue'
 
