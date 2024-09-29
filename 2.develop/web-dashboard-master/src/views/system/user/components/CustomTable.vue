@@ -172,12 +172,13 @@ async function onAddUser(item = {}) {
   {
     item = {
       index: '1',                    // 序号
-      role_name: '',          // 角色名称
-      role_id: '',  // 角色标识
-      role_description: '',      // 角色描述
-      role_permission: 2,//'本级',         // 角色权限
-      created_time: '2023-06-26 16:37', // 创建时间
-      updated_time: '2023-06-26 16:37', // 更新时间
+      user_name: '',        // 用户名
+      name: '',                // 姓名
+      phone_number: '',    // 手机号
+      role: '',                // 角色
+      remarks: '',             // 备注
+      created_time: '', // 创建时间
+      updated_time: '', // 更新时间
     }
   }
   const fApi = ref(null)
@@ -204,7 +205,7 @@ async function onAddUser(item = {}) {
   }
 
   createDialog({
-    title: isCreate ? '添加新角色' : '编辑角色',
+    title: isCreate ? '新增用户' : '编辑用户',
     width: 500,
     component:
       <ModalForm

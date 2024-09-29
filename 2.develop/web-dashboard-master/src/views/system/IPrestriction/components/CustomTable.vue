@@ -1,34 +1,35 @@
 <template>
-    <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
-      <a-table
-        rowKey="id"
-        :pagination="false"
-        :dataSource="paginatedData"
-        :columns="columns"
-        :loading="loading"
-        :scroll="{ x: 'max-content' }"
-      />
-    </div>
+  <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
+    <a-table
+      rowKey="id"
+      :pagination="false"
+      :dataSource="paginatedData"
+      :columns="columns"
+      :loading="loading"
+      :scroll="{ x: 'max-content' }"
+    />
+  </div>
 
-    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-      <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
-      <a-pagination
-        v-model:current="pagination.page"
-        :total="pagination.total"
-        :page-size="pagination.limit"
-        show-size-changer
-        :page-size-options="['5', '10', '20', '50', '100']"
-        :simple="false"
-        size="small"
-        @change="handlePageChange"
-        @show-size-change="handleSizeChange"
-      />
-    </div>
+  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+    <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
+    <a-pagination
+      v-model:current="pagination.page"
+      :total="pagination.total"
+      :page-size="pagination.limit"
+      show-size-changer
+      :page-size-options="['5', '10', '20', '50', '100']"
+      :simple="false"
+      size="small"
+      @change="handlePageChange"
+      @show-size-change="handleSizeChange"
+    />
+  </div>
 </template>
 
 <script setup lang="jsx">
-import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant'
-import useAddWhitelistIPRule from '../hooks/useAddWhitelistIPRule'
+import { ref, reactive, computed } from 'vue';
+import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant';
+import useAddWhitelistIPRule from '../hooks/useAddWhitelistIPRule';
 import useAddBatchRule from '../hooks/useAddBatchRule';
 
 const props = defineProps({
@@ -53,25 +54,28 @@ const dataSource = ref([
     id: '1',
     IP: '45.119.5.188',
     status: '永久生效',//
-    validity_period: '永久生效',  // Placeholder for VPN/Proxy detection
+    validity_period: '永久生效',
     remarks: '测试',
   },
   {
     id: '2',
     IP: '45.119.5.189',
     status: '永久生效',//
-    validity_period: '永久生效',  // Placeholder for VPN/Proxy detection
+    validity_period: '永久生效',
     remarks: '测试',
   },
-])
+]);
+
+// New reactive state for selected rows
+const selectedRowKeys = ref([]);
 
 // Define a status mapping for <a-tag>
 function renderStatusTag(status) {
   switch (status) {
     case "永久生效":
-      return <a-tag color="blue">永久生效</a-tag>  // Active status
+      return <a-tag color="blue">永久生效</a-tag> 
     default:
-      return <a-tag color="green">{{status}}</a-tag>  // Default : Unknown
+      return <a-tag color="green">{{ status }}</a-tag> 
   }
 }
 
@@ -82,23 +86,42 @@ const { loading, refresh } = useRequest(() => getMerchantListReq({
 }), {
   refreshDeps: true,
   onSuccess(data) {
-    dataSource.value = data.items
-    pagination.total = data.total_data
+    dataSource.value = data.items;
+    pagination.total = data.total_data;
   },
-})
-const { createDialog } = useDialog()
+});
+
+const { createDialog } = useDialog();
 
 const columns = [
+{
+    title: () => (
+      <a-checkbox 
+        checked={selectedRowKeys.value.length === dataSource.value.length}
+        indeterminate={selectedRowKeys.value.length > 0 && selectedRowKeys.value.length < dataSource.value.length}
+        onChange={handleSelectAll} 
+      />
+    ),
+    dataIndex: 'selection',
+    width: 50,
+    align: 'center',
+    customRender: ({ record }) => (
+      <a-checkbox 
+        checked={selectedRowKeys.value.includes(record.id)}
+        onChange={() => handleRowSelect(record.id)}
+      />
+    ),
+  },
   {
     title: 'IP',
     dataIndex: 'IP',
     align: 'center',
   },
   {
-    title: '状态',  // New column for IP status
+    title: '状态',
     dataIndex: 'status',
     align: 'center',
-    customRender: ({ record }) => renderStatusTag(record.status),  // Render the tag based on the status
+    customRender: ({ record }) => renderStatusTag(record.status),
   },
   {
     title: '有效期',
@@ -116,20 +139,36 @@ const columns = [
     width: 120,
     dataIndex: 'action',
     align: 'center',
-    customRender: ({ record }) =>
+    customRender: ({ record }) => (
       <div>
         <span 
           style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
           onClick={() => onAddIPAddress(record)}>
-          编辑</span>
+          编辑
+        </span>
         <a-popconfirm title='您确定要删除吗？' onConfirm={() => onDelete(record)}>
           <span 
-          style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;" 
+            style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;" 
           >删除</span>
         </a-popconfirm>
       </div>
+    ),
   }
-]
+];
+
+// Handle row selection
+const handleRowSelect = (id) => {
+  if (selectedRowKeys.value.includes(id)) {
+    selectedRowKeys.value = selectedRowKeys.value.filter(key => key !== id);
+  } else {
+    selectedRowKeys.value.push(id);
+  }
+};
+
+// Handle "Select All" checkbox
+const handleSelectAll = (e) => {
+  selectedRowKeys.value = e.target.checked ? dataSource.value.map(item => item.id) : [];
+};
 
 async function onDelete(item = {}) {
   // loading.value = true
@@ -144,7 +183,6 @@ async function onDelete(item = {}) {
   //   loading.value = false
   // })
 }
-
 
 async function onAddIPAddress(item = {}) {
   const merch_id = item.id || null // 兼容 id 和 merch_id
@@ -203,7 +241,6 @@ async function onAddIPAddress(item = {}) {
     },
   })
 }
-
 
 async function onAddBatch(item = {}) {
   const merch_id = item.id || item.merch_id || null // 兼容 id 和 merch_id

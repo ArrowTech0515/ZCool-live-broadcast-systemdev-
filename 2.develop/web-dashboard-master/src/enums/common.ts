@@ -292,4 +292,8 @@ export default {
     1: '全部',
     2: '本级',
   },
+  system_user_status: {
+    1: '有效',
+    2: '锁定',
+  },
 }
