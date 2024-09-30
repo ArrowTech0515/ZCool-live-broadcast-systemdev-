@@ -209,7 +209,7 @@ async function onAddUser(item = {}) {
     width: 500,
     component:
       <ModalForm
-        v-fApi:value={fApi.value}
+        v-model:fApi={fApi.value}
         v-model={item}
         {...formModalProps}
       />

@@ -6,16 +6,18 @@ export default function (fApi: Ref<Api>) {
       type: 'radio',
       field: 'validity_period',
       title: '生效期',
-      value: 1, // Default to 'allTime'
+      value: '永久生效', // Default to 'allTime'
       effect: {
         required: true,
       },   
       options: [
-        { label: '永久有效', value: 1}, // '永久生效'
-        { label: '有效日期', value: 2},
+        { label: '永久有效', value: '永久生效'}, // '永久生效'
+        { label: '有效日期', value: '有效日期'},
       ],
       on: {
         change: (val) => {
+          if (! fApi.value) 
+            console.error("fApi is not initialized.")
 
           const selectedValue = val.value || val
 
@@ -23,7 +25,7 @@ export default function (fApi: Ref<Api>) {
           console.log("selectedValue.target.value : ", selectedValue.target.value)
 
           // Show the field depending on the selected radio option
-          if (selectedValue.target.value === 2)
+          if (selectedValue.target.value === '有效日期')
             fApi.value.hidden(false, 'join_time')
           else{
             fApi.value.hidden(true, 'join_time')
@@ -35,7 +37,7 @@ export default function (fApi: Ref<Api>) {
     {
       type: 'datePicker',
       field: 'join_time',
-      title: '自定义时间',
+      title: '有效日期',
       value: '',
       props: {
         format: 'YYYY-MM-DD',

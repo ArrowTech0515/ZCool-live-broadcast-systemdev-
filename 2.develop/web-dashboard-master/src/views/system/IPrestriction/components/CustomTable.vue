@@ -193,7 +193,7 @@ async function onAddIPAddress(item = {}) {
     item = {
       IP: '',
       status: '永久生效',//
-      validity_period: 1,//'永久生效',  // Placeholder for VPN/Proxy detection
+      validity_period: '永久生效',  // Placeholder for VPN/Proxy detection
       remarks: '',
     }
   }
@@ -225,8 +225,8 @@ async function onAddIPAddress(item = {}) {
     width: 500,
     component:
       <ModalForm
-        v-fApi:value={fApi.value}
         v-model={item}
+        v-model:fApi={fApi.value}
         {...formModalProps}
       />
     ,
@@ -283,8 +283,8 @@ async function onAddBatch(item = {}) {
     width: 500,
     component:
       <ModalForm
-        v-fApi:value={fApi.value}
         v-model={item}
+        v-model:fApi={fApi.value}
         {...formModalProps}
       />
     ,

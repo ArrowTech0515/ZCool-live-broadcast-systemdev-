@@ -18,7 +18,7 @@ export default function (fApi: Ref<Api>) {
           console.log("Selected value:", selectedValue);
 
           // Show or hide 'join_time' field based on the selected radio option
-          if (selectedValue === 3) {
+          if (selectedValue.target.value === 3) {
             fApi.value.hidden(false, 'join_time');  // Show 'join_time' field
           } else {
             fApi.value.hidden(true, 'join_time');   // Hide 'join_time' field
@@ -29,7 +29,7 @@ export default function (fApi: Ref<Api>) {
     {
       type: 'datePicker',
       field: 'join_time',
-      title: '自定义时间',
+      title: '有效日期',
       value: '',
       props: {
         format: 'YYYY-MM-DD',
