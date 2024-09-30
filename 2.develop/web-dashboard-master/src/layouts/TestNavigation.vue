@@ -53,6 +53,7 @@
               <a-menu-item key="29">代理管理</a-menu-item>
               <a-menu-item key="30">在线客服</a-menu-item>
               <a-menu-item key="31">系统管理</a-menu-item>
+              <a-menu-item key="32">网站管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -79,7 +80,7 @@
   import statisticsManagement from '@/views/statistics/index/index.vue'
   import permissionManagement from '@/views/permissions/index.vue'
   import messageManagement from '@/views/message/list/index.vue'
-  import anchorManagement from '@/views/anchor/list/index.vue'
+  import anchorManagement from '@/views/anchor/main.vue'
   import payManagement from '@/views/payment/channel/index.vue'
   import merchantManagement from '@/views/merchant/main.vue'
   import settingManagement from '@/views/setting/main.vue'
@@ -103,6 +104,7 @@
   import agentManagement from '@/views/agent/main.vue'
   import onlinecustomerserviceManagement from '@/views/onlinecustomer/main.vue'
   import systemManagement from '@/views/system/main.vue'
+  import websiteManagement from '@/views/website/main.vue'
   
   export default {
     name: 'NavigationMenu',
@@ -136,13 +138,17 @@
       commisionManagement,
       agentManagement,
       onlinecustomerserviceManagement,
-      systemManagement
+      systemManagement,
+      websiteManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
+          case '32':
+            currentComponent.value = 'websiteManagement'
+            break
           case '31':
             currentComponent.value = 'systemManagement'
             break
@@ -223,7 +229,7 @@
         }
       }
   
-      const currentComponent = ref('systemManagement') // Initial component
+      const currentComponent = ref('websiteManagement') // Initial component
   
       return {
         collapse_flag,

@@ -104,8 +104,9 @@
 
 <script setup lang="jsx">
 import { getAnchorDetailReq, getAnchorGuildReq, anchorAddOrEditReq } from '@/api/anchor'
+import { getPathFromUrlArray } from '@/utils';
 import useAnchorRule from '@/views/anchor/list/hooks/useAnchorRule'
-import { getPathFromUrlArray } from 'getPathFromUrlArray'
+
 const route = useRoute()
 const anchor_id = route.query.anchor_id
 

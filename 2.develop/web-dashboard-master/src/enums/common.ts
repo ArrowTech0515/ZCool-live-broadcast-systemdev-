@@ -296,4 +296,9 @@ export default {
     1: '有效',
     2: '锁定',
   },
+  website_banner_status: {
+    0: '全部',
+    1: '启用',
+    2: '停用',
+  },
 }
