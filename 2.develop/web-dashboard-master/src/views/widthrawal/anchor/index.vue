@@ -189,7 +189,7 @@ const isModalVisible = ref(false)
 const isLockModalVisible = ref(false)
 const isModalVisible2 = ref(false)
 const withdrawStatus = ref(0)
-const isLocked = false
+const paymentInfo = ref(1)
 
 const currentPage = ref(1)
 const pageSize = ref(5)
@@ -362,7 +362,11 @@ const handleOperation = (record, operation) => {
   if (operation === 2)
     isLockModalVisible.value = true
   else 
+  {
+    console.log("handleOperation : operation = " + ENUM.withdrawal_operate_type[operation])
+    paymentInfo.value = operation
     showReviewPage.value = true
+  }
 }
 
 const onBackToMainPage = () => (showReviewPage.value = false)

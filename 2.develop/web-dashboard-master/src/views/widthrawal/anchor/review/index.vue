@@ -31,7 +31,7 @@
           </span>
         </a-col>
         <!-- Right-aligned Buttons -->
-        <a-col :span="12" style="text-align: right;">
+        <a-col v-if="paymentInfo !== 4" :span="12" style="text-align: right;">
           <a-button v-if="! isLocked" style="width: 100px; color: #1890ff; margin-right: 8px;" @click="onLock">锁定</a-button>
           <a-button v-else style="width: 100px; color: #1890ff; margin-right: 8px;" disabled>已锁定</a-button>
           <a-button v-if="! isRejected" style="width: 100px; color: red; margin-right: 8px;" @click="onReject">拒绝</a-button>
@@ -39,13 +39,26 @@
           <a-button  style="width: 100px;" @click="onReview">审核打款</a-button>
         </a-col>
       </a-row>
-
+      <!-- Row with the Textarea -->
+      <a-row v-if="paymentInfo === 4" style="margin-top: 10px;">
+        <a-col :span="24">
+          <a-form-item label="拒绝理由">
+            <a-textarea
+              v-model:value="remarks"
+              placeholder="理由理由理由理由理由理由理由理由"
+              :auto-size="{ minRows: 3, maxRows: 5 }"
+              style="width: 100%;"
+              disabled
+            />
+          </a-form-item>
+        </a-col>
+      </a-row>
     </div>
   </a-card>
 
   <reviewDialog 
-        :isModalVisible="isLockModalVisible3"
-      @update:is-modal-visible="val => isLockModalVisible3 = val" />
+        :isModalVisible="isReviewModalVisible"
+      @update:is-modal-visible="val => isReviewModalVisible = val" />
 
   <RejectDialog 
         :isModalVisible="isRejectModalVisible"
@@ -109,7 +122,7 @@ export default {
     return {
       isLockModalVisible : false,
       isRejectModalVisible : false,
-      isLockModalVisible3 : false,
+      isReviewModalVisible : false,
 
       isLocked : false,
       isRejected : false,
@@ -130,8 +143,8 @@ export default {
       this.$emit('back'); // Emit the back event to the parent component
     },
     onReview() {
-      console.log("onReview : " + this.isLockModalVisible3.value)
-      this.isLockModalVisible3  = true
+      console.log("onReview : " + this.isReviewModalVisible.value)
+      this.isReviewModalVisible  = true
     },
     onReject() {
       console.log("onReject : " + this.isRejectModalVisible.value)
