@@ -29,15 +29,8 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
-import { Modal, Radio, Button, Table } from 'ant-design-vue';
-import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
 
 export default defineComponent({
-  components: {
-    'a-modal': Modal,
-    'a-button': Button,
-  },
   props: {
     isModalVisible: {
       type: Boolean,
@@ -45,75 +38,35 @@ export default defineComponent({
     },
   },
 
-  emits: ['update:isModalVisible'],
+  emits: ['update:isModalVisible', 'emit_success', 'emit_cancel'],
 
   setup(props, { emit }) {
     const updateVisible = (visible) => {
       if (typeof visible === 'boolean') {
-        emit('update:isModalVisible', visible);
+        emit('update:isModalVisible', visible)
       } else {
-        console.error('Invalid value for isModalVisible:', visible);
+        console.error('Invalid value for isModalVisible:', visible)
       }
     }
-    
-    const rewardType = ref('diamond');
-    const diamondCount = ref(0);
-    const balanceCount = ref(0);
-    const mountOptions = ref([
-      { name: '绚丽机车', key: '1' },
-      { name: '跑车', key: '2' },
-      { name: '飞机', key: '3' },
-      { name: '神兽麒麟', key: '4' },
-    ]);
-    const giftOptions = ref([
-      { name: '鲜花', value: 1, key: '1' },
-      { name: '灯牌', value: 1, key: '2' },
-      { name: '爱心', value: 1, key: '3' },
-      { name: '城堡', value: 10000, key: '4' },
-      { name: '蓝色妖姬', value: 666, key: '5' },
-    ]);
-
-    const selectedMount = ref(null);
-    const selectedGifts = ref([]);
 
     const handleOk = () => {
-      console.log('OK Clicked', rewardType.value);
-      updateVisible(false);
-    };
+      emit('emit_success')
+      updateVisible(false)
+    }
 
     const handleCancel = () => {
-      console.log('Cancel Clicked');
-      updateVisible(false);
-    };
-
-    const onMountSelect = (key) => {
-      selectedMount.value = key;
-    };
-
-    const onGiftSelect = (key) => {
-      if (selectedGifts.value.includes(key)) {
-        selectedGifts.value = selectedGifts.value.filter(k => k !== key);
-      } else {
-        selectedGifts.value.push(key);
-      }
-    };
+      console.log('Cancel Clicked')
+      emit('emit_cancel')
+      updateVisible(false)
+    }
 
     return {
       updateVisible,
-      rewardType,
-      diamondCount,
-      balanceCount,
-      mountOptions,
-      giftOptions,
-      selectedMount,
-      selectedGifts,
       handleOk,
       handleCancel,
-      onMountSelect,
-      onGiftSelect,
-    };
+    }
   },
-});
+})
 </script>
 
 <style scoped>

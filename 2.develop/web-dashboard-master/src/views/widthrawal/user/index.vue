@@ -51,28 +51,31 @@
             </a-form-item>
           </a-col>
 
+          <a-row>
+            <a-col :flex="auto" style="margin-left: 20px;">
+              <a-form-item>
+                <a-button type="primary" block @click="onSearch">
+                  <SearchOutlined /> 查询
+                </a-button>
+              </a-form-item>
+            </a-col>
+
+            <a-col :flex="auto" style="margin-left: 20px;">
+              <a-form-item>
+                <a-button block @click="onReset">
+                  <ReloadOutlined /> 重置
+                </a-button>
+              </a-form-item>
+            </a-col>
+          </a-row>
+
           <a-col :flex="auto" style="margin-left: 20px;">
-            <a-form-item>
-              <a-button type="primary" block @click="onSearch">
-                <SearchOutlined /> 查询
-              </a-button>
-            </a-form-item>
-          </a-col>
-
-          <a-col :flex="auto">
-            <a-form-item>
-              <a-button block @click="onReset">
-                <ReloadOutlined /> 重置
-              </a-button>
-            </a-form-item>
-          </a-col>
-
-          <a-col :flex="auto">
             <a-form-item>
               <a-button type="primary" block @click="exportCSV">导出CSV</a-button>
             </a-form-item>
           </a-col>
         </a-row>
+        
       </a-card>
 
         <!-- Updated table -->
@@ -123,7 +126,7 @@
 
           <a-table-column title="提现状态" dataIndex="wStatus" key="wStatus" align="center">
             <template #default="{ text }">
-              <a-tag :color="statusColors[text]">{{ ENUM.withdrawal_status[text] }}</a-tag>
+              <a-tag :color="ENUM.withdrawal_colors[text]">{{ ENUM.withdrawal_status[text] }}</a-tag>
             </template>
           </a-table-column>
 
@@ -134,7 +137,7 @@
               <span v-if="Array.isArray(record.operate)">
                 <span v-for="(operation, index) in record.operate" :key="index">
                   <a :style="{ textDecoration: 'underline', cursor: 'pointer', color: operationColors[operation] }"
-                    @click="handleOperation(operation)">
+                    @click="handleOperation(record, operation)">
                     {{ ENUM.withdrawal_operate_type[operation] }}
                   </a>
                   <span v-if="index < record.operate.length - 1" style="margin-right: 10px;"></span> <!-- Separator between multiple operations -->
@@ -142,7 +145,7 @@
               </span>
               <span v-else>
                 <a :style="{ textDecoration: 'underline', cursor: 'pointer', color: operationColors[record.operate] }"
-                  @click="handleOperation(record.operate)">
+                  @click="handleOperation(record, record.operate)">
                   {{ ENUM.withdrawal_operate_type[record.operate] }}
                 </a>
               </span>
@@ -171,8 +174,8 @@
           :basicData="basicData"
           :currentWithdraw="currentWithdraw"
           :historyWithdraw="historyWithdraw"
-          :paymentInfo="paymentInfo"
-          withdrawStatus="提现中"
+          :paymentInfo="paymentInfo"        
+          :withdrawStatus="withdrawStatus"
           @back="onBackToMainPage"
           @confirm="handleConfirm"
           @reject="handleReject"
@@ -189,8 +192,9 @@ import ExportCSVDialog from './exportCSVDialog.vue'
 
 // State variables
 const isModalVisible2 = ref(false)
-
 const showReviewPage = ref(false)
+const withdrawStatus = ref(0)
+
 const currentPage = ref(1)
 const pageSize = ref(5)
 const totalItems = ref(100)
@@ -372,10 +376,11 @@ const handleSizeChange = (current, size) => {
   currentPage.value = 1
 }
 
-const handleOperation = (operation) => {
-  if (operation === 3) { // For '提现明细'
+const handleOperation = (record, operation) => {
+  withdrawStatus.value = record.wStatus
+
+  // if (operation === 3) 
     showReviewPage.value = true
-  }
 }
 
 const onBackToMainPage = () => {

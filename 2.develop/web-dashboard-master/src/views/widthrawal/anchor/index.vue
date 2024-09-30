@@ -111,7 +111,7 @@
         </a-table-column>
         <a-table-column title="提现状态" dataIndex="wStatus" key="wStatus" align="center">
           <template #default="{ text }">
-            <a-tag :color="statusColors[text]">{{ ENUM.withdrawal_status[text] }}</a-tag>
+            <a-tag :color="ENUM.withdrawal_colors[text]">{{ ENUM.withdrawal_status[text] }}</a-tag>
           </template>
         </a-table-column>
         <a-table-column title="操作账号" dataIndex="account" key="account" align="center" />
@@ -120,7 +120,7 @@
             <span v-if="Array.isArray(record.operate)">
               <span v-for="(operation, index) in record.operate" :key="index">
                 <a :style="{ textDecoration: 'underline', cursor: 'pointer', color: operationColors[operation] }"
-                  @click="handleOperation(operation)">
+                  @click="handleOperation(record, operation)">
                   {{ ENUM.withdrawal_operate_type[operation] }}
                 </a>
                 <span v-if="index < record.operate.length - 1" style="margin-right: 10px;"></span> <!-- Separator between multiple operations -->
@@ -128,7 +128,7 @@
             </span>
             <span v-else>
               <a :style="{ textDecoration: 'underline', cursor: 'pointer', color: operationColors[record.operate] }"
-                @click="handleOperation(record.operate)">
+                @click="handleOperation(record, record.operate)">
                 {{ ENUM.withdrawal_operate_type[record.operate] }}
               </a>
             </span>
@@ -156,7 +156,7 @@
         :currentWithdraw="currentWithdraw"
         :historyWithdraw="historyWithdraw"
         :paymentInfo="paymentInfo"
-        withdrawStatus="提现中"
+        :withdrawStatus="withdrawStatus"
         @back="onBackToMainPage"
         @confirm="handleConfirm"
         @reject="handleReject"
@@ -166,9 +166,18 @@
 
   <ExportCSVDialog :isModalVisible="isModalVisible2" @update:isModalVisible="val => (isModalVisible2 = val)" />
   <SettingsDialog :isModalVisible="isModalVisible" @update:isModalVisible="val => (isModalVisible = val)" />
+
+  <LockDialog 
+    :isModalVisible="isLockModalVisible"
+    sTitle="锁定提示"
+    sText1="是否锁定当前体现订单"
+    sText2="锁定后需要管理员/部门负责人/锁定人方可解锁操作"
+    @update:is-modal-visible="val => isLockModalVisible = val"
+    @emit_success="onLocked" />
+
 </template>
 
-<script setup lang="ts">
+<script setup lang="jsx">
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import reviewPage from './review/index.vue'
@@ -177,7 +186,10 @@ import SettingsDialog from './withdrawalSettingsDialog.vue'
 
 const showReviewPage = ref(false)
 const isModalVisible = ref(false)
+const isLockModalVisible = ref(false)
 const isModalVisible2 = ref(false)
+const withdrawStatus = ref(0)
+const isLocked = false
 
 const currentPage = ref(1)
 const pageSize = ref(5)
@@ -314,12 +326,6 @@ const dataSource = ref([
   },
 ])
 
-const statusColors = {
-  1: 'blue',
-  2: 'green',
-  3: 'red',
-}
-
 const operationColors = {
   1: 'green',
   2: '#1890ff',
@@ -351,8 +357,12 @@ const handleSizeChange = (current, size) => {
   currentPage.value = 1
 }
 
-const handleOperation = (operation) => {
-  if (operation === 3) showReviewPage.value = true
+const handleOperation = (record, operation) => {
+  withdrawStatus.value = record.wStatus
+  if (operation === 2)
+    isLockModalVisible.value = true
+  else 
+    showReviewPage.value = true
 }
 
 const onBackToMainPage = () => (showReviewPage.value = false)
@@ -366,6 +376,13 @@ const copyText = (text) => {
     .catch(() => message.error({ content: '复制到剪贴板失败，请重试。', duration: 1 }))
 }
 
+const onLocked = () => {
+  message.success({
+    content: `锁定成功`,
+    duration: 1, // Duration in seconds
+  })
+  // Show unLock button
+}
 </script>
 
 <style scoped>

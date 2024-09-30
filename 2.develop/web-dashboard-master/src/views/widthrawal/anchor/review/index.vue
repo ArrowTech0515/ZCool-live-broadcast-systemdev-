@@ -24,13 +24,18 @@
       <a-row type="flex" justify="space-between" align="middle">
         <!-- Left-aligned Text Label -->
         <a-col :span="12">
-          <span style="font-weight: bold; color: #1890ff; font-size: 14px;">提现状态: 提现中</span>
+          <span 
+            :style="{ fontWeight: 'bold', color: ENUM.withdrawal_colors[withdrawStatus], fontSize: '14px' }"
+          >
+            提现状态: {{ ENUM.withdrawal_status[withdrawStatus] }}
+          </span>
         </a-col>
-        
         <!-- Right-aligned Buttons -->
         <a-col :span="12" style="text-align: right;">
-          <a-button  style="width: 100px; color: #1890ff; margin-right: 8px;" @click="onLock">锁定</a-button>
-          <a-button  style="width: 100px;color: red; margin-right: 8px;" @click="onReject">拒绝</a-button>
+          <a-button v-if="! isLocked" style="width: 100px; color: #1890ff; margin-right: 8px;" @click="onLock">锁定</a-button>
+          <a-button v-else style="width: 100px; color: #1890ff; margin-right: 8px;" disabled>已锁定</a-button>
+          <a-button v-if="! isRejected" style="width: 100px; color: red; margin-right: 8px;" @click="onReject">拒绝</a-button>
+          <a-button v-else style="width: 100px; color: red; margin-right: 8px;" @click="onReject" disabled>已拒绝</a-button>
           <a-button  style="width: 100px;" @click="onReview">审核打款</a-button>
         </a-col>
       </a-row>
@@ -39,26 +44,33 @@
   </a-card>
 
   <reviewDialog 
-        :isModalVisible="isModalVisible3"
-      @update:is-modal-visible="val => isModalVisible3 = val" />
+        :isModalVisible="isLockModalVisible3"
+      @update:is-modal-visible="val => isLockModalVisible3 = val" />
 
-  <rejectDialog 
-        :isModalVisible="isModalVisible2"
-      @update:is-modal-visible="val => isModalVisible2 = val" />
+  <RejectDialog 
+        :isModalVisible="isRejectModalVisible"
+      @update:is-modal-visible="val => isRejectModalVisible = val"
+      @emit_success="onRejected" />
 
-  <lockDialog 
-        :isModalVisible="isModalVisible"
-      @update:is-modal-visible="val => isModalVisible = val" />
+  <LockDialog 
+    :isModalVisible="isLockModalVisible"
+    sTitle="锁定提示"
+    sText1="是否锁定当前体现订单"
+    sText2="锁定后需要管理员/部门负责人/锁定人方可解锁操作"
+    @update:is-modal-visible="val => isLockModalVisible = val"
+    @emit_success="onLocked" />
 </template>
   
-<script>
+<script lang="jsx">
+import { message } from 'ant-design-vue';
+
 import firstLineData from './firstLineData.vue';
 import secondLineData from './secondLineData.vue';
 import thirdLineData from './thirdLineData.vue';
 import fourthLineData from './fourthLineData.vue';
 import reviewDialog from './reviewDialog.vue';
-import rejectDialog from './rejectDialog.vue';
-import lockDialog from './lockDialog.vue';
+import LockDialog from '@/components/Form/LockDialog.vue';
+import RejectDialog from '@/components/Form/RejectDialog.vue';
 
 export default {
   components: {
@@ -67,11 +79,9 @@ export default {
     thirdLineData,
     fourthLineData,
     reviewDialog,
-    rejectDialog,
-    lockDialog
+    RejectDialog,
+    LockDialog
   },
-
-  name: 'WithdrawDetails',
 
   props: {
     basicData: {
@@ -97,9 +107,12 @@ export default {
   },
   data() {
     return {
-      isModalVisible : false,
-      isModalVisible2 : false,
-      isModalVisible3 : false,
+      isLockModalVisible : false,
+      isRejectModalVisible : false,
+      isLockModalVisible3 : false,
+
+      isLocked : false,
+      isRejected : false,
     }
   },
   methods: {
@@ -107,26 +120,42 @@ export default {
       // Logic to handle confirm action
       this.$emit('confirm');
     },
-    onReject() {
-      // Logic to handle reject action
-      //this.$emit('reject');
-    },
+    // onReject() {
+    //   // Logic to handle reject action
+    //   //this.$emit('reject');
+    // },
     handleBack() {
       // Handle the back action here
       // For example, navigate to the previous page:
       this.$emit('back'); // Emit the back event to the parent component
     },
     onReview() {
-      console.log("onReview : " + this.isModalVisible3.value)
-      this.isModalVisible3  = true
+      console.log("onReview : " + this.isLockModalVisible3.value)
+      this.isLockModalVisible3  = true
     },
     onReject() {
-      console.log("onReject : " + this.isModalVisible2.value)
-      this.isModalVisible2  = true
+      console.log("onReject : " + this.isRejectModalVisible.value)
+      this.isRejectModalVisible  = true
     },
     onLock() {
-      this.isModalVisible  = true
+      this.isLockModalVisible  = true
 
+    },
+    onLocked() {
+      message.success({
+        content: `锁定成功`,
+        duration: 1, // Duration in seconds
+      })
+      // Show unLock button
+      this.isLocked = true
+    },
+    onRejected() {
+      message.success({
+        content: `解锁成功`,
+        duration: 1, // Duration in seconds
+      })
+      // Show unLock button
+      this.isRejected = true
     }
   },
 }

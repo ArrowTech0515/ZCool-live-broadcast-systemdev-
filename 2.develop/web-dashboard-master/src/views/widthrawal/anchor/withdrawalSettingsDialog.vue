@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="添加奖励"
+    title="提现设置"
     :open="isModalVisible"
     :maskClosable="false"
     :keyboard="false"
@@ -8,16 +8,16 @@
     @update:open="updateVisible"
   >
     <!-- Conditionally render the CustomSpin component if '钻石奖励' is selected -->
-    <a-form-item label="奖励钻石">
-      <CustomSpin v-model:nValue="diamondCount" style="width: 100%;" />
+    <a-form-item label="银行卡手续费">
+      <CustomSpin v-model:nValue="bank_card_fee" :bShowUnit="true" style="width: 100%;" />
       <div>
         <span style="text-align: center; font-size: 10px; color: grey;">设置当前主播使用银行卡提现时的手续费</span>
       </div>
     </a-form-item>
 
     <!-- Conditionally render the CustomSpin component if '钻石奖励' is selected -->
-    <a-form-item label="奖励余额">
-      <CustomSpin v-model:nValue="balanceCount" style="width: 100%;" />
+    <a-form-item label="虚拟币手续费">
+      <CustomSpin v-model:nValue="virtual_currency_fee" :bShowUnit="true" style="width: 100%;" />
       <div>
         <span style="text-align: center; font-size: 10px; color: grey;">设置当前主播使用虚拟币提现时的手续费</span>
       </div>
@@ -48,24 +48,8 @@ const emit = defineEmits(['update:isModalVisible']);
 
 // State Variables
 const rewardType = ref('diamond');
-const diamondCount = ref(0);
-const balanceCount = ref(0);
-const mountOptions = ref([
-  { name: '绚丽机车', key: '1' },
-  { name: '跑车', key: '2' },
-  { name: '飞机', key: '3' },
-  { name: '神兽麒麟', key: '4' },
-]);
-const giftOptions = ref([
-  { name: '鲜花', value: 1, key: '1' },
-  { name: '灯牌', value: 1, key: '2' },
-  { name: '爱心', value: 1, key: '3' },
-  { name: '城堡', value: 10000, key: '4' },
-  { name: '蓝色妖姬', value: 666, key: '5' },
-]);
-
-const selectedMount = ref(null);
-const selectedGifts = ref([]);
+const bank_card_fee = ref(0);
+const virtual_currency_fee = ref(0);
 
 // Methods
 const updateVisible = (visible: boolean) => {
@@ -86,17 +70,6 @@ const handleCancel = () => {
   updateVisible(false);
 };
 
-const onMountSelect = (key: string) => {
-  selectedMount.value = key;
-};
-
-const onGiftSelect = (key: string) => {
-  if (selectedGifts.value.includes(key)) {
-    selectedGifts.value = selectedGifts.value.filter((k) => k !== key);
-  } else {
-    selectedGifts.value.push(key);
-  }
-};
 </script>
 
 <style scoped>

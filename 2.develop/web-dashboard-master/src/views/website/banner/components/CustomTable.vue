@@ -73,7 +73,7 @@ const dataSource = ref([
     thumbnail: imageA,
     title: '商户A的标题',
     status: true,//'启用',
-    display_sort: true,
+    display_sort: 1,
     start_time: '2023-01-01 12:00:00',
     end_time: '2023-12-31 12:00:00',
     creator: 'Bob',

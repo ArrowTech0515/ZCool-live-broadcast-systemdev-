@@ -51,9 +51,8 @@
               <a-menu-item key="27">举报管理</a-menu-item>
               <a-menu-item key="28">分佣管理</a-menu-item>
               <a-menu-item key="29">代理管理</a-menu-item>
-              <a-menu-item key="30">在线客服</a-menu-item>
-              <a-menu-item key="31">系统管理</a-menu-item>
-              <a-menu-item key="32">网站管理</a-menu-item>
+              <a-menu-item key="30">系统管理</a-menu-item>
+              <a-menu-item key="31">网站管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -146,14 +145,11 @@
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
-          case '32':
+          case '31':
             currentComponent.value = 'websiteManagement'
             break
-          case '31':
-            currentComponent.value = 'systemManagement'
-            break
           case '30':
-            currentComponent.value = 'onlinecustomerserviceManagement'
+            currentComponent.value = 'systemManagement'
             break
           case '29':
             currentComponent.value = 'agentManagement'
@@ -199,6 +195,9 @@
             break
           case '15':
             currentComponent.value = 'gameManagement'
+            break
+          case '14':
+            currentComponent.value = 'onlinecustomerserviceManagement'
             break
           case '12':
             currentComponent.value = 'widthrawalManagement'

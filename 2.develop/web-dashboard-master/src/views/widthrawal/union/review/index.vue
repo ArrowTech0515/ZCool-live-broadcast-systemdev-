@@ -24,13 +24,17 @@
       <a-row type="flex" justify="space-between" align="middle">
         <!-- Left-aligned Text Label -->
         <a-col :span="12">
-          <span style="font-weight: bold; color: #1890ff; font-size: 14px;">提现状态: 提现中</span>
+          <span 
+            :style="{ fontWeight: 'bold', color: ENUM.withdrawal_colors[withdrawStatus], fontSize: '14px' }"
+          >
+            提现状态: {{ ENUM.withdrawal_status[withdrawStatus] }}
+          </span>
         </a-col>
         
         <!-- Right-aligned Buttons -->
         <a-col :span="12" style="text-align: right;">
           <a-button  style="width: 100px; color: #1890ff; margin-right: 8px;">锁定</a-button>
-          <a-button  style="width: 100px;color: red; margin-right: 8px;">拒绝</a-button>
+          <a-button  style="width: 100px; color: red; margin-right: 8px;">拒绝</a-button>
           <a-button  style="width: 100px;">审核打款</a-button>
         </a-col>
       </a-row>

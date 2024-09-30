@@ -301,4 +301,9 @@ export default {
     1: '启用',
     2: '停用',
   },
+  withdrawal_colors: {
+    1: 'blue',
+    2: 'green',
+    3: 'red',
+  }
 }

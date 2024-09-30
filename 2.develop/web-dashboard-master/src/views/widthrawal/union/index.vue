@@ -46,23 +46,25 @@
             </a-form-item>
           </a-col>
 
+          <a-row>
+            <a-col :flex="auto" style="margin-left: 20px;">
+              <a-form-item>
+                <a-button type="primary" block @click="onSearch">
+                  <SearchOutlined /> 查询
+                </a-button>
+              </a-form-item>
+            </a-col>
+
+            <a-col :flex="auto" style="margin-left: 20px;">
+              <a-form-item>
+                <a-button block @click="onReset">
+                  <ReloadOutlined /> 重置
+                </a-button>
+              </a-form-item>
+            </a-col>
+          </a-row>
+
           <a-col :flex="auto" style="margin-left: 20px;">
-            <a-form-item>
-              <a-button type="primary" block @click="onSearch">
-                <SearchOutlined /> 查询
-              </a-button>
-            </a-form-item>
-          </a-col>
-
-          <a-col :flex="auto">
-            <a-form-item>
-              <a-button block @click="onReset">
-                <ReloadOutlined /> 重置
-              </a-button>
-            </a-form-item>
-          </a-col>
-
-          <a-col :flex="auto">
             <a-form-item>
               <a-button type="primary" block @click="exportCSV">导出CSV</a-button>
             </a-form-item>
@@ -113,7 +115,7 @@
             </template>
           </a-table-column>
 
-          <a-table-column title="提现状态" dataIndex="withdrawStatus" key="withdrawStatus" align="center">
+          <a-table-column title="提现状态" dataIndex="wStatus" key="wStatus" align="center">
             <template #default="{ text }">
               <a-tag :color="statusColors[text]">{{ ENUM.withdrawal_status[text] }}</a-tag>
             </template>
@@ -125,7 +127,7 @@
               <span v-if="Array.isArray(record.operate)">
                 <span v-for="(operation, index) in record.operate" :key="index">
                   <a :style="{ textDecoration: 'underline', cursor: 'pointer', color: operationColors[operation] }"
-                    @click="handleOperation(operation)">
+                    @click="handleOperation(record, operation)">
                     {{ ENUM.withdrawal_operate_type[operation] }}
                   </a>
                   <span v-if="index < record.operate.length - 1" style="margin-right: 10px;"></span> <!-- Separator between multiple operations -->
@@ -133,7 +135,7 @@
               </span>
               <span v-else>
                 <a :style="{ textDecoration: 'underline', cursor: 'pointer', color: operationColors[record.operate] }"
-                  @click="handleOperation(record.operate)">
+                  @click="handleOperation(record, record.operate)">
                   {{ ENUM.withdrawal_operate_type[record.operate] }}
                 </a>
               </span>
@@ -164,7 +166,7 @@
           :currentWithdraw="currentWithdraw"
           :historyWithdraw="historyWithdraw"
           :paymentInfo="paymentInfo"
-          withdrawStatus="提现中"
+          :withdrawStatus="withdrawStatus"
           @back="onBackToMainPage"
           @confirm="handleConfirm"
           @reject="handleReject" />
@@ -180,6 +182,12 @@ import reviewPage from './review/index.vue';
 import ExportCSVDialog from './exportCSVDialog.vue'
 
 const isModalVisible2 = ref(false)
+const withdrawStatus = ref(0)
+const showReviewPage = ref(false);
+
+const currentPage = ref(1);
+const pageSize = ref(5);
+const totalItems = ref(100);
 
 // Bind state variables
 const formData = ref({
@@ -191,10 +199,6 @@ const formData = ref({
   dateRange: null,
 });
 
-const showReviewPage = ref(false);
-const currentPage = ref(1);
-const pageSize = ref(5);
-const totalItems = ref(100);
 
 // DataSource with new structure
 const dataSource = ref([
@@ -217,7 +221,7 @@ const dataSource = ref([
       applyTime: '2012-12-12 12:21:21',
       operateTime: '',
     },
-    withdrawStatus: 1, // 1 represents '提现中'
+    wStatus: 1, // 1 represents '提现中'
     account: '',
     operate: [1, 2],  // Represents operations '审核' and '锁定'
   },
@@ -240,7 +244,7 @@ const dataSource = ref([
       applyTime: '2012-12-12 13:21:21',
       operateTime: '2012-12-12 15:00:00',
     },
-    withdrawStatus: 2, // 2 represents '提现成功'
+    wStatus: 2, // 2 represents '提现成功'
     account: '管理员 - 李四',
     operate: [3],  // Represents operation '提现明细'
   },
@@ -263,7 +267,7 @@ const dataSource = ref([
       applyTime: '2012-12-13 14:21:21',
       operateTime: '2012-12-14 10:30:00',
     },
-    withdrawStatus: 3, // 3 represents '提现失败'
+    wStatus: 3, // 3 represents '提现失败'
     account: '管理员 - 王五',
     operate: [4],  // Represents operation '已拒绝'
   },
@@ -286,7 +290,7 @@ const dataSource = ref([
       applyTime: '2012-12-15 10:21:21',
       operateTime: '2012-12-15 12:30:00',
     },
-    withdrawStatus: 1, // 1 represents '提现中'
+    wStatus: 1, // 1 represents '提现中'
     account: '管理员 - 赵六',
     operate: [5],  // Represents operation '已锁定'
   },
@@ -309,7 +313,7 @@ const dataSource = ref([
       applyTime: '2012-12-16 09:30:00',
       operateTime: '2012-12-17 11:45:00',
     },
-    withdrawStatus: 2, // 2 represents '提现成功'
+    wStatus: 2, // 2 represents '提现成功'
     account: '管理员 - 陈七',
     operate: [3],  // Represents operation '提现明细'
   },
@@ -370,10 +374,11 @@ const handleSizeChange = (current, size) => {
   currentPage.value = 1;
 };
 
-const handleOperation = (operation) => {
-  if (operation === 3) { // For '提现明细'
+const handleOperation = (record, operation) => {
+  withdrawStatus.value = record.wStatus
+
+  // if (operation === 3) 
     showReviewPage.value = true
-  }
 }
 
 const onBackToMainPage = () => {
