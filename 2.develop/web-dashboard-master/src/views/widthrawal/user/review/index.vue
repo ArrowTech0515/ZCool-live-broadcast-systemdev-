@@ -77,6 +77,7 @@
 </template>
   
 <script>
+import { message } from 'ant-design-vue'
 import firstLineData from './firstLineData.vue'
 import secondLineData from './secondLineData.vue'
 import thirdLineData from './thirdLineData.vue'
