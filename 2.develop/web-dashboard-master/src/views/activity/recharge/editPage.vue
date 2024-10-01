@@ -102,8 +102,8 @@
               <!-- Radio Group on the left -->
               <a-col>
                 <a-radio-group v-model:value="radioContent" style="text-align: left;">
-                  <a-radio value="radio1">跳转地址</a-radio>
-                  <a-radio value="radio2">富文本</a-radio>
+                  <a-radio :value="1">跳转地址</a-radio>
+                  <a-radio :value="2">富文本</a-radio>
                 </a-radio-group>
               </a-col>
             </a-row>
@@ -114,7 +114,7 @@
                   style="text-align: center;" v-model:value="formData.activityContent"
                 />
               </div>
-              <a-button :flex="auto" type="default" style="margin-left: 10px;">链接设置</a-button>
+              <a-button :flex="auto" type="default" style="margin-left: 10px;" @click="onContentConfig">链接设置</a-button>
             </a-row>
           </a-col>
         </div>
@@ -294,14 +294,16 @@
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue'
+import contentConfigRule from './contentConfigRule';
 
 
-defineProps({
+const props = defineProps({
   formData: {
       type: Object,
       default: () => ({
         activityName: '',
         activityType: '',
+        activityContent: '',
         activityTime: [null, null],
       }),
     },
@@ -309,7 +311,9 @@ defineProps({
 // Define emits
 const emit = defineEmits(['back'])  // Define the 'back' event
 
-const radioContent = ref('radio1') // Initial value for the radio group
+const { createDialog } = useDialog()
+
+const radioContent = ref(1) // Initial value for the radio group
 const radioValue = ref('radio1') // Initial value for the radio group
 const radioValue2 = ref('radio1') // Initial value for the radio group
 const spin_value1 = ref(0)
@@ -323,6 +327,7 @@ const uploadUrl = import.meta.env.VITE_API_HOST + '/api/v1/upload/resource'
 const uploadHeaders = {
   Authorization: 'Bearer ' + localStorage.getItem('token'),
 }
+
 
 const customSpins = ref([{ value1: '', value2: '' }])
 
@@ -414,6 +419,72 @@ const handleSuccess = (response, file) => {
 
 const uploadData = () => {
   return { type: 1 }
+}
+
+
+// 拉黑
+async function onContentConfig() {
+  const formValue = ref({
+    original_address : props.formData.activityContent,
+    current_address : '应用程序://网页?popRoot=0',
+    target : 0, // 0内, 1外
+    back_means_exit: 0, // 0否, 1是
+  })
+
+  const formModalProps = {
+    // request: setAnchorBlackReq,
+    // getData(data) {
+    //   const { anchor_id, ...params } = data
+    //   return {
+    //     ...params,
+    //     anchor_ids: [anchor_id],
+    //   }
+    // },
+    option: {
+      global: {
+        '*': {
+          wrap: {
+            labelCol: { span: 5 },
+          },
+        },
+      },
+    },
+    rule: contentConfigRule,
+  }
+
+  createDialog({
+    title: '链接地址',
+    width: 500,
+    component: () => (
+      <div>
+        <ModalForm v-model={formValue.value} {...formModalProps} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '40px', marginLeft: '90px'}}>
+          <a-button type="primary" onClick={() => onInternalJump(formValue.value)}>
+            内跳
+          </a-button>
+          <a-button type="primary" onClick={onExternalJump}>
+            外跳
+          </a-button>
+        </div>
+      </div>
+    ),
+    onConfirm(status) {
+      if (status) {
+        // const current = dataSource.value.find(item => item.anchor_id === userItem.anchor_id)
+        // if (current) {
+        //   current.acct_status = 2
+        // }
+      }
+    },
+  })
+}
+
+
+const onInternalJump = (formData) => {
+}
+
+
+const onExternalJump = () => {
 }
 </script>
 

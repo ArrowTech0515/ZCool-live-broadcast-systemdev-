@@ -289,6 +289,7 @@ const handleSizeChange = (current: number, size: number) => {
 const handleOperation = (operation: string, record: any) => {
   if (operation === '编辑') {
     selectedActivity.value = record // Set the selected record data
+    selectedActivity.value.activityContent = '活动内容'
     currentEditPage.value = editPagelist[record.activityName]
 
     if (!currentEditPage.value) {

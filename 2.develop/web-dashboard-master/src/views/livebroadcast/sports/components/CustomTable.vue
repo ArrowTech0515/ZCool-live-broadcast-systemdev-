@@ -28,8 +28,6 @@
 
 <script setup lang="jsx">
 import { getAnchorListReq, anchorAddOrEditReq, setAnchorBlackReq } from '@/api/anchor'
-import ENUMS from '@/enums/common'
-import blockUserRule from '@/rules/blockUserRule'
 import MerchCell from '@/components/Business/MerchCell.jsx'
 import useAnchorRule from '../hooks/useAnchorRule'
 import { getPathFromUrlArray } from '@/utils/index'

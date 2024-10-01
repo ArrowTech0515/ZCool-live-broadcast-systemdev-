@@ -310,5 +310,9 @@ export default {
     1: '中等',
     2: '慢速',
     3: '快速',
+  },
+  activity_content_type: {
+    1: '跳转地址',
+    2: '富文本',
   }
 }
