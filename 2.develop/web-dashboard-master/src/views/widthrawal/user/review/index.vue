@@ -32,32 +32,70 @@
         </a-col>
         
         <!-- Right-aligned Buttons -->
-        <a-col :span="12" style="text-align: right;">
-          <a-button  style="width: 100px; color: #1890ff; margin-right: 8px;">锁定</a-button>
-          <a-button  style="width: 100px;color: red; margin-right: 8px;">拒绝</a-button>
-          <a-button  style="width: 100px;">审核打款</a-button>
+        <a-col v-if="paymentInfo !== 4" :span="12" style="text-align: right;">
+          <a-button v-if="! isLocked" style="width: 100px; color: #1890ff; margin-right: 8px;" @click="onLock">锁定</a-button>
+          <a-button v-else style="width: 100px; color: #1890ff; margin-right: 8px;" disabled>已锁定</a-button>
+          <a-button v-if="! isRejected" style="width: 100px; color: red; margin-right: 8px;" @click="onReject">拒绝</a-button>
+          <a-button v-else style="width: 100px; color: red; margin-right: 8px;" @click="onReject" disabled>已拒绝</a-button>
+          <a-button  style="width: 100px;" @click="onReview">审核打款</a-button>
+        </a-col>
+      </a-row>
+      <!-- Row with the Textarea -->
+      <a-row v-if="paymentInfo === 4" style="margin-top: 10px;">
+        <a-col :span="24">
+          <a-form-item label="拒绝理由">
+            <a-textarea
+              v-model:value="remarks"
+              placeholder="理由理由理由理由理由理由理由理由"
+              :auto-size="{ minRows: 3, maxRows: 5 }"
+              style="width: 100%;"
+              disabled
+            />
+          </a-form-item>
         </a-col>
       </a-row>
 
     </div>
   </a-card>
+
+  <ReviewDialog 
+        :isModalVisible="isReviewModalVisible"
+      @update:is-modal-visible="val => isReviewModalVisible = val" />
+
+  <RejectDialog 
+        :isModalVisible="isRejectModalVisible"
+      @update:is-modal-visible="val => isRejectModalVisible = val"
+      @emit_success="onRejected" />
+
+  <LockDialog 
+    :isModalVisible="isLockModalVisible"
+    sTitle="锁定提示"
+    sText1="是否锁定当前体现订单"
+    sText2="锁定后需要管理员/部门负责人/锁定人方可解锁操作"
+    @update:is-modal-visible="val => isLockModalVisible = val"
+    @emit_success="onLocked" />
 </template>
   
 <script>
-import firstLineData from './firstLineData.vue';
-import secondLineData from './secondLineData.vue';
-import thirdLineData from './thirdLineData.vue';
-import fourthLineData from './fourthLineData.vue';
+import firstLineData from './firstLineData.vue'
+import secondLineData from './secondLineData.vue'
+import thirdLineData from './thirdLineData.vue'
+import fourthLineData from './fourthLineData.vue'
+import ReviewDialog from '@/components/Form/ReviewDialog.vue'
+import LockDialog from '@/components/Form/LockDialog.vue'
+import RejectDialog from '@/components/Form/RejectDialog.vue'
 
 export default {
   components: {
     firstLineData,
     secondLineData,
     thirdLineData,
-    fourthLineData
+    fourthLineData,
+    ReviewDialog,
+    RejectDialog,
+    LockDialog
   },
 
-  name: 'WithdrawDetails',
   props: {
     basicData: {
       type: Object,
@@ -80,20 +118,54 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      isLockModalVisible : false,
+      isRejectModalVisible : false,
+      isReviewModalVisible : false,
+
+      isLocked : false,
+      isRejected : false,
+    }
+  },
   methods: {
     onConfirm() {
       // Logic to handle confirm action
-      this.$emit('confirm');
-    },
-    onReject() {
-      // Logic to handle reject action
-      this.$emit('reject');
+      this.$emit('confirm')
     },
     handleBack() {
       // Handle the back action here
       // For example, navigate to the previous page:
-      this.$emit('back'); // Emit the back event to the parent component
+      this.$emit('back') // Emit the back event to the parent component
     },
+    onReview() {
+      console.log("onReview : " + this.isReviewModalVisible.value)
+      this.isReviewModalVisible  = true
+    },
+    onReject() {
+      console.log("onReject : " + this.isRejectModalVisible.value)
+      this.isRejectModalVisible  = true
+    },
+    onLock() {
+      this.isLockModalVisible  = true
+
+    },
+    onLocked() {
+      message.success({
+        content: `锁定成功`,
+        duration: 1, // Duration in seconds
+      })
+      // Show unLock button
+      this.isLocked = true
+    },
+    onRejected() {
+      message.success({
+        content: `解锁成功`,
+        duration: 1, // Duration in seconds
+      })
+      // Show unLock button
+      this.isRejected = true
+    }
   },
 }
 </script>

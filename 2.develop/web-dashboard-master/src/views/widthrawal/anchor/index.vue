@@ -174,11 +174,9 @@
     sText2="锁定后需要管理员/部门负责人/锁定人方可解锁操作"
     @update:is-modal-visible="val => isLockModalVisible = val"
     @emit_success="onLocked" />
-
 </template>
 
 <script setup lang="jsx">
-import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import reviewPage from './review/index.vue'
 import ExportCSVDialog from './exportCSVDialog.vue'

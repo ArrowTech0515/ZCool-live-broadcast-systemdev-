@@ -117,7 +117,7 @@
 
           <a-table-column title="提现状态" dataIndex="wStatus" key="wStatus" align="center">
             <template #default="{ text }">
-              <a-tag :color="statusColors[text]">{{ ENUM.withdrawal_status[text] }}</a-tag>
+              <a-tag :color="ENUM.withdrawal_colors[text]">{{ ENUM.withdrawal_status[text] }}</a-tag>
             </template>
           </a-table-column>
 
@@ -140,8 +140,7 @@
                 </a>
               </span>
             </template>
-          </a-table-column> />
-        
+          </a-table-column>
         </a-table>
 
         <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
@@ -152,7 +151,6 @@
             :page-size="pageSize"
             show-size-changer
             :page-size-options="['5', '10', '20', '50', '100']"
-            :simple="false"
             size="small"
             @change="handlePageChange"
             @show-size-change="handleSizeChange"
@@ -174,20 +172,29 @@
     </transition>
   <ExportCSVDialog :isModalVisible="isModalVisible2" @update:isModalVisible="val => (isModalVisible2 = val)" />
 
+  <LockDialog 
+    :isModalVisible="isLockModalVisible"
+    sTitle="锁定提示"
+    sText1="是否锁定当前体现订单"
+    sText2="锁定后需要管理员/部门负责人/锁定人方可解锁操作"
+    @update:is-modal-visible="val => isLockModalVisible = val"
+    @emit_success="onLocked" />
 </template>
 
 <script setup lang="jsx">
-import { message } from 'ant-design-vue';
-import reviewPage from './review/index.vue';
+import { message } from 'ant-design-vue'
+import reviewPage from './review/index.vue'
 import ExportCSVDialog from './exportCSVDialog.vue'
 
+const isLockModalVisible = ref(false)
 const isModalVisible2 = ref(false)
 const withdrawStatus = ref(0)
-const showReviewPage = ref(false);
+const showReviewPage = ref(false)
+const paymentInfo = ref(1)
 
-const currentPage = ref(1);
-const pageSize = ref(5);
-const totalItems = ref(100);
+const currentPage = ref(1)
+const pageSize = ref(5)
+const totalItems = ref(100)
 
 // Bind state variables
 const formData = ref({
@@ -197,7 +204,7 @@ const formData = ref({
   merchantName: '',
   status: '0',
   dateRange: null,
-});
+})
 
 
 // DataSource with new structure
@@ -317,21 +324,15 @@ const dataSource = ref([
     account: '管理员 - 陈七',
     operate: [3],  // Represents operation '提现明细'
   },
-]);
+])
 
 
 // Pagination logic
 const paginatedData = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value;
-  const end = start + pageSize.value;
-  return dataSource.value.slice(start, end);
-});
-
-const statusColors = {
-  1: 'blue',
-  2: 'green',
-  3: 'red',
-};
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return dataSource.value.slice(start, end)
+})
 
 const operationColors = {
   1: 'green',     // Green for 审核
@@ -353,7 +354,7 @@ const onReset = () => {
 // Functions
 const onSearch = () => {
   // Add search logic
-};
+}
 
 const exportCSV = () => (isModalVisible2.value = true)
 
@@ -366,25 +367,39 @@ const copyText = (text) => {
 }
 
 const handlePageChange = (page) => {
-  currentPage.value = page;
-};
+  currentPage.value = page
+}
 
 const handleSizeChange = (current, size) => {
-  pageSize.value = size;
-  currentPage.value = 1;
-};
+  pageSize.value = size
+  currentPage.value = 1
+}
 
 const handleOperation = (record, operation) => {
   withdrawStatus.value = record.wStatus
-
-  // if (operation === 3) 
+  if (operation === 2)
+    isLockModalVisible.value = true
+  else 
+  {
+    console.log("handleOperation : operation = " + ENUM.withdrawal_operate_type[operation])
+    paymentInfo.value = operation
     showReviewPage.value = true
+  }
 }
 
 const onBackToMainPage = () => {
-  showReviewPage.value = false;
-};
+  showReviewPage.value = false
+}
+const handleConfirm = () => console.log('Confirmed')
+const handleReject = () => console.log('Rejected')
 
+const onLocked = () => {
+  message.success({
+    content: `锁定成功`,
+    duration: 1, // Duration in seconds
+  })
+  // Show unLock button
+}
 </script>
 
 <style scoped>

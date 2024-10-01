@@ -183,6 +183,14 @@
       </div>
     </transition>
   <ExportCSVDialog :isModalVisible="isModalVisible2" @update:isModalVisible="val => (isModalVisible2 = val)" />
+
+  <LockDialog 
+    :isModalVisible="isLockModalVisible"
+    sTitle="锁定提示"
+    sText1="是否锁定当前体现订单"
+    sText2="锁定后需要管理员/部门负责人/锁定人方可解锁操作"
+    @update:is-modal-visible="val => isLockModalVisible = val"
+    @emit_success="onLocked" />
 </template>
 
 <script setup lang="jsx">
@@ -191,9 +199,11 @@ import reviewPage from './review/index.vue'
 import ExportCSVDialog from './exportCSVDialog.vue'
 
 // State variables
+const isLockModalVisible = ref(false)
 const isModalVisible2 = ref(false)
 const showReviewPage = ref(false)
 const withdrawStatus = ref(0)
+const paymentInfo = ref(1)
 
 const currentPage = ref(1)
 const pageSize = ref(5)
@@ -346,12 +356,6 @@ const paginatedData = computed(() => {
   return dataSource.value.slice(start, end)
 })
 
-const statusColors = {
-  1: 'blue', // Blue for 提现中
-  2: 'green',   // Green for 提现成功
-  3: 'red',     // Red for 提现失败
-}
-
 const operationColors = {
   1: 'green',     // Green for 审核
   2: '#1890ff',   // Blue for 锁定
@@ -378,9 +382,14 @@ const handleSizeChange = (current, size) => {
 
 const handleOperation = (record, operation) => {
   withdrawStatus.value = record.wStatus
-
-  // if (operation === 3) 
+  if (operation === 2)
+    isLockModalVisible.value = true
+  else 
+  {
+    console.log("handleOperation : operation = " + ENUM.withdrawal_operate_type[operation])
+    paymentInfo.value = operation
     showReviewPage.value = true
+  }
 }
 
 const onBackToMainPage = () => {
@@ -402,6 +411,15 @@ const onReset = () => {
 }
 
 const exportCSV = () => (isModalVisible2.value = true)
+
+const onLocked = () => {
+  message.success({
+    content: `锁定成功`,
+    duration: 1, // Duration in seconds
+  })
+  // Show unLock button
+}
+
 </script>
 
 <style scoped>

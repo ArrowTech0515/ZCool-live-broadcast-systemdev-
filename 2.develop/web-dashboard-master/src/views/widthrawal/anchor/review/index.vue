@@ -56,7 +56,7 @@
     </div>
   </a-card>
 
-  <reviewDialog 
+  <ReviewDialog 
         :isModalVisible="isReviewModalVisible"
       @update:is-modal-visible="val => isReviewModalVisible = val" />
 
@@ -75,15 +75,14 @@
 </template>
   
 <script lang="jsx">
-import { message } from 'ant-design-vue';
-
-import firstLineData from './firstLineData.vue';
-import secondLineData from './secondLineData.vue';
-import thirdLineData from './thirdLineData.vue';
-import fourthLineData from './fourthLineData.vue';
-import reviewDialog from './reviewDialog.vue';
-import LockDialog from '@/components/Form/LockDialog.vue';
-import RejectDialog from '@/components/Form/RejectDialog.vue';
+import { message } from 'ant-design-vue'
+import firstLineData from './firstLineData.vue'
+import secondLineData from './secondLineData.vue'
+import thirdLineData from './thirdLineData.vue'
+import fourthLineData from './fourthLineData.vue'
+import ReviewDialog from '@/components/Form/ReviewDialog.vue'
+import LockDialog from '@/components/Form/LockDialog.vue'
+import RejectDialog from '@/components/Form/RejectDialog.vue'
 
 export default {
   components: {
@@ -91,7 +90,7 @@ export default {
     secondLineData,
     thirdLineData,
     fourthLineData,
-    reviewDialog,
+    ReviewDialog,
     RejectDialog,
     LockDialog
   },
@@ -131,7 +130,7 @@ export default {
   methods: {
     onConfirm() {
       // Logic to handle confirm action
-      this.$emit('confirm');
+      this.$emit('confirm')
     },
     // onReject() {
     //   // Logic to handle reject action
@@ -140,7 +139,7 @@ export default {
     handleBack() {
       // Handle the back action here
       // For example, navigate to the previous page:
-      this.$emit('back'); // Emit the back event to the parent component
+      this.$emit('back') // Emit the back event to the parent component
     },
     onReview() {
       console.log("onReview : " + this.isReviewModalVisible.value)
