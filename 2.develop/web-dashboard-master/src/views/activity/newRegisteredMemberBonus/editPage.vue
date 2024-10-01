@@ -114,7 +114,7 @@
                   style="text-align: center;" v-model:value="formData.activityContent"
                 />
               </div>
-              <a-button :flex="auto" type="default" style="margin-left: 10px;">链接设置</a-button>
+              <a-button :flex="auto" type="default" style="margin-left: 10px;" @click="onContentConfig">链接设置</a-button>
             </a-row>
           </a-col>
         </div>
@@ -261,21 +261,23 @@
 <script setup lang="jsx">
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
-import CustomSpin from '@/components/Form/Custom/CustomSpin.vue'
+import contentConfigRule from '../contentConfigRule'
 
-
-defineProps({
+const props = defineProps({
   formData: {
       type: Object,
       default: () => ({
         activityName: '',
         activityType: '',
+        activityContent: '',
         activityTime: [null, null],
       }),
     },
 })
-// Define emits
+
 const emit = defineEmits(['back'])  // Define the 'back' event
+
+const { createDialog } = useDialog()
 
 const radioContent = ref('radio1') // Initial value for the radio group
 const radioValue = ref('radio1') // Initial value for the radio group
@@ -379,6 +381,69 @@ const handleSuccess = (response, file) => {
 const uploadData = () => {
   return { type: 1 }
 }
+
+async function onContentConfig() {
+  const formValue = ref({
+    original_address : props.formData.activityContent,
+    current_address : '应用程序://网页?popRoot=0',
+    target : 0, // 0内, 1外
+    back_means_exit: 0, // 0否, 1是
+  })
+
+  const formModalProps = {
+    // request: setAnchorBlackReq,
+    // getData(data) {
+    //   const { anchor_id, ...params } = data
+    //   return {
+    //     ...params,
+    //     anchor_ids: [anchor_id],
+    //   }
+    // },
+    option: {
+      global: {
+        '*': {
+          wrap: {
+            labelCol: { span: 5 },
+          },
+        },
+      },
+    },
+    rule: contentConfigRule,
+  }
+
+  createDialog({
+    title: '链接地址',
+    width: 500,
+    component: () => (
+      <div>
+        <ModalForm v-model={formValue.value} {...formModalProps} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '40px', marginLeft: '90px'}}>
+          <a-button type="primary" onClick={() => onInternalJump(formValue.value)}>
+            内跳
+          </a-button>
+          <a-button type="primary" onClick={onExternalJump}>
+            外跳
+          </a-button>
+        </div>
+      </div>
+    ),
+    onConfirm(status) {
+      if (status) {
+        // const current = dataSource.value.find(item => item.anchor_id === userItem.anchor_id)
+        // if (current) {
+        //   current.acct_status = 2
+        // }
+      }
+    },
+  })
+}
+
+const onInternalJump = (formData) => {
+}
+
+const onExternalJump = () => {
+}
+
 </script>
 
 

@@ -294,8 +294,7 @@
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue'
-import contentConfigRule from './contentConfigRule';
-
+import contentConfigRule from '../contentConfigRule'
 
 const props = defineProps({
   formData: {
@@ -327,7 +326,6 @@ const uploadUrl = import.meta.env.VITE_API_HOST + '/api/v1/upload/resource'
 const uploadHeaders = {
   Authorization: 'Bearer ' + localStorage.getItem('token'),
 }
-
 
 const customSpins = ref([{ value1: '', value2: '' }])
 
@@ -421,8 +419,6 @@ const uploadData = () => {
   return { type: 1 }
 }
 
-
-// 拉黑
 async function onContentConfig() {
   const formValue = ref({
     original_address : props.formData.activityContent,
@@ -479,13 +475,12 @@ async function onContentConfig() {
   })
 }
 
-
 const onInternalJump = (formData) => {
 }
 
-
 const onExternalJump = () => {
 }
+
 </script>
 
 
