@@ -101,7 +101,7 @@
             <a-row style="margin-bottom: 10px;">
               <!-- Radio Group on the left -->
               <a-col>
-                <a-radio-group v-model:value="radioValue" style="text-align: left;">
+                <a-radio-group v-model:value="radioContent" style="text-align: left;">
                   <a-radio value="radio1">跳转地址</a-radio>
                   <a-radio value="radio2">富文本</a-radio>
                 </a-radio-group>
@@ -309,6 +309,7 @@ defineProps({
 // Define emits
 const emit = defineEmits(['back'])  // Define the 'back' event
 
+const radioContent = ref('radio1') // Initial value for the radio group
 const radioValue = ref('radio1') // Initial value for the radio group
 const radioValue2 = ref('radio1') // Initial value for the radio group
 const spin_value1 = ref(0)

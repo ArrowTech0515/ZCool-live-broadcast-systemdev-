@@ -91,6 +91,32 @@
           </div>
         </div>
 
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px;">
+          <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
+            活动内容
+          </div>
+          <a-col type="flex" style="width: 75%; white-space: nowrap;">
+            <a-row style="margin-bottom: 10px;">
+              <!-- Radio Group on the left -->
+              <a-col>
+                <a-radio-group v-model:value="radioContent" style="text-align: left;">
+                  <a-radio value="radio1">跳转地址</a-radio>
+                  <a-radio value="radio2">富文本</a-radio>
+                </a-radio-group>
+              </a-col>
+            </a-row>
+            <a-row >
+              <div style="width: 60%;">
+                <a-input 
+                  placeholder="请输入活动地址" 
+                  style="text-align: center;" v-model:value="formData.activityContent"
+                />
+              </div>
+              <a-button :flex="auto" type="default" style="margin-left: 10px;">链接设置</a-button>
+            </a-row>
+          </a-col>
+        </div>
+
         <div style="display: flex; align-items: center; margin-bottom: 20px; width: 100%;">
           <div style="flex: 1; font-weight: bold; text-align: right; padding-right: 10px; margin-right: 15px;">
             展示位置
@@ -276,6 +302,7 @@ defineProps({
 const emit = defineEmits(['back'])  // Define the 'back' event
 
 const isModalVisible = ref(false);
+const radioContent = ref('radio1') // Initial value for the radio group
 const radioValue = ref('radio1');
 const radioValue2 = ref('radio1');
 const isPermanent = ref(false)
