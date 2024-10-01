@@ -305,5 +305,10 @@ export default {
     1: 'blue',
     2: 'green',
     3: 'red',
+  },
+  marquee_speed: {
+    1: '中等',
+    2: '慢速',
+    3: '快速',
   }
 }
