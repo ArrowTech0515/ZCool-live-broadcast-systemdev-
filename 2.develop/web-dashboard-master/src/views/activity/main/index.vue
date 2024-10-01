@@ -122,7 +122,7 @@ import rechargeEditPage from '../recharge/editPage.vue'
 import redumptionEditPage from '../redumption/editPage.vue'
 import goodNumberEditPage from '../goodNumber/editPage.vue'
 import signinEditPage from '../signin/editPage.vue'
-import giftGivingEditPage from '../giftGiving/editPage.vue'
+import giftGivingEditPage from '../giftgiving/editPage.vue'
 import wheelEditPage from '../wheel/main.vue'
 import bonusEditPage from '../newRegisteredMemberBonus/editPage.vue'
 
