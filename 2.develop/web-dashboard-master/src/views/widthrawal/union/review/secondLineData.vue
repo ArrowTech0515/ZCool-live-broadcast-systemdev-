@@ -8,7 +8,7 @@
       
       <!-- Separator -->
       <a-col>
-        <a-divider type="vertical" :style="{ background: 'gray', height: '100%' }" />
+        <a-divider type="vertical" :style="{ background: 'black', height: '100%' }" />
       </a-col>
 
       <!-- First Column -->

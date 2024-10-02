@@ -9,7 +9,7 @@
       
       <!-- Separator -->
       <a-col>
-        <a-divider type="vertical" :style="{ background: 'gray', height: '100%' }" />
+        <a-divider type="vertical" :style="{ background: 'black', height: '100%' }" />
       </a-col>
 
       <!-- First Column -->
@@ -28,7 +28,7 @@
           <a-col :span="6" style="text-align: right;">
             <span 
             style="font-size: 12px; text-decoration: underline; color: blue; cursor: pointer;"
-                @click="copyText(deviceId)">
+                @click="$emit('emit_details', 'Device')">
                 详情</span>
           </a-col>
         </a-row>
@@ -63,7 +63,7 @@
           <a-col :span="6" style="text-align: right;">
             <span 
             style="font-size: 12px; text-decoration: underline; color: blue; cursor: pointer;"
-                @click="copyText(loginIP)">
+                @click="$emit('emit_details', 'IP')">
                 详情</span>
           </a-col>
         </a-row>
@@ -82,6 +82,8 @@
 import { message } from 'ant-design-vue';
 
 export default {
+  emits: ['emit_details'],
+
   data() {
     return {
       anchorName: '大小事',

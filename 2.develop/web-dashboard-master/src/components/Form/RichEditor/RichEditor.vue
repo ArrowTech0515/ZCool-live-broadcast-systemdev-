@@ -95,7 +95,7 @@ const modules = [
 <style lang="sass">
 .__QuillEditor
   height: 300px
-  width: 200px
+  width: 100%
 
   .ql-editor
     font-size: 15px
