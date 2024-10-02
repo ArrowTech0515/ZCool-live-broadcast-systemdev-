@@ -1,8 +1,8 @@
 <template>
     <a-tabs default-active-key="1">
-      <a-tab-pane key="1" tab="转盘活动">
+      <!-- <a-tab-pane key="1" tab="转盘活动">
         <mainPage />
-      </a-tab-pane>
+      </a-tab-pane> -->
       <a-tab-pane key="2" tab="转盘基础配置">
         <basicConfigPage />
       </a-tab-pane>

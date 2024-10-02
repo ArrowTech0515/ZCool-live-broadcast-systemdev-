@@ -53,6 +53,9 @@
               <a-menu-item key="29">代理管理</a-menu-item>
               <a-menu-item key="30">系统管理</a-menu-item>
               <a-menu-item key="31">网站管理</a-menu-item>
+              <a-menu-item key="32">公告管理</a-menu-item>
+              <a-menu-item key="33">平台配置</a-menu-item>
+              <a-menu-item key="34">短信管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -80,10 +83,15 @@
   import permissionManagement from '@/views/permissions/index.vue'
   import messageManagement from '@/views/message/list/index.vue'
   import anchorManagement from '@/views/anchor/main.vue'
-  import payManagement from '@/views/payment/channel/index.vue'
+  import payManagement from '@/views/payment/main.vue'
   import merchantManagement from '@/views/merchant/main.vue'
   import settingManagement from '@/views/setting/main.vue'
   import giftManagement from '@/views/gift/list/index.vue'
+  import noticeManagement from '@/views/notice/main.vue'
+  import platformManagement from '@/views/platform/index.vue'
+  import recommendManagement from '@/views/recweight/list/index.vue'
+  import smsManagement from '@/views/sms/main.vue'
+  import guildManagement from '@/views/guild/list/index.vue'
 
   // new added
   import orderManagement from '@/views/order/main.vue'
@@ -116,11 +124,17 @@
       permissionManagement,
       messageManagement,
       anchorManagement,
-      merchantManagement,
       giftManagement,
       payManagement,
       settingManagement,
       userManagement,
+      noticeManagement,
+      platformManagement,
+      recommendManagement,
+      smsManagement,
+      guildManagement,
+
+      merchantManagement,
 
       orderManagement,
       widthrawalManagement,
@@ -138,13 +152,22 @@
       agentManagement,
       onlinecustomerserviceManagement,
       systemManagement,
-      websiteManagement
+      websiteManagement,
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
+          case '34':
+            currentComponent.value = 'smsManagement'
+            break
+          case '33':
+            currentComponent.value = 'platformManagement'
+            break
+          case '32':
+            currentComponent.value = 'noticeManagement'
+            break
           case '31':
             currentComponent.value = 'websiteManagement'
             break
@@ -211,8 +234,14 @@
           case '7':
             currentComponent.value = 'livebroadcastManagement'
             break
+          case '6':
+            currentComponent.value = 'recommendManagement'
+            break
           case '5':
             currentComponent.value = 'anchorManagement'
+            break
+          case '4':
+            currentComponent.value = 'guildManagement'
             break
           case '3':
             currentComponent.value = 'accountRiskControlManagement'
@@ -224,11 +253,11 @@
             currentComponent.value = 'statisticsManagement'
             break
           default:
-            currentComponent.value = 'accountRiskControlManagement'
+            currentComponent.value = 'activityManagement'
         }
       }
   
-      const currentComponent = ref('websiteManagement') // Initial component
+      const currentComponent = ref('noticeManagement') // Initial component
   
       return {
         collapse_flag,
