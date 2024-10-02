@@ -7,6 +7,10 @@
       :columns="columns"
       :loading="loading"
       :scroll="{ x: 'max-content' }"
+      :row-selection="{
+        selectedRowKeys: selectedRowKeys,
+        onChange: selectedRowKeys = $event,
+      }"
     />
   </div>
 
@@ -94,24 +98,6 @@ const { loading, refresh } = useRequest(() => getMerchantListReq({
 const { createDialog } = useDialog();
 
 const columns = [
-{
-    title: () => (
-      <a-checkbox 
-        checked={selectedRowKeys.value.length === dataSource.value.length}
-        indeterminate={selectedRowKeys.value.length > 0 && selectedRowKeys.value.length < dataSource.value.length}
-        onChange={handleSelectAll} 
-      />
-    ),
-    dataIndex: 'selection',
-    width: 50,
-    align: 'center',
-    customRender: ({ record }) => (
-      <a-checkbox 
-        checked={selectedRowKeys.value.includes(record.id)}
-        onChange={() => handleRowSelect(record.id)}
-      />
-    ),
-  },
   {
     title: 'IP',
     dataIndex: 'IP',

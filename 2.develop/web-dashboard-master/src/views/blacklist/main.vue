@@ -8,7 +8,7 @@
           <application4release />
       </a-tab-pane>
       <a-tab-pane key="3" tab="黑名单管理_工会后台">
-          <maincopyPage/>
+          <mainguildPage/>
       </a-tab-pane>
     </a-tabs>
   </template>
@@ -17,7 +17,7 @@
   import { Tabs } from 'ant-design-vue'
 
   import mainPage from './main/index.vue'
-  import maincopyPage from './main copy/index.vue'
+  import mainguildPage from './main_guild/index.vue'
   import application4release from './application4release/index.vue'
 
   export default {
@@ -26,7 +26,7 @@
       'a-tab-pane': Tabs.TabPane,
       mainPage,
       application4release,
-      maincopyPage
+      mainguildPage
     }
   }
   </script>
