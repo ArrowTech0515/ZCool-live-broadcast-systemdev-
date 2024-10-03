@@ -13,7 +13,12 @@
         <a-tab-pane key="4" tab="新注册会员彩金">
             <newMemberBonusPage />
         </a-tab-pane>
-
+        <a-tab-pane key="5" tab="赠送彩金活动">
+            <bonusPage />
+        </a-tab-pane>
+        <a-tab-pane key="6" tab="赠送贵族活动">
+            <noblePage />
+        </a-tab-pane>
     </a-tabs>
 </template>
   
@@ -25,6 +30,8 @@ import mainPage from './main/index.vue';
 import redumptionPage from './redumption/index.vue';
 import wheelPage from './wheel/main.vue';
 import newMemberBonusPage from './newRegisteredMemberBonus/index.vue';
+import bonusPage from './bonus/index.vue';
+import noblePage from './noble/index.vue';
 
 const components = {
     'a-tabs': Tabs,
@@ -32,7 +39,9 @@ const components = {
     mainPage,
     redumptionPage,
     wheelPage,
-    newMemberBonusPage
+    newMemberBonusPage,
+    bonusPage,
+    noblePage
 }
 
 </script>

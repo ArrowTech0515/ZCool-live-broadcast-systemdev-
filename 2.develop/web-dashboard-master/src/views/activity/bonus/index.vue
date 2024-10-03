@@ -3,30 +3,18 @@
     <div v-if="!showEditPage && !showDataPage">
       <a-card style=" margin-bottom: 1%;">
         <a-row type="flex" style="align-items: center; margin-bottom: -20px;">
+          
           <a-col  style="margin-left: 20px;">
             <a-form-item label="活动名称">
-              <a-input v-model:value="activity_id" placeholder="请输入活动名称" />
+              <a-input v-model:value="activityName" placeholder="请输入活动名称" />
             </a-form-item>
-          </a-col>
-
-          <a-col :flex="auto"  style="margin-left: 20px;">
-            <a-form-item label="状态">
-              <a-select v-model:value="activity_status" default-value="all">
-                <a-select-option value="all">{{ ENUM.activity_status[1] }}</a-select-option>
-                <a-select-option value="active">{{ ENUM.activity_status[2] }}</a-select-option>
-                <a-select-option value="enabled">{{ ENUM.activity_status[3] }}</a-select-option>
-              </a-select>
+          </a-col>  
+          
+          <a-col  style="margin-left: 20px;">
+            <a-form-item label="金额">
+              <a-input-number v-model:value="activityAmount" placeholder="请输入金额" />
             </a-form-item>
-          </a-col>        
-
-          <a-col :flex="auto"  style="margin-left: 20px;">
-            <a-form-item label="活动时间">
-              <a-range-picker 
-                :placeholder="['开始日期', '结束日期']"
-                v-model:value="activity_time" 
-              />
-            </a-form-item>
-          </a-col>     
+          </a-col>  
 
           <a-col :flex="auto"  style="margin-left: 20px;">
             <a-form-item>
@@ -58,7 +46,7 @@
             </template>
           </a-table-column>
           <a-table-column title="操作账号" dataIndex="operationAccount" key="operationAccount" align="center" />
-          <a-table-column title="更新时间" dataIndex="updateTime" key="updateTime" align="center" />
+          <a-table-column title="创建时间" dataIndex="creationTime" key="creationTime" align="center" />
           <!-- Custom "操作" Column -->
           <a-table-column title="操作" key="operate" align="center">
             <template #default="{ record }"> <!-- Access each row's data with `record` -->
@@ -97,69 +85,33 @@
 
       <!-- Data Page and Edit Page transitions -->
       <div v-else-if="showDataPage">
-        <component 
-          :is="currentDataPage"
-          @back="onBackToMainPage1"
-          @confirm="handleConfirm" 
-          @reject="handleReject" />
+        <dataPage  @back="onBackToMainPage1" @confirm="handleConfirm" @reject="handleReject" />
       </div>
 
       <div v-else>
-        <component 
-          :is="currentEditPage" 
-          :formData="selectedActivity" 
-          @back="onBackToMainPage2" 
-          @confirm="handleConfirm" 
-          @reject="handleReject" />
+        <editPage :formData="selectedActivity" @back="onBackToMainPage2" @confirm="handleConfirm" @reject="handleReject" />
       </div>
   </transition>
 </template>
 
 
 <script setup lang="ts">
+import { ref, computed } from 'vue'
+import editPage from './editPage.vue'
+import dataPage from './dataPage.vue'
 
-import rechargeEditPage from '../recharge/editPage.vue'
-import redumptionEditPage from '../redumption/editPage.vue'
-import goodNumberEditPage from '../goodNumber/editPage.vue'
-import signinEditPage from '../signin/editPage.vue'
-import giftGivingEditPage from '../giftgiving/editPage.vue'
-import wheelEditPage from '../wheel/main.vue'
-import newBonusEditPage from '../newRegisteredMemberBonus/editPage.vue'
-import bonusEditPage from '../bonus/editPage.vue'
-import nobleEditPage from '../noble/editPage.vue'
+defineProps({
+  formData: {
+      type: Object,
+      default: () => ({
+        activityName: '',
+        activityType: '',
+        activityTime: [null, null],
+      }),
+    },
+})
 
-import rechargeDataPage from '../recharge/dataPage.vue'
-import redumptionDataPage from '../redumption/dataPage.vue'
-import goodNumberDataPage from '../goodNumber/dataPage.vue'
-import signinDataPage from '../signin/dataPage.vue'
-import giftGivingDataPage from '../giftgiving/dataPage.vue'
-import wheelDataPage from '../wheel/main.vue'
-import newBonusDataPage from '../newRegisteredMemberBonus/dataPage.vue'
-import bonusDataPage from '../bonus/dataPage.vue'
-import nobleDataPage from '../noble/dataPage.vue'
-
-const editPagelist = {
-  '充值活动': rechargeEditPage,
-  '兑换活动': redumptionEditPage,
-  '靓号活动': goodNumberEditPage,
-  '签到活动': signinEditPage,
-  '送礼活动': giftGivingEditPage,
-  '转盘活动': wheelEditPage,
-  '新注册会员彩金': newBonusEditPage,
-  '赠送彩金活动': bonusEditPage,
-  '赠送贵族活动': nobleEditPage,
-}
-const dataPagelist = {
-  '充值活动': rechargeDataPage,
-  '兑换活动': redumptionDataPage,
-  '靓号活动': goodNumberDataPage,
-  '签到活动': signinDataPage,
-  '送礼活动': giftGivingDataPage,
-  '转盘活动': wheelDataPage,
-  '新注册会员彩金': newBonusDataPage,
-  '赠送彩金活动': bonusDataPage,
-  '赠送贵族活动': nobleDataPage,
-}
+const isPermanent = ref(false)
 
 // States for inputs
 const activity_id = ref('') // Initialize as an empty string
@@ -168,7 +120,7 @@ const activity_time = ref(null)
 
 // States for pagination and data
 const currentPage = ref(1)
-const pageSize = ref(10)
+const pageSize = ref(5)
 const totalItems = ref(100)
 
 // Operation handling for "数据" and "编辑"
@@ -176,99 +128,27 @@ const showEditPage = ref(false)
 const showDataPage = ref(false)
 
 const selectedActivity = ref(null) // Ref to store the selected activity
-const currentEditPage = ref(null) // Ref to store the selected activity
-const currentDataPage = ref(null) // Ref to store the selected activity
 
 // Data source for the table
 const dataSource = ref([
   {
     key: '1',
-    activityName: '充值活动',
+    activityName: '赠送彩金活动',
     activityCover: '登录任务',
     activityTime: '2012-12-12  12:21——2012-12-12  12:21',
     activityStatus: ENUM.activity_status[2],//'活动中',
     operationAccount: '管理员-张三',
-    updateTime: '2012-12-12  12:21:21',
+    creationTime: '2012-12-12  12:21:21',
     operate: '数据 编辑',
   },
   {
     key: '2',
-    activityName: '兑换活动',
-    activityCover: '登录任务',
-    activityTime: '2012-12-12  12:21——2012-12-12  12:21',
-    activityStatus: ENUM.activity_status[3],//已结束
-    operationAccount: '管理员-张三',
-    updateTime: '2012-12-12  12:21:21',
-    operate: '数据 编辑',
-  },
-  {
-    key: '3',
-    activityName: '靓号活动',
-    activityCover: '登录任务',
-    activityTime: '2012-12-12  12:21——2012-12-12  12:21',
-    activityStatus: ENUM.activity_status[2],
-    operationAccount: '管理员-张三',
-    updateTime: '2012-12-12  12:21:21',
-    operate: '数据 编辑',
-  },
-  {
-    key: '4',
-    activityName: '签到活动',
-    activityCover: '登录任务',
-    activityTime: '2012-12-12  12:21——2012-12-12  12:21',
-    activityStatus: ENUM.activity_status[2],
-    operationAccount: '管理员-张三',
-    updateTime: '2012-12-12  12:21:21',
-    operate: '数据 编辑',
-  },
-  {
-    key: '5',
-    activityName: '送礼活动',
-    activityCover: '登录任务',
-    activityTime: '2012-12-12  12:21——2012-12-12  12:21',
-    activityStatus: ENUM.activity_status[3],
-    operationAccount: '管理员-张三',
-    updateTime: '2012-12-12  12:21:21',
-    operate: '数据 编辑',
-  },
-  {
-    key: '6',
-    activityName: '转盘活动',
-    activityCover: '登录任务',
-    activityTime: '2012-12-12  12:21——2012-12-12  12:21',
-    activityStatus: ENUM.activity_status[3],
-    operationAccount: '管理员-张',
-    updateTime: '2012-12-12  12:21:21',
-    operate: '数据 编辑',
-  },
-  {
-    key: '7',
-    activityName: '新注册会员彩金',
-    activityCover: '登录任务',
-    activityTime: '2012-12-12  12:21——2012-12-12  12:21',
-    activityStatus: ENUM.activity_status[2],
-    operationAccount: '管理员-张',
-    updateTime: '2012-12-12  12:21:21',
-    operate: '数据 编辑',
-  },
-  {
-    key: '8',
     activityName: '赠送彩金活动',
     activityCover: '登录任务',
-    activityTime: '2023-12-12  12:21——2023-12-12  12:21',
+    activityTime: '2012-12-12  12:21——2012-12-12  12:21',
     activityStatus: ENUM.activity_status[3],
-    operationAccount: '管理员-张',
-    updateTime: '2012-12-12  12:21:21',
-    operate: '数据 编辑',
-  },
-  {
-    key: '9',
-    activityName: '赠送贵族活动',
-    activityCover: '登录任务',
-    activityTime: '2023-12-12  12:21——2023-12-12  12:21',
-    activityStatus: ENUM.activity_status[2],
-    operationAccount: '管理员-张',
-    updateTime: '2012-12-12  12:21:21',
+    operationAccount: '管理员-张三',
+    creationTime: '2012-12-12  12:21:21',
     operate: '数据 编辑',
   },
 ])
@@ -317,37 +197,23 @@ const handleSizeChange = (current: number, size: number) => {
 const handleOperation = (operation: string, record: any) => {
   if (operation === '编辑') {
     selectedActivity.value = record // Set the selected record data
-    selectedActivity.value.activityContent = '活动内容'
-    currentEditPage.value = editPagelist[record.activityName]
-
-    if (!currentEditPage.value) {
-      console.error(`Edit page not found for activity: ${record.activityName}`)
-      return
-    }
+    console.log("activityName : " + selectedActivity.value.activityName)
 
     // Parse activityTime and store it in selectedActivity for a-range-picker
-    // const parsedTime = parseActivityTime(record.activityTime)
+    const parsedTime = parseActivityTime(record.activityTime)
 
-    // console.log("parsedTime : " + parsedTime)
+    console.log("parsedTime : " + parsedTime)
 
-    // if (parsedTime) {
-    //   selectedActivity.value.activityTime = parsedTime // Set the parsed date range
-    //   console.log("selectedActivity.value.activityTime : " + selectedActivity.value.activityTime)
-    // } else {
-    //   console.error('Invalid activityTime format:', record.activityTime)
-    // }
+    if (parsedTime) {
+      selectedActivity.value.activityTime = parsedTime // Set the parsed date range
+      console.log("selectedActivity.value.activityTime : " + selectedActivity.value.activityTime)
+    } else {
+      console.error('Invalid activityTime format:', record.activityTime)
+    }
 
     showEditPage.value = true
 
   } else if (operation === '数据') {
-    selectedActivity.value = record // Set the selected record data
-    currentDataPage.value = dataPagelist[record.activityName]
-
-    if (!currentDataPage.value) {
-      console.error(`Data page not found for activity: ${record.activityName}`)
-      return
-    }
-
     showDataPage.value = true
   }
 }

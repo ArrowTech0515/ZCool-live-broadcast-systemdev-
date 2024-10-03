@@ -66,8 +66,32 @@ const dataSource = ref([
     payment_account: '13343513423124',
     open_branch: '--',
     create_time: '2021-10-01 17:24:39',
+    remarks: '300',
+    acct_status: 2, //解除拉黑
+  },
+  {
+    id: '2',
+    game_id: '130003853',
+    payment_channel: '',
+    bank_name: 'CgPay',
+    payee: 'GoPay',
+    payment_account: '4351332423423124',
+    open_branch: '--',
+    create_time: '2021-10-01 17:24:39',
     remarks: '353',
-    action_status: true, //拉黑
+    acct_status: 1, //拉黑
+  },
+  {
+    id: '2',
+    game_id: '2095300638',
+    payment_channel: '银行',
+    bank_name: '工商银行',
+    payee: '哈哈哈',
+    payment_account: '6222021447552213668',
+    open_branch: '本办法',
+    create_time: '2021-09-23 23:03:43',
+    remarks: '353',
+    acct_status: 1, //拉黑
   },
 ]);
 
@@ -80,7 +104,7 @@ const columns = [
       <div>
         <span>{record.game_id}</span>
         <span 
-          style="text-decoration:underline; color: #1890ff; margin-left: 12px; cursor: pointer;" 
+          style="text-decoration:underline; font-size:11px; color: #1890ff; margin-left: 12px; cursor: pointer;" 
           onClick={() => copyText(record.game_id)}>
           复制
         </span>
@@ -125,14 +149,14 @@ const columns = [
   {
     title: '操作',
     fixed: 'right',
-    width: 120,
+    width: 150,
     dataIndex: 'action',
     align: 'center',
     customRender: ({ record }) =>
       <div>
-        <a-button disabled={record.acct_status !== 1} type="link" size="small" onClick={() => router.push('/anchor/detail?anchor_id=' + record.anchor_id)}>编辑</a-button>
-        <a-button type="link" size="small" onClick={() => editItem(record)}>数据</a-button>
-        <a-button type="link" size="small" onClick={() => blockUser(record)} v-if={record.acct_status === 1}>拉黑</a-button>
+        <a-button style="color:red;" type="link" size="small" onClick={() => onBlacklist(record)} v-if={record.acct_status === 2}>拉黑</a-button>
+        <a-button style="color:red;" type="link" size="small" onClick={() => onUnBlacklist(record)} v-else-if={record.acct_status === 1}>解除拉黑</a-button>
+        <a-button style="margin-left:10px;" type="link" size="small" onClick={() => onUnBind(record)}>解除绑定</a-button>
       </div>
   }
 ];
