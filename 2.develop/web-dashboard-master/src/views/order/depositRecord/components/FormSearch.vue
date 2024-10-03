@@ -8,44 +8,35 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb24" style="flex: auto; margin-left: 0%;">
-            
+          <QueryButtonGroup  
+            :reset-form="resetForm" 
+            :submit-form="submitForm"
+          />
+          <div class="flex1 flex_end mb24">
             <AButton
-              class="ml20"
-              @click="submitForm"
+              class="same-width-button"
               type="primary"
-            ><SearchOutlined/>查询</AButton>
+              @click="emit('emit_same_day')"
+            >当日</AButton>
             <AButton
-              class="ml20"
-              @click="resetForm"
-            ><ReloadOutlined/>重置</AButton>
-
-            <div class="flex1 flex_end">
-              <AButton
-                class="same-width-button"
-                type="primary"
-                @click="emit('emit_same_day')"
-              >当日</AButton>
-              <AButton
-                class="ml10 same-width-button"
-                type="primary"
-                @click="emit('emit_previous_day')"
-              >上一日</AButton>
-              <!-- Dropdown Button -->
-              <a-dropdown>
-                <a-button class="ml10 same-width-button">
-                  更多 <DownOutlined />
-                </a-button>
-                <template #overlay>
-                  <a-menu >
-                    <a-menu-item key="1" @click="handleMenuClick('option1')">选项1</a-menu-item>
-                    <a-menu-item key="2" @click="handleMenuClick('option2')">选项2</a-menu-item>
-                    <a-menu-item key="3" @click="handleMenuClick('option3')">选项3</a-menu-item>
-                  </a-menu>
-                </template>
-              </a-dropdown>
-            </div>
-          </section>
+              class="ml10 same-width-button"
+              type="primary"
+              @click="emit('emit_previous_day')"
+            >上一日</AButton>
+            <!-- Dropdown Button -->
+            <a-dropdown>
+              <a-button class="ml10 same-width-button">
+                更多 <DownOutlined />
+              </a-button>
+              <template #overlay>
+                <a-menu >
+                  <a-menu-item key="1" @click="handleMenuClick('option1')">选项1</a-menu-item>
+                  <a-menu-item key="2" @click="handleMenuClick('option2')">选项2</a-menu-item>
+                  <a-menu-item key="3" @click="handleMenuClick('option3')">选项3</a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </div>
         </template>
       </form-create>
     </div>

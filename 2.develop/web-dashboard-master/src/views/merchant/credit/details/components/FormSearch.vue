@@ -7,21 +7,16 @@
         :rule
       >
         <template #type-btns>
-          <section
-            class="flex mb24"  style="flex: auto;"
-          >
-             <QueryButtonGroup  
+          <QueryButtonGroup  
             :reset-form="resetForm" 
             :submit-form="submitForm"
           />
-           <div class="flex1 flex_end">
+          <div class="flex1 flex_end mb24">
              <AButton
                 type="primary"
-                style="background-color:green;"
                 @click="emit('export_csv')"
               >导出CSV</AButton>
             </div>
-          </section>
         </template>
       </form-create>
     </div>

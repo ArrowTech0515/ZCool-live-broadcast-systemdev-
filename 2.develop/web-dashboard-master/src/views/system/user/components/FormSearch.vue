@@ -8,14 +8,11 @@
         :rule
       >
         <template #type-btns>
-          <section
-            class="flex mb24"  style="flex: auto;"
-          >
-             <QueryButtonGroup  
+          <QueryButtonGroup  
             :reset-form="resetForm" 
             :submit-form="submitForm"
           />
-           <div class="flex1 flex_end">
+          <div class="flex1 flex_end mb24">
              <AButton
               class="ml20"
                 type="primary"
@@ -27,7 +24,6 @@
                 @click="emit('emit_export')"
               >导出</AButton>
             </div>
-          </section>
         </template>
       </form-create>
     </div>

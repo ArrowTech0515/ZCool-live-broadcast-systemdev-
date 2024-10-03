@@ -8,20 +8,16 @@
         :rule
       >
         <template #type-btns>
-          <section
-            class="flex mb24"  style="flex: auto;"
-          >
-             <QueryButtonGroup  
+          <QueryButtonGroup  
             :reset-form="resetForm" 
             :submit-form="submitForm"
           />
-           <div class="flex1 flex_end">
+          <div class="flex1 flex_start mb24">
              <AButton
                 type="primary"
                 @click="emit('addItem')"
               >添加商户后台账号</AButton>
             </div>
-          </section>
         </template>
       </form-create>
     </div>

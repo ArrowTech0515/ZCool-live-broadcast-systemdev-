@@ -1,5 +1,5 @@
 <template>
-  <section class="flex mb24" style="margin-left: auto;">
+  <section class="flex mb24 mr20" style="margin-left: auto;">
     <SearchButton @click="props.submitForm"/>
     <ResetButton @click="props.resetForm"/>
   </section>

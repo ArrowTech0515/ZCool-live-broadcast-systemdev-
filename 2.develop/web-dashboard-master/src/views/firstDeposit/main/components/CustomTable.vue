@@ -90,7 +90,7 @@ const dataSource = ref([
     nickname: '大聖',
     userAccount: 'user01',
     rechargeType: '手動入款',
-    registrationTime: '2024-10-13 12:23:00',
+    register_time: '2024-10-13 12:23:00',
     creationTime: '2024-10-14 12:23:00',
   },
   {
@@ -99,7 +99,7 @@ const dataSource = ref([
     nickname: '胖虎',
     userAccount: 'user02',
     rechargeType: '轉帳匯款',
-    registrationTime: '2024-05-22 12:23:00',
+    register_time: '2024-05-22 12:23:00',
     creationTime: '2024-05-22 17:37:00',
   },
   {
@@ -108,7 +108,7 @@ const dataSource = ref([
     nickname: '福德正神',
     userAccount: 'user03',
     rechargeType: '轉帳匯款',
-    registrationTime: '2024-05-22 13:45:12',
+    register_time: '2024-05-22 13:45:12',
     creationTime: '2024-05-22 18:32:12',
   },
   {
@@ -117,7 +117,7 @@ const dataSource = ref([
     nickname: '翠花',
     userAccount: 'user04',
     rechargeType: '轉帳匯款',
-    registrationTime: '2024-04-09 12:23:00',
+    register_time: '2024-04-09 12:23:00',
     creationTime: '2024-04-09 14:43:12',
   },
   {
@@ -126,7 +126,7 @@ const dataSource = ref([
     nickname: '翠花',
     userAccount: 'user04',
     rechargeType: '轉帳匯款',
-    registrationTime: '2024-03-13 12:23:00',
+    register_time: '2024-03-13 12:23:00',
     creationTime: '2024-03-13 13:23:00',
   },
 ]);
@@ -151,7 +151,7 @@ const columns = [
     customRender: ({ record }) => <div style={centeredStyle}>{record.nickname}</div>,
   },
   {
-    title: '用户帳號',
+    title: '用户账号',
     dataIndex: 'userAccount',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.userAccount}</div>,
@@ -164,9 +164,9 @@ const columns = [
   },
   {
     title: '註冊時間',
-    dataIndex: 'registrationTime',
+    dataIndex: 'register_time',
     align: 'center',
-    customRender: ({ record }) => <div style={centeredStyle}>{record.registrationTime}</div>,
+    customRender: ({ record }) => <div style={centeredStyle}>{record.register_time}</div>,
   },
   {
     title: '創建時間',

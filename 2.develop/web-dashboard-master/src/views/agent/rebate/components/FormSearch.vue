@@ -8,25 +8,24 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb24" style="flex: auto;">
-                    <QueryButtonGroup  
-          :reset-form="resetForm" 
-          :submit-form="submitForm"
+          <QueryButtonGroup  
+            :reset-form="resetForm" 
+            :submit-form="submitForm"
           />
- <div class="flex1 flex_end">   <a-dropdown>
-                <a-button type="primary">
-                  新增返点 <DownOutlined />
-                </a-button>
-                <template #overlay>
-                  <a-menu >
-                    <a-menu-item key="1" @click="emit('emit_add', 2, null)">{{ ENUM.agent_rebate_mode[2] }}</a-menu-item>
-                    <a-menu-item key="2" @click="emit('emit_add', 3, null)">{{ ENUM.agent_rebate_mode[3] }}</a-menu-item>
-                    <a-menu-item key="3" @click="emit('emit_add', 4, null)">{{ ENUM.agent_rebate_mode[4] }}</a-menu-item>
-                  </a-menu>
-                </template>
-              </a-dropdown>
-            </div>
-          </section>
+          <div class="flex1 flex_end mb24">
+            <a-dropdown>
+              <a-button type="primary">
+                新增返点 <DownOutlined />
+              </a-button>
+              <template #overlay>
+                <a-menu >
+                  <a-menu-item key="1" @click="emit('emit_add', 2, null)">{{ ENUM.agent_rebate_mode[2] }}</a-menu-item>
+                  <a-menu-item key="2" @click="emit('emit_add', 3, null)">{{ ENUM.agent_rebate_mode[3] }}</a-menu-item>
+                  <a-menu-item key="3" @click="emit('emit_add', 4, null)">{{ ENUM.agent_rebate_mode[4] }}</a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </div>
         </template>
       </form-create>
     </div>

@@ -51,23 +51,9 @@
             </a-form-item>
           </a-col>
 
-          <a-row>
-            <a-col :flex="auto" style="margin-left: 20px;">
-              <a-form-item>
-                <a-button type="primary" block @click="onSearch">
-                  <SearchOutlined /> 查询
-                </a-button>
-              </a-form-item>
-            </a-col>
-
-            <a-col :flex="auto" style="margin-left: 20px;">
-              <a-form-item>
-                <a-button block @click="onReset">
-                  <ReloadOutlined /> 重置
-                </a-button>
-              </a-form-item>
-            </a-col>
-          </a-row>
+          <QueryButtonGroup    
+            :reset-form="onReset" 
+            :submit-form="onSearch"/>
 
           <a-col :flex="auto" style="margin-left: 20px;">
             <a-form-item>

@@ -22,16 +22,10 @@
         </a-form-item>
       </a-col>
 
-      <a-col :flex="auto" style="margin-left: 12px;">
-        <a-form-item>
-          <a-button type="primary" block @click="onSearch"><SearchOutlined/>查询</a-button>
-        </a-form-item>
-      </a-col>
-      <a-col :flex="auto" style="margin-left: 10px;">
-        <a-form-item>
-          <a-button type="default" block @click="onReset"><ReloadOutlined/>重置</a-button>
-        </a-form-item>
-      </a-col>
+      <QueryButtonGroup    
+        :reset-form="onReset" 
+        :submit-form="onSearch"/>
+
     </a-row>
   </a-card>
 

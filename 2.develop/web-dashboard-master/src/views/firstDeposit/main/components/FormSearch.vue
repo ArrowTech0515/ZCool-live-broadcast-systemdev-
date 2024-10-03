@@ -8,18 +8,16 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb24" style="flex: auto; margin-left: 0%;">
-             <QueryButtonGroup  
+          <QueryButtonGroup  
             :reset-form="resetForm" 
             :submit-form="submitForm"
           />
-           <div class="flex1 flex_end">
+          <div class="flex1 flex_start mb24">
              <AButton
                 type="primary"
                 @click="emit('emit_export_list')"
               >導出列表</AButton>
             </div>
-          </section>
         </template>
       </form-create>
     </div>
@@ -57,6 +55,15 @@ const option = {
 
 const rule = ref([
   {
+    type: 'input',
+    field: 'user_id',
+    title: '用户ID',
+    value: '',
+    props: {
+      placeholder: '请输入用户ID', // Add placeholder
+    },
+  },
+  {
     type: 'rangePicker',
     field: 'register_time',
     title: '註冊時間',
@@ -68,22 +75,11 @@ const rule = ref([
     },
   },
   {
-    type: 'input',
-    field: 'user_id',
-    title: '用户ID',
-    value: '',
-    props: {
-      placeholder: '请输入用户ID', // Add placeholder
-    },
-  },
-  {
-    type: 'input',
-    field: 'user_account',
-    title: '用户账号',
-    value: '',
-    props: {
-      placeholder: '请输入用户账号', // Add placeholder
-    },
+    type: 'select',
+    field: 'recharge_type',
+    title: '充值類型',
+    value: ENUM.recharge_type[1],
+    options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
   },
   {
     type: 'rangePicker',
@@ -96,21 +92,24 @@ const rule = ref([
       valueFormat: 'X',
     },
   },
+  
   {
     type: 'input',
     field: 'first_deposit_order_number',
-    title: '首存訂單單號',
+    title: '首存订单单号',
     value: '',
     props: {
-      placeholder: '请输入首存訂單單號', // Add placeholder
+      placeholder: '请输入首存订单单号', // Add placeholder
     },
   },
   {
-    type: 'select',
-    field: 'recharge_type',
-    title: '充值類型',
-    value: ENUM.recharge_type[1],
-    options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
+    type: 'input',
+    field: 'user_account',
+    title: '用户账号',
+    value: '',
+    props: {
+      placeholder: '请输入用户账号', // Add placeholder
+    },
   },
   { type: 'btns' },
 ])
@@ -148,7 +147,7 @@ defineExpose({
   align-items: center;
   justify-content: flex-end;
 }
-.flex_end {
+.flex_start {
   gap: 10px; /* Adjust gap between buttons if needed */
 }
 .form-time-picker {

@@ -8,19 +8,17 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb24" style="flex: auto; margin-left: 0%;">
-             <QueryButtonGroup  
+          <QueryButtonGroup  
             :reset-form="resetForm" 
             :submit-form="submitForm"
           />
-           <div class="flex1 flex_end">
+          <div class="flex1 flex_end mb24">
              <AButton
                 class="same-width-button"
                 type="primary"
                 @click="emit('emit_add')"
               >新增</AButton>
             </div>
-          </section>
         </template>
       </form-create>
     </div>

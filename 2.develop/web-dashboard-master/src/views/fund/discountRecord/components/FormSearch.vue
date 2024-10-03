@@ -8,27 +8,20 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb24" style="flex: auto; margin-left: 0%;">
-            <AButton style="margin-left: auto;"
-              class="ml20"
-              @click="submitForm"
-              type="primary"
-            ><SearchOutlined/>查询</AButton>
+          <QueryButtonGroup  
+            :reset-form="resetForm" 
+            :submit-form="submitForm"
+          />
+          <div class="flex1 flex_end mb24">
             <AButton
-              class="ml20"
-              @click="resetForm"
-            ><ReloadOutlined/>重置</AButton>
-            <div class="flex1 flex_end">
-              <AButton
-                type="primary"
-                @click="emit('emit_export_list')"
-              >導出列表</AButton>
-              <AButton
-                type="primary"
-                @click="emit('emit_add')"
-              >新增優惠</AButton>
-            </div>
-          </section>
+              type="primary"
+              @click="emit('emit_export_list')"
+            >導出列表</AButton>
+            <AButton
+              type="primary"
+              @click="emit('emit_add')"
+            >新增優惠</AButton>
+          </div>
         </template>
       </form-create>
     </div>

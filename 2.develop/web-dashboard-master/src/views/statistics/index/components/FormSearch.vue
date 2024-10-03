@@ -8,17 +8,10 @@
         :rule
       >
         <template #type-btns>
-          <section>
-            <AButton
-              @click="submitForm"
-              type="primary"
-              class="mr10"
-            >查询</AButton>
-            <AButton
-              class="mr10"
-              @click="resetForm"
-            >重置</AButton>
-          </section>
+          <QueryButtonGroup  
+            :reset-form="resetForm" 
+            :submit-form="submitForm"
+          />
         </template>
       </form-create>
     </div>

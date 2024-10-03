@@ -8,20 +8,11 @@
         :rule
       >
         <template #type-btns>
-          <section
-            class="flex mb24"
-            style="width: 100%;"
-          >
-            <AButton
-              @click="submitForm"
-              type="primary"
-              class="mr10"
-            >查询</AButton>
-            <AButton
-              class="mr10"
-              @click="resetForm"
-            >重置</AButton>
-            <div class="flex1 flex_end">
+          <QueryButtonGroup  
+            :reset-form="resetForm" 
+            :submit-form="submitForm"
+          />
+          <div class="flex1 flex_end mb24">
               <AButton
                 class="mr20"
                 type="primary"
@@ -32,7 +23,6 @@
                 @click="emit('addItem')"
               >添加等级</AButton>
             </div>
-          </section>
         </template>
       </form-create>
     </div>

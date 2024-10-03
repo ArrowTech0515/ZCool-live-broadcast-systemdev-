@@ -8,28 +8,16 @@
         :rule
       >
         <template #type-btns>
-          <!-- Main flex container with full width -->
-          <section class="flex mb24" style="flex: auto; margin-left: 0%;">
-            <!-- Left-aligned buttons -->
+          <QueryButtonGroup  
+            :reset-form="resetForm" 
+            :submit-form="submitForm"
+          />
+          <div class="flex1 flex_end mb24">
             <AButton
-              class="ml20 mb15"
-              @click="submitForm"
               type="primary"
-            ><SearchOutlined/>查询</AButton>
-            <AButton
-              class="ml20 mb15"
-              @click="resetForm"
-            ><ReloadOutlined/>重置</AButton>
-
-            <!-- Right-aligned button (with margin-left: auto) -->
-            <div class="flex1 flex_end">
-              <AButton
-                class="mb15"
-                type="primary"
-                @click="emit('export_csv')"
-              >导出CSV</AButton>
-            </div>
-          </section>
+              @click="emit('export_csv')"
+            >导出CSV</AButton>
+          </div>
         </template>
       </form-create>
     </div>
