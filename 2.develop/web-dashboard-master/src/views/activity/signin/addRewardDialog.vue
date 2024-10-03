@@ -68,8 +68,6 @@
 </template>
 
 <script setup lang="jsx">
-import { ref, defineProps, defineEmits } from 'vue';
-import { Modal, Radio, Button, Table } from 'ant-design-vue';
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
 
 const props = defineProps({

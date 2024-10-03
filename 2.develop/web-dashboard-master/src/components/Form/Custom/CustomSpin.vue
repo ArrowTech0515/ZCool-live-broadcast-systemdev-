@@ -46,6 +46,11 @@ const props = defineProps({
     required: false,
     default: false,
   },
+  unit: {
+    type: String,
+    required: false,
+    default: '',
+  },
   strPlaceholder: {
     type: String,
     required: false,
@@ -95,7 +100,7 @@ function increment() {
   console.log('increment:', localValue.value)
 }
 function makeShowString(value) {
-  showString.value = value + (props.bShowUnit ? ' %' : '')
+  showString.value = value + (props.bShowUnit ? (' ' + props.unit) : '')
 }
 function updateValue(newVal) {
   localValue.value = newVal

@@ -179,7 +179,7 @@
             充值赠送
           </div>
           <div :flex="auto" style="width: 75%;">
-            <CustomSpin v-model:nValue="spin_value1" style="flex: auto; margin-bottom: 5px; width: 75%;"></CustomSpin>
+            <CustomSpin v-model:nValue="spin_value1" :bShowUnit="true" unit="天" style="flex: auto; margin-bottom: 5px; width: 75%;"></CustomSpin>
           </div>
         </div>
 

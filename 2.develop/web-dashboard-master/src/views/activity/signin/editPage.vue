@@ -164,6 +164,24 @@
   <AddRewardDialog 
         :isModalVisible="isModalVisible"
         @update:is-modal-visible="val => isModalVisible = val" />
+
+  <a-modal
+    v-model:open="isModalVisible1"
+    :title="null"
+    @cancel="handleCancel"
+    :footer="null"
+  >
+    <div style="margin-top: 30px;">
+      <div v-for="w in withdrawals" :key="w.gift_item">
+        <div style="border: 1px solid #d9d9d9; padding: 8px; margin-bottom: 8px; border-radius: 4px;">
+          <div v-if="w.count > 1">{{ w.gift_item }} * {{ w.count }}</div>
+          <div v-else>{{ w.gift_item }}</div>
+        </div>
+        
+      </div>
+    </div>
+  </a-modal>
+
 </template>
 
 <script setup lang="jsx">
@@ -187,8 +205,11 @@ const emit = defineEmits(['back'])  // Define the 'back' event
 
 const { createDialog } = useDialog()
 
+const isModalVisible1 = ref(0); // 0:hide, 1:device, 2:IP
+
 const isModalVisible = ref(false);
 const radioValue = ref('radio1');
+const radioContent = ref('radio1') // Initial value for the radio group
 const isPermanent = ref(false)
 
 const dataSource = ref([
@@ -200,6 +221,11 @@ const dataSource = ref([
   { key: '6', col_1: '6', col_2: '添加奖励' },
   { key: '7', col_1: '7', col_2: '添加奖励' },
 ]);
+
+const withdrawals = ref([
+  { gift_item: 'XX礼物', count: 2 },
+  { gift_item: '232432钻石', count: 1 },
+])
 
 const handleConfirm = () => {
   emit('back'); // Emit the back event to the parent component
@@ -213,6 +239,10 @@ const handleBack = () => {
 const handleOperation = (operation) => {
   if (operation === "添加奖励") {
     isModalVisible.value = true;
+  }
+  else
+  {
+    isModalVisible1.value = 1
   }
 };
 
