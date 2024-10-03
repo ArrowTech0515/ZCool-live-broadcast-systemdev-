@@ -8,7 +8,7 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb30" style="flex: auto;">
+          <section class="flex mb24" style="flex: auto;">
             <AButton
               style="margin-left: auto;"
               @click="submitForm"

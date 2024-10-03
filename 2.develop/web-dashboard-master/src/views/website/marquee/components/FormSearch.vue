@@ -8,18 +8,13 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb20" style="width: 100%;">
-            <AButton
-              class="ml20"
-              @click="submitForm"
-              type="primary"
-            ><SearchOutlined/>查询</AButton>
-            <AButton
-              class="ml20"
-              @click="resetForm"
-            ><ReloadOutlined/>重置</AButton>
-            <div class="flex1 flex_end">
-              <AButton
+          <section class="flex mb24" style="width: 100%;">
+             <QueryButtonGroup  
+            :reset-form="resetForm" 
+            :submit-form="submitForm"
+          />
+           <div class="flex1 flex_end">
+             <AButton
                 type="primary"
                 @click="emit('emit_add')"
               >新增</AButton>
@@ -32,6 +27,8 @@
 </template>
 
 <script setup>
+import merchSelectRule from '@/rules/merchSelectRule';
+
 const params = defineModel()
 const data = reactive({
   source_id: 0,
@@ -60,27 +57,7 @@ const option = {
 }
 
 const rule = ref([
-  {
-    type: 'select',
-    field: 'merchant',
-    title: '商户',
-    value: '所有商户',
-    options: [],
-    effect: {
-      fetch: {
-        action: '/api/v1/merchant/list',
-        to: 'options',
-        method: 'get',
-        parse: res => [
-          { value: 0, label: '所有来源' },
-          ...res.items.map(item => ({ value: item.source_id, label: item.source_name })),
-        ],
-      },
-    },
-    wrap: {
-      labelCol: { span: 8 },
-    },
-  },
+  merchSelectRule,
   {
     type: 'input',
     field: 'title',

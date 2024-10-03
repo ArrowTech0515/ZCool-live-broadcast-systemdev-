@@ -8,18 +8,12 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb30" style="flex: auto;">
-            <AButton
-              class="ml20"
-              @click="submitForm"
-              type="primary"
-            ><SearchOutlined/>查询</AButton>
-            <AButton
-              class="ml20"
-              @click="resetForm"
-            ><ReloadOutlined/>重置</AButton>
-            <div class="flex1 flex_end">
-              <a-dropdown>
+          <section class="flex mb24" style="flex: auto;">
+                    <QueryButtonGroup  
+          :reset-form="resetForm" 
+          :submit-form="submitForm"
+          />
+ <div class="flex1 flex_end">   <a-dropdown>
                 <a-button type="primary">
                   新增返点 <DownOutlined />
                 </a-button>

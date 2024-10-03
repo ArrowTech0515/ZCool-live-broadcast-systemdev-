@@ -2,7 +2,7 @@ export default {
   type: 'select',
   field: 'merch_id',
   title: '商户',
-  value: '',
+  value: '所有商户',
   options: [],
   effect: {
     fetch: {

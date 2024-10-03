@@ -56,6 +56,7 @@
               <a-menu-item key="32">公告管理</a-menu-item>
               <a-menu-item key="33">平台配置</a-menu-item>
               <a-menu-item key="34">短信管理</a-menu-item>
+              <a-menu-item key="35">绑定管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -112,6 +113,7 @@
   import onlinecustomerserviceManagement from '@/views/onlinecustomer/main.vue'
   import systemManagement from '@/views/system/main.vue'
   import websiteManagement from '@/views/website/main.vue'
+  import bindingManagement from '@/views/binding/index.vue'
   
   export default {
     name: 'NavigationMenu',
@@ -153,12 +155,16 @@
       onlinecustomerserviceManagement,
       systemManagement,
       websiteManagement,
+      bindingManagement,
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
+          case '35':
+            currentComponent.value = 'bindingManagement'
+            break
           case '34':
             currentComponent.value = 'smsManagement'
             break
@@ -257,7 +263,7 @@
         }
       }
   
-      const currentComponent = ref('noticeManagement') // Initial component
+      const currentComponent = ref('bindingManagement') // Initial component
   
       return {
         collapse_flag,

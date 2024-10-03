@@ -9,19 +9,14 @@
       >
         <template #type-btns>
           <section
-            class="flex mb30"  style="flex: auto;"
+            class="flex mb24"  style="flex: auto;"
           >
-            <AButton
-              class="ml20"
-              @click="submitForm"
-              type="primary"
-            ><SearchOutlined/>查询</AButton>
-            <AButton
-              class="ml20"
-              @click="resetForm"
-            ><ReloadOutlined/>重置</AButton>
-            <div class="flex1 flex_end">
-              <AButton
+             <QueryButtonGroup  
+            :reset-form="resetForm" 
+            :submit-form="submitForm"
+          />
+           <div class="flex1 flex_end">
+             <AButton
                 type="primary"
                 style="background-color:green;"
                 @click="emit('emit_credit')"
@@ -35,6 +30,8 @@
 </template>
 
 <script setup>
+import merchSelectRule from '@/rules/merchSelectRule';
+
 const params = defineModel()
 const data = reactive({
   merch_name: '',
@@ -59,16 +56,7 @@ const option = {
 }
 
 const rule = ref([
-{
-    type: 'select',
-    field: 'merchant_type',
-    title: '商户',
-    value: 1,
-    props: {
-      placeholder: '请选择商户',
-    },
-    options: Object.keys(ENUM.merchant_type).map(key => ({ label: ENUM.merchant_type[key], value: parseInt(key) })),
-  },
+  merchSelectRule,
   {
     type: 'rangePicker',
     field: 'create_time',

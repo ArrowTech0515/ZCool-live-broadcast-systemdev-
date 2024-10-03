@@ -17,9 +17,9 @@
 
     <div>
       <firstLineData @emit_details="onDetails" style="margin-bottom: 20px;"></firstLineData>
-      <secondLineData style="margin-bottom: 20px;"></secondLineData>
-      <thirdLineData style="margin-bottom: 20px;"></thirdLineData>
-      <fourthLineData style="margin-bottom: 20px;"></fourthLineData>
+      <secondLineData @emit_details="onDetails" style="margin-bottom: 20px;"></secondLineData>
+      <thirdLineData @emit_details="onDetails" style="margin-bottom: 20px;"></thirdLineData>
+      <fourthLineData @emit_details="onDetails" style="margin-bottom: 20px;"></fourthLineData>
 
       <a-row type="flex" justify="space-between" align="middle">
         <!-- Left-aligned Text Label -->
@@ -96,6 +96,13 @@
         </div>
       </div>
     </div>
+    <div style="margin-top: 30px;" v-else-if="isModalVisible1 === 3">
+      <div v-for="w in withdrawals" :key="w.Withdrawal">
+        <div style="border: 1px solid #d9d9d9; padding: 8px; margin-bottom: 8px; border-radius: 4px;">
+          提现金额: {{ w.Withdrawal }}  |  {{ w.time }}
+        </div>
+      </div>
+    </div>
   </a-modal>
 </template>
 
@@ -156,12 +163,20 @@ const loginIPs = ref([
   { IP: '132.143.65.224', time: '2022-12-12 21:21:21' },
   { IP: '132.143.65.225', time: '2022-12-12 21:21:21' },
 ])
+const withdrawals = ref([
+  { Withdrawal: '124.321.123.123', time: '2022-12-12 21:21:21' },
+  { Withdrawal: '132.143.65.223', time: '2022-12-12 21:21:21' },
+  { Withdrawal: '132.143.65.224', time: '2022-12-12 21:21:21' },
+  { Withdrawal: '132.143.65.225', time: '2022-12-12 21:21:21' },
+])
 
 function onDetails(type) {
   if(type === 'Device')
     isModalVisible1.value = 1 // Open the modal
+  else if(type === 'IP')
+    isModalVisible1.value = 2 // Open the modal
   else
-    isModalVisible1.value = 2
+    isModalVisible1.value = 3
 }
 
 function handleCancel() {

@@ -8,7 +8,7 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb30" style="flex: auto; margin-left: 0%;">
+          <section class="flex mb24" style="flex: auto; margin-left: 0%;">
             <AButton
               @click="submitForm"
               class="ml20"
@@ -32,6 +32,8 @@
 </template>
 
 <script setup>
+import merchSelectRule from '@/rules/merchSelectRule';
+
 // eslint-disable-next-line vue/require-prop-types
 const params = defineModel()
 const data = reactive({
@@ -61,22 +63,7 @@ const option = {
 }
 
 const rule = ref([
-  {
-    type: 'select',
-    field: 'merchant_type',
-    title: '商户',
-    value: 1,
-    props: {
-      placeholder: '请选择商户',
-    },
-    options: Object.keys(ENUM.merchant_type).map(key => ({
-      value: parseInt(key),
-      label: ENUM.merchant_type[key]
-    })),
-    wrap: {
-      labelCol: { span: 10 },
-    },
-  },
+  merchSelectRule,
   {
     type: 'select',
     field: 'application_type',

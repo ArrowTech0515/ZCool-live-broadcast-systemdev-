@@ -9,7 +9,7 @@
       >
         <template #type-btns>
           <section
-            class="flex mb30"  style="flex: auto;"
+            class="flex mb24"  style="flex: auto;"
           >
             <AButton
               class="ml20"

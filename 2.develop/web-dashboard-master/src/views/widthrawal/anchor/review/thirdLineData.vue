@@ -22,7 +22,7 @@
           <a-col :span="6" style="text-align: right;">
             <span 
             style="font-size: 12px; text-decoration: underline; color: blue; cursor: pointer;"
-                @click="copyText(value1)">
+                @click="$emit('emit_details', 'Withdrawal')">
                 查看</span>
           </a-col>
         </a-row>
@@ -51,6 +51,8 @@
 import { message } from 'ant-design-vue';
 
 export default {
+  emits: ['emit_details'],
+
   data() {
     return {
       value1: '5',

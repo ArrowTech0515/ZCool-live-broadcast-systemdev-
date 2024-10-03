@@ -9,7 +9,7 @@
       >
         <template #type-btns>
           <!-- Main flex container with full width -->
-          <section class="flex mb15" style="flex: auto; margin-left: 0%;">
+          <section class="flex mb24" style="flex: auto; margin-left: 0%;">
             <!-- Left-aligned buttons -->
             <AButton
               class="ml20 mb15"

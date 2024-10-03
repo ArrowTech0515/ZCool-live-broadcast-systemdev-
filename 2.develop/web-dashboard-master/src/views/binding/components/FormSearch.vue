@@ -8,18 +8,10 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb24" style="width: 100%;">
-             <QueryButtonGroup  
+          <QueryButtonGroup  
             :reset-form="resetForm" 
             :submit-form="submitForm"
           />
-           <div class="flex1 flex_end">
-             <AButton
-                type="primary"
-                @click="emit('emit_add')"
-              >新增</AButton>
-            </div>
-          </section>
         </template>
       </form-create>
     </div>
@@ -39,7 +31,7 @@ const data = reactive({
   join_time: [],
 })
 
-const emit = defineEmits(['emit_add', 'search'])
+const emit = defineEmits(['addItem', 'search'])
 const fApi = ref({})
 const option = {
   resetBtn: false,
@@ -49,9 +41,9 @@ const option = {
       col: {
         show: false,
       },
-      // wrap: {
-      //   labelCol: { span: 8 },
-      // },
+      wrap: {
+        labelCol: { span: 10 },
+      },
     },
   },
 }
@@ -59,38 +51,50 @@ const option = {
 const rule = ref([
   merchSelectRule,
   {
+    type: 'select',
+    field: 'sub_channel',
+    title: '子渠道',
+    value: '全部',
+    //options: Object.keys(ENUM.guild_status).map(key => ({ value: parseInt(key), label: ENUM.guild_status[key] })),
+  },
+  {
     type: 'input',
-    field: 'title',
-    title: '标题',
-    value: '',
+    field: 'game_id',
+    title: '游戏ID',
     props: {
-      placeholder: '请输入标题',
-    },
-    wrap: {
-      labelCol: { span: 8 },
-    },
+      placeholder: '请输入查询游戏ID',
+    }
+  },
+  {
+    type: 'input',
+    field: 'payee',
+    title: '收款人',
+    props: {
+      placeholder: '请输入收款人',
+    }
+  },
+  {
+    type: 'input',
+    field: 'account',
+    title: '账号',
+    props: {
+      placeholder: '请输入查询账号',
+    }
   },
   {
     type: 'select',
-    field: 'status',
-    title: '状态',
-    value: 0,
-    options: Object.keys(ENUM.website_banner_status).map(key => ({ value: parseInt(key), label: ENUM.website_banner_status[key] })),
-    wrap: {
-      labelCol: { span: 8 },
-    },
+    field: 'payment_method',
+    title: '支付方式',
+    props: {
+      placeholder: '请选择支付方式',
+    }
   },
   {
-    type: 'rangePicker',
-    field: 'start_end_time',
-    title: '日期',
-    value: '',
-    props: {
-      showTime: true,
-      format: 'YYYY-MM-DD hh:mm:ss',
-      valueFormat: 'X',
-      placeholder: ['开始日期', '结束日期'],
-    },
+    type: 'select',
+    field: 'blacklisted',
+    title: '是否被拉黑',
+    value: 1,
+    options: Object.keys(ENUM.yes_no).map(key => ({ value: parseInt(key), label: ENUM.yes_no[key] })),
   },
   { type: 'btns' },
 ])

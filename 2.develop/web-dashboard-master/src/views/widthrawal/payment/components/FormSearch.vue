@@ -9,7 +9,7 @@
         :rule="rule"
       >
       <template #type-btns>
-          <section class="flex mb15" style="width: 100%;">
+          <section class="flex mb24" style="width: 100%;">
             <AButton
               @click="submitForm"
               type="primary"

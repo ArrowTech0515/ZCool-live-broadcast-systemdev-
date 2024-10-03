@@ -8,18 +8,13 @@
         :rule
       >
         <template #type-btns>
-          <section class="flex mb30" style="flex: auto; margin-left: 0%;">
-            <AButton
-              class="ml20"
-              @click="submitForm"
-              type="primary"
-            ><SearchOutlined/>查询</AButton>
-            <AButton
-              class="ml20"
-              @click="resetForm"
-            ><ReloadOutlined/>重置</AButton>
-            <div class="flex1 flex_end">
-              <AButton
+          <section class="flex mb24" style="flex: auto; margin-left: 0%;">
+             <QueryButtonGroup  
+            :reset-form="resetForm" 
+            :submit-form="submitForm"
+          />
+           <div class="flex1 flex_end">
+             <AButton
                 class="same-width-button"
                 type="primary"
                 @click="emit('emit_add')"
