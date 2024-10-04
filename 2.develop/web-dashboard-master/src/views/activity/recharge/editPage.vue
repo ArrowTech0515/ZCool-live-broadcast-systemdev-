@@ -106,10 +106,10 @@
               <a-button :flex="auto" type="default" class="link-button" @click="onContentConfig">链接设置</a-button>
             </a-row>
             <!-- For Rich Editor -->
-            <a-form-create v-else>
+            <a-form-item v-else>
               <!-- Ensure RichEditor takes the full width -->
               <RichEditor v-model="formData.activityContent" class="rich-editor"/>
-            </a-form-create>
+            </a-form-item>
           </a-col>
         </div>
 

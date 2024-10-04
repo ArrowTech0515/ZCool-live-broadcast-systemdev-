@@ -16,7 +16,7 @@
              <AButton
                 type="primary"
                 @click="emit('emit_export_list')"
-              >導出列表</AButton>
+              >导出列表</AButton>
             </div>
         </template>
       </form-create>
@@ -66,7 +66,7 @@ const rule = ref([
   {
     type: 'rangePicker',
     field: 'register_time',
-    title: '註冊時間',
+    title: '注册时间',
     value: '',
     className: 'form-time-picker',
     props: {
@@ -77,14 +77,14 @@ const rule = ref([
   {
     type: 'select',
     field: 'recharge_type',
-    title: '充值類型',
+    title: '充值类型',
     value: ENUM.recharge_type[1],
     options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
   },
   {
     type: 'rangePicker',
     field: 'create_time',
-    title: '創建時間',
+    title: '创建时间',
     value: '',
     className: 'form-time-picker',
     props: {

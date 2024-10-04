@@ -5,9 +5,9 @@
           <configPage />
       </a-tab-pane>
         
-        <a-tab-pane key="2" tab="人脸流水">
+        <!-- <a-tab-pane key="2" tab="人脸流水">
             <waterPage />
-        </a-tab-pane>
+        </a-tab-pane> -->
 
     </a-tabs>
   </template>

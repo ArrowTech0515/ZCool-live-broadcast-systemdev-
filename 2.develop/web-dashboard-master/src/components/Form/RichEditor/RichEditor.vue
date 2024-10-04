@@ -97,6 +97,10 @@ const modules = [
   height: 300px
   width: 100%
 
+  .ql-toolbar
+    display: flex
+    flex-wrap: wrap
+    
   .ql-editor
     font-size: 15px
     line-height: 28px

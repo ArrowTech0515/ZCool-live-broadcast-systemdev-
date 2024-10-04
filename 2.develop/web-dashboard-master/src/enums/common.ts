@@ -201,8 +201,8 @@ export default {
     3: '已结束',
   },
   recharge_type: {
-    1: '手動入款',
-    2: '轉帳匯款',
+    1: '手动入款',
+    2: '转帐汇款',
   },
   merchant_type: {
     1: '所有商户',

@@ -100,12 +100,13 @@
               <!-- Radio Group on the left -->
               <a-col>
                 <a-radio-group v-model:value="radioContent" style="text-align: left;">
-                  <a-radio value="radio1">跳转地址</a-radio>
-                  <a-radio value="radio2">富文本</a-radio>
+                  <a-radio :value="1">跳转地址</a-radio>
+                  <a-radio :value="2">富文本</a-radio>
                 </a-radio-group>
               </a-col>
             </a-row>
-            <a-row >
+
+            <a-row v-if="radioContent === 1">
               <div style="width: 60%;">
                 <a-input 
                   placeholder="请输入活动地址" 
@@ -114,6 +115,10 @@
               </div>
               <a-button :flex="auto" type="default" style="margin-left: 10px;" @click="onContentConfig">链接设置</a-button>
             </a-row>
+            <a-row v-else>
+              <RichEditor v-model="formData.activityContent" class="rich-editor"/>
+            </a-row>
+
           </a-col>
         </div>
 
@@ -306,7 +311,7 @@ const emit = defineEmits(['back'])  // Define the 'back' event
 const { createDialog } = useDialog()
 
 const isModalVisible = ref(false);
-const radioContent = ref('radio1') // Initial value for the radio group
+const radioContent = ref(1) // Initial value for the radio group
 const radioValue = ref('radio1');
 const radioValue2 = ref('radio1');
 const isPermanent = ref(false)

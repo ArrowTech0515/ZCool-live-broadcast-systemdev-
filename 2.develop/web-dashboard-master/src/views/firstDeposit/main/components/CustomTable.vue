@@ -157,19 +157,19 @@ const columns = [
     customRender: ({ record }) => <div style={centeredStyle}>{record.userAccount}</div>,
   },
   {
-    title: '充值類型',
+    title: '充值类型',
     dataIndex: 'rechargeType',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.rechargeType}</div>,
   },
   {
-    title: '註冊時間',
+    title: '注册时间',
     dataIndex: 'register_time',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.register_time}</div>,
   },
   {
-    title: '創建時間',
+    title: '创建时间',
     dataIndex: 'creationTime',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.creationTime}</div>,
