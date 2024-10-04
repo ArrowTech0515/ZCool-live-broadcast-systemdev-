@@ -28,11 +28,12 @@
 
 <script setup lang="jsx">
 import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant'
-import useAddBannerRule from '../hooks/useAddBannerRule';
+import { message } from 'ant-design-vue';
 
 import imageA from '@/assets/images/logo.png'; // Import images
 import imageB from '@/assets/images/login_bg.png'; // Import images
 import imageC from '@/assets/images/login_box_bg.png'; // Import images
+import useAddAIface from '../hooks/useAddAIface';
 
 const props = defineProps({
   searchParams: {
@@ -68,64 +69,46 @@ const { createDialog } = useDialog()
 const dataSource = ref([
   {
     id: 1,
-    merchant: 'fun888',
-    ID: '1',
     thumbnail: imageA,
-    title: '商户A的标题',
-    status: true,//'启用',
-    display_sort: 1,
-    start_time: '2023-01-01 12:00:00',
-    end_time: '2023-12-31 12:00:00',
-    creator: 'Bob',
-    create_time: '2023-01-01 12:00:00',
-    modifier: 'Alice',
-    last_modified_time: '2023-06-01 12:00:00',
+    name: '张三',
+    filename: imageA,
+    price: 423423,
+    time_mins: 3,
+    authorized_merchants_count: -1,//'全部商户',
+    
+    status: 3,//'上架中',
+    upload_time: '2012-12-12  12:21:21',
+    operate_account: '管理员-张三',
   },
   {
     id: 2,
-    merchant: 'fun888',
-    ID: '2',
     thumbnail: imageB,
-    title: '商户B的标题',
-    status: false,//'停用',
-    display_sort: 3,
-    start_time: '2023-02-01 12:00:00',
-    end_time: '2023-12-31 12:00:00',
-    creator: 'Alice',
-    create_time: '2023-02-01 12:00:00',
-    modifier: 'Charlie',
-    last_modified_time: '2023-06-02 12:00:00',
+    name: '李白',
+    filename: imageB,
+    price: 423423,
+    time_mins: 3,
+    authorized_merchants_count: 14,//'14个商户',
+    status: 2,//'上架中',
+    upload_time: '2012-12-12  12:21:21',
+    operate_account: '管理员-张三',
   },
   {
     id: 3,
-    merchant: 'oka9',
-    ID: '3',
     thumbnail: imageC,
-    title: '商户C的标题',
-    status: true,//'启用',
-    display_sort: 4,
-    start_time: '2023-03-01 12:00:00',
-    end_time: '2023-12-31 12:00:00',
-    creator: 'Bob',
-    create_time: '2023-03-01 12:00:00',
-    modifier: 'Alice',
-    last_modified_time: '2023-06-03 12:00:00',
+    name: '王维',
+    filename: imageC,
+    price: 423423,
+    time_mins: 21,
+    authorized_merchants_count: 12,//'全部商户',
+    status: 3,//'上架中',
+    upload_time: '2012-12-12  12:21:21',
+    operate_account: '运营-李四',
   },
 ]);
 
 const columns = [
   {
-    title: '商户',
-    dataIndex: 'merchant',
-    align: 'center',
-  },
-  {
-    title: 'ID',
-    dataIndex: 'ID',
-    align: 'center',
-  },
-  {
-    title: '缩图',
+    title: '人脸图片',
     dataIndex: 'thumbnail',
     align: 'center',
     customRender: ({ record }) => (
@@ -137,53 +120,58 @@ const columns = [
     ),
   },
   {
-    title: '标题',
-    dataIndex: 'title',
+    title: '人脸名称',
+    dataIndex: 'name',
     align: 'center',
   },
   {
-    title: '状态',
+    title: '人脸文件',
+    dataIndex: 'filename',
+    align: 'center',
+  },
+  {
+    title: '人脸价格',
+    dataIndex: 'price',
+    align: 'center',
+  },
+  {
+    title: '人脸时间（分钟）',
+    dataIndex: 'time_mins',
+    align: 'center',
+  },
+  {
+    title: '授权商户',
+    dataIndex: 'authorized_merchants_count',
+    align: 'center',
+    customRender: ({ record }) =>
+      <div>
+        <span 
+          v-if="record.authorized_merchants_count < 0">
+          全部商户</span>
+        <span v-else
+          style="text-decoration: underline; color: #1890ff; align-text:center; cursor: pointer;" 
+          onClick={() => onAddAIface(record)}>
+          {record.authorized_merchants_count}个商户</span>
+      </div>
+  },
+  {
+    title: '人脸状态',
     dataIndex: 'status',
     align: 'center',
     customRender: ({ record }) =>
     <div>
-        <a-tag color="green" v-if={record.status}>{ENUM.website_banner_status[1]}</a-tag>
-        <a-tag color="red" v-else>{ENUM.website_banner_status[2]}</a-tag>
+        <a-tag color="green" v-if={record.status === 2}>{ENUM.sale_status[2]}</a-tag>
+        <a-tag color="red" v-else>{ENUM.sale_status[3]}</a-tag>
     </div>
   },
   {
-    title: '展示排序',
-    dataIndex: 'display_sort',
-    align: 'center',
-  },
-  {
-    title: '开始日期',
-    dataIndex: 'start_time',
-    align: 'center',
-  },
-  {
-    title: '结束日期',
-    dataIndex: 'end_time',
-    align: 'center',
-  },
-  {
-    title: '创建⼈',
-    dataIndex: 'creator',
-    align: 'center',
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'create_time',
+    title: '上传时间',
+    dataIndex: 'upload_time',
     align: 'center',
   },
   {
     title: '修改⼈',
-    dataIndex: 'modifier',
-    align: 'center',
-  },
-  {
-    title: '最后修改时间',
-    dataIndex: 'last_modified_time',
+    dataIndex: 'operate_account',
     align: 'center',
   },
   {
@@ -194,51 +182,80 @@ const columns = [
     customRender: ({ record }) =>
       <div>
         <span 
-          style="text-decoration: underline;color: green; align-text:center; cursor: pointer;" 
-          onClick={() => onAddBanner(record)}>
+          style="text-decoration: underline; color: green; align-text:center; cursor: pointer; margin-right:12px;" 
+          onClick={() => onAddAIface(record)}>
           编辑</span>
+        <span 
+          v-if="record.status === 2"
+          style="text-decoration: underline; color: red; align-text:center; cursor: pointer;" 
+          onClick={() => onRemove(record)}>
+          下架</span>
+        <span v-else
+          style="text-decoration: underline; color: #1890ff; align-text:center; cursor: pointer;" 
+          onClick={() => onAvailable(record)}>
+          上架</span>
       </div>
   }
 ];
 
-async function onDelete(item = {}) {
-// loading.value = true
-// delMessageReq({
-//   message_ids: item.msg_id,
-// }).then(() => {
-//   loading.value = false
-//   pagination.page = 1
-//   pagination.total = 0
-//   props.resetSearch()
-// }).catch(() => {
-//   loading.value = false
-// })
+async function onRemove(item = {}) {
+
+  createDialog({
+    title: '下架',
+    width: 400,
+    component:
+      <span style="font-size: 14px; font-weight:bold; display: block; margin-bottom: 20px; text-align: center;">
+        是否下架当前人脸？
+      </span>
+    ,
+    onConfirm() {
+      message.success({
+        content: `下架成功`,
+        duration: 1,
+      })
+    },
+  })
 }
 
+async function onAvailable(item = {}) {
 
-async function onAddBanner(item = {}) {
+  createDialog({
+    title: '上架',
+    width: 400,
+    component:
+      <span style="font-size: 14px; font-weight:bold; display: block; margin-bottom: 20px; text-align: center;">
+        是否上架当前人脸？
+      </span>
+    ,
+    onConfirm() {
+      message.success({
+        content: `上架成功`,
+        duration: 1,
+      })
+    },
+  })
+}
+
+async function onAddAIface(item = {}) {
   const merch_id = item.id || null // 兼容 id 和 merch_id
   const isCreate = !merch_id
 
   if(isCreate)
   {
     item = {
-      merchant: null,
-      ID: '1', // fix to generate new ID
-      thumbnail: imageA,
-      title: '',
-      status: true,//'启用',
-      display_sort: 1,
-      start_time: '',
-      end_time: '',
-      creator: '',
-      create_time: '',
-      modifier: '',
-      last_modified_time: '',
+      thumbnail: '',
+      name: '',
+      filename: '',
+      price: 0,
+      time_mins: 0,
+      //authorized_merchants_count: -1,//'全部商户',
+      status: 3,//'上架中',
+      upload_time: '2012-12-12  12:21:21',
+      operate_account: '管理员-张三',
     }
   }
   const fApi = ref(null)
-  const addoreditRule = useAddBannerRule(fApi)
+  const addoreditRule = useAddAIface(item, fApi)
   const formModalProps = {
     // request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
     // getData(data) {
@@ -261,7 +278,7 @@ async function onAddBanner(item = {}) {
   }
 
   createDialog({
-    title: isCreate ? '新增' : '编辑',
+    title: isCreate ? '添加AI人脸' : '编辑AI人脸',
     width: 500,
     component:
       <ModalForm
@@ -269,9 +286,6 @@ async function onAddBanner(item = {}) {
         v-model={item}
         {...formModalProps}
       >
-        <a-form-item class="ml65" labelCol={16}>
-          <span>ID : {item.ID}</span>
-        </a-form-item>
       </ModalForm>
     ,
     onConfirm() {
@@ -302,6 +316,6 @@ const handleSizeChange = (current, size) => {
 }
 
 defineExpose({
-  onAddBanner
+  onAddAIface
 })
 </script>

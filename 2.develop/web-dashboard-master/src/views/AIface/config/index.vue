@@ -3,7 +3,7 @@
     <FormSearch
       ref="formSearchRef"
       v-model="searchParams"
-      @emit_add="() => customTableRef.onAddBanner()"
+      @emit_add="() => customTableRef.onAddAIface()"
     />
     <CustomTable
       ref="customTableRef"

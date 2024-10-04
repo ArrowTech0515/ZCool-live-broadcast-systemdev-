@@ -8,16 +8,16 @@
         :rule
       >
         <template #type-btns>
-          <QueryButtonGroup  
+          <QueryButtonGroup
             :reset-form="resetForm" 
             :submit-form="submitForm"
           />
-          <div class="flex1 flex_end mb24">
-             <AButton
-                type="primary"
-                @click="emit('emit_add')"
-              >新增</AButton>
-            </div>
+          <div class="flex1 flex_start mb24">
+            <AButton
+              type="primary"
+              @click="emit('emit_add')"
+            >添加人脸</AButton>
+          </div>
         </template>
       </form-create>
     </div>
@@ -25,7 +25,6 @@
 </template>
 
 <script setup>
-import merchSelectRule from '@/rules/merchSelectRule';
 
 const params = defineModel()
 const data = reactive({
@@ -55,14 +54,12 @@ const option = {
 }
 
 const rule = ref([
-  merchSelectRule,
   {
     type: 'input',
-    field: 'title',
-    title: '标题',
-    value: '',
+    field: 'name',
+    title: '人脸名称',
     props: {
-      placeholder: '请输入标题',
+      placeholder: '请输入人脸名称',
     },
     wrap: {
       labelCol: { span: 8 },
@@ -72,8 +69,8 @@ const rule = ref([
     type: 'select',
     field: 'status',
     title: '状态',
-    value: 0,
-    options: Object.keys(ENUM.website_banner_status).map(key => ({ value: parseInt(key), label: ENUM.website_banner_status[key] })),
+    value: 1,
+    options: Object.keys(ENUM.sale_status).map(key => ({ value: parseInt(key), label: ENUM.sale_status[key] })),
     wrap: {
       labelCol: { span: 8 },
     },
@@ -81,13 +78,12 @@ const rule = ref([
   {
     type: 'rangePicker',
     field: 'start_end_time',
-    title: '日期',
-    value: '',
+    title: '时间',
     props: {
       showTime: true,
       format: 'YYYY-MM-DD hh:mm:ss',
       valueFormat: 'X',
-      placeholder: ['开始日期', '结束日期'],
+      placeholder: ['开始时间', '结束时间'],
     },
   },
   { type: 'btns' },

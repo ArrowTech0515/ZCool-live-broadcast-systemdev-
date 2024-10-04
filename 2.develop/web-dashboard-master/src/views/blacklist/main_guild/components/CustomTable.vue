@@ -219,8 +219,6 @@ const columns = [
   },
 ]
 
-
-
 // 添加主播，不可编辑
 function applyForBan(record) {
   const formValue = ref({
@@ -262,24 +260,6 @@ function applyForBan(record) {
 
 const releaseFeedback = (record) => {
 
-  const formValue = ref({
-    avatar_url: '',
-  })
-
-  const fApi = ref(null)
-  // const anchorRule = useAnchor_UserRule('主播', fApi)
-  const formModalProps = reactive({
-  //   request: data => anchorAddOrEditReq(null, data),
-  //   getData(data) {
-  //     const { avatar_url, ...rest } = data
-  //     return {
-  //       ...rest,
-  //       avatar_url: getPathFromUrlArray(avatar_url),
-  //     }
-  //   },
-  //   rule: anchorRule,
-  })
-
   createDialog({
     title: '解禁反馈',
     width: 500,
@@ -309,32 +289,11 @@ const releaseFeedback = (record) => {
 
 const onRelease = (record) => {
 
-  const formValue = ref({
-    avatar_url: '',
-  })
-
-  const fApi = ref(null)
-  // const anchorRule = useAnchor_UserRule('主播', fApi)
-  const formModalProps = reactive({
-  //   request: data => anchorAddOrEditReq(null, data),
-  //   getData(data) {
-  //     const { avatar_url, ...rest } = data
-  //     return {
-  //       ...rest,
-  //       avatar_url: getPathFromUrlArray(avatar_url),
-  //     }
-  //   },
-  //   rule: anchorRule,
-  })
-
   createDialog({
     title: '解除拉黑',
-    width: 500,
+    width: 400,
     component:
-      <ModalForm
-        v-model={formValue.value}
-        {...formModalProps}
-      >
+      <div>
         <a-form-item>
           <span style="font-size: 14px; display: block; margin: 10px auto; text-align: center;">
             是否解除当前主播账号拉黑？
@@ -343,7 +302,7 @@ const onRelease = (record) => {
             解除后主播可正常登录账号
           </span>
         </a-form-item>
-      </ModalForm>,
+      </div>,
     onConfirm() {
       pagination.page = 1
       pagination.total = 0

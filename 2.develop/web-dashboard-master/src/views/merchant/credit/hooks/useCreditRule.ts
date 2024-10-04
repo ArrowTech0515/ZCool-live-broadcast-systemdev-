@@ -1,4 +1,3 @@
-import formCreate, { type Api } from '@form-create/ant-design-vue'
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue' // Import the custom component
 
 formCreate.component('CustomSpin', CustomSpin) // This is important!

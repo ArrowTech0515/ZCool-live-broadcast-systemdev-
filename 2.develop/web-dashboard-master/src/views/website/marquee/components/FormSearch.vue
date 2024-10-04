@@ -64,9 +64,9 @@ const rule = ref([
     props: {
       placeholder: '请输入标题',
     },
-    wrap: {
-      labelCol: { span: 8 },
-    },
+    // wrap: {
+    //   labelCol: { span: 8 },
+    // },
   },
   {
     type: 'select',
@@ -74,9 +74,9 @@ const rule = ref([
     title: '状态',
     value: 0,
     options: Object.keys(ENUM.website_banner_status).map(key => ({ value: parseInt(key), label: ENUM.website_banner_status[key] })),
-    wrap: {
-      labelCol: { span: 8 },
-    },
+    // wrap: {
+    //   labelCol: { span: 8 },
+    // },
   },
   {
     type: 'rangePicker',

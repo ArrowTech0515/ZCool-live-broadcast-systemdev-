@@ -329,38 +329,14 @@ async function onAddAnchor() {
 
 const onRelease = (record) => {
 
-  const formValue = ref({
-    avatar_url: '',
-  })
-
-  const fApi = ref(null)
-  // const anchorRule = useAnchor_UserRule('主播', fApi)
-  const formModalProps = reactive({
-  //   request: data => anchorAddOrEditReq(null, data),
-  //   getData(data) {
-  //     const { avatar_url, ...rest } = data
-  //     return {
-  //       ...rest,
-  //       avatar_url: getPathFromUrlArray(avatar_url),
-  //     }
-  //   },
-  //   rule: anchorRule,
-  })
-
   createDialog({
     title: '解除状态',
-    width: 500,
+    width: 400,
     component:
-      <ModalForm
-        v-model={formValue.value}
-        {...formModalProps}
-      >
-        <a-form-item>
-          <span style="font-size: 14px; display: block; margin: 10px auto; text-align: center;">
-            是否解除当前禁言？
-          </span>
-        </a-form-item>
-      </ModalForm>,
+      <span style="font-size: 16px; font-weight:bold; display: block; margin: 10px auto; text-align: center;">
+        是否解除当前禁言？
+      </span>
+    ,
     onConfirm() {
       pagination.page = 1
       pagination.total = 0
