@@ -15,8 +15,8 @@
           <div class="flex1 flex_end mb24">
              <AButton
                 type="primary"
-                @click="emit('emit_add')"
-              >新增</AButton>
+                @click="emit('emit_export')"
+              >导出CSV</AButton>
             </div>
         </template>
       </form-create>
@@ -25,7 +25,6 @@
 </template>
 
 <script setup>
-import merchSelectRule from '@/rules/merchSelectRule';
 
 const params = defineModel()
 const data = reactive({
@@ -37,7 +36,7 @@ const data = reactive({
   join_time: [],
 })
 
-const emit = defineEmits(['emit_add', 'search'])
+const emit = defineEmits(['emit_export', 'search'])
 const fApi = ref({})
 const option = {
   resetBtn: false,
@@ -47,47 +46,57 @@ const option = {
       col: {
         show: false,
       },
-      // wrap: {
-      //   labelCol: { span: 8 },
-      // },
+      wrap: {
+        labelCol: { span: 8 },
+      },
     },
   },
 }
 
 const rule = ref([
-  merchSelectRule,
   {
     type: 'input',
-    field: 'title',
-    title: '标题',
+    field: 'room_number',
+    title: '房间号',
     value: '',
     props: {
-      placeholder: '请输入标题',
+      placeholder: '请输入房间号',
     },
-    wrap: {
-      labelCol: { span: 8 },
+  },
+  {
+    type: 'input',
+    field: 'anchor_nickname',
+    title: '主播昵称',
+    value: '',
+    props: {
+      placeholder: '请输入主播昵称',
+    },
+  },
+  {
+    type: 'input',
+    field: 'face_name',
+    title: '人脸名称',
+    value: '',
+    props: {
+      placeholder: '请输入人脸名称',
     },
   },
   {
     type: 'select',
     field: 'status',
     title: '状态',
-    value: 0,
-    options: Object.keys(ENUM.website_banner_status).map(key => ({ value: parseInt(key), label: ENUM.website_banner_status[key] })),
-    wrap: {
-      labelCol: { span: 8 },
-    },
+    value: 1,
+    options: Object.keys(ENUM.face_water_status).map(key => ({ value: parseInt(key), label: ENUM.face_water_status[key] })),
   },
   {
     type: 'rangePicker',
     field: 'start_end_time',
-    title: '日期',
-    value: '',
+    title: '时间',
     props: {
       showTime: true,
       format: 'YYYY-MM-DD hh:mm:ss',
       valueFormat: 'X',
-      placeholder: ['开始日期', '结束日期'],
+      placeholder: ['开始日期', '结束时间'],
     },
   },
   { type: 'btns' },

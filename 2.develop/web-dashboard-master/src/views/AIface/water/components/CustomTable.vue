@@ -24,11 +24,28 @@
       @show-size-change="handleSizeChange"
     />
   </div>
+
+  <a-modal
+    v-model:open="isModalVisible1"
+    :title="null"
+    @cancel="handleCancel"
+    :footer="null"
+  >
+    <div style="margin-top: 30px;">
+      <div v-for="income in currentRecord.face_income" :key="income.type">
+        <div style="border: 1px solid #d9d9d9; padding: 8px; margin-bottom: 8px; border-radius: 4px;">
+          <div>{{ income.type }} : {{ income.content }}钻石</div>
+        </div>
+        
+      </div>
+    </div>
+  </a-modal>
+
 </template>
 
 <script setup lang="jsx">
-import { getMerchantListReq } from '@/api/merchant'
-import useAddMarqueeRule from '../hooks/useAddMarqueeRule'
+import { getMerchantListReq, merchantAddOrEditReq, setMerchantStatusReq } from '@/api/merchant'
+import useExportCSVRule from '../hooks/useExportCSVRule';
 
 const props = defineProps({
   searchParams: {
@@ -47,56 +64,6 @@ const pagination = reactive({
   total: 100,
 })
 
-const { createDialog } = useDialog()
-
-const dataSource = ref([
-  {
-    id: 1,
-    merchant: 'fun888',
-    ID: '1',
-    content: '立即参加!限时优惠, 下注即享额外奖金!',
-    title: '最新促销',
-    status: true,//'启用',
-    display_sort: 1,
-    start_time: '2023-01-01 12:00:00',
-    end_time: '2023-12-31 12:00:00',
-    creator: 'Bob',
-    create_time: '2023-01-01 12:00:00',
-    modifier: 'Alice',
-    last_modified_time: '2023-06-01 12:00:00',
-  },
-  {
-    id: 2,
-    merchant: 'fun888',
-    ID: '2',
-    content: '清凉一夏,投注赢大 「奖!夏季特别活动现正 进行中!',
-    title: '夏季优惠',
-    status: false,//'停用',
-    display_sort: 3,
-    start_time: '2023-02-01 12:00:00',
-    end_time: '2023-12-31 12:00:00',
-    creator: 'Alice',
-    create_time: '2023-02-01 12:00:00',
-    modifier: 'Charlie',
-    last_modified_time: '2023-06-02 12:00:00',
-  },
-  {
-    id: 3,
-    merchant: 'oka9',
-    ID: '3',
-    content: '新年好运,红包大放 「送!立即下注,赢取新 年好运!',
-    title: '新年快乐',
-    status: true,//'启用',
-    display_sort: 4,
-    start_time: '2023-03-01 12:00:00',
-    end_time: '2023-12-31 12:00:00',
-    creator: 'Bob',
-    create_time: '2023-03-01 12:00:00',
-    modifier: 'Alice',
-    last_modified_time: '2023-06-03 12:00:00',
-  },
-])
-
 const { loading, refresh } = useRequest(() => getMerchantListReq({
     ...props.searchParams,
     page: pagination.page,
@@ -109,155 +76,184 @@ const { loading, refresh } = useRequest(() => getMerchantListReq({
     },
 })
 
+const { createDialog } = useDialog()
+const isModalVisible1 = ref(0); // 0:hide, 1:device, 2:IP
+const currentRecord = ref(null); // 0:hide, 1:device, 2:IP
+
+const dataSource = ref([
+  {
+    id: 1,
+    merchant: '商户1',
+    guild: '工会1',
+    anchor_nickname: '张三',
+    room_number: 231312,
+    use_face: '张三人脸',
+    payment_price: 423423,
+    gift_user: '张三',
+    user_id: 231312,
+    face_income: [
+      { type: '平台分成', content: '32432423' },
+      { type: '商户分成', content: '324242423' },
+      { type: '工会分成', content: '43243243242' },
+      { type: '主播分成', content: '324324' },
+    ],//'全部商户',
+    purchase_time: '2012-12-12  12:21:21',
+    status: 2,//'使用中',
+  },
+  {
+    id: 2,
+    merchant: '商户2',
+    guild: '工会2',
+    anchor_nickname: '李白',
+    room_number: 32131,
+    use_face: '李白人脸',
+    payment_price: 43242,
+    gift_user: '李白',
+    user_id: 32131,
+    face_income: [
+    ],//'全部商户',
+    purchase_time: '2012-12-12  12:21:21',
+    status: 3,//'使用中',
+  },
+  {
+    id: 3,
+    merchant: '商户1',
+    guild: '',
+    anchor_nickname: '王维',
+    room_number: 231312,
+    use_face: '张三人脸',
+    payment_price: 43244,
+    gift_user: '王维',
+    user_id: 231312,
+    face_income: [
+      { type: '平台分成', content: '2344' },
+      { type: '商户分成', content: '3424' },
+      { type: '工会分成', content: '2344' },
+    ],//'全部商户',
+    purchase_time: '2012-12-12  12:21:21',
+    status: 2,//'使用中',
+  },
+]);
+
 const columns = [
   {
-    title: '商户',
+    title: '所属商户',
     dataIndex: 'merchant',
     align: 'center',
   },
   {
-    title: 'ID',
-    dataIndex: 'ID',
+    title: '所属工会',
+    dataIndex: 'guild',
     align: 'center',
   },
   {
-    title: '标题',
-    dataIndex: 'title',
+    title: '主播名称',
+    dataIndex: 'anchor_nickname',
     align: 'center',
   },
   {
-    title: '内容',
-    dataIndex: 'content',
+    title: '房间号',
+    dataIndex: 'room_number',
     align: 'center',
-    width: '150px'
+  },
+  {
+    title: '使用人脸',
+    dataIndex: 'use_face',
+    align: 'center',
+  },
+  {
+    title: '付款价格',
+    dataIndex: 'payment_price',
+    align: 'center',
+  },
+  {
+    title: '赠送用户',
+    dataIndex: 'gift_user',
+    align: 'center',
+  },
+  {
+    title: '用户ID',
+    dataIndex: 'user_id',
+    align: 'center',
+  },
+  {
+    title: '人脸收益',
+    dataIndex: 'face_income',
+    align: 'center',
+    customRender: ({ record }) =>
+      <div onClick={() => handleOperation(record)}>
+        <div>
+          <span v-for={(w, index) in record.face_income} key={w.type} style="text-decoration: underline; color: #1890ff; text-align: center; cursor: pointer;">
+            { w.content }
+            { index < record.face_income.length - 1 ? ' | ' : '' }
+          </span>
+        </div>
+      </div>
+  },
+  {
+    title: '购买时间',
+    dataIndex: 'purchase_time',
+    align: 'center',
   },
   {
     title: '状态',
     dataIndex: 'status',
     align: 'center',
+    fixed: 'right',
+    width: '100px',
     customRender: ({ record }) =>
     <div>
-        <a-tag color="green" v-if={record.status}>{ENUM.website_banner_status[1]}</a-tag>
-        <a-tag color="red" v-else>{ENUM.website_banner_status[2]}</a-tag>
+        <a-tag color="green" v-if={record.status === 2}>{ENUM.face_water_status[2]}</a-tag>
+        <a-tag color="red" v-else>{ENUM.face_water_status[3]}</a-tag>
     </div>
   },
-  {
-    title: '展示排序',
-    dataIndex: 'display_sort',
-    align: 'center',
-  },
-  {
-    title: '开始日期',
-    dataIndex: 'start_time',
-    align: 'center',
-  },
-  {
-    title: '结束日期',
-    dataIndex: 'end_time',
-    align: 'center',
-  },
-  {
-    title: '创建⼈',
-    dataIndex: 'creator',
-    align: 'center',
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'create_time',
-    align: 'center',
-  },
-  {
-    title: '修改⼈',
-    dataIndex: 'modifier',
-    align: 'center',
-  },
-  {
-    title: '最后修改时间',
-    dataIndex: 'last_modified_time',
-    align: 'center',
-  },
-  {
-    title: '操作',
-    fixed: 'right',
-    dataIndex: 'action',
-    align: 'center',
-    customRender: ({ record }) =>
-      <div>
-        <span 
-          style="text-decoration: underline;color: green; align-text:center; cursor: pointer;" 
-          onClick={() => onAddMarquee(record)}>
-          编辑</span>
-      </div>
-  }
-]
+];
 
-async function onAddMarquee(item = {}) {
-  const merch_id = item.id || null // 兼容 id 和 merch_id
-  const isCreate = !merch_id
+const handleOperation = (record) => {
+    isModalVisible1.value = 1
+    currentRecord.value = record
+};
 
-  if(isCreate)
-  {
-    item = {
-      merchant: null,
-      ID: '1', // fix to generate new ID
-      title: '',
-      status: true,//'启用',
-      content: '',
-      marquee_speed: 1,
-      display_sort: 1,
-      start_time: '',
-      end_time: '',
-      creator: '',
-      create_time: '',
-      modifier: '',
-      last_modified_time: '',
-    }
-  }
+async function exportCSV() {
+  const formValue = ref({
+    agent_mode: null,
+    agent_id: null,
+  })
+
   const fApi = ref(null)
-  const addoreditRule = useAddMarqueeRule(fApi)
-  const formModalProps = {
-    // request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
-    // getData(data) {
-    //   return {
-    //     ...data,
-    //     // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
-    //     merch_id: isCreate ? data.merch_id : undefined,
-    //   }
-    // },
-    option: {
-      global: {
-        '*': {
-          wrap: {
-            labelCol: { span: 5 },
-          },
-        },
-      },
+  const exportCSVRule = useExportCSVRule(fApi)
+
+  console.log("导出CSV : fApi = " + fApi.value)
+  
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
     },
-    rule: addoreditRule,
-  }
+    rule: exportCSVRule,
+  })
+
+  // console.log("user_id: " + formValue.user_id)
 
   createDialog({
-    title: isCreate ? '新增' : '编辑',
+    title: '导出CSV',
     width: 500,
     component:
       <ModalForm
+        v-model={formValue.value}
         v-model:fApi={fApi.value}
-        v-model={item}
         {...formModalProps}
       >
-        <a-form-item class="ml65" labelCol={16}>
-          <span>ID : {item.ID}</span>
-        </a-form-item>
       </ModalForm>
     ,
     onConfirm() {
-      if (isCreate) {
-        pagination.page = 1
-        pagination.total = 0
-        props.resetSearch()
-      } else {
-        refresh()
-      }
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
     },
   })
 }
@@ -278,6 +274,6 @@ const handleSizeChange = (current, size) => {
 }
 
 defineExpose({
-  onAddMarquee
+  exportCSV
 })
 </script>

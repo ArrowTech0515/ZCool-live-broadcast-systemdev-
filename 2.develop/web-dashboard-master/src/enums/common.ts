@@ -135,6 +135,11 @@ export default {
     2: '按主播',
     3: '技工会',
   },
+  exporting_objects2: {
+    1: '全部',
+    2: '按主播',
+    3: '人脸',
+  },
   hidden_time: {
     1: '本场直播',
     2: '今日直播',
@@ -314,5 +319,10 @@ export default {
   activity_content_type: {
     1: '跳转地址',
     2: '富文本',
+  },
+  face_water_status: {
+    1: '全部状态',
+    2: '使用中',
+    3: '已退款',
   }
 }

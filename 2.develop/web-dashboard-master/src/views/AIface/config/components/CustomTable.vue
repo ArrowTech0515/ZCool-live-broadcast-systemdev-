@@ -289,7 +289,11 @@ async function onAddAIface(item = {}) {
       </ModalForm>
     ,
     onConfirm() {
-      if (isCreate) {
+      message.success({
+        content: `人脸添加成功`,
+        duration: 1,
+      })
+       if (isCreate) {
         pagination.page = 1
         pagination.total = 0
         props.resetSearch()
