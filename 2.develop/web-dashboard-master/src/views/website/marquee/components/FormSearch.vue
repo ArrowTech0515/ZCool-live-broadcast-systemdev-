@@ -47,9 +47,9 @@ const option = {
       col: {
         show: false,
       },
-      // wrap: {
-      //   labelCol: { span: 8 },
-      // },
+      wrap: {
+        labelCol: { span: 8 },
+      },
     },
   },
 }

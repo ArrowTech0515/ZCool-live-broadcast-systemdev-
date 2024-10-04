@@ -57,6 +57,7 @@
               <a-menu-item key="33">平台配置</a-menu-item>
               <a-menu-item key="34">短信管理</a-menu-item>
               <a-menu-item key="35">绑定管理</a-menu-item>
+              <a-menu-item key="36">AI 人脸管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -114,6 +115,7 @@
   import systemManagement from '@/views/system/main.vue'
   import websiteManagement from '@/views/website/main.vue'
   import bindingManagement from '@/views/binding/index.vue'
+  import AIfaceManagement from '@/views/AIface/main.vue'
   
   export default {
     name: 'NavigationMenu',
@@ -156,12 +158,16 @@
       systemManagement,
       websiteManagement,
       bindingManagement,
+      AIfaceManagement
     },
     setup() {
       const collapse_flag = ref(false) // Reactive collapse state
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
+          case '36':
+            currentComponent.value = 'AIfaceManagement'
+            break
           case '35':
             currentComponent.value = 'bindingManagement'
             break
@@ -263,7 +269,7 @@
         }
       }
   
-      const currentComponent = ref('bindingManagement') // Initial component
+      const currentComponent = ref('AIfaceManagement') // Initial component
   
       return {
         collapse_flag,

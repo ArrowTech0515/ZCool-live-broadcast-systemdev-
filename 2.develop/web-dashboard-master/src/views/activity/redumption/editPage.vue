@@ -393,6 +393,7 @@ async function onContentConfig() {
   createDialog({
     title: '链接地址',
     width: 500,
+    footer: null,
     component: () => (
       <div>
         <ModalForm v-model={formValue.value} {...formModalProps} />
