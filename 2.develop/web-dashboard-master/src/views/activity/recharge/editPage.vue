@@ -247,10 +247,10 @@
 </template>
 
 <script setup lang="jsx">
-import { Modal, message } from 'ant-design-vue'
+import { message } from 'ant-design-vue'
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue'
 import contentConfigRule from '../contentConfigRule'
-import ModalForm from '@/components/Form/ModalForm/ModalForm.vue';
+import ModalForm from '@/components/Form/ModalForm/ModalForm.vue'
 
 const props = defineProps({
   formData: {
@@ -305,8 +305,8 @@ const removeCustomSpin = (index) => {
 }
 
 const handleConfirm = () => {
-  emit('back'); // Emit the back event to the parent component
-};
+  emit('back') // Emit the back event to the parent component
+}
 
 const handleBack = () => {
   // Emit the back event to the parent component
