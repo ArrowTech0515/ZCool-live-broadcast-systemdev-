@@ -1,41 +1,43 @@
 <template>
-  <a-card style=" margin-bottom: 1%;">
-    <a-row :gutter="16" type="flex">
+  <a-card style="margin-bottom: 1%;">
+    <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px;">查询表格</div>
+
+    <a-row :gutter="32" type="flex" style="margin-bottom: -20px;">
       <!-- First Column -->
       <a-col :flex="1">
-        <a-form-item label="商户">
+        <a-form-item label="商户" :label-col="{span: 6}">
           <a-select v-model:value="merchant_id" placeholder="请选择商户">
             <!-- options here -->
           </a-select>
         </a-form-item>
 
-        <a-form-item label="渠道">
+        <a-form-item label="渠道" :label-col="{span: 6}">
           <a-input v-model:value="channel" placeholder="请输入渠道" />
         </a-form-item>
       </a-col>
 
       <a-col :flex="1">
-        <a-form-item label="游戏名">
+        <a-form-item label="游戏名" :label-col="{span: 6}">
           <a-input v-model:value="game_name" placeholder="请输入游戏名" />
         </a-form-item>
 
-        <a-form-item label="状态">
+        <a-form-item label="状态" :label-col="{span: 6}">
           <a-select v-model:value="status" placeholder="请选择状态">
             <!-- options here -->
           </a-select>
         </a-form-item>
       </a-col>
 
-      <a-col :flex="auto">
-        <a-form-item label="时间">
+      <a-col :flex="1">
+        <a-form-item label="时间" :label-col="{span: 6}">
           <a-range-picker v-model:value="time" :placeholder="['开始日期', '结束日期']" />
         </a-form-item>
       </a-col>
       
       <!-- Separator -->
-      <a-col>
+      <!-- <a-col>
         <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
-      </a-col>
+      </a-col> -->
 
       <!-- Second Column -->
       <a-col :flex="auto">

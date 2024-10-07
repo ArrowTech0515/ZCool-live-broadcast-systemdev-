@@ -35,6 +35,10 @@
         <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
       </a-col>
 
+      
+      <QueryButtonGroup    
+        :reset-form="onReset" 
+        :submit-form="onSearch"/>
       <!-- Second Column -->
       <a-col :flex="auto">
         <a-form-item>
@@ -73,11 +77,12 @@
         </div>
       </span>
 
-      <span v-else-if="column.dataIndex === 'omThree'
-                      || column.dataIndex === 'men100'
-                      || column.dataIndex === 'omExpress'
-                      || column.dataIndex === 'omLottery'
-                      || column.dataIndex === 'crab' ">
+      <span 
+        v-else-if="column.dataIndex === 'omThree'
+                || column.dataIndex === 'men100'
+                || column.dataIndex === 'omExpress'
+                || column.dataIndex === 'omLottery'
+                || column.dataIndex === 'crab' ">
         <div v-for="(line, index) in text.split('\n')" :key="index">
           <!-- Check for colon and split the text into label and value -->
           <span v-if="index == 2">

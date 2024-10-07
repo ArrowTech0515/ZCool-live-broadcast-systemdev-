@@ -142,19 +142,6 @@ const columns = [
   }
 ];
 
-// Handle row selection
-const handleRowSelect = (id) => {
-  if (selectedRowKeys.value.includes(id)) {
-    selectedRowKeys.value = selectedRowKeys.value.filter(key => key !== id);
-  } else {
-    selectedRowKeys.value.push(id);
-  }
-};
-
-// Handle "Select All" checkbox
-const handleSelectAll = (e) => {
-  selectedRowKeys.value = e.target.checked ? dataSource.value.map(item => item.id) : [];
-};
 
 async function onDelete(item = {}) {
   // loading.value = true

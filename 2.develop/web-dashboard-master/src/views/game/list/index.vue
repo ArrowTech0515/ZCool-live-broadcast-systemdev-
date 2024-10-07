@@ -1,26 +1,28 @@
 <template>
-  <a-card style=" margin-bottom: 1%;">
-    <a-row :gutter="16" type="flex">
+  <a-card style="margin-bottom: 1%;">
+    <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px;">查询表格</div>
+
+    <a-row :gutter="32" type="flex" style="margin-bottom: -20px;">
 
       <!-- First Column -->
       <a-col :flex="1">
-        <a-form-item label="商户ID">
+        <a-form-item label="商户ID" :label-col="{span: 6}">
           <a-select v-model:value="merchantId" placeholder="请选择商户ID">
             <!-- options here -->
           </a-select>
         </a-form-item>
 
-        <a-form-item label="游戏ID">
+        <a-form-item label="游戏ID" :label-col="{span: 6}">
           <a-input v-model:value="gameId" placeholder="请输入游戏ID" />
         </a-form-item>
       </a-col>
 
       <a-col :flex="1">
-        <a-form-item label="游戏名">
+        <a-form-item label="游戏名" :label-col="{span: 6}">
           <a-input v-model:value="gameName" placeholder="请输入游戏名" />
         </a-form-item>
 
-        <a-form-item label="状态">
+        <a-form-item label="状态" :label-col="{span: 6}">
           <a-select v-model:value="status" placeholder="请选择状态">
             <!-- options here -->
           </a-select>
@@ -28,7 +30,7 @@
       </a-col>
 
       <a-col :flex="1">
-        <a-form-item label="游戏平台">
+        <a-form-item label="游戏平台" :label-col="{span: 6}">
           <a-select v-model:value="platform" placeholder="请选择游戏平台">
             <!-- options here -->
           </a-select>
@@ -36,9 +38,9 @@
       </a-col>
 
       <!-- Separator -->
-      <a-col :flex="auto">
+      <!-- <a-col :flex="auto">
         <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
-      </a-col>
+      </a-col> -->
 
       <!-- Second Column -->
       <a-col :flex="auto">
@@ -60,22 +62,18 @@
 
     <!-- Table Setup -->
     <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
-        <a-table 
-          :data-source="paginatedData" 
-          :pagination="false"
-          :scroll="{ x: 'max-content' }"
-          >
+      <a-table 
+        :data-source="paginatedData" 
+        :pagination="false"
+        :scroll="{ x: 'max-content' }"
+        >
         <!-- Table columns -->
         <a-table-column title="游戏ID" dataIndex="gameId" key="gameId" align="center" />
         <a-table-column title="游戏类型" dataIndex="gameType" key="gameType" align="center" />
         <a-table-column title="游戏名" dataIndex="gameName" key="gameName" align="center" />
         <a-table-column title="游戏平台" dataIndex="platform" key="platform" align="center" />
         <a-table-column title="是否球横屏" dataIndex="isLandscape" key="isLandscape" align="center" />
-        <a-table-column title="是否条横屏" dataIndex="isBarLandscape" key="isBarLandscape" align="center">
-          <template #default="{ text }">
-            <a-switch :checked="text" />
-          </template>
-        </a-table-column>
+        <a-table-column title="是否条横屏" dataIndex="isBarLandscape" key="isBarLandscape" align="center" />
         <a-table-column title="是否显示" dataIndex="isVisible" key="isVisible" align="center">
           <template #default="{ text }">
             <a-switch :checked="text" />
@@ -134,7 +132,7 @@ const dataSource = ref([
     gameName: '21点',
     platform: '龙城棋牌',
     isLandscape: '横屏',
-    isBarLandscape: true,
+    isBarLandscape: '横屏',
     isVisible: true,
     isSecondaryPage: false,
     maintenanceStatus: true,
@@ -148,7 +146,7 @@ const dataSource = ref([
     gameName: '21点',
     platform: '龙城棋牌',
     isLandscape: '横屏',
-    isBarLandscape: true,
+    isBarLandscape: '竖屏',
     isVisible: true,
     isSecondaryPage: true,
     maintenanceStatus: true,
@@ -162,7 +160,7 @@ const dataSource = ref([
     gameName: '21点',
     platform: '天空冒险',
     isLandscape: '横屏',
-    isBarLandscape: false,
+    isBarLandscape: '横屏',
     isVisible: true,
     isSecondaryPage: false,
     maintenanceStatus: false,
@@ -176,7 +174,7 @@ const dataSource = ref([
     gameName: '21点',
     platform: '战斗平台',
     isLandscape: '竖屏',
-    isBarLandscape: true,
+    isBarLandscape: '竖屏',
     isVisible: false,
     isSecondaryPage: true,
     maintenanceStatus: true,
@@ -190,7 +188,7 @@ const dataSource = ref([
     gameName: '21点',
     platform: '益智平台',
     isLandscape: '横屏',
-    isBarLandscape: false,
+    isBarLandscape: '横屏',
     isVisible: true,
     isSecondaryPage: true,
     maintenanceStatus: false,
@@ -204,7 +202,7 @@ const dataSource = ref([
     gameName: '21点',
     platform: '竞速平台',
     isLandscape: '横屏',
-    isBarLandscape: true,
+    isBarLandscape: '横屏',
     isVisible: true,
     isSecondaryPage: true,
     maintenanceStatus: true,

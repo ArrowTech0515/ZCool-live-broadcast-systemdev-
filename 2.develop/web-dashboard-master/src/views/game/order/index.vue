@@ -1,68 +1,72 @@
 <template>
-  <a-card style=" margin-bottom: 1%;">
-    <a-col :gutter="16" type="flex">
-      <a-row :gutter="16" type="flex">
+  <a-card style="margin-bottom: 1%;">
+    <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px;">查询表格</div>
+
+    <a-col type="flex" style="margin-bottom: -40px;">
+      <a-row :gutter="32" type="flex">
         <!-- First Column -->
         <a-col :flex="1">
-          <a-form-item label="商户">
+          <a-form-item label="商户" :label-col="{span: 6}">
             <a-select title="商户" v-model:value="merchant_id" placeholder="请选择商户">
               <!-- options here -->
             </a-select>
           </a-form-item>
 
-          <a-form-item label="状态">
-            <a-select v-model:value="status" placeholder="请选择状态">
-              <!-- options here -->
+          <a-form-item label="状态" :label-col="{span: 6}">
+            <a-select v-model:value="status" placeholder="请选择状态" :default-value="all">
+              <a-select-option value="all">{{ ENUM.game_profit_status[1] }}</a-select-option>
+              <a-select-option value="win">{{ ENUM.game_profit_status[2] }}</a-select-option>
+              <a-select-option value="lose">{{ ENUM.game_profit_status[3] }}</a-select-option>
             </a-select>
           </a-form-item>
 
-          <a-form-item label="用户昵称">
+          <a-form-item label="用户昵称" :label-col="{span: 6}">
             <a-input v-model:value="user_nickname" placeholder="请输入用户昵称" />
           </a-form-item>
 
-          <a-form-item label="订单号">
+          <a-form-item label="订单号" :label-col="{span: 6}">
             <a-input v-model:value="order_number" placeholder="请输入订单号" />
           </a-form-item>
         </a-col>
 
         <a-col :flex="1">
-          <a-form-item label="渠道">
+          <a-form-item label="渠道" :label-col="{span: 8}">
             <a-select v-model:value="channel" placeholder="请选择渠道">
               <!-- options here -->
             </a-select>
           </a-form-item>
 
-          <a-form-item label="是否内部账户">
+          <a-form-item label="是否内部账户" :label-col="{span: 8}">
             <a-select v-model:value="is_internal_account" placeholder="请选择">
               <!-- options here -->
             </a-select>
           </a-form-item>
 
-          <a-form-item label="游戏ID">
+          <a-form-item label="游戏ID" :label-col="{span: 8}">
             <a-input v-model:value="game_id" placeholder="请输入游戏ID" />
           </a-form-item>
         </a-col>
 
         <a-col :flex="1">
-          <a-form-item label="游戏平台">
+          <a-form-item label="游戏平台" :label-col="{span: 6}">
             <a-select v-model:value="game_status" placeholder="请选择游戏平台">
               <!-- options here -->
             </a-select>
           </a-form-item>
 
-          <a-form-item label="用户ID">
+          <a-form-item label="用户ID" :label-col="{span: 6}">
             <a-input v-model:value="user_id" placeholder="请输入用户ID" />
           </a-form-item>
 
-          <a-form-item label="游戏名">
+          <a-form-item label="游戏名" :label-col="{span: 6}">
             <a-input v-model:value="game_name" placeholder="请输入游戏名" />
           </a-form-item>
         </a-col>
 
         <!-- Separator -->
-        <a-col :style="{ display: 'flex', alignItems: 'center', marginTop: '-1.5%' }">
+        <!-- <a-col :style="{ display: 'flex', alignItems: 'center', marginTop: '-1.5%' }">
           <a-divider type="vertical" :style="{ height: '35%' }" />
-        </a-col>
+        </a-col> -->
 
         <!-- Second Column -->
         <a-col :flex="auto" :style="{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }">
@@ -108,7 +112,12 @@
       <a-table-column title="派彩金额" dataIndex="payout_amount" key="payout_amount" align="center" />
       <a-table-column title="创建时间" dataIndex="create_time" key="create_time" align="center" />
       <a-table-column title="结束时间" dataIndex="end_time" key="end_time" align="center" />
-      <a-table-column title="状态" dataIndex="status" key="status" align="center" />
+      <a-table-column title="状态" dataIndex="status" key="status" align="center">
+        <template #default="{ record }"> <!-- Access each row's data with `record` -->
+          <a-tag v-if="record.status === 2" color='green'>{{ ENUM.game_profit_status[record.status] }}</a-tag>
+          <a-tag v-else color='red'>{{ ENUM.game_profit_status[record.status] }}</a-tag>
+        </template>
+      </a-table-column>
       <a-table-column title="金额" dataIndex="amount1" key="amount1" align="center" />
       <a-table-column title="余额" dataIndex="amount2" key="amount2" align="center" />
       <a-table-column title="盈亏" dataIndex="profit_loss" key="profit_loss" align="center" />
@@ -142,7 +151,7 @@ const totalItems = ref(100);
 const merchant_id = ref(null);
 const channel = ref(null);
 const game_platform = ref(null);
-const status = ref(null);
+const status = ref('all');
 const is_internal_account = ref(null);
 const user_id = ref('');
 const user_nickname = ref('');
@@ -153,93 +162,21 @@ const order_number = ref('');
 const dataSource = ref([
   {
     key: '1',
-    id: '12es2',
-    game_id: '棋牌',
-    game_name: '21',
-    order_number: '123',
+    id: '23165',
+    game_id: 'yfks',
+    game_name: '一分快三',
+    order_number: 'HBVG123',
     user_id: '22',
-    user_nickname: 'aaa',
+    user_nickname: '5050061',
     room_number: '11',
     bet_amount: '33',
-    payout_amount: '300',
+    payout_amount: '19.6',
     create_time: '2024-08-10 17:06:40',
     end_time: '2024-08-10 20:06:40',
-    status: '123',
+    status: 2,//'赢',
     amount1: '22',
     amount2: '123',
-    profit_loss: '22',
-  },
-  {
-    key: '1',
-    id: '12es2',
-    game_id: '棋牌',
-    game_name: '21',
-    order_number: '123',
-    user_id: '22',
-    user_nickname: 'aaa',
-    room_number: '11',
-    bet_amount: '33',
-    payout_amount: '300',
-    create_time: '2024-08-10 17:06:40',
-    end_time: '2024-08-10 20:06:40',
-    status: '123',
-    amount1: '22',
-    amount2: '123',
-    profit_loss: '22',
-  },
-  {
-    key: '1',
-    id: '12es2',
-    game_id: '棋牌',
-    game_name: '21',
-    order_number: '123',
-    user_id: '22',
-    user_nickname: 'aaa',
-    room_number: '11',
-    bet_amount: '33',
-    payout_amount: '300',
-    create_time: '2024-08-10 17:06:40',
-    end_time: '2024-08-10 20:06:40',
-    status: '123',
-    amount1: '22',
-    amount2: '123',
-    profit_loss: '22',
-  },
-  {
-    key: '1',
-    id: '12es2',
-    game_id: '棋牌',
-    game_name: '21',
-    order_number: '123',
-    user_id: '22',
-    user_nickname: 'aaa',
-    room_number: '11',
-    bet_amount: '33',
-    payout_amount: '300',
-    create_time: '2024-08-10 17:06:40',
-    end_time: '2024-08-10 20:06:40',
-    status: '123',
-    amount1: '22',
-    amount2: '123',
-    profit_loss: '22',
-  },
-  {
-    key: '1',
-    id: '12es2',
-    game_id: '棋牌',
-    game_name: '21',
-    order_number: '123',
-    user_id: '22',
-    user_nickname: 'aaa',
-    room_number: '11',
-    bet_amount: '33',
-    payout_amount: '300',
-    create_time: '2024-08-10 17:06:40',
-    end_time: '2024-08-10 20:06:40',
-    status: '123',
-    amount1: '22',
-    amount2: '123',
-    profit_loss: '22',
+    profit_loss: '-0.4',
   },
 ]);
 
@@ -257,7 +194,7 @@ const onReset = () => {
   merchant_id.value = null
   channel.value = null
   game_platform.value = null
-  status.value = null
+  status.value = 'all'
   is_internal_account.value = null
   user_id.value = '';
   user_nickname.value = '';

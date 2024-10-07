@@ -1,14 +1,16 @@
 <template>
-  <a-card style=" margin-bottom: 1%;">
-    <a-row :gutter="16" type="flex">
+  <a-card style="margin-bottom: 1%;">
+    <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px;">查询表格</div>
+
+    <a-row :gutter="32" type="flex" style="margin-bottom: -20px;">
       <!-- First Column -->
       <a-col :flex="1">
-        <a-form-item label="商户">
+        <a-form-item label="商户" :label-col="{span: 6}">
           <a-select title="商户" v-model:value="merchant_id" placeholder="请选择商户">
             <!-- options here -->
           </a-select>
         </a-form-item>
-        <a-form-item label="账号类型">
+        <a-form-item label="账号类型" :label-col="{span: 6}">
           <a-select v-model:value="account_type" placeholder="请选择账号类型">
             <!-- options here -->
           </a-select>
@@ -16,25 +18,25 @@
       </a-col>
 
       <a-col :flex="1">
-        <a-form-item label="渠道">
+        <a-form-item label="渠道" :label-col="{span: 6}">
           <a-select v-model:value="channel" placeholder="请选择渠道">
             <!-- options here -->
           </a-select>
         </a-form-item>
-        <a-form-item label="游戏平台">
+        <a-form-item label="游戏平台" :label-col="{span: 6}">
           <a-select v-model:value="game_platform" placeholder="请选择游戏平台">
             <!-- options here -->
           </a-select>
         </a-form-item>
       </a-col>
 
-      <a-col :flex="auto">
-        <a-form-item label="系统">
+      <a-col :flex="1">
+        <a-form-item label="系统" :label-col="{span: 6}" :wrapper-col="{span: 16}">
           <a-select v-model:value="system" placeholder="请选择系统">
             <!-- options here -->
           </a-select>
         </a-form-item>
-        <a-form-item label="时间">
+        <a-form-item label="时间" :label-col="{span: 6}">
           <a-range-picker v-model:value="time" :placeholder="['开始日期', '结束日期']">
             <!-- options here -->
           </a-range-picker>
@@ -42,9 +44,9 @@
       </a-col>
 
       <!-- Separator -->
-      <a-col>
+      <!-- <a-col>
         <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
-      </a-col>
+      </a-col> -->
 
       <!-- Second Column -->
       <a-col :flex="auto">
@@ -69,7 +71,7 @@
     <a-table-column title="游戏名称" dataIndex="game_name" key="game_name" align="center" />
     <a-table-column title="投注额" dataIndex="bet_amount" key="bet_amount" align="center" />
     <a-table-column title="注单-赢" dataIndex="bet_win" key="bet_win" align="center" />
-    <a-table-column title="胜率" dataIndex="win_rate" key="win_rate" align="center" />
+    <a-table-column title="赢率" dataIndex="win_rate" key="win_rate" align="center" />
     <a-table-column title="注单—平局" dataIndex="bet_draw" key="bet_draw" align="center" />
     <a-table-column title="注单-亏" dataIndex="bet_loss" key="bet_loss" align="center" />
     <a-table-column title="投注人数" dataIndex="num_bettors" key="num_bettors" align="center" />

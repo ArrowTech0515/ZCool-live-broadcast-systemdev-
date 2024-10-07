@@ -29,12 +29,20 @@
     </a-row>
   </a-card>
 
-    <a-table :data-source="paginatedData" :pagination="false">
-      <a-table-column title="全选" key="selectAll" align="center">
+    <a-table 
+    :data-source="paginatedData" 
+    :pagination="false"        
+    :scroll="{ x: 'max-content' }"
+    :row-selection="{
+      selectedRowKeys: selectedRowKeys,
+      onChange: selectedRowKeys = $event,
+    }"
+    >
+      <!-- <a-table-column title="全选" key="selectAll" align="center">
         <template #default="{ record }">
           <a-checkbox :checked="selectedGifts.includes(record.key)" @change="onGiftSelect(record.key)" />
         </template>
-      </a-table-column>
+      </a-table-column> -->
       <a-table-column title="日志标识" dataIndex="task_name" key="task_name" align="center" />
       <a-table-column title="用户标识" dataIndex="userID" key="userID" align="center"/>
       <a-table-column title="用户账号" dataIndex="nickName" key="nickName" align="center" />
@@ -61,7 +69,8 @@
 
 <script setup lang="jsx">
 import { ref, computed } from 'vue';
-import { SearchOutlined, ReloadOutlined } from '@ant-design/icons-vue';
+
+const selectedRowKeys = ref([]);
 
 const currentPage = ref(1);
 const pageSize = ref(5);
@@ -91,13 +100,6 @@ const paginatedData = computed(() => {
 });
 
 // Methods
-const onGiftSelect = (key) => {
-  if (selectedGifts.value.includes(key)) {
-    selectedGifts.value = selectedGifts.value.filter(k => k !== key);
-  } else {
-    selectedGifts.value.push(key);
-  }
-};
 
 const onSearch = () => {
   // Implement search logic
@@ -122,4 +124,8 @@ const handleSizeChange = (current, size) => {
 
 <style scoped>
 /* Add any custom styles here */
+
+.scroll-container {
+  overflow-x: auto; /* Enable horizontal scrolling */
+}
 </style>

@@ -57,7 +57,6 @@
               <a-menu-item key="33">平台配置</a-menu-item>
               <a-menu-item key="34">短信管理</a-menu-item>
               <a-menu-item key="35">绑定管理</a-menu-item>
-              <a-menu-item key="36">AI 人脸管理</a-menu-item>
             </a-menu>
           </div>
         </a-layout-sider>
@@ -165,9 +164,6 @@
   
       const handleMenuClick = ({ key }) => {
         switch (key) {
-          case '36':
-            currentComponent.value = 'AIfaceManagement'
-            break
           case '35':
             currentComponent.value = 'bindingManagement'
             break
@@ -233,6 +229,9 @@
             break
           case '14':
             currentComponent.value = 'onlinecustomerserviceManagement'
+            break
+          case '12':
+            currentComponent.value = 'AIfaceManagement'
             break
           case '12':
             currentComponent.value = 'widthrawalManagement'
