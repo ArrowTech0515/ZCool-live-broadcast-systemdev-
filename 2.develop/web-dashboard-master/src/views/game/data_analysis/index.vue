@@ -1,26 +1,28 @@
 <template>
-  <a-card style=" margin-bottom: 1%;">
-    <a-row :gutter="16" type="flex">
+  <a-card style="margin-bottom: 1%;">
+    <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px;">查询表格</div>
+
+    <a-row :gutter="32" type="flex" style="margin-bottom: -20px;">
       <!-- First Column -->
       <a-col :flex="1">
-        <a-form-item label="商户">
+        <a-form-item label="商户" :label-col="{span: 6}">
           <a-select v-model:value="merchant_id" placeholder="请选择商户">
             <!-- options here -->
           </a-select>
         </a-form-item>
-        <a-form-item label="用户ID">
+        <a-form-item label="用户ID" :label-col="{span: 6}">
           <a-input v-model:value="user_id" placeholder="请输入用户ID" />
         </a-form-item>
       </a-col>
 
       <a-col :flex="1">
-        <a-form-item label="用户昵称">
+        <a-form-item label="用户昵称" :label-col="{span: 6}">
           <a-input v-model:value="user_nickname" placeholder="请输入用户昵称" />
         </a-form-item>
       </a-col>
 
-      <a-col :flex="auto">
-        <a-form-item label="时间">
+      <a-col :flex="1">
+        <a-form-item label="时间" :label-col="{span: 6}">
           <a-range-picker v-model:value="time" :placeholder="['开始日期', '结束日期']">
             <!-- options here -->
           </a-range-picker>
@@ -28,9 +30,9 @@
       </a-col>
 
       <!-- Separator -->
-      <a-col>
+      <!-- <a-col>
         <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
-      </a-col>
+      </a-col> -->
 
       <!-- Second Column -->
       <a-col :flex="auto">
@@ -56,13 +58,14 @@
     <a-table-column title="投注" dataIndex="betting" key="betting" align="center" />
     <a-table-column title="派奖" dataIndex="pay_prize" key="pay_prize" align="center" />
     <a-table-column title="盈亏" dataIndex="profit_loss" key="profit_loss" align="center" />
-    <a-table-column title="流水" dataIndex="isVisible" key="isVisible" align="center" />
-    <a-table-column title="返水" dataIndex="isSecondaryPage" key="isSecondaryPage" align="center" />
-    <a-table-column title="兑换" dataIndex="maintenanceStatus" key="maintenanceStatus" align="center" />
-    <a-table-column title="充值次数" dataIndex="user_nickname" key="user_nickname" align="center" />
-    <a-table-column title="累计充值金额" dataIndex="merchant" key="merchant" align="center" />
-    <a-table-column title="提现次数" dataIndex="betting" key="betting" align="center" />
-    <a-table-column title="累计提现次数" dataIndex="pay_prize" key="pay_prize" align="center" />
+    <a-table-column title="流水" dataIndex="running_water" key="running_water" align="center" />
+    <a-table-column title="返水" dataIndex="rebate" key="rebate" align="center" />
+    <a-table-column title="兑换" dataIndex="convert" key="convert" align="center" />
+    <a-table-column title="红利" dataIndex="bonus" key="bonus" align="center" />
+    <a-table-column title="充值次数" dataIndex="recharge_amount" key="recharge_amount" align="center" />
+    <a-table-column title="累计充值金额" dataIndex="cumulative_recharge_amount" key="cumulative_recharge_amount" align="center" />
+    <a-table-column title="提现次数" dataIndex="withdrawal_amount" key="withdrawal_amount" align="center" />
+    <a-table-column title="累计提现次数" dataIndex="cumulative_withdrawal_amount" key="cumulative_withdrawal_amount" align="center" />
   </a-table>
 
   <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
@@ -95,84 +98,39 @@ const time = ref([]);
 
 const dataSource = ref([
 {
-          key: '1',
-          user_id: '122',
-          user_nickname: '1',
-          merchant: '21',
-          betting: '123',
-          pay_prize: '22',
-          profit_loss: '1',
-          isVisible: '2',
-          isSecondaryPage: '200',
-          maintenanceStatus: 1,
-          order: 1,
-          maintenanceTime: 1,
-        },        {
-          key: '2',
-          user_id: '122',
-          user_nickname: '1',
-          merchant: '21',
-          betting: '123',
-          pay_prize: '22',
-          profit_loss: '1',
-          isVisible: '2',
-          isSecondaryPage: '200',
-          maintenanceStatus: 1,
-          order: 1,
-          maintenanceTime: 1,
-        },        {
-          key: '3',
-          user_id: '122',
-          user_nickname: '1',
-          merchant: '21',
-          betting: '123',
-          pay_prize: '22',
-          profit_loss: '1',
-          isVisible: '2',
-          isSecondaryPage: '200',
-          maintenanceStatus: 1,
-          order: 1,
-          maintenanceTime: 1,
-        },        {
-          key: '4',
-          user_id: '122',
-          user_nickname: '1',
-          merchant: '21',
-          betting: '123',
-          pay_prize: '22',
-          profit_loss: '1',
-          isVisible: '2',
-          isSecondaryPage: '200',
-          maintenanceStatus: 1,
-          order: 1,
-          maintenanceTime: 1,
-        },        {
-          key: '5',
-          user_id: '122',
-          user_nickname: '1',
-          merchant: '21',
-          betting: '123',
-          pay_prize: '22',
-          profit_loss: '1',
-          isVisible: '2',
-          isSecondaryPage: '200',
-          maintenanceStatus: 1,
-          order: 1,
-          maintenanceTime: 1,
-        },        {
-          key: '6',
-          user_id: '122',
-          user_nickname: '1',
-          merchant: '21',
-          betting: '123',
-          pay_prize: '22',
-          profit_loss: '1',
-          isVisible: '2',
-          isSecondaryPage: '200',
-          maintenanceStatus: 1,
-          order: 1,
-          maintenanceTime: 1,
-        },
+  key: 1,
+  user_id: '122',
+  user_nickname: '5050061',
+  merchant: '21',
+  betting: 123,
+  pay_prize: 29.6,
+  profit_loss: -0.4,
+  running_water: 2,
+  rebate: 200,
+  convert: 1,
+  bonus: 0,
+  recharge_amount: 1,
+  cumulative_recharge_amount: 1,
+  withdrawal_amount: 1,
+  cumulative_withdrawal_amount: 1,
+},
+{
+  key: 2,
+  user_id: '133322',
+  user_nickname: '5061',
+  merchant: '21',
+  betting: 0,
+  pay_prize: 0,
+  profit_loss: -0.4,
+  running_water: 2,
+  rebate: 200,
+  convert: 1,
+  bonus: 100,
+  recharge_amount: 1,
+  cumulative_recharge_amount: 1,
+  withdrawal_amount: 1,
+  cumulative_withdrawal_amount: 1,
+},
   // Add more data objects here
 ]);
 

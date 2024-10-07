@@ -1,39 +1,41 @@
 <template>
-  <a-card style=" margin-bottom: 1%;">
-    <a-row :gutter="16"  type="flex" >
+  <a-card style="margin-bottom: 1%;">
+    <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px;">查询表格</div>
+
+    <a-row :gutter="32" type="flex" style="margin-bottom: -20px;">
       <!-- First Column -->
 
       <a-col :flex="1">
-          <a-form-item label="游戏名">
-            <a-select v-model:value="game_name" placeholder="请选择游戏名">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
-          <a-form-item label="开奖状态">
-            <a-select v-model:value="prize_draw_status" placeholder="请选择开奖状态">
-              <!-- options here -->
-            </a-select>
-          </a-form-item>
+        <a-form-item label="游戏名" :label-col="{span: 6}">
+          <a-select v-model:value="game_name" placeholder="请选择游戏名">
+            <!-- options here -->
+          </a-select>
+        </a-form-item>
+        <a-form-item label="开奖状态" :label-col="{span: 6}">
+          <a-select v-model:value="prize_draw_status" placeholder="请选择开奖状态">
+            <!-- options here -->
+          </a-select>
+        </a-form-item>
       </a-col>
 
       <a-col :flex="1">
-          <a-form-item label="期数">
-            <a-input v-model:value="issue" placeholder="请输入用户昵称" />
-          </a-form-item>
+        <a-form-item label="期数" :label-col="{span: 6}">
+          <a-input v-model:value="issue" placeholder="请输入用户昵称" />
+        </a-form-item>
       </a-col>
 
-      <a-col :flex="auto">
-          <a-form-item label="时间">
-            <a-range-picker v-model:value="time" :placeholder="['开始日期', '结束日期']">
-              <!-- options here -->
-            </a-range-picker>
-          </a-form-item>
+      <a-col :flex="1">
+        <a-form-item label="时间" :label-col="{span: 6}">
+          <a-range-picker v-model:value="time" :placeholder="['开始日期', '结束日期']">
+            <!-- options here -->
+          </a-range-picker>
+        </a-form-item>
       </a-col>
       
       <!-- Separator -->
-      <a-col>
+      <!-- <a-col>
         <a-divider type="vertical" :style="{ height: '80%', margin: 'auto 0' }" />
-      </a-col>
+      </a-col> -->
 
       <!-- Second Column -->
       <a-col :flex="auto">
@@ -49,34 +51,44 @@
     </a-row>
   </a-card>
 
-    <!-- Your existing layout and table setup -->
-    <a-table :data-source="paginatedData" :pagination="false">
-      <a-table-column title="游戏名" dataIndex="game_name" key="game_name" align="center" />
-      <a-table-column title="开奖期数" dataIndex="num_draws" key="num_draws" align="center" />
-      <a-table-column title="开奖时间" dataIndex="prize_draw_time" key="prize_draw_time" align="center" />
-      <a-table-column title="开奖结果" dataIndex="lottery_result" key="lottery_result" align="center" />
-      <a-table-column title="结果详情" dataIndex="result_detail" key="result_detail" align="center" />
-    </a-table>
+  <!-- Your existing layout and table setup -->
+  <a-table :data-source="paginatedData" :pagination="false">
+    <a-table-column title="游戏名" dataIndex="game_name" key="game_name" align="center" />
+    <a-table-column title="开奖期数" dataIndex="num_draws" key="num_draws" align="center" />
+    <a-table-column title="开奖时间" dataIndex="prize_draw_time" key="prize_draw_time" align="center" />
+    <a-table-column title="开奖结果" dataIndex="lottery_result" key="lottery_result" align="center">
+    <template #default="{ record }"> <!-- Access each row's data with `record` -->
+      <span v-if="record.lottery_result !== '未开奖'">
+        <span v-for="(line, index) in record.lottery_result" :key="index">
+          <span v-if="index === 0">[</span>
+          {{ line }}
+          {{ index < record.lottery_result.length - 1 ? ',' : '' }}
+          <span v-if="index === record.lottery_result.length - 1">]</span>
+        </span>
+      </span>
+      <span v-else> {{ record.lottery_result }}</span>
+    </template>
+    </a-table-column>
+    <a-table-column title="结果详情" dataIndex="result_detail" key="result_detail" align="center" />
+  </a-table>
 
-    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-      <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
-      <a-pagination
-        v-model:current="currentPage"
-        :total="totalItems"
-        :page-size="pageSize"
-        show-size-changer
-        :page-size-options="['5', '10', '20', '50', '100']"
-        :simple="false"
-        size="small"
-        @change="handlePageChange"
-        @show-size-change="handleSizeChange"
-      />
-    </div>
-
+  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+    <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
+    <a-pagination
+      v-model:current="currentPage"
+      :total="totalItems"
+      :page-size="pageSize"
+      show-size-changer
+      :page-size-options="['5', '10', '20', '50', '100']"
+      :simple="false"
+      size="small"
+      @change="handlePageChange"
+      @show-size-change="handleSizeChange"
+    />
+  </div>
 </template>
 
 <script lang="jsx" setup>
-import { ref, computed } from 'vue';
 
 const currentPage = ref(1);
 const pageSize = ref(5);
@@ -97,36 +109,28 @@ const dataSource = [
     result_detail: '无',
   },
   {
-    key: '5',
-    game_name: '鱼虾蟹',
-    num_draws: '20211004061203',
-    prize_draw_time: '2023-10-04 20:02',
-    lottery_result: '未开奖',
-    result_detail: '无',
-  },
-  {
-    key: '4',
-    game_name: '一分快三',
-    num_draws: '20211004061203',
-    prize_draw_time: '2023-10-04 20:02',
-    lottery_result: '未开奖',
-    result_detail: '无',
-  },
-  {
     key: '2',
     game_name: '鱼虾蟹',
     num_draws: '20211004061203',
     prize_draw_time: '2023-10-04 20:02',
-    lottery_result: '未开奖',
-    result_detail: '无',
+    lottery_result: [2,1,3,7,9],
+    result_detail: 9,
   },
   {
     key: '3',
-    game_name: '鱼虾蟹',
+    game_name: '一分快三',
     num_draws: '20211004061203',
     prize_draw_time: '2023-10-04 20:02',
-    lottery_result: '未开奖',
-    result_detail: '无',
+    lottery_result: [2,4,2],
+    result_detail: 8,
+  },
+  {
+    key: '4',
+    game_name: '牛牛',
+    num_draws: '20211004061203',
+    prize_draw_time: '2023-10-04 20:02',
+    lottery_result: [3,6,4],
+    result_detail: 22,
   },
   // Add more data objects here
 ]

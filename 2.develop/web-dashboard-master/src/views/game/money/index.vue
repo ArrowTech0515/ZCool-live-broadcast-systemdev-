@@ -1,49 +1,51 @@
 <template>
-  <a-card style=" margin-bottom: 1%;">
-    <a-row :gutter="16" type="flex">
+  <a-card style="margin-bottom: 1%;">
+    <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px;">查询表格</div>
+
+    <a-row :gutter="32" type="flex" style="margin-bottom: -20px;">
       <!-- First Column -->
       <a-col :flex="auto">
-        <a-form-item label="商户">
+        <a-form-item label="商户" :label-col="{span: 6}">
           <a-select v-model:value="merchant_id" placeholder="请选择商户">
             <!-- options here -->
           </a-select>
         </a-form-item>
-        <a-form-item label="游戏平台">
+        <a-form-item label="游戏平台" :label-col="{span: 6}">
           <a-select v-model:value="game_platform" placeholder="请选择游戏平台">
             <!-- options here -->
           </a-select>
         </a-form-item>
-        <a-form-item label="时间">
+        <a-form-item label="时间" :label-col="{span: 6}" :wrapper-col="{span: 18}">
           <a-range-picker v-model:value="time" :placeholder="['开始日期', '结束日期']" />
         </a-form-item>
       </a-col>
 
       <a-col :flex="1">
-        <a-form-item label="类别">
+        <a-form-item label="类别" :label-col="{span: 6}">
           <a-select v-model:value="category" placeholder="请选择类别">
             <!-- options here -->
           </a-select>
         </a-form-item>
-        <a-form-item label="游戏名">
+        <a-form-item label="游戏名" :label-col="{span: 6}">
           <a-input v-model:value="game_name" placeholder="请输入游戏名" />
         </a-form-item>
       </a-col>
 
       <a-col :flex="1">
-        <a-form-item label="具体类型">
+        <a-form-item label="具体类型" :label-col="{span: 6}">
           <a-select v-model:value="specific_type" placeholder="请选择具体类型">
             <!-- options here -->
           </a-select>
         </a-form-item>
-        <a-form-item label="游戏ID">
+        <a-form-item label="游戏ID" :label-col="{span: 6}">
           <a-input v-model:value="game_id" placeholder="请输入游戏ID" />
         </a-form-item>
       </a-col>
 
       <!-- Separator -->
-      <a-col :style="{ display: 'flex', alignItems: 'center', marginTop: '-1.5%' }">
+      <!-- <a-col :style="{ display: 'flex', alignItems: 'center', marginTop: '-1.5%' }">
         <a-divider type="vertical" :style="{ height: '35%' }" />
-      </a-col>
+      </a-col> -->
 
       <!-- Second Column -->
       <a-col :flex="auto" :style="{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}">
@@ -111,74 +113,32 @@ const time = ref([]);
 // Mock data
 const dataSource = ref([
   {
-    key: '1',
+    key: 1,
     number_id: '3980',
     game_id: '783876664',
     nick_name: 'ob_test',
     mobile: '86136999999969',
     time: '2023-10-04 17:23',
-    game_platform: '东方彩票',
-    game_name: '快三',
-    category: '收入',
-    specific_type: '开奖',
+    game_platform: '',
+    game_name: '',
+    category: '',
+    specific_type: '',
     amount1: '4900',
     amount2: '10730',
   },
   {
-    key: '1',
-    number_id: '3980',
+    key: 2,
+    number_id: '3979',
     game_id: '783876664',
     nick_name: 'ob_test',
     mobile: '86136999999969',
     time: '2023-10-04 17:23',
-    game_platform: '东方彩票',
-    game_name: '快三',
-    category: '收入',
-    specific_type: '开奖',
-    amount1: '4900',
-    amount2: '10730',
-  },
-  {
-    key: '1',
-    number_id: '3980',
-    game_id: '783876664',
-    nick_name: 'ob_test',
-    mobile: '86136999999969',
-    time: '2023-10-04 17:23',
-    game_platform: '东方彩票',
-    game_name: '快三',
-    category: '收入',
-    specific_type: '开奖',
-    amount1: '4900',
-    amount2: '10730',
-  },
-  {
-    key: '1',
-    number_id: '3980',
-    game_id: '783876664',
-    nick_name: 'ob_test',
-    mobile: '86136999999969',
-    time: '2023-10-04 17:23',
-    game_platform: '东方彩票',
-    game_name: '快三',
-    category: '收入',
-    specific_type: '开奖',
-    amount1: '4900',
-    amount2: '10730',
-  },
-  {
-    key: '1',
-    number_id: '3980',
-    game_id: '783876664',
-    nick_name: 'ob_test',
-    mobile: '86136999999969',
-    time: '2023-10-04 17:23',
-    game_platform: '东方彩票',
-    game_name: '快三',
-    category: '收入',
-    specific_type: '开奖',
-    amount1: '4900',
-    amount2: '10730',
+    game_platform: '',
+    game_name: '',
+    category: '',
+    specific_type: '',
+    amount1: '-2500',
+    amount2: '5830',
   },
   // Add more data objects here
 ]);
