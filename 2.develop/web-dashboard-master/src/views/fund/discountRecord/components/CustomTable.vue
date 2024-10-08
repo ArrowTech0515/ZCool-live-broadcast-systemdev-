@@ -1,29 +1,29 @@
 <template>
-    <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
-      <a-table
-        rowKey="id"
-        :pagination="false"
-        :dataSource="paginatedData"
-        :columns="columns"
-        :loading="loading"
-        :scroll="{ x: 'max-content' }"
-      />
-    </div>
+  <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
+    <a-table
+      rowKey="id"
+      :pagination="false"
+      :dataSource="paginatedData"
+      :columns="columns"
+      :loading="loading"
+      :scroll="{ x: 'max-content' }"
+    />
+  </div>
 
-    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-      <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
-      <a-pagination
-        v-model:current="pagination.page"
-        :total="pagination.total"
-        :page-size="pagination.limit"
-        show-size-changer
-        :page-size-options="['5', '10', '20', '50', '100']"
-        :simple="false"
-        size="small"
-        @change="handlePageChange"
-        @show-size-change="handleSizeChange"
-      />
-    </div>
+  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+    <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
+    <a-pagination
+      v-model:current="pagination.page"
+      :total="pagination.total"
+      :page-size="pagination.limit"
+      show-size-changer
+      :page-size-options="['5', '10', '20', '50', '100']"
+      :simple="false"
+      size="small"
+      @change="handlePageChange"
+      @show-size-change="handleSizeChange"
+    />
+  </div>
 </template>
 
 <script setup lang="jsx">
@@ -89,14 +89,14 @@ const dataSource = ref([
   {
     orderNumber: '789456',
     userId: 'j12345',
-    nickname: '大聖',
+    nickname: '大圣',
     userAccount: 'user01',
     activityName: '充值返利',
     activityId: '001',
-    status: '待審核',
+    status: '待审核',
     bonusAmountOrRate: '10%',
     washMultiple: 1,
-    creator: '系統',
+    creator: '系统',
     reviewer: 'admin01',
     applicationTime: '2024-08-28 12:10:12',
     rewardTime: '',
@@ -107,12 +107,12 @@ const dataSource = ref([
     userId: 'k33223',
     nickname: '胖虎',
     userAccount: 'user02',
-    activityName: '連續簽到',
+    activityName: '连续签到',
     activityId: '002',
-    status: '審核通過',
+    status: '审核通过',
     bonusAmountOrRate: 50,
     washMultiple: 2,
-    creator: '系統',
+    creator: '系统',
     reviewer: 'admin02',
     applicationTime: '2024-08-25 12:10:44',
     rewardTime: '',
@@ -123,28 +123,28 @@ const dataSource = ref([
     userId: 'polo323',
     nickname: '福德正神',
     userAccount: 'user03',
-    activityName: '首存禮包',
+    activityName: '首存礼包',
     activityId: '003',
     status: '已完成',
     bonusAmountOrRate: 100,
     washMultiple: 1,
-    creator: '系統',
+    creator: '系统',
     reviewer: 'admin02',
     applicationTime: '2024-08-24 12:20:48',
     rewardTime: '2024-08-24 13:20:33',
-    remark: '獎勵已發放',
+    remark: '奖励已发放',
   },
   {
     orderNumber: '789443',
     userId: 'greenflower',
     nickname: '翠花',
     userAccount: 'user04',
-    activityName: '每日任務',
+    activityName: '每日任务',
     activityId: '004',
-    status: '已派獎',
+    status: '已派奖',
     bonusAmountOrRate: 30,
     washMultiple: 1.5,
-    creator: '系統',
+    creator: '系统',
     reviewer: 'admin01',
     applicationTime: '2024-08-23 12:20:48',
     rewardTime: '2024-08-23 13:20:33',
@@ -155,100 +155,100 @@ const dataSource = ref([
     userId: 'greenflower',
     nickname: '翠花',
     userAccount: 'user04',
-    activityName: '新手禮包',
+    activityName: '新手礼包',
     activityId: '005',
-    status: '審核不通過',
+    status: '审核不通过',
     bonusAmountOrRate: 20,
     washMultiple: 1,
     creator: 'operator01',
     reviewer: 'admin01',
     applicationTime: '2024-08-22 12:20:48',
     rewardTime: '',
-    remark: '不符合條件',
+    remark: '不符合条件',
   },
 ]);
 
 const columns = [
   {
-    title: '編號ID',
+    title: '编号ID',
     dataIndex: 'orderNumber',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.orderNumber}</div>,
   },
   {
-    title: '用戶ID',
+    title: '用户ID',
     dataIndex: 'userId',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.userId}</div>,
   },
   {
-    title: '暱稱',
+    title: '昵称',
     dataIndex: 'nickname',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.nickname}</div>,
   },
   {
-    title: '用戶帳號',
+    title: '用户账号',
     dataIndex: 'userAccount',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.userAccount}</div>,
   },
   {
-    title: '活動名稱',
+    title: '活动名称',
     dataIndex: 'activityName',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.activityName}</div>,
   },
   {
-    title: '活動ID',
+    title: '活动ID',
     dataIndex: 'activityId',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.activityId}</div>,
   },
   {
-    title: '狀態',
+    title: '状态',
     dataIndex: 'status',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.status}</div>,
   },
   {
-    title: '優惠金額/比例',
+    title: '优惠金额/比例',
     dataIndex: 'bonusAmountOrRate',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.bonusAmountOrRate}</div>,
   },
   {
-    title: '洗碼倍數',
+    title: '洗码倍数',
     dataIndex: 'washMultiple',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.washMultiple}</div>,
   },
   {
-    title: '創建人',
+    title: '创建人',
     dataIndex: 'creator',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.creator}</div>,
   },
   {
-    title: '審核人',
+    title: '审核人',
     dataIndex: 'reviewer',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.reviewer}</div>,
   },
   {
-    title: '申請時間',
+    title: '申请时间',
     dataIndex: 'applicationTime',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.applicationTime}</div>,
   },
   {
-    title: '派獎時間',
+    title: '派奖时间',
     dataIndex: 'rewardTime',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.rewardTime}</div>,
   },
   {
-    title: '備註',
+    title: '备注',
     dataIndex: 'remark',
     align: 'center',
     customRender: ({ record }) => <div style={centeredStyle}>{record.remark}</div>,
@@ -283,7 +283,7 @@ async function exportList() {
   console.log("user_id: " + formValue.user_id)
 
   createDialog({
-    title: '導出列表',
+    title: '导出列表',
     width: 600,
     component:
       <ModalForm
@@ -334,7 +334,7 @@ async function emitAdd() {
   })
 
   createDialog({
-    title: '新增優惠',
+    title: '新增优惠',
     width: 500,
     component:
       <ModalForm

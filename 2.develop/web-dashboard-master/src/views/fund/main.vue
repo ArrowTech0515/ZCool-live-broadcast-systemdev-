@@ -1,10 +1,10 @@
 <template>
     <a-tabs default-active-key="1">
         
-      <a-tab-pane key="1" tab="餘額⽇誌">
+      <a-tab-pane key="1" tab="余额日志">
           <balancelog />
       </a-tab-pane>
-      <a-tab-pane key="2" tab="優惠記錄">
+      <a-tab-pane key="2" tab="优惠记录">
           <discountRecord />
       </a-tab-pane>
       <a-tab-pane key="3" tab="打码设置">

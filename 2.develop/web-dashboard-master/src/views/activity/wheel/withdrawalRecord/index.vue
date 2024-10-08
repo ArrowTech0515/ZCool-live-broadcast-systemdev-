@@ -1,5 +1,5 @@
 <template>
-  <a-card style=" margin-bottom: 1%;">
+  <SearchPanel>
     <a-row type="flex" style="margin-bottom: -20px;">
       <!-- First Column -->
       <a-col :flex="auto" style="margin-left: 20px;">
@@ -41,7 +41,7 @@
         </a-form-item>
       </a-col>
     </a-row>
-  </a-card>
+  </SearchPanel>
 
     <!-- Your existing layout and table setup -->
     <a-table :data-source="paginatedData" :pagination="false">

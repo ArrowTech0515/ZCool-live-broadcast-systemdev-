@@ -203,11 +203,44 @@
             </div>
           </div>
         </div>
+        
+        <div class="form-item">
+          <div class="label">活动门槛</div>
+          <div class="input-container">
+            <a-radio-group v-model:value="radioThreshold">
+              <a-radio value="radio1">无门槛</a-radio>
+              <a-radio value="radio2">有门槛</a-radio>
+            </a-radio-group>
+          </div>
+        </div>
+
+        <!-- First Table: Rebate Level Settings -->
+        <div style="margin-bottom: 24px;">
+          <div class="label">赠送门槛及内容</div>
+          <a-card>
+            <a-row class="mb10" justify="space-between">
+              <h3 style="margin-bottom: 10px; font-size: 14px; font-weight: bold;">
+                消费钻石赠送
+              </h3>
+              <a-button type="primary" style="margin-left: 32px;" @click="addRebateLevel">
+                添加
+              </a-button>
+            </a-row>
+            <a-table
+              :columns="rebateColumns"
+              :dataSource="rebateData"
+              rowKey="id"
+              :pagination="false"
+              bordered
+              style="margin-bottom: 8px; margin-left: 16px;"
+            />
+          </a-card>
+        </div>
 
         <div class="form-item">
           <div class="label">赠送规则</div>
           <div class="input-container">
-            <a-radio-group v-model:value="radioValue">
+            <a-radio-group v-model:value="radioGiftRule">
               <a-radio value="radio1">首次充值有效</a-radio>
               <a-radio value="radio2">多次充值有效</a-radio>
             </a-radio-group>
@@ -269,7 +302,8 @@ const emit = defineEmits(['back'])  // Define the 'back' event
 const { createDialog } = useDialog()
 
 const radioContent = ref(1) // Initial value for the radio group
-const radioValue = ref('radio1') // Initial value for the radio group
+const radioThreshold = ref('radio1') // Initial value for the radio group
+const radioGiftRule = ref('radio1') // Initial value for the radio group
 const radioValue2 = ref('radio1') // Initial value for the radio group
 const spin_value1 = ref(0)
 const spin_value2 = ref(0)
@@ -404,12 +438,89 @@ async function onContentConfig() {
       }
     },
   })
-}
 
-
+  
 const onInternalJump = (formData) => {}
 
 const onExternalJump = () => {}
+
+  // Table processing part
+  // Rebate Level Data
+const rebateData = reactive([
+  { id: 1, diamond_consumption_threshold: 1, gift_diamonds: 3, gift_balance: 1.2 }
+])
+
+const rebateColumns = [
+  { title: '消费钻石门槛', dataIndex: 'diamond_consumption_threshold', key: 'diamond_consumption_threshold', align: 'center',
+  },
+  { title: '赠送钻石', dataIndex: 'gift_diamonds', key: 'gift_diamonds', align: 'center',
+  },
+  { title: '赠送余额', dataIndex: 'gift_balance', key: 'gift_balance', align: 'center',
+  },
+  { title: '赠送贵族', dataIndex: 'gift_nobles', key: 'gift_nobles', align: 'center',
+  },
+  { title: '赠送坐骑', dataIndex: 'gift_mounts', key: 'gift_mounts', align: 'center',
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    key: 'action',
+    align: 'center',
+    customRender: ({ index }) => {
+      return (
+        <a onClick={() => removeRebateLevel(index)} style="text-decoration: underline; color: red; cursor: pointer;">
+          删除
+        </a>
+      )
+    }
+  }
+]
+
+
+async function addRebateLevel() {
+
+  const fApi = ref(null)
+  const formValue = ref({ // Initialize formValue with rowData if editing
+    diamond_consumption_threshold: '',
+    gift_diamonds: '',
+    gift_balance: '',
+  })
+
+  const formModalProps = {
+    // request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
+    // getData(data) {
+    //   return {
+    //     ...data,
+    //     // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
+    //     merch_id: isCreate ? data.merch_id : undefined,
+    //   }
+    // },
+    rule: useAddRebateLevelRule(fApi),
+  }
+      
+  createDialog({
+    title: '新增等级',
+    width: 500,
+    component:
+      <ModalForm
+        v-fApi:value={fApi.value}
+        v-model={formValue.value}
+        {...formModalProps}
+      />
+    ,
+    onConfirm() {
+      rebateData.push({ id: rebateData.length + 1, diamond_consumption_threshold: formValue.value.diamond_consumption_threshold, gift_diamonds: formValue.value.gift_diamonds, gift_balance: formValue.value.gift_balance })
+    },
+  })
+}
+
+const removeRebateLevel = (index) => {
+
+  // We have to add API function
+  rebateData.splice(index, 1)
+  }
+}
+
 </script>
 
 <style scoped>
@@ -444,7 +555,7 @@ const onExternalJump = () => {}
 
 .content-col {
   width: 100%;
-  max-width: 900px;
+  max-width: 800px;
   white-space: nowrap;
 }
 
@@ -457,19 +568,20 @@ const onExternalJump = () => {}
 
 .label {
   flex: 1;
+  font-size: 16px;
   font-weight: bold;
-  text-align: right;
+  text-align: left;
   padding-right: 10px;
   margin-right: 15px;
 }
 
 .input-container {
-  width: 75%;
+  width: 100%;
 }
 
 .input {
   text-align: center;
-  width: 75%;
+  width: 100%;
 }
 
 .hint-text {
@@ -480,7 +592,7 @@ const onExternalJump = () => {}
 }
 
 .content-container {
-  width: 75%;
+  width: 100%;
   white-space: nowrap;
 }
 
@@ -522,11 +634,11 @@ const onExternalJump = () => {}
 }
 
 .checkbox-container {
-  width: 75%;
+  width: 100%;
 }
 
 .custom-spin-container {
-  width: 75%;
+  width: 100%;
 }
 
 .add-button {

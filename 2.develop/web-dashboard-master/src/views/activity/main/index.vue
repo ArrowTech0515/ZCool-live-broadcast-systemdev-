@@ -1,7 +1,7 @@
 <template>
   <transition name="fade-slide" mode="out-in">
     <div v-if="!showEditPage && !showDataPage">
-      <a-card style=" margin-bottom: 1%;">
+      <SearchPanel>
         <a-row type="flex" style="align-items: center; margin-bottom: -20px;">
           <a-col  style="margin-left: 20px;">
             <a-form-item label="活动名称">
@@ -44,7 +44,7 @@
             </a-form-item>
           </a-col>
         </a-row>
-      </a-card>
+      </SearchPanel>
 
         <!-- Table and Pagination... -->
         <a-table :data-source="paginatedData" :pagination="false">

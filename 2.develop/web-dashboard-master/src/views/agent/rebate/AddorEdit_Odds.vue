@@ -146,7 +146,6 @@ const rebateColumns = [
 ]
 
 async function addRebateLevel() {
-  //rebateData.push({ id: rebateData.length + 1, level: rebateData.length + 1, rebate: '', odds: '' })
 
   const fApi = ref(null)
   const formValue = ref({ // Initialize formValue with rowData if editing
@@ -178,13 +177,7 @@ async function addRebateLevel() {
       />
     ,
     onConfirm() {
-      // if (isCreate) {
-      //   pagination.page = 1
-      //   pagination.total = 0
-      //   props.resetSearch()
-      // } else {
-      //   refresh()
-      // }
+      rebateData.push({ id: rebateData.length + 1, level: formValue.value.level, rebate: formValue.value.rebate, odds: formValue.value.odds })
     },
   })
 }
@@ -227,7 +220,6 @@ const tierColumns = [
 ]
 
 async function addAgentTier() {
-//  tierData.push({ id: tierData.length + 1, level: tierData.length + 1, name: '', rebate: '' })
 
   const fApi = ref(null)
   const formValue = ref({ // Initialize formValue with rowData if editing
@@ -259,13 +251,7 @@ async function addAgentTier() {
       />
     ,
     onConfirm() {
-      // if (isCreate) {
-      //   pagination.page = 1
-      //   pagination.total = 0
-      //   props.resetSearch()
-      // } else {
-      //   refresh()
-      // }
+      tierData.push({ id: tierData.length + 1, level: formValue.value.level, name: formValue.value.name, rebate: formValue.value.rebate })
     },
   })
 }

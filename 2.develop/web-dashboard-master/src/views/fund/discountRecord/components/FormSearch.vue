@@ -1,5 +1,5 @@
 <template>
-  <a-card class="mb15">
+  <SearchPanel>
     <div class="__table_form_search_component">
       <form-create
         v-model:api="fApi"
@@ -16,16 +16,16 @@
             <AButton
               type="primary"
               @click="emit('emit_export_list')"
-            >導出列表</AButton>
+            >导出列表</AButton>
             <AButton
               type="primary"
               @click="emit('emit_add')"
-            >新增優惠</AButton>
+            >新增优惠</AButton>
           </div>
         </template>
       </form-create>
     </div>
-  </a-card>
+  </SearchPanel>
 </template>
 
 <script setup>
@@ -77,15 +77,6 @@ const rule = ref([
     },
   },
   {
-    type: 'input',
-    field: 'user_account',
-    title: '用户账号',
-    value: '',
-    props: {
-      placeholder: '请输入用户账号', // Add placeholder
-    },
-  },
-  {
     type: 'select',
     field: 'activity_name',
     title: '活动名称',
@@ -93,15 +84,6 @@ const rule = ref([
       placeholder: '请选择活动名称', // Add placeholder
     },
     //options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
-  },
-  {
-    type: 'input',
-    field: 'activity_id',
-    title: '活动ID',
-    value: '',
-    props: {
-      placeholder: '请输入活动ID', // Add placeholder
-    },
   },
   {
     type: 'rangePicker',
@@ -115,14 +97,21 @@ const rule = ref([
     },
   },
   {
-    type: 'rangePicker',
-    field: 'award_time',
-    title: '派奖时间',
+    type: 'input',
+    field: 'user_account',
+    title: '用户账号',
     value: '',
-    className: 'form-time-picker',
     props: {
-      format: 'YYYY-MM-DD HH:mm:ss',
-      valueFormat: 'X',
+      placeholder: '请输入用户账号', // Add placeholder
+    },
+  },
+  {
+    type: 'input',
+    field: 'activity_id',
+    title: '活动ID',
+    value: '',
+    props: {
+      placeholder: '请输入活动ID', // Add placeholder
     },
   },
   {
@@ -133,6 +122,17 @@ const rule = ref([
       mode: 'multiple',  // Enable multi-select
       options: Object.keys(ENUM.discount_status).map(key => ({ label: ENUM.discount_status[key], value: parseInt(key) })),
       placeholder: '请选择状态',
+    },
+  },
+  {
+    type: 'rangePicker',
+    field: 'award_time',
+    title: '派奖时间',
+    value: '',
+    className: 'form-time-picker',
+    props: {
+      format: 'YYYY-MM-DD HH:mm:ss',
+      valueFormat: 'X',
     },
   },
   { type: 'btns' },

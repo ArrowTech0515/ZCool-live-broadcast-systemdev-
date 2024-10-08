@@ -1,5 +1,5 @@
 <template>
-  <a-card class="mb15">
+  <SearchPanel>
     <div class="__table_form_search_component">
       <form-create
         v-model:api="fApi"
@@ -15,7 +15,7 @@
         </template>
       </form-create>
     </div>
-  </a-card>
+  </SearchPanel>
 </template>
 
 <script setup>
@@ -67,6 +67,27 @@ const rule = ref([
     },
   },
   {
+    type: 'select',
+    field: 'category',
+    title: '充值类型',
+    props: {
+      placeholder: '请选择充值类型', // Add placeholder请选择状态
+    },
+    //options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
+  },
+  {
+    type: 'rangePicker',
+    field: 'time',
+    title: '注册时间',
+    value: '',
+    className: 'form-time-picker',
+    props: {
+      format: 'YYYY-MM-DD HH:mm:ss',
+      valueFormat: 'X',
+      placeholder: ['开始时间', '结束时间'],
+    },
+  },
+  {
     type: 'input',
     field: 'game_name',
     title: '游戏名称',
@@ -84,35 +105,15 @@ const rule = ref([
     },
     //options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
   },
-  {
-    type: 'rangePicker',
-    field: 'time',
-    title: '註冊時間',
-    value: '',
-    className: 'form-time-picker',
-    props: {
-      format: 'YYYY-MM-DD HH:mm:ss',
-      valueFormat: 'X',
-    },
-  },
-  {
-    type: 'select',
-    field: 'category',
-    title: '充值類型',
-    props: {
-      placeholder: '请选择充值類型', // Add placeholder请选择状态
-    },
-    //options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
-  },
-  {
-    type: 'select',
-    field: 'specific_type',
-    title: '充值類型',
-    props: {
-      placeholder: '请选择充值類型', // Add placeholder请选择状态
-    },
-    //options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
-  },
+  // {
+  //   type: 'select',
+  //   field: 'specific_type',
+  //   title: '充值类型',
+  //   props: {
+  //     placeholder: '请选择充值類型', // Add placeholder请选择状态
+  //   },
+  //   //options: Object.keys(ENUM.recharge_type).map(key => ({ label: ENUM.recharge_type[key], value: parseInt(key) })),
+  // },
   { type: 'btns' },
 ])
 
