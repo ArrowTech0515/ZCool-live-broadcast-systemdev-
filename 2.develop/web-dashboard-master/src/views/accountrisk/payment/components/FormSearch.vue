@@ -1,5 +1,5 @@
 <template>
-  <a-card class="mb15">
+  <SearchPanel>
     <div class="__table_form_search_component">
       <form-create
         v-model:api="fApi"
@@ -15,7 +15,7 @@
         </template>
       </form-create>
     </div>
-  </a-card>
+  </SearchPanel>
 </template>
 
 <script setup>
@@ -36,7 +36,7 @@ const option = {
         show: false,
       },
       wrap: {
-        labelCol: { span: 8 },
+        labelCol: { span: 9 },
       },
     },
   },

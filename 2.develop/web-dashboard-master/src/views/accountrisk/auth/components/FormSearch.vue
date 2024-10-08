@@ -1,5 +1,5 @@
 <template>
-  <a-card class="mb15">
+  <SearchPanel>
     <div class="__table_form_search_component">
       <form-create
         v-model:api="fApi"
@@ -15,10 +15,12 @@
         </template>
       </form-create>
     </div>
-  </a-card>
+  </SearchPanel>
 </template>
 
 <script setup>
+import QueryButtonGroup from '@/components/Form/SearchForm/QueryButtonGroup.vue';
+
 const params = defineModel()
 const data = reactive({
   merch_name: '',

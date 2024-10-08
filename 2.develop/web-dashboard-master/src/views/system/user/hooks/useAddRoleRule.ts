@@ -42,14 +42,11 @@ export default function (fApi: Ref<Api>) {
       field: 'phone_number',
       title: '手机号',
       value: '',
-      validate: [{ type: 'string', message: '请输入正确的手机号', required: true }],
+      validate: [{ type: 'string', message: '请输入正确的手机号'}],
       props: {
         placeholder: '请输入手机号',
         type: 'tel',
       },
-      effect: {
-        required: true,
-      }
     },
     {
       type: 'radio',

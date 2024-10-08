@@ -1,5 +1,5 @@
 <template>
-  <a-card style="margin-bottom: 1%;">
+  <a-card class="mb15">
     <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px;">查询表格</div>
 
     <a-row :gutter="32" type="flex" style="margin-bottom: -20px;">

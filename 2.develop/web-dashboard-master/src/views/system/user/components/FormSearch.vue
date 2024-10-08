@@ -1,5 +1,5 @@
 <template>
-  <a-card class="mb15">
+  <SearchPanel>
     <div class="__table_form_search_component">
       <form-create
         v-model:api="fApi"
@@ -14,12 +14,12 @@
           />
           <div class="flex1 flex_end mb24">
              <AButton
-              class="ml20"
+                class="ml20"
                 type="primary"
                 @click="emit('emit_add')"
               >添加</AButton>
               <AButton
-              class="ml20"
+                class="ml20"
                 type="primary"
                 @click="emit('emit_export')"
               >导出</AButton>
@@ -27,10 +27,12 @@
         </template>
       </form-create>
     </div>
-  </a-card>
+  </SearchPanel>
 </template>
 
 <script setup>
+import SearchPanel from '@/components/Form/SearchForm/SearchPanel.vue';
+
 const params = defineModel()
 const data = reactive({
   merch_name: '',

@@ -1,4 +1,3 @@
-import formCreate, { type Api } from '@form-create/ant-design-vue'
 
 export default function (fApi: Ref<Api>) {
 

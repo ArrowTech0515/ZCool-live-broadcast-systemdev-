@@ -19,6 +19,7 @@
 </template>
 
 <script setup>
+import QueryButtonGroup from '@/components/Form/SearchForm/QueryButtonGroup.vue';
 import merchSelectRule from '@/rules/merchSelectRule'
 
 const params = defineModel()

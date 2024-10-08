@@ -34,7 +34,7 @@ export default function (fApi: Ref<Api>) {
       props: {
         format: 'YYYY-MM-DD',
         valueFormat: 'X',
-        placeholder: ['开始时间', '结束时间'],
+        placeholder: ['请选择日期'],
       },
       hidden: true,
       wrap: {
