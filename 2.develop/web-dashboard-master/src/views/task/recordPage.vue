@@ -1,6 +1,8 @@
 <template>
-  <a-card style=" margin-bottom: 1%;">
-    <a-row :gutter="16" :type="flex" style=" justify-content: flex-end; align-items: center; margin-bottom: -20px;">
+  <a-card style="margin-bottom: 1%;">
+    <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px;">查询表格</div>
+
+    <a-row :gutter="32" type="flex" style="margin-bottom: -20px;">
       <a-col :flex="1">
         <a-form-item label="用户账号">
           <a-input v-model:value="user_account" placeholder="请输入用户账号" />

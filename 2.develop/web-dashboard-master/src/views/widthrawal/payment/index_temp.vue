@@ -28,9 +28,9 @@
 
       <!-- Buttons on the right -->
       <a-col style="flex: auto; text-align: right;">
-        <a-button type="primary" style="margin-right: 8px;" @click="exportFailedData">导出失败数据</a-button>
-        <a-button type="primary" style="margin-right: 8px;" @click="exportPaymentMethods">导出付款方式</a-button>
-        <a-button @click="toggleVerification">免验证设置</a-button>
+        <a-button type="primary" style="margin-right: 8px;" @click="exportBigData">导出大数据</a-button>
+        <a-button type="primary" style="margin-right: 8px;" @click="exportPaymentMethods">导出代付方式</a-button>
+        <a-button @click="setupValidator">免验证器设置</a-button>
       </a-col>
     </a-row>
   </a-card>
@@ -212,7 +212,7 @@ const handleSizeChange = (current, size) => {
   currentPage.value = 1; // Reset to the first page when page size changes
 };
 
-const exportFailedData = () => {
+const exportBigData = () => {
   console.log('Exporting failed data...');
 };
 
@@ -220,7 +220,7 @@ const exportPaymentMethods = () => {
   console.log('Exporting payment methods...');
 };
 
-const toggleVerification = () => {
+const setupValidator = () => {
   console.log('Toggling verification settings...');
 };
 </script>

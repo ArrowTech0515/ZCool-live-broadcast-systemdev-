@@ -230,7 +230,7 @@
           case '14':
             currentComponent.value = 'onlinecustomerserviceManagement'
             break
-          case '12':
+          case '13':
             currentComponent.value = 'AIfaceManagement'
             break
           case '12':

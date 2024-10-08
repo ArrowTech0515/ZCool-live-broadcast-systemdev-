@@ -17,6 +17,10 @@ const supportLevel = ref('all_levels') // Default value
 const supportDevice = ref('supportDevice1')
 const supportLang = ref([])
 
+const clearNumberOfPeople = () => {
+  onlineUsers.value = 0
+}
+
 </script>
 
 <template>
@@ -24,11 +28,12 @@ const supportLang = ref([])
     <a-row type="flex" justify="space-between" align="middle" 
            style="padding: 10px; border-bottom: 1px solid lightgray; margin-bottom: 16px;">
       <a-col>
+        <a-divider type="vertical" style="background-color: #1890ff; width: 3px; height: 20px;"></a-divider>
         <span style="font-size: 16px; font-weight: bold;">客服主线</span>
       </a-col>
       <a-col>
         <span>进线人数: {{ onlineUsers }}</span>
-        <a-button type="link" @click="emit_clear" style="margin-left: 10px; color: #1890ff;">清空人数</a-button>
+        <a-button type="link" @click="clearNumberOfPeople" style="margin-left: 10px; color: #1890ff;">清空人数</a-button>
       </a-col>
     </a-row>
     
@@ -40,7 +45,7 @@ const supportLang = ref([])
         <a-textarea v-model="mainAddress" placeholder="超链接输入框，必须以 'http' 或 'https' 开头" />
       </a-form-item>
       <a-form-item label="主线人数比例" :label-col="{ span: 5 }" >
-        <a-input v-model="userRatio" placeholder="请输入人数比例" />
+        <a-input v-model="userRatio" placeholder="请输入数字" />
       </a-form-item>
       <a-form-item label="网页标题" :label-col="{ span: 5 }" >
         <a-input v-model="pageTitle" placeholder="请输入网页标题" />

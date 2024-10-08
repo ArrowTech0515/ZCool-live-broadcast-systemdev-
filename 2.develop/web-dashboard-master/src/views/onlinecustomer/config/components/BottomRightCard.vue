@@ -17,6 +17,10 @@ const supportLevel = ref('all_levels') // Default value
 const supportDevice = ref('supportDevice1')
 const supportLang = ref([])
 
+const clearNumberOfPeople = () => {
+  onlineUsers.value = 0
+}
+
 </script>
 
 <template>
@@ -24,11 +28,12 @@ const supportLang = ref([])
     <a-row type="flex" justify="space-between" align="middle" 
            style="padding: 10px; border-bottom: 1px solid lightgray; margin-bottom: 16px;">
       <a-col>
+        <a-divider type="vertical" style="background-color: #1890ff; width: 3px; height: 20px;"></a-divider>
         <span style="font-size: 16px; font-weight: bold;">代理客服</span>
       </a-col>
       <a-col>
         <span>进线人数: {{ onlineUsers }}</span>
-        <a-button type="link" @click="emit_clear" style="margin-left: 10px; color: #1890ff;">清空人数</a-button>
+        <a-button type="link" @click="clearNumberOfPeople" style="margin-left: 10px; color: #1890ff;">清空人数</a-button>
       </a-col>
     </a-row>
     

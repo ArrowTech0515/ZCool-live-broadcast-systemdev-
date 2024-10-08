@@ -1,8 +1,10 @@
 <template>
   <transition name="fade-slide" mode="out-in">
     <div v-if="!showEditPage && !showDataPage">
-      <a-card style=" margin-bottom: 1%;">
-        <a-row :gutter="24" :type="flex" style="margin-left: 2%; margin-bottom: -20px;">
+      <a-card style="margin-bottom: 1%;">
+        <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px;">查询表格</div>
+
+        <a-row :gutter="32" type="flex" style="margin-bottom: -20px;">
           <!-- First Column -->
           <!-- <a-row :type="flex"> -->
           <a-col :flex="1">
