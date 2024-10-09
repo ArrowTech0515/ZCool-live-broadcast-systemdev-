@@ -1,17 +1,13 @@
 <template>
   <a-table :data-source="paginatedData" :pagination="false">
-    <a-table-column title="默认分组" key="default_grouping" align="center">
-      <template #default="{ record }">
-        <a-checkbox :checked="selectedGifts.includes(record.key)" @change="onGiftSelect(record.key)" />
-      </template>
-    </a-table-column>
-    <a-table-column title="分组名称" dataIndex="group_name" key="group_name" align="center" />
-    <a-table-column title="会员人数" dataIndex="member_count" key="member_count" align="center"/>
-    <a-table-column title="充值策略" dataIndex="recharge_strategy" key="recharge_strategy" align="center" />
-    <a-table-column title="提现策略" dataIndex="withdrawal_strategy" key="withdrawal_strategy" align="center" />
-    <a-table-column title="返水策略" dataIndex="rebate_strategy" key="rebate_strategy" align="center" />
-    <a-table-column title="最高返现金额" dataIndex="max_cashback_amount" key="max_cashback_amount" align="center"/>
+    <a-table-column title="会员账号" dataIndex="member_account" key="member_account" align="center" />
+    <a-table-column title="金额" dataIndex="amount" key="amount" align="center"/>
+    <a-table-column title="盈利金额" dataIndex="profit_amount" key="profit_amount" align="center" />
+    <a-table-column title="是否预警" dataIndex="whether_alert" key="whether_alert" align="center" />
+    <a-table-column title="预警有效期" dataIndex="validity_period" key="validity_period" align="center" />
     <a-table-column title="备注" dataIndex="remarks" key="remarks" align="center"/>
+    <a-table-column title="添加时间" dataIndex="added_time" key="added_time" align="center"/>
+    <a-table-column title="更新时间" dataIndex="updated_time" key="updated_time" align="center"/>  
     <a-table-column title="操作" dataIndex="operate" key="operate" align="center">
       <template #default="{ record }">
         <span style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;" @click="onAddItem(record)">编辑</span>
@@ -39,10 +35,9 @@
 </template>
 
 <script setup lang="jsx">
-import { ref, computed } from 'vue';
+
 import { getUserGroupListReq } from '@/api/usergroup';
-import userGroupSelectRule from '@/rules/userGroupSelectRule';
-import useAddGroupRule from '../hooks/useAddGroupRule';
+import useAddWarningRule from '../hooks/useAddWarningRule';
 
 const { createDialog } = useDialog()
 
@@ -51,7 +46,7 @@ const currentPage = ref(1);
 const pageSize = ref(5);
 const totalItems = ref(100);
 const selectedGifts = ref([]);
-const group_name = ref('');
+const member_account = ref('');
 
 
 const props = defineProps({
@@ -72,28 +67,41 @@ const pagination = reactive({
 })
 
 // const dataSource = ref([])
-// const { loading, refresh } = useRequest(() => getUserGroupListReq({
-//   ...props.searchParams,
-//   page: pagination.page,
-//   limit: pagination.limit,
-// }), {
-//   refreshDeps: true,
-//   onSuccess(data) {
-//     dataSource.value = data.items
-//     pagination.total = data.total_data
-//   },
-// })
+const { loading, refresh } = useRequest(() => getUserGroupListReq({
+  ...props.searchParams,
+  page: pagination.page,
+  limit: pagination.limit,
+}), {
+  refreshDeps: true,
+  onSuccess(data) {
+    dataSource.value = data.items
+    pagination.total = data.total_data
+  },
+})
 
 const dataSource = ref([
   {
     key: 1,
-    group_name: 'KY一组',
-    member_count: 'ob_test',
-    recharge_strategy: '809',
-    withdrawal_strategy: '提现',
-    rebate_strategy: '东方彩票',
-    max_cashback_amount: '快三',
-    remarks: '收入',
+    member_account: '98io90',
+    amount: 100.00,
+    profit_amount: 50.00,
+    whether_alert: 2,
+    validity_period: '30天',
+    remarks: '-',
+    added_time: '2024-8-19 10:01',
+    updated_time: '2024-8-19 10:01',
+    // operate: '编辑 删除',
+  },
+  {
+    key: 2,
+    member_account: '100io90',
+    amount: 10.00,
+    profit_amount: 70.00,
+    whether_alert: 3,
+    validity_period: '30天',
+    remarks: '-',
+    added_time: '2024-8-19 10:01',
+    updated_time: '2024-8-19 10:01',
     // operate: '编辑 删除',
   },
 ]);
@@ -111,47 +119,50 @@ const paginatedData = computed(() => {
   return dataSource.value.slice(start, end);
 });
 
-// Methods
-const onGiftSelect = (key) => {
-  if (selectedGifts.value.includes(key)) {
-    selectedGifts.value = selectedGifts.value.filter(k => k !== key);
-  } else {
-    selectedGifts.value.push(key)
-  }
-}
-
 async function onAddItem(item = {}) {
-  const isCreate = !item.group_name
+  const isCreate = !item.member_account
 
   if(isCreate) {
     item = {
-      // group_name: '',
-      // member_count: '',
-      // recharge_strategy: '',
-      // withdrawal_strategy: '',
-      // rebate_strategy: '',
-      // max_cashback_amount: '',
-      // remarks: '',
+      // member_account: '',
+      // amount: 0,
+      // profit_amount: 0,
+      // whether_alert: 2,
+      // validity_period: '',
+      // remarks: '-',
+      // added_time: '',
+      // updated_time: '',
     }
   }
 
   const fApi = ref(null)
-  const useAddRule = useAddGroupRule(fApi)
+  const useAddRule = useAddWarningRule(fApi)
 
+  // if (!item.group_id) {
+  //   // user_id 需要生成
+  //   const [err, { group_id } = {}] = await to(createUserGroupIdReq())
+  //   if (err) {
+  //     console.log(err)
+  //     return
+  //   }
+  //   formValue.value.group_id = group_id
+  // }
   const formModalProps = {
-    // request: setMuteReq,
+    // request: data => userAddOrEditReq(isCreate ? null : userItem.user_id, data),
     // getData(data) {
-    //   const { user_id, ...params } = data
+    //   const { avatar_url, ...rest } = data
     //   return {
-    //     ...params,
-    //     user_ids: [user_id],
+    //     ...rest,
+    //     avatar_url: getPathFromUrlArray(avatar_url),
+    //     // 如果是修改用户，body 里 user_id 传 null，user_id 放到 url path中。反之，创建用户，user_id 放到 body 中
+    //     user_id: isCreate ? data.user_id : undefined,
     //   }
-    // },
+    // }
     option: {
       global: {
         '*': {
           wrap: {
-            labelCol: { span: 7 },
+            labelCol: { span: 5 },
           },
         },
       },
@@ -160,7 +171,7 @@ async function onAddItem(item = {}) {
   }
 
   createDialog({
-    title: isCreate ? '新增会员分组' : '编辑会员分组',
+    title: isCreate ? '新增预警' : '编辑预警',
     width: 500,
     component:
       <ModalForm        
@@ -168,13 +179,14 @@ async function onAddItem(item = {}) {
         v-model={item}
         {...formModalProps}
       />
-      ,
-    onConfirm(status) {
-      if (status) {
-        const current = dataSource.value.find(item2 => item2.group_name === item.group_name)
-        if (current) {
-          // Save data code here
-        }
+    ,
+    onConfirm() {
+      if (isCreate) {
+        pagination.page = 1
+        pagination.total = 0
+        props.resetSearch()
+      } else {
+        refresh()
       }
     },
   })

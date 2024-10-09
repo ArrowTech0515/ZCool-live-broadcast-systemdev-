@@ -17,6 +17,10 @@
           <groupManagement />
       </a-tab-pane>
 
+      <a-tab-pane key="5" tab="用户预警">
+          <warningManagement />
+      </a-tab-pane>
+
     </a-tabs>
   </template>
   
@@ -27,6 +31,7 @@
   import starManagement from './star/index.vue'; // junn
   import hierarchyManagement from './hierarchy/index.vue'; // junn
   import groupManagement from './group/index.vue'; // junn
+  import warningManagement from './warning/index.vue'; // junn
   
   export default {
     components: {
@@ -35,7 +40,8 @@
       userlistManagement,
       starManagement,
       hierarchyManagement,
-      groupManagement
+      groupManagement,
+      warningManagement
     }
   }
   </script>

@@ -233,7 +233,6 @@
               :dataSource="tableData"
               rowKey="id"
               :pagination="false"
-              bordered
             />
           </a-card>
 
@@ -252,7 +251,6 @@
               :dataSource="tableData2"
               rowKey="id"
               :pagination="false"
-              bordered
             />
           </a-card>
         </div>
@@ -637,14 +635,7 @@ const removeTableData2 = (index) => {
 
 /* Apply padding removal only to the table body cells, except the last column */
 :deep(.no-padding-table .ant-table-tbody > tr > td ) {
-  padding: 0 !important; /* Adjust padding for body cells, excluding the last column */
-}
-
-/* Ensure content inside table body cells is aligned and uses flex, except the last column */
-:deep(.no-padding-table .ant-table-tbody > tr > td .ant-table-cell-inner) {
-  padding: 0 !important;
-  display: flex;
-  align-items: center;
+  padding: 0 1px !important; /* Adjust padding for body cells, excluding the last column */
 }
 
 /* Keep the header padding intact */

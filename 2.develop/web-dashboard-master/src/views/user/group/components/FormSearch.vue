@@ -1,5 +1,5 @@
 <template>
-  <a-card style=" margin-bottom: 1%; ">
+  <SearchPanel>
     <a-row :gutter="16" :type="flex" style=" align-items: center; margin-bottom: -20px;">
 
       <a-col :flex="auto" style="margin-left: 3%; margin-right: 15px;">
@@ -29,11 +29,10 @@
       </a-col>
 
     </a-row>
-  </a-card>
+  </SearchPanel>
 </template>
 
 <script setup lang="jsx">
-import { ref, computed } from 'vue'
 // const params = defineModel()
 // const data = reactive({
 //   merch_id: 0,
