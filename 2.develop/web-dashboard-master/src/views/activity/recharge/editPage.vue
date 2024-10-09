@@ -139,8 +139,9 @@
 
         <div class="form-item">
           <div class="label">活动时间</div>
-          <div class="input-container">
+          <div style="display: flex; width: 100%;">
             <a-range-picker 
+              style="flex: auto;"
               :placeholder="['开始日期', '结束日期']"
               v-model:range="formData.activityTime"
               :disabled="isPermanent" 
@@ -217,22 +218,41 @@
         <!-- First Table: Rebate Level Settings -->
         <div style="margin-bottom: 24px;">
           <div class="label">赠送门槛及内容</div>
-          <a-card>
+          <a-card style="margin-bottom: 1%;">
             <a-row class="mb10" justify="space-between">
               <h3 style="margin-bottom: 10px; font-size: 14px; font-weight: bold;">
                 消费钻石赠送
               </h3>
-              <a-button type="primary" style="margin-left: 32px;" @click="addRebateLevel">
+              <a-button type="default" style="margin-left: 32px;" @click="addTableData">
                 添加
               </a-button>
             </a-row>
             <a-table
-              :columns="rebateColumns"
-              :dataSource="rebateData"
+              class="no-padding-table "
+              :columns="tableColumn"
+              :dataSource="tableData"
               rowKey="id"
               :pagination="false"
               bordered
-              style="margin-bottom: 8px; margin-left: 16px;"
+            />
+          </a-card>
+
+          <a-card>
+            <a-row class="mb10" justify="space-between">
+              <h3 style="margin-bottom: 10px; font-size: 14px; font-weight: bold;">
+                余额充值赠送
+              </h3>
+              <a-button type="default" style="margin-left: 32px;" @click="addTableData2">
+                添加
+              </a-button>
+            </a-row>
+            <a-table
+              class="no-padding-table "
+              :columns="tableColumn2"
+              :dataSource="tableData2"
+              rowKey="id"
+              :pagination="false"
+              bordered
             />
           </a-card>
         </div>
@@ -284,6 +304,8 @@ import { message } from 'ant-design-vue'
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue'
 import contentConfigRule from '../contentConfigRule'
 import ModalForm from '@/components/Form/ModalForm/ModalForm.vue'
+import EditableCell from '@/components/Form/EditableCell.vue';
+import EditableNumCell from '@/components/Form/EditableNumCell.vue';
 
 const props = defineProps({
   formData: {
@@ -438,28 +460,49 @@ async function onContentConfig() {
       }
     },
   })
+}
 
-  
 const onInternalJump = (formData) => {}
 
 const onExternalJump = () => {}
 
   // Table processing part
   // Rebate Level Data
-const rebateData = reactive([
-  { id: 1, diamond_consumption_threshold: 1, gift_diamonds: 3, gift_balance: 1.2 }
+const tableData = reactive([
+  { id: 1, diamond_consumption_threshold: 200, gift_diamonds: 1, gift_balance: 1, gift_nobles: '国王(25天)', gift_mounts: '跑车(23天)'}
 ])
 
-const rebateColumns = [
-  { title: '消费钻石门槛', dataIndex: 'diamond_consumption_threshold', key: 'diamond_consumption_threshold', align: 'center',
+// Editable columns for the first table
+const tableColumn = [
+  { 
+    title: '消费钻石门槛', dataIndex: 'diamond_consumption_threshold', key: 'diamond_consumption_threshold', align: 'center', 
+    customRender: ({ record }) => {
+      return <EditableNumCell modelValue={record.diamond_consumption_threshold}/>
+    }
   },
-  { title: '赠送钻石', dataIndex: 'gift_diamonds', key: 'gift_diamonds', align: 'center',
+  { 
+    title: '赠送钻石', dataIndex: 'gift_diamonds', key: 'gift_diamonds', align: 'center', 
+    customRender: ({ record }) => {
+      return <EditableNumCell modelValue={record.gift_diamonds}/>
+    }
   },
-  { title: '赠送余额', dataIndex: 'gift_balance', key: 'gift_balance', align: 'center',
+  { 
+    title: '赠送余额', dataIndex: 'gift_balance', key: 'gift_balance', align: 'center',
+    customRender: ({ record }) => {
+      return <EditableNumCell modelValue={record.gift_balance}/>
+    }
   },
-  { title: '赠送贵族', dataIndex: 'gift_nobles', key: 'gift_nobles', align: 'center',
+  { 
+    title: '赠送贵族', dataIndex: 'gift_nobles', key: 'gift_nobles', align: 'center',
+    customRender: ({ record }) => {
+      return <EditableCell modelValue={record.gift_nobles}/>
+    }
   },
-  { title: '赠送坐骑', dataIndex: 'gift_mounts', key: 'gift_mounts', align: 'center',
+  { 
+    title: '赠送坐骑', dataIndex: 'gift_mounts', key: 'gift_mounts', align: 'center',
+    customRender: ({ record }) => {
+      return <EditableCell modelValue={record.gift_mounts}/>
+    }
   },
   {
     title: '操作',
@@ -468,7 +511,7 @@ const rebateColumns = [
     align: 'center',
     customRender: ({ index }) => {
       return (
-        <a onClick={() => removeRebateLevel(index)} style="text-decoration: underline; color: red; cursor: pointer;">
+        <a onClick={() => removeTableData(index)} style="text-decoration: underline; color: red; cursor: pointer;">
           删除
         </a>
       )
@@ -476,54 +519,140 @@ const rebateColumns = [
   }
 ]
 
-
-async function addRebateLevel() {
-
-  const fApi = ref(null)
-  const formValue = ref({ // Initialize formValue with rowData if editing
-    diamond_consumption_threshold: '',
-    gift_diamonds: '',
-    gift_balance: '',
+async function addTableData() {
+  tableData.push({ 
+    id: tableData.length + 1, 
+    // diamond_consumption_threshold: 22, 
+    // gift_diamonds: 11, 
+    // gift_balance: 22 
   })
 
-  const formModalProps = {
-    // request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
-    // getData(data) {
-    //   return {
-    //     ...data,
-    //     // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
-    //     merch_id: isCreate ? data.merch_id : undefined,
-    //   }
-    // },
-    rule: useAddRebateLevelRule(fApi),
-  }
+  // const fApi = ref(null)
+  // const formValue = ref({ // Initialize formValue with rowData if editing
+  //   diamond_consumption_threshold: '',
+  //   gift_diamonds: '',
+  //   gift_balance: '',
+  // })
+
+  // const formModalProps = {
+  //   // request: data => merchantAddOrEditReq(isCreate ? null : merch_id, data),
+  //   // getData(data) {
+  //   //   return {
+  //   //     ...data,
+  //   //     // 如果是修改商户，body 里 merch_id 传 null，merch_id 放到 url path中。反之，创建用户，merch_id 放到 body 中
+  //   //     merch_id: isCreate ? data.merch_id : undefined,
+  //   //   }
+  //   // },
+  //   rule: useAddRebateLevelRule(fApi),
+  // }
       
-  createDialog({
-    title: '新增等级',
-    width: 500,
-    component:
-      <ModalForm
-        v-fApi:value={fApi.value}
-        v-model={formValue.value}
-        {...formModalProps}
-      />
-    ,
-    onConfirm() {
-      rebateData.push({ id: rebateData.length + 1, diamond_consumption_threshold: formValue.value.diamond_consumption_threshold, gift_diamonds: formValue.value.gift_diamonds, gift_balance: formValue.value.gift_balance })
-    },
+  // createDialog({
+  //   title: '新增等级',
+  //   width: 500,
+  //   component:
+  //     <ModalForm
+  //       v-fApi:value={fApi.value}
+  //       v-model={formValue.value}
+  //       {...formModalProps}
+  //     />
+  //   ,
+  //   onConfirm() {
+  //     rebateData.push({ id: rebateData.length + 1, diamond_consumption_threshold: formValue.value.diamond_consumption_threshold, gift_diamonds: formValue.value.gift_diamonds, gift_balance: formValue.value.gift_balance })
+  //   },
+  // })
+}
+
+const removeTableData = (index) => {
+  // We have to add API function
+  tableData.splice(index, 1)
+}  // Rebate Level Data
+const tableData2 = reactive([
+  { id: 1, balance_recharge_gift: 200, gift_diamonds: 1, gift_balance: 1, gift_nobles: '国王(25天)', gift_mounts: '跑车(23天)'}
+])
+
+const tableColumn2 = [
+  { 
+    title: '余额充值赠送', dataIndex: 'balance_recharge_gift', key: 'balance_recharge_gift', align: 'center',
+    customRender: ({ record }) => {
+      return <EditableNumCell modelValue={record.balance_recharge_gift}/>
+    }
+  },
+  { 
+    title: '赠送钻石', dataIndex: 'gift_diamonds', key: 'gift_diamonds', align: 'center',
+    customRender: ({ record }) => {
+      return <EditableNumCell modelValue={record.gift_diamonds}/>
+    }
+  },
+  { 
+    title: '赠送余额', dataIndex: 'gift_balance', key: 'gift_balance', align: 'center',
+    customRender: ({ record }) => {
+      return <EditableNumCell modelValue={record.gift_balance}/>
+    }
+  },
+  { 
+    title: '赠送贵族', dataIndex: 'gift_nobles', key: 'gift_nobles', align: 'center',
+    customRender: ({ record }) => {
+      return <EditableCell modelValue={record.gift_nobles}/>
+    }
+  },
+  { 
+    title: '赠送坐骑', dataIndex: 'gift_mounts', key: 'gift_mounts', align: 'center',
+    customRender: ({ record }) => {
+      return <EditableCell modelValue={record.gift_mounts}/>
+    }
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    key: 'action',
+    align: 'center',
+    customRender: ({ index }) => {
+      return (
+        <a onClick={() => removeTableData2(index)} style="text-decoration: underline; color: red; cursor: pointer;">
+          删除
+        </a>
+      )
+    }
+  }
+]
+
+async function addTableData2() {
+
+  tableData2.push({ 
+    id: tableData2.length + 1, 
+    // balance_recharge_gift: 22, 
+    // gift_diamonds: 11, 
+    // gift_balance: 22 
   })
 }
 
-const removeRebateLevel = (index) => {
-
+const removeTableData2 = (index) => {
   // We have to add API function
-  rebateData.splice(index, 1)
-  }
+  tableData2.splice(index, 1)
 }
 
 </script>
 
 <style scoped>
+
+/* Apply padding removal only to the table body cells, except the last column */
+:deep(.no-padding-table .ant-table-tbody > tr > td ) {
+  padding: 0 !important; /* Adjust padding for body cells, excluding the last column */
+}
+
+/* Ensure content inside table body cells is aligned and uses flex, except the last column */
+:deep(.no-padding-table .ant-table-tbody > tr > td .ant-table-cell-inner) {
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+}
+
+/* Keep the header padding intact */
+:deep(.no-padding-table .ant-table-thead > tr > th.ant-table-cell) {
+  padding: 8px; /* Use the default or custom padding for header cells */
+}
+
+
 .card-header {
   display: flex;
   align-items: center;
@@ -601,7 +730,7 @@ const removeRebateLevel = (index) => {
 }
 
 .input-address {
-  width: 60%;
+  flex: 1;
 }
 
 .link-button {
@@ -706,4 +835,5 @@ const removeRebateLevel = (index) => {
 .save-button {
   width: 200px;
 }
+
 </style>

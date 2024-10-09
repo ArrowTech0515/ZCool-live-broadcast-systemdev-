@@ -111,6 +111,7 @@
 
 <script setup lang="jsx">
 import { ref, computed } from 'vue'
+import useVerificationRule from './useVerificationRule';
 
 // Success, failed, rejected, and pending amounts
 const successAmount = ref(514469)
@@ -220,9 +221,53 @@ const exportPaymentMethods = () => {
   console.log('Exporting payment methods...');
 };
 
-const setupValidator = () => {
-  console.log('Toggling verification settings...');
-};
+
+// Dialog for blocking users
+const { createDialog } = useDialog();
+
+// Dialog for editing items
+async function setupValidator() {
+  const formValue = ref({
+
+  });
+
+  const fApi = ref(null);
+  const use_verification_rule = useVerificationRule(fApi);
+  const formModalProps = reactive({
+    request: (data) => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data;
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      };
+    },
+    option: {
+      global: {
+        '*': {
+          wrap: {
+            labelCol: { span: 5 },
+          },
+        },
+      },
+    },
+    rule: use_verification_rule,
+  });
+
+  createDialog({
+    title: '请输入谷歌验证码',
+    width: 400,
+    component: (
+      <ModalForm v-model={formValue.value} v-model:fApi={fApi.value} {...formModalProps} />
+    ),
+    onConfirm() {
+      pagination.page = 1;
+      pagination.total = 0;
+      props.resetSearch();
+    },
+  });
+}
+
 </script>
 
 <style scoped>
