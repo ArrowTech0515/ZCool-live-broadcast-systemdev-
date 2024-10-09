@@ -118,9 +118,9 @@ const rule = ref([
     type: 'select',
     field: 'status',
     title: '状态',
+    options: Object.keys(ENUM.discount_status).map(key => ({ label: ENUM.discount_status[key], value: parseInt(key) })),
     props: {
       mode: 'multiple',  // Enable multi-select
-      options: Object.keys(ENUM.discount_status).map(key => ({ label: ENUM.discount_status[key], value: parseInt(key) })),
       placeholder: '请选择状态',
     },
   },

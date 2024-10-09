@@ -1,5 +1,5 @@
 <template>
-  <a-card class="mb15">
+  <SearchPanel>
     <div class="__table_form_search_component">
       <form-create
         v-model:api="fApi"
@@ -22,7 +22,7 @@
         </template>
       </form-create>
     </div>
-  </a-card>
+  </SearchPanel>
 </template>
 
 <script setup>
@@ -78,6 +78,15 @@ const rule = ref([
     title: '策略状态',
     value: 1,
     options: Object.keys(ENUM.strategy_status).map(key => ({ value: parseInt(key), label: ENUM.strategy_status[key] })),
+  },
+  {
+    type: 'input',
+    field: 'member_group',
+    title: '会员分组',
+    value: '',
+    props: {
+      placeholder: '请输入会员分组', // Add placeholder
+    },
   },
   {
     type: 'rangePicker',

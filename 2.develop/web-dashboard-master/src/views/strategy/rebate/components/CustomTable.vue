@@ -1,29 +1,33 @@
 <template>
-    <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
-      <a-table
-        rowKey="id"
-        :pagination="false"
-        :dataSource="paginatedData"
-        :columns="columns"
-        :loading="loading"
-        :scroll="{ x: 'max-content' }"
-      />
-    </div>
+  <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
+    <a-table
+      rowKey="id"
+      :pagination="false"
+      :dataSource="paginatedData"
+      :columns="columns"
+      :loading="loading"
+      :scroll="{ x: 'max-content' }"
+      :row-selection="{
+        selectedRowKeys: selectedRowKeys,
+        onChange: selectedRowKeys = $event,
+      }"
+    />
+  </div>
 
-    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-      <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
-      <a-pagination
-        v-model:current="pagination.page"
-        :total="pagination.total"
-        :page-size="pagination.limit"
-        show-size-changer
-        :page-size-options="['5', '10', '20', '50', '100']"
-        :simple="false"
-        size="small"
-        @change="handlePageChange"
-        @show-size-change="handleSizeChange"
-      />
-    </div>
+  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+    <span style="margin-right: 8px;">共 {{ pagination.total }}条</span>
+    <a-pagination
+      v-model:current="pagination.page"
+      :total="pagination.total"
+      :page-size="pagination.limit"
+      show-size-changer
+      :page-size-options="['5', '10', '20', '50', '100']"
+      :simple="false"
+      size="small"
+      @change="handlePageChange"
+      @show-size-change="handleSizeChange"
+    />
+  </div>
 </template>
 
 <script setup lang="jsx">
@@ -32,6 +36,8 @@ import { getAnchorListReq } from '@/api/anchor'
 import { message } from 'ant-design-vue'
 
 const emit = defineEmits(['emit_editData', 'emit_apply', 'emit_delete'])
+
+const selectedRowKeys = ref([]);
 
 const props = defineProps({
   searchParams: {
@@ -82,6 +88,7 @@ const centeredStyle = { textAlign: 'center' }
 
 const dataSource = ref([
   {
+    id: 1,
     strategy_id: '100104',
     strategy_name: 'VIP专属返水',
     member_group: '高价值会员 | VIP会员',
@@ -97,6 +104,7 @@ const dataSource = ref([
     action: { edit: true, apply: true, delete: true }
   },
   {
+    id: 2,
     strategy_id: '100103',
     strategy_name: '黄金会员返水',
     member_group: '黄金会员',
@@ -112,6 +120,7 @@ const dataSource = ref([
     action: { edit: true, apply: true, delete: true }
   },
   {
+    id: 3,
     strategy_id: '100102',
     strategy_name: '白银会员返水',
     member_group: '白银会员',
@@ -127,6 +136,7 @@ const dataSource = ref([
     action: { edit: true, apply: true, delete: true }
   },
   {
+    id: 4,
     strategy_id: '100101',
     strategy_name: '新手会员返水',
     member_group: null,
@@ -157,29 +167,29 @@ const columns = [
     customRender: ({ record }) => <div style={centeredStyle}>{record.strategy_name}</div>
   },
   {
-  title: '会员分组',
-  dataIndex: 'member_group',
-  align: 'center',
-  customRender: ({ record }) => {
-    const groups = record.member_group?.split('|') || []
-    console.log("id : " + record.strategy_id)
-    console.log("groups : " + groups.length)
-    if (!groups.length) 
-      return null
+    title: '会员分组',
+    dataIndex: 'member_group',
+    align: 'center',
+    customRender: ({ record }) => {
+      const groups = record.member_group?.split('|') || []
+      console.log("id : " + record.strategy_id)
+      console.log("groups : " + groups.length)
+      if (!groups.length) 
+        return null
 
-    return (
-      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 5px;"> 
-        {groups.map((group, index) => (
-          <span 
-          key="index"
-           style="font-size: 12px; background-color: grey; color: #fbfbfb; 
-           text-align: center; padding: 3px; margin: 0; word-wrap: break-word; white-space: normal;
-           border-radius: 2% 40%;">
-              {group}
-            </span>
-      
-        ))}
-      </div>
+      return (
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 5px;"> 
+          {groups.map((group, index) => (
+            <span 
+            key="index"
+            style="font-size: 12px; background-color: grey; color: #fbfbfb; 
+            text-align: center; padding: 3px; margin: 0; word-wrap: break-word; white-space: normal;
+            border-radius: 2% 40%;">
+                {group}
+              </span>
+        
+          ))}
+        </div>
       );
     }
   },
@@ -248,15 +258,23 @@ const columns = [
     align: 'center',
     fixed: 'right',
     customRender: ({ record }) => (
-      <div style={centeredStyle}>
-        <span 
-          style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
-          onClick={() => on_Add_Edit(record)}>
-          编辑</span>
-        <span style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;"
-          onClick={() => onApply(record)}>应用</span>
-        <span style="text-decoration: underline;color: red; margin-right: 12px; cursor: pointer;"
-          onClick={() => onDelete(record)}>删除</span>
+      <div>
+        <div style={centeredStyle}>
+          <span 
+            style="text-decoration: underline;color: green; margin-right: 12px; cursor: pointer;" 
+            onClick={() => on_Add_Edit(record)}>
+            编辑</span>
+          {/* <span style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;"
+            onClick={() => onApply(record)}>应用</span> */}
+          <span style="text-decoration: underline;color: red; cursor: pointer;"
+            onClick={() => onDelete(record)}>删除</span>
+        </div>
+        <div style={centeredStyle}>
+          <span style="text-decoration: underline;color: #1890ff; margin-right: 12px; cursor: pointer;"
+            onClick={() => onApply(record)}>返水比例与最高返水</span>
+          <span style="text-decoration: underline;color: #1890ff; cursor: pointer;"
+            onClick={() => onApply(record)}>设置会员分组</span>
+        </div>
       </div>
     )
   }
