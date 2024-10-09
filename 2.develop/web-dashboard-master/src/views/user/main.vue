@@ -17,7 +17,11 @@
           <groupManagement />
       </a-tab-pane>
 
-      <a-tab-pane key="5" tab="用户预警">
+      <a-tab-pane key="5" tab="异常资金记录">
+          <abnormalfundrecordManagement />
+      </a-tab-pane>
+
+      <a-tab-pane key="6" tab="用户预警">
           <warningManagement />
       </a-tab-pane>
 
@@ -32,6 +36,7 @@
   import hierarchyManagement from './hierarchy/index.vue'; // junn
   import groupManagement from './group/index.vue'; // junn
   import warningManagement from './warning/index.vue'; // junn
+  import abnormalfundrecordManagement from './abnormalfundrecord/index.vue'; // junn
   
   export default {
     components: {
@@ -41,7 +46,8 @@
       starManagement,
       hierarchyManagement,
       groupManagement,
-      warningManagement
+      warningManagement,
+      abnormalfundrecordManagement
     }
   }
   </script>

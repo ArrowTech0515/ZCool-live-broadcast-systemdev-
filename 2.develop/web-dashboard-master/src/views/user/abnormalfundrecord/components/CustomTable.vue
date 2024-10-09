@@ -1,14 +1,14 @@
 <template>
   <a-table :data-source="paginatedData" :pagination="false">
     <a-table-column title="会员账号" dataIndex="member_account" key="member_account" align="center" />
-    <a-table-column title="金额" dataIndex="amount" key="amount" align="center"/>
-    <a-table-column title="盈利金额" dataIndex="profit_amount" key="profit_amount" align="center" />
-    <a-table-column title="是否预警" dataIndex="whether_alert" key="whether_alert" align="center" />
-    <a-table-column title="预警有效期" dataIndex="validity_period" key="validity_period" align="center" />
-    <a-table-column title="备注" dataIndex="remarks" key="remarks" align="center"/>
-    <a-table-column title="添加时间" dataIndex="added_time" key="added_time" align="center"/>
-    <a-table-column title="更新时间" dataIndex="updated_time" key="updated_time" align="center"/>  
-    <a-table-column title="操作" dataIndex="operate" key="operate" align="center">
+    <a-table-column title="会员分组" dataIndex="member_group" key="member_group" align="center"/>
+    <a-table-column title="订单号" dataIndex="order_number" key="order_number" align="center" />
+    <a-table-column title="增减金额" dataIndex="inc_dec_amount" key="inc_dec_amount" align="center" />
+    <a-table-column title="积分" dataIndex="points" key="points" align="center" />
+    <a-table-column title="备注" dataIndex="remark" key="remark" align="center"/>
+    <a-table-column title="处理时间" dataIndex="process_time" key="process_time" align="center"/>
+    <a-table-column title="备注" dataIndex="remark2" key="remark2" align="center"/>  
+    <a-table-column title="操作管理员" dataIndex="operate_admin" key="operate_admin" align="center">
       <template #default="{ record }">
         <span style="text-decoration: underline; color: #1890ff; margin-right: 12px; cursor: pointer;" @click="onAddItem(record)">编辑</span>
         <a-popconfirm title='确定删除当前分组吗？' @confirm="() => onDelItem(record)">
@@ -38,6 +38,7 @@
 
 import { getUserGroupListReq } from '@/api/usergroup';
 import useAddWarningRule from '../hooks/useAddWarningRule';
+import useExportCSVRule from '../hooks/useExportCSVRule';
 
 const { createDialog } = useDialog()
 
@@ -80,26 +81,14 @@ const dataSource = ref([
   {
     key: 1,
     member_account: '98io90',
-    amount: 100.00,
-    profit_amount: 50.00,
-    whether_alert: 2,
-    validity_period: '30天',
-    remarks: '-',
-    added_time: '2024-8-19 10:01',
-    updated_time: '2024-8-19 10:01',
-    // operate: '编辑 删除',
-  },
-  {
-    key: 2,
-    member_account: '100io90',
-    amount: 10.00,
-    profit_amount: 70.00,
-    whether_alert: 3,
-    validity_period: '30天',
-    remarks: '-',
-    added_time: '2024-8-19 10:01',
-    updated_time: '2024-8-19 10:01',
-    // operate: '编辑 删除',
+    member_group: 'KY一组',
+    order_number: '2024iu90098',
+    inc_dec_amount: 2000.00,
+    points: 1,
+    remark: 1,
+    process_time: '2024-08-20 18:07:30',
+    remark2: '测试',
+    // operate_admin: '编辑 删除',
   },
 ]);
 
@@ -115,6 +104,15 @@ const paginatedData = computed(() => {
   const end = start + pageSize.value;
   return dataSource.value.slice(start, end);
 });
+
+const handlePageChange = (page) => {
+  currentPage.value = page
+}
+
+const handleSizeChange = (current, size) => {
+  pageSize.value = size
+  currentPage.value = 1 // Reset to the first page when page size changes
+}
 
 async function onAddItem(item = {}) {
   const isCreate = !item.member_account
@@ -168,7 +166,7 @@ async function onAddItem(item = {}) {
   }
 
   createDialog({
-    title: isCreate ? '新增预警' : '编辑预警',
+    title: isCreate ? '新增异常资金记录' : '编辑异常资金记录',
     width: 500,
     component:
       <ModalForm        
@@ -189,36 +187,61 @@ async function onAddItem(item = {}) {
   })
 }
 
-const onDelItem = (item) => {
-
-  console.log("onDelItem : " + 1)
-
-  // loading.value = true;
-  delMessageReq({
-    message_ids: item.msg_id,
+async function exportCSV() {
+  const formValue = ref({
+    // agent_mode: null,
+    // agent_id: null,
   })
-  .then(() => {
-    // loading.value = false;
-    pagination.page = 1
-    pagination.total = 0
-    props.resetSearch()
-  })
-  .catch(() => {
-    // loading.value = false;
-  })
-}
 
-const handlePageChange = (page) => {
-  currentPage.value = page
-}
+  const fApi = ref(null)
+  const exportCSVRule = useExportCSVRule(false, true, fApi)
 
-const handleSizeChange = (current, size) => {
-  pageSize.value = size
-  currentPage.value = 1 // Reset to the first page when page size changes
+  console.log("导出CSV : fApi = " + fApi.value)
+  
+  const formModalProps = reactive({
+    request: data => anchorAddOrEditReq(null, data),
+    getData(data) {
+      const { avatar_url, ...rest } = data
+      return {
+        ...rest,
+        avatar_url: getPathFromUrlArray(avatar_url),
+      }
+    },
+    option: {
+      global: {
+        '*': {
+          wrap: {
+            labelCol: { span: 5 },
+          },
+        },
+      },
+    },
+    rule: exportCSVRule,
+  })
+
+  // console.log("user_id: " + formValue.user_id)
+
+  createDialog({
+    title: '导出CSV',
+    width: 500,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
+    onConfirm() {
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
+    },
+  })
 }
 
 defineExpose({
-  onAddItem,
+  exportCSV
 })
 
 </script>

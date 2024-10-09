@@ -2,24 +2,17 @@
   <SearchPanel>
     <a-row :gutter="16" :type="flex" style=" align-items: center; margin-bottom: -20px;">
 
-      <a-col :flex="auto" style="margin-left: 3%; margin-right: 15px;">
+      <a-col :flex="auto" style="margin-left: 3%;">
         <a-form-item label="分组名称">
           <a-input v-model:value="group_name" placeholder="请输入分组名称" />
         </a-form-item>
       </a-col>
       
-      <a-col :flex="auto" style="margin-right: 10px;">
-        <a-form-item>
-          <a-button type="primary" block @click="onSearch">
-            <SearchOutlined /> 查询</a-button>
-        </a-form-item>
-      </a-col>
-    
       <a-col :flex="auto">
-        <a-form-item>
-          <a-button block @click="onReset">
-            <ReloadOutlined /> 重置</a-button>
-        </a-form-item>
+        <QueryButtonGroup  
+          :reset-form="resetForm" 
+          :submit-form="submitForm"
+        />
       </a-col>
       
       <a-col :flex="auto" style="margin-left: auto; margin-right: 1%;">
@@ -60,12 +53,7 @@ function submitForm() {
   })
 }
 
-const onSearch = () => {
-  // Implement search logic
-  submitForm()
-}
-
-const onReset = () => {
+const resetForm = () => {
   group_name.value = ''
   // Implement reset logic
 }
