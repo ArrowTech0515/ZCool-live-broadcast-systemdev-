@@ -45,7 +45,7 @@ const tableData = ref([
   { number: 3910, payment_method: '合泰代付', key: 2 },
   { number: 4706, payment_method: '容易付09', key: 3 },
   { number: 4568, payment_method: '秒付代付', key: 4 },
-  { number: 3797, payment_method: '八达通代仁', key: 5 },
+  { number: 3797, payment_method: '八达通代付', key: 5 },
   { number: 4294, payment_method: '永信代付', key: 6 },
   { number: 4597, payment_method: '容易付05', key: 7 },
   { number: 6108, payment_method: '容易付01', key: 8 },
