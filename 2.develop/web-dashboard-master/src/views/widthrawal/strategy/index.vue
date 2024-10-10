@@ -1,7 +1,7 @@
 <template>
   <transition name="fade-slide" mode="out-in">
     <div v-if="!showAddStrategy">
-      <a-card style="margin-bottom: 1%">
+      <SearchPanel>
         <a-row :gutter="16" type="flex" justify="end"  style="margin-bottom: -20px;">
           <a-col :flex="1" v-for="(field, index) in inputFields" :key="index">
             <a-form-item :label="field.label">
@@ -31,7 +31,7 @@
             </a-form-item>
           </a-col>
         </a-row>
-      </a-card>
+      </SearchPanel>
 
         <a-table :data-source="paginatedData" :pagination="false" :scroll="{ x: 'max-content' }">
           <template v-for="column in tableColumns" :key="column.key">
@@ -202,8 +202,8 @@ const paginatedData = computed(() => {
 
 const strategyID = ref('');
 const strategyName = ref('');
-const withdrawOption = ref('all');
-const strategyStatus = ref('all');
+const withdrawOption = ref(1);
+const strategyStatus = ref(1);
 const dateRange = ref(null);
 
 const inputFields = [
@@ -213,13 +213,10 @@ const inputFields = [
     label: '区块链提现',
     type: 'a-select',
     model: withdrawOption,
+    value: 1, // Default to 'all'
     props: {
-      options: [
-        { label: '全部', value: 'all' },
-        { label: '是', value: 'yes' },
-        { label: '否', value: 'no' },
-      ],
-    },
+      options: Object.keys(ENUM.yes_no).map(key => ({ label: ENUM.yes_no[key], value: parseInt(key) })),
+    }
   },
   {
     label: '状态',
@@ -227,9 +224,9 @@ const inputFields = [
     model: strategyStatus,
     props: {
       options: [
-        { label: '全部状态', value: 'all' },
-        { label: '启用', value: 'enabled' },
-        { label: '关闭', value: 'disabled' },
+        { label: '全部状态', value: 1 },
+        { label: '启用', value: 2 },
+        { label: '关闭', value: 3 },
       ],
     },
   },
@@ -263,8 +260,8 @@ const onSearch = () => {};
 const onReset = () => {
   strategyID.value = '';
   strategyName.value = '';
-  withdrawOption.value = 'all';
-  strategyStatus.value = 'all';
+  withdrawOption.value = 1;
+  strategyStatus.value = 1;
   dateRange.value = null;
   currentPage.value = 1;
   pageSize.value = 5;

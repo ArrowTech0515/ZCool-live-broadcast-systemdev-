@@ -1,7 +1,7 @@
 <template>
   <transition name="fade-slide" mode="out-in">
     <div v-if="!showReviewPage">
-      <a-card style="margin-bottom: 1%">
+      <SearchPanel>
         <a-row :gutter="16" type="flex" justify="end"  style="margin-bottom: -20px;">
           <a-col :flex="1">
             <a-form-item label="提现订单号">
@@ -50,7 +50,7 @@
           </a-col>
           
         </a-row>
-      </a-card>
+      </SearchPanel>
 
       <a-table
         :data-source="paginatedData"

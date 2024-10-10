@@ -25,6 +25,10 @@
           <warningManagement />
       </a-tab-pane>
 
+      <a-tab-pane key="7" tab="返佣记录">
+          <rebateRecordManagement />
+      </a-tab-pane>
+
     </a-tabs>
   </template>
   
@@ -37,6 +41,7 @@
   import groupManagement from './group/index.vue'; // junn
   import warningManagement from './warning/index.vue'; // junn
   import abnormalfundrecordManagement from './abnormalfundrecord/index.vue'; // junn
+  import rebateRecordManagement from './rebateRecord/index.vue'; // junn
   
   export default {
     components: {
@@ -47,7 +52,8 @@
       hierarchyManagement,
       groupManagement,
       warningManagement,
-      abnormalfundrecordManagement
+      abnormalfundrecordManagement,
+      rebateRecordManagement
     }
   }
   </script>

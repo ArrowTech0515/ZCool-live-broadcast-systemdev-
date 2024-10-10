@@ -1,7 +1,7 @@
 <template>
   <transition name="fade-slide" mode="out-in">
     <div v-if="!showReviewPage">
-      <a-card style="margin-bottom: 1%">
+      <SearchPanel>
         <a-row :gutter="16" type="flex" justify="end"  style="margin-bottom: -20px;">
           <!-- First Column -->
 
@@ -56,7 +56,7 @@
             </a-form-item>
           </a-col>
         </a-row>
-      </a-card>
+      </SearchPanel>
 
         <a-table :data-source="paginatedData" :pagination="false" :scroll="{ x: 'max-content' }">
           <a-table-column title="提现订单号" dataIndex="withdrawOrderID" key="withdrawOrderID" align="center" />

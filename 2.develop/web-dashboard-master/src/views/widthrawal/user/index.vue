@@ -1,7 +1,7 @@
 <template>
   <transition name="fade-slide" mode="out-in">
     <div v-if="!showReviewPage">
-      <a-card style="margin-bottom: 1%">
+      <SearchPanel>
         <a-row :gutter="16" type="flex" justify="end"  style="margin-bottom: -20px;">
           <!-- First Column -->
           <a-col :flex="auto">
@@ -62,7 +62,7 @@
           </a-col>
         </a-row>
         
-      </a-card>
+      </SearchPanel>
 
         <!-- Updated table -->
         <a-table :data-source="paginatedData" :pagination="false" :scroll="{ x: 'max-content' }">
