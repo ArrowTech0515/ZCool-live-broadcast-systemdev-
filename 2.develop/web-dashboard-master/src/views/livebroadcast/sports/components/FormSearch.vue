@@ -1,5 +1,5 @@
 <template>
-  <a-card class="mb15">
+  <SearchPanel>
     <div class="__table_form_search_component">
       <form-create
         v-model:api="fApi"
@@ -21,7 +21,7 @@
         </template>
       </form-create>
     </div>
-  </a-card>
+  </SearchPanel>
 </template>
 
 <script setup>
@@ -55,10 +55,6 @@ const rule = ref([
     type: 'input',
     field: 'team_name',
     title: '球队名称',
-    value: '',
-    wrap: {
-      labelCol: { span: 10 },
-    },
     props: {
       placeholder: '请输入球队名称',
     },

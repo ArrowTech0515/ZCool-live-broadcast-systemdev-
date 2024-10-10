@@ -1,5 +1,5 @@
 <template>
-  <a-card style=" margin-bottom: 1%; ">
+  <SearchPanel>
     <a-row :gutter="16" :type="flex" style=" align-items: center; margin-bottom: -20px;">
 
       <a-col :span="4">
@@ -100,7 +100,7 @@
       </a-col>
 
     </a-row>
-  </a-card>
+  </SearchPanel>
 </template>
 
 <script setup lang="jsx">

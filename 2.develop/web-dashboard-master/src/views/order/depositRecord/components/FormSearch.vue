@@ -1,5 +1,5 @@
 <template>
-  <a-card class="mb15">
+  <SearchPanel>
     <div class="__table_form_search_component">
       <form-create
         v-model:api="fApi"
@@ -13,19 +13,19 @@
             :submit-form="submitForm"
           />
           <div class="flex1 flex_end mb24">
-            <AButton
-              class="same-width-button"
+            <a-button
               type="primary"
               @click="emit('emit_same_day')"
-            >当日</AButton>
-            <AButton
-              class="ml10 same-width-button"
+            >当日</a-button>
+            <a-button
+              class="ml10"
               type="primary"
               @click="emit('emit_previous_day')"
-            >上一日</AButton>
+            >上一日</a-button>
             <!-- Dropdown Button -->
             <a-dropdown>
-              <a-button class="ml10 same-width-button">
+              <a-button 
+                class="ml10">
                 更多 <DownOutlined />
               </a-button>
               <template #overlay>
@@ -40,7 +40,7 @@
         </template>
       </form-create>
     </div>
-  </a-card>
+  </SearchPanel>
 </template>
 
 <script setup>
@@ -71,9 +71,6 @@ const option = {
       col: {
         show: false,
       },
-      wrap: {
-        labelCol: { span: 8 },
-      },
     },
   },
 }
@@ -97,6 +94,9 @@ const rule = ref([
         ],
       },
     },
+    wrap: {
+      labelCol: { span: 8 },
+    },
   },
   {
     type: 'select',
@@ -115,6 +115,9 @@ const rule = ref([
           ...res.items.map(item => ({ value: item.source_id, label: item.source_name })),
         ],
       },
+    },
+    wrap: {
+      labelCol: { span: 8 },
     },
   },
   {
@@ -135,6 +138,9 @@ const rule = ref([
         ],
       },
     },
+    wrap: {
+      labelCol: { span: 8 },
+    },
   },
   {
     type: 'input',
@@ -143,6 +149,9 @@ const rule = ref([
     value: '',
     props: {
       placeholder: '请输入用户ID', // Add placeholder
+    },
+    wrap: {
+      labelCol: { span: 8 },
     },
   },
   {
@@ -153,14 +162,20 @@ const rule = ref([
     props: {
       placeholder: '请输入订单号', // Add placeholder
     },
+    wrap: {
+      labelCol: { span: 8 },
+    },
   },
   {
     type: 'select',
     field: 'order_status',
     title: '订单状态',
-    value: '',
+    value: 1,
     props: {
       placeholder: '全部', // Add placeholder
+    },
+    wrap: {
+      labelCol: { span: 8 },
     },
     options: Object.keys(ENUM.success_status).map(key => ({ value: parseInt(key), label: ENUM.success_status[key] })),
   },
@@ -168,8 +183,6 @@ const rule = ref([
     type: 'rangePicker',
     field: 'time',
     title: '时间',
-    value: '',
-    className: 'form-time-picker',
     props: {
       format: 'YYYY-MM-DD HH:mm:ss',
       valueFormat: 'X',
@@ -202,19 +215,5 @@ defineExpose({
 </script>
 
 <style scoped>
-.same-width-button {
-  width: 100px; /* Set a fixed width here */
-  text-align: center;
-}
-.flex1 {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-.flex_end {
-  gap: 10px; /* Adjust gap between buttons if needed */
-}
-.form-time-picker {
-  margin-left: -10px; /* Apply a small negative margin to bring it closer */
-}
+
 </style>

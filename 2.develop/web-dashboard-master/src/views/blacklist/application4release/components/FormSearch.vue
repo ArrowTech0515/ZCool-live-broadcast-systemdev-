@@ -1,5 +1,5 @@
 <template>
-  <a-card class="mb15">
+  <SearchPanel>
     <div class="__table_form_search_component">
       <form-create
         v-model:api="fApi"
@@ -15,7 +15,7 @@
         </template>
       </form-create>
     </div>
-  </a-card>
+  </SearchPanel>
 </template>
 
 <script setup>
@@ -40,9 +40,9 @@ const option = {
       col: {
         show: false,
       },
-      wrap: {
-        labelCol: { span: 8 },
-      },
+      // wrap: {
+      //   labelCol: { span: 8 },
+      // },
     },
   },
 }
@@ -56,6 +56,9 @@ const rule = ref([
     props: {
       placeholder: '请输入应用', // Add placeholder
     },
+    wrap: {
+      labelCol: { span: 8 },
+    },
   },
   {
     type: 'input',
@@ -64,6 +67,9 @@ const rule = ref([
     value: '',
     props: {
       placeholder: '请输入用户昵称', // Add placeholder
+    },
+    wrap: {
+      labelCol: { span: 8 },
     },
   },
   {
@@ -88,13 +94,15 @@ const rule = ref([
       options: Object.keys(ENUM.ban_status2).map(key => ({ label: ENUM.ban_status2[key], value: parseInt(key) })),
       placeholder: '请选择状态',
     },
+    wrap: {
+      labelCol: { span: 8 },
+    },
   },
   {
     type: 'rangePicker',
     field: 'time',
     title: '时间',
     value: '',
-    className: 'form-time-picker',
     props: {
       format: 'YYYY-MM-DD HH:mm:ss',
       valueFormat: 'X',
@@ -139,7 +147,5 @@ defineExpose({
 .flex_end {
   gap: 10px; /* Adjust gap between buttons if needed */
 }
-.form-time-picker {
-  margin-left: -10px; /* Apply a small negative margin to bring it closer */
-}
+
 </style>

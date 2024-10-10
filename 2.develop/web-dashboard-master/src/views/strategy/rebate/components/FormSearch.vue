@@ -46,9 +46,9 @@ const option = {
       col: {
         show: false,
       },
-      wrap: {
-        labelCol: { span: 8 },
-      },
+      // wrap: {
+      //   labelCol: { span: 8 },
+      // },
     },
   },
 }
@@ -62,6 +62,9 @@ const rule = ref([
     props: {
       placeholder: '请输入策略ID', // Add placeholder
     },
+    wrap: {
+      labelCol: { span: 8 },
+    },
   },
   {
     type: 'input',
@@ -71,6 +74,9 @@ const rule = ref([
     props: {
       placeholder: '请输入策略名称', // Add placeholder
     },
+    wrap: {
+      labelCol: { span: 8 },
+    },
   },
   {
     type: 'select',
@@ -78,6 +84,9 @@ const rule = ref([
     title: '策略状态',
     value: 1,
     options: Object.keys(ENUM.strategy_status).map(key => ({ value: parseInt(key), label: ENUM.strategy_status[key] })),
+    wrap: {
+      labelCol: { span: 8 },
+    },  
   },
   {
     type: 'input',
@@ -87,12 +96,14 @@ const rule = ref([
     props: {
       placeholder: '请输入会员分组', // Add placeholder
     },
+    wrap: {
+      labelCol: { span: 8 },
+    },
   },
   {
     type: 'rangePicker',
     field: 'created_time',
     title: '创建时间',
-    className: 'form-time-picker',
     props: {
       format: 'YYYY-MM-DD HH:mm:ss',
       valueFormat: 'X',
@@ -136,8 +147,5 @@ defineExpose({
 }
 .flex_end {
   gap: 10px; /* Adjust gap between buttons if needed */
-}
-.form-time-picker {
-  margin-left: -10px; /* Apply a small negative margin to bring it closer */
 }
 </style>

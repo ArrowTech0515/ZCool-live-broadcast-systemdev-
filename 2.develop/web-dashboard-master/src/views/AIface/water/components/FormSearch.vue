@@ -1,5 +1,5 @@
 <template>
-  <a-card class="mb15">
+  <SearchPanel>
     <div class="__table_form_search_component">
       <form-create
         v-model:api="fApi"
@@ -13,15 +13,15 @@
             :submit-form="submitForm"
           />
           <div class="flex1 flex_end mb24">
-             <AButton
-                type="primary"
-                @click="emit('emit_export')"
-              >导出CSV</AButton>
-            </div>
+            <AButton
+              type="primary"
+              @click="emit('emit_export')"
+            >导出CSV</AButton>
+          </div>
         </template>
       </form-create>
     </div>
-  </a-card>
+  </SearchPanel>
 </template>
 
 <script setup>
@@ -46,9 +46,9 @@ const option = {
       col: {
         show: false,
       },
-      wrap: {
-        labelCol: { span: 8 },
-      },
+      // wrap: {
+      //   labelCol: { span: 8 },
+      // },
     },
   },
 }
@@ -58,27 +58,33 @@ const rule = ref([
     type: 'input',
     field: 'room_number',
     title: '房间号',
-    value: '',
     props: {
       placeholder: '请输入房间号',
+    },
+    wrap: {
+      labelCol: { span: 8 },
     },
   },
   {
     type: 'input',
     field: 'anchor_nickname',
     title: '主播昵称',
-    value: '',
     props: {
       placeholder: '请输入主播昵称',
+    },
+    wrap: {
+      labelCol: { span: 8 },
     },
   },
   {
     type: 'input',
     field: 'face_name',
     title: '人脸名称',
-    value: '',
     props: {
       placeholder: '请输入人脸名称',
+    },
+    wrap: {
+      labelCol: { span: 8 },
     },
   },
   {
@@ -87,6 +93,9 @@ const rule = ref([
     title: '状态',
     value: 1,
     options: Object.keys(ENUM.face_water_status).map(key => ({ value: parseInt(key), label: ENUM.face_water_status[key] })),
+    wrap: {
+      labelCol: { span: 8 },
+    },
   },
   {
     type: 'rangePicker',
