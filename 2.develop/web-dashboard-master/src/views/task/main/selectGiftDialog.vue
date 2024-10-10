@@ -2,8 +2,8 @@
   <a-modal
     title="选择礼物"
     :open="isModalVisible"
-    maskClosable="false"
-    keyboard="false"
+    :maskClosable="false"
+    :keyboard="false"
     :footer="null"
     @update:open="updateVisible"
   >
@@ -29,8 +29,6 @@
 </template>
 
 <script setup lang="jsx">
-import { ref, defineProps, defineEmits } from 'vue';
-import { Modal, Button, Table } from 'ant-design-vue';
 
 const props = defineProps({
   isModalVisible: {

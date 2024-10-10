@@ -15,7 +15,7 @@
 import { Tabs } from 'ant-design-vue'
 
 import taskPage from './main/index.vue';
-import recordPage from './recordPage.vue';
+import recordPage from './record/index.vue';
 
 export default {
 components: {

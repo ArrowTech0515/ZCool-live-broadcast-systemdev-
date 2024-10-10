@@ -162,7 +162,7 @@ const rule = ref([
     props: {
       placeholder: '全部', // Add placeholder
     },
-    options: Object.keys(ENUM.order_status).map(key => ({ value: parseInt(key), label: ENUM.order_status[key] })),
+    options: Object.keys(ENUM.success_status).map(key => ({ value: parseInt(key), label: ENUM.success_status[key] })),
   },
   {
     type: 'rangePicker',

@@ -1,7 +1,5 @@
 <template>
-  <a-card style="margin-bottom: 1%;">
-    <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px;">查询表格</div>
-
+  <SearchPanel>
     <a-row :gutter="32" type="flex" style="margin-bottom: -20px;">
       <a-col :flex="1">
         <a-form-item label="用户账号">
@@ -15,7 +13,7 @@
         </a-form-item>
       </a-col>
 
-      <a-col :flex="auto">
+      <a-col :flex="1">
         <a-form-item label="日期">
           <a-range-picker 
             v-model:value="time"
@@ -29,7 +27,7 @@
         :submit-form="onSearch"/>
 
     </a-row>
-  </a-card>
+  </SearchPanel>
 
     <a-table 
     :data-source="paginatedData" 

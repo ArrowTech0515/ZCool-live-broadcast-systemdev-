@@ -36,82 +36,103 @@
   </a-card>
 
   <!-- Main Data Table -->
-    <a-table 
-      :columns="columns" 
-      :data-source="paginatedData"
-      :expandable="{ expandedRowRender }"
-      :pagination="false">
+  <a-table 
+    :columns="columns" 
+    :data-source="paginatedData"
+    :expandable="{ expandedRowRender }"
+    :pagination="false">
+    
+    <!-- Scoped Slot for Custom Column Rendering -->
+    <template #bodyCell="{ column, text, record }">
+      <!-- Render Multiline Text for '游戏ID' Column using sub-items -->
+      <span v-if="column.dataIndex === 'gameId'">
+        <span v-if="record.gameData">
+          <div>
+            <span>APP:</span> <span style="color: #1890ff;">{{ record.gameData.appId }}</span>
+          </div>
+          <div>
+            <span>游戏:</span> <span style="color: #1890ff;">{{ record.gameData.gameId }}</span>
+          </div>
+        </span>
+      </span>
+
+      <a-tag 
+        v-else-if="column.dataIndex === 'status'" 
+        :color="text === 2 ? 'green' : 'red'">
+        {{ ENUM.pass_status[text] }}
+      </a-tag>
       
-      <!-- Scoped Slot for Custom Column Rendering -->
-      <template #bodyCell="{ column, text, record }">
-        <!-- Render Multiline Text for '游戏ID' Column using sub-items -->
-        <span v-if="column.dataIndex === 'gameId'">
-          <span v-if="record.gameData">
-            <div>
-              <span>APP:</span> <span style="color: #1890ff;">{{ record.gameData.appId }}</span>
-            </div>
-            <div>
-              <span>游戏:</span> <span style="color: #1890ff;">{{ record.gameData.gameId }}</span>
-            </div>
-          </span>
+      <span v-else-if="column.dataIndex === 'transfer_status'">
+        <span :style="text === 2 ? 'color: green;' : 'color: red;'">
+          {{ ENUM.success_status[text] }}
         </span>
+      </span>
+      
+      <!-- Default Rendering for Other Columns -->
+      <span v-else>{{ text }}</span>
+    </template>
 
-        <a-tag v-else-if="column.dataIndex === 'status'" 
-               :color="text === '已通过' ? 'blue' : 'red'">
-          {{ text }}
-        </a-tag>
-        
-        <span v-else-if="column.dataIndex === 'transfer'">
-          <span :style="text === '完成' ? 'color: #1890ff;' : 'color: red;'">
-            {{ text }}
-          </span>
-        </span>
-        
-        <!-- Default Rendering for Other Columns -->
-        <span v-else>{{ text }}</span>
-      </template>
-
-      <!-- Expanded Row Render Template with Left Alignment -->
-      <template #expandedRowRender="{ record }">
-        <div class="expanded-row-content">
-          <div class="row">
-            <div class="cell">支付渠道: <span style="text-align: left;">{{ record.expandedData.channel }}</span></div>
-            <div class="cell">实名: <span style="text-align: left;">{{ record.expandedData.realName }}</span></div>
-            <div class="cell">账号/卡号: <span style="text-align: left;">{{ record.expandedData.accountNumber }}</span></div>
-          </div>
-          <div class="row">
-            <div class="cell">手续费: <span style="text-align: left;">{{ record.expandedData.fee }}</span></div>
-            <div class="cell">实际到账金额: <span style="text-align: left;">{{ record.expandedData.actualArrival }}</span></div>
-            <div class="cell">转账订单号: <span style="text-align: left;">{{ record.expandedData.transferOrder }}</span></div>
-          </div>
-          <div class="row">
-            <div class="cell">拒绝理由: <span style="text-align: left;">{{ record.expandedData.refuseReason }}</span></div>
-            <div class="cell">请求银行信息: <span style="text-align: left;">{{ record.expandedData.bankInfo }}</span></div>
-            <div class="cell">用户显示结果: <span style="text-align: left;">{{ record.expandedData.userDisplayResult }}</span></div>
-          </div>
+    <!-- Expanded Row Render Template with Left Alignment -->
+    <template #expandedRowRender="{ record }">
+      <div class="expanded-row-content">
+        <div class="row">
+          <div class="cell">支付渠道: <span style="text-align: left;">{{ record.expandedData.channel }}</span></div>
+          <div class="cell">实名: <span style="text-align: left;">{{ record.expandedData.realName }}</span></div>
+          <div class="cell">账号/卡号: <span style="text-align: left;">{{ record.expandedData.accountNumber }}</span></div>
         </div>
-      </template>
-    </a-table>
+        <div class="row">
+          <div class="cell">手续费: <span style="text-align: left;">{{ record.expandedData.fee }}</span></div>
+          <div class="cell">实际到账金额: <span style="text-align: left;">{{ record.expandedData.actualArrival }}</span></div>
+          <div class="cell">转账订单号: <span style="text-align: left;">{{ record.expandedData.transferOrder }}</span></div>
+        </div>
+        <div class="row">
+          <div class="cell">拒绝理由: <span style="text-align: left;">{{ record.expandedData.refuseReason }}</span></div>
+          <div class="cell">请求银行信息: <span style="text-align: left;">{{ record.expandedData.bankInfo }}</span></div>
+          <div class="cell">用户显示结果: <span style="text-align: left;">{{ record.expandedData.userDisplayResult }}</span></div>
+        </div>
+      </div>
+    </template>
+  </a-table>
 
-    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
-      <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
-      <a-pagination
-        v-model:current="currentPage"
-        :total="totalItems"
-        :page-size="pageSize"
-        show-size-changer
-        :page-size-options="['5', '10', '20', '50', '100']"
-        :simple="false"
-        size="small"
-        @change="handlePageChange"
-        @show-size-change="handleSizeChange"
-      />
-    </div>
+  <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 16px;">
+    <span style="margin-right: 8px;">共 {{ totalItems }}条</span>
+    <a-pagination
+      v-model:current="currentPage"
+      :total="totalItems"
+      :page-size="pageSize"
+      show-size-changer
+      :page-size-options="['5', '10', '20', '50', '100']"
+      :simple="false"
+      size="small"
+      @change="handlePageChange"
+      @show-size-change="handleSizeChange"
+    />
+  </div>
+    
+  <ExportPaymentMethod 
+    :isModalVisible="isModalVisible"
+    @update:is-modal-visible="val => isModalVisible = val" 
+  />
+
+  <GoogleVerificationDialog
+      v-model:open="showVerificationDialog"
+      :maxAttempts="3"
+      :correctCode="'111'"
+      @onSuccess="handleSuccess"
+      @onFail="handleFail"
+    />
 </template>
 
 <script setup lang="jsx">
-import { ref, computed } from 'vue'
-import useVerificationRule from './useVerificationRule';
+import ExportPaymentMethod from './ExportPaymentMethod.vue';
+import useExportBigRule from './hooks/useExportBigRule';
+import GoogleVerificationDialog from './GoogleVerificationDialog.vue'; // Import the Dialog component
+
+// Dialog for blocking users
+const { createDialog } = useDialog();
+
+const isModalVisible = ref(false);
+const showVerificationDialog = ref(false);
 
 // Success, failed, rejected, and pending amounts
 const successAmount = ref(514469)
@@ -134,7 +155,7 @@ const columns = [
   { title: '实际到账', dataIndex: 'actualArrival', align: 'center' },
   { title: '通道', dataIndex: 'channel', align: 'center' },
   { title: '状态', dataIndex: 'status', align: 'center' },
-  { title: '转账', dataIndex: 'transfer', align: 'center' },
+  { title: '转账', dataIndex: 'transfer_status', align: 'center' },
   { title: '操作类型', dataIndex: 'operationType', align: 'center' },
 ];
 
@@ -152,8 +173,8 @@ const data = ref([
     withdrawAmount: 505,
     actualArrival: 501,
     channel: '银行卡-中国银行',
-    status: '已通过',
-    transfer: '失败',
+    status: 2,//'已通过',
+    transfer_status: 3,//'失败',
     operationType: 'API/大额转账支付',
     expandedData: {
       channel: '银行卡-中国银行',
@@ -179,9 +200,9 @@ const data = ref([
     userName: '比特币_09',
     withdrawAmount: 505,
     actualArrival: 501,
-    channel: '银行卡-中国银行',
-    status: '已通过',
-    transfer: '完成',
+    channel: '银行卡',
+    status: 3,//'已通过',
+    transfer_status: 2,//'成功',
     operationType: 'API/大额转账支付',
     expandedData: {
       channel: '银行卡-中国银行',
@@ -213,60 +234,66 @@ const handleSizeChange = (current, size) => {
   currentPage.value = 1; // Reset to the first page when page size changes
 };
 
-const exportBigData = () => {
-  console.log('Exporting failed data...');
-};
-
 const exportPaymentMethods = () => {
-  console.log('Exporting payment methods...');
+  isModalVisible.value = true;
 };
 
-
-// Dialog for blocking users
-const { createDialog } = useDialog();
-
-// Dialog for editing items
-async function setupValidator() {
+async function exportBigData() {
   const formValue = ref({
+    // user_id: null,
+    // application_id: null,
+  })
 
-  });
+  const fApi = ref(null)
+  const exportListRule = useExportBigRule(fApi)
 
-  const fApi = ref(null);
-  const use_verification_rule = useVerificationRule(fApi);
+  console.log("editItem : fApi = " + fApi.value)
+
+  
   const formModalProps = reactive({
-    request: (data) => anchorAddOrEditReq(null, data),
+    request: data => anchorAddOrEditReq(null, data),
     getData(data) {
-      const { avatar_url, ...rest } = data;
+      const { avatar_url, ...rest } = data
       return {
         ...rest,
         avatar_url: getPathFromUrlArray(avatar_url),
-      };
+      }
     },
-    option: {
-      global: {
-        '*': {
-          wrap: {
-            labelCol: { span: 5 },
-          },
-        },
-      },
-    },
-    rule: use_verification_rule,
-  });
+    rule: exportListRule,
+  })
 
   createDialog({
-    title: '请输入谷歌验证码',
-    width: 400,
-    component: (
-      <ModalForm v-model={formValue.value} v-model:fApi={fApi.value} {...formModalProps} />
-    ),
+    title: '导出大数据',
+    width: 500,
+    component:
+      <ModalForm
+        v-model={formValue.value}
+        v-model:fApi={fApi.value}
+        {...formModalProps}
+      >
+      </ModalForm>
+    ,
     onConfirm() {
-      pagination.page = 1;
-      pagination.total = 0;
-      props.resetSearch();
+      pagination.page = 1
+      pagination.total = 0
+      props.resetSearch()
     },
-  });
+  })
 }
+// Handle success and fail events
+const handleSuccess = () => {
+  console.log('Verification successful!');
+  // Add your custom logic for successful verification here
+};
+
+const handleFail = () => {
+  console.log('Maximum attempts reached or verification failed!');
+  // Add your custom logic for failed attempts here
+};
+const setupValidator = () => {
+  console.log('showVerificationDialog : ' + showVerificationDialog.value);
+  showVerificationDialog.value = true
+};
 
 </script>
 

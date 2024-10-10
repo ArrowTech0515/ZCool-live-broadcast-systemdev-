@@ -95,7 +95,7 @@ import { type Api } from '@form-create/ant-design-vue'
       props: {
         placeholder: '请选择订单状态', // Add placeholder
       },
-      options: Object.keys(ENUM.order_status).map(key => ({ value: parseInt(key), label: ENUM.order_status[key] })),
+      options: Object.keys(ENUM.success_status).map(key => ({ value: parseInt(key), label: ENUM.success_status[key] })),
     },
     {
       type: 'rangePicker',

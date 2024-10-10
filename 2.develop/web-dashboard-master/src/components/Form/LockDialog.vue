@@ -2,8 +2,8 @@
   <a-modal
     :title="sTitle"
     v-model:open="isModalVisible"
-    maskClosable="false"
-    keyboard="false"
+    :maskClosable="false"
+    :keyboard="false"
     :footer="null"
     @update:open="updateVisible"
   >

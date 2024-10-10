@@ -1,9 +1,7 @@
 <template>
   <transition name="fade-slide" mode="out-in">
     <div v-if="!showEditPage && !showDataPage">
-      <a-card style="margin-bottom: 1%;">
-        <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px;">查询表格</div>
-
+      <SearchPanel>
         <a-row :gutter="32" type="flex" style="margin-bottom: -20px;">
           <!-- First Column -->
           <!-- <a-row :type="flex"> -->
@@ -32,9 +30,9 @@
           <a-col :span="5">
             <a-form-item label="状态" >
               <a-select v-model:value="status" value="all">
-                <a-select-option value="all">全部状态</a-select-option>
-                <a-select-option value="active">进行中</a-select-option>
-                <a-select-option value="enabled">已结束</a-select-option>
+                <a-select-option value="all">{{ENUM.task_status[1]}}</a-select-option>
+                <a-select-option value="active">{{ENUM.task_status[2]}}</a-select-option>
+                <a-select-option value="enabled">{{ENUM.task_status[3]}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -48,7 +46,6 @@
             </a-form-item>
           </a-col>
 
-
           <QueryButtonGroup    
             :reset-form="onReset" 
             :submit-form="onSearch"/>
@@ -60,8 +57,9 @@
                 </a-form-item>
             </a-col>
           </a-row>
+          
         </a-row>
-      </a-card>
+      </SearchPanel>
 
         <!-- Your existing layout and table setup -->
       <div class="scroll-container"> <!-- Wrapper for horizontal scroll -->
@@ -88,8 +86,8 @@
               <span style="text-decoration: underline;color: green; cursor: pointer;" @click="handleOperation('编辑')">编辑</span>
             </span>
             <span v-else-if="column.dataIndex === 'taskStatus'">
-              <a-tag v-if="text === '进行中'" color='green'>{{ text }}</a-tag>
-              <a-tag v-else-if="text === '已结束'" color='red'>{{ text }}</a-tag>
+              <a-tag v-if="text === 2" color='green'>{{ ENUM.task_status[text] }}</a-tag>
+              <a-tag v-else-if="text === 3" color='red'>{{ ENUM.task_status[text] }}</a-tag>
             </span>
             <!-- Default rendering for other columns -->
             <span v-else>{{ text }}</span>
@@ -132,7 +130,6 @@
 
 <script setup lang="jsx">
 
-import { ref, computed } from 'vue';
 import editPage from './editPage.vue';
 import dataPage from './dataPage.vue';
 
@@ -152,13 +149,13 @@ const time = ref([]);
 
 const dataSource = ref([
   {
-    key: '1',
+    key: 1,
     taskID: '1',
     taskName: '登录任务',
     circular: '每日循环任务',
     participating: '全部用户',
     taskReward: '10钻石',
-    taskStatus: '进行中',
+    taskStatus: 2,//'进行中',
     taskTimes: '1',
     taskTime: '永久有效',
     updateTime: '2012-12-12 12:21:21',
@@ -166,13 +163,13 @@ const dataSource = ref([
     operate: '数据 编辑',
   },
   {
-    key: '2',
+    key: 2,
     taskID: '2',
     taskName: '打赏礼物',
     circular: '一次性任务',
     participating: '新用户',
     taskReward: '改名卡',
-    taskStatus: '已结束',
+    taskStatus: 3,//'已结束',
     taskTimes: '2',
     taskTime: '2012-12-12 12:21——2012-12-12 12:2',
     updateTime: '2012-12-12 12:21:21',
@@ -180,13 +177,13 @@ const dataSource = ref([
     operate: '数据 编辑',
   },
   {
-    key: '3',
+    key: 3,
     taskID: '3',
     taskName: '观看时长',
     circular: '每日循环任务',
     participating: '新用户',
     taskReward: '10钻石',
-    taskStatus: '进行中',
+    taskStatus: 2,//'进行中',
     taskTimes: '1',
     taskTime: '永久有效',
     updateTime: '2012-12-12 12:21:21',

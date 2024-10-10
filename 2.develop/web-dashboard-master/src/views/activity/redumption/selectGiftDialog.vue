@@ -2,8 +2,8 @@
   <a-modal
     title="选择兑换选项"
     :open="isModalVisible"
-    maskClosable="false"
-    keyboard="false"
+    :maskClosable="false"
+    :keyboard="false"
     :footer="null"
     @update:open="updateVisible"
   >

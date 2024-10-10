@@ -2,8 +2,8 @@
   <a-modal
     title="添加奖励"
     :open="isModalVisible"
-    maskClosable="false"
-    keyboard="false"
+    :maskClosable="false"
+    :keyboard="false"
     :footer="null"
     @update:open="updateVisible"
   >

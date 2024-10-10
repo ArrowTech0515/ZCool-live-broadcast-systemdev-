@@ -40,7 +40,7 @@
   <script>
   import { Tabs } from 'ant-design-vue'
 
-  import paymentWithdrawal from './payment/index.vue'
+//   import paymentWithdrawal from './payment/index.vue'
   import paymentWithdrawal2 from './payment/index_temp.vue' // junn
   import anchorWithdrawal from './anchor/index.vue' // junn
   import userWithdrawal from './user/index.vue' // junn
@@ -55,7 +55,7 @@
     components: {
       'a-tabs': Tabs,
       'a-tab-pane': Tabs.TabPane,
-      paymentWithdrawal,
+    //   paymentWithdrawal,
       paymentWithdrawal2,
       userWithdrawal,
       unionWithdrawal,

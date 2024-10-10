@@ -185,14 +185,13 @@
 </template>
 
 <script setup lang="jsx">
-import { ref } from 'vue';
+
 import CustomSpin from '@/components/Form/Custom/CustomSpin.vue';
 import GiftPanel from '@/components/Form/GiftPanel.vue';
-import SelectGiftDialog from './selectGiftDialog.vue';
+import SelectGiftDialog from './SelectGiftDialog.vue'
 import localImage from '@/assets/images/logo.png';
 
 const emit = defineEmits(['back'])
-
 
 const props = defineProps({
   operationType: {

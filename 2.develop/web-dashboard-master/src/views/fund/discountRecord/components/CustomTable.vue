@@ -284,7 +284,7 @@ async function exportList() {
 
   createDialog({
     title: '导出列表',
-    width: 600,
+    width: 500,
     component:
       <ModalForm
         v-model={formValue.value}

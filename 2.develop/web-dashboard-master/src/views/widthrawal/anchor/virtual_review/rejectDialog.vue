@@ -2,8 +2,8 @@
   <a-modal
     title="拒绝提现"
     v-model:open="isModalVisible"
-    maskClosable="false"
-    keyboard="false"
+    :maskClosable="false"
+    :keyboard="false"
     :footer="null"
     @update:open="updateVisible"
   >
